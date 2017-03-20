@@ -8,6 +8,15 @@ The Waziup dashboard allows visualize your sensors and applications.
 Install
 -------
 
+To install and test locally, use the following:
+```
+$ npm install
+$ npm start 
+```
+
+Deploy
+------
+
 Dashboard Dockerfile build & deployment:
 
 ```
