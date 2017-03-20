@@ -27,12 +27,25 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return state;
             }
   };
+function sensorCRUDReducer(state = {isLoading: false, sensorEntity: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.DELETE_SENSORS_START:
+                return Object.assign({}, state, {isLoading: true});
+              case types.DELETE_SENSORS_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, sensorEntity: action.data, error: false });
+              case types.DELETE_SENSORS_ERROR:
+                return Object.assign({}, state, {isLoading: false, sensorEntity:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
 
 
 const rootReducer = combineReducers({
     routing: routerReducer,
     example: exampleReducer,
     sensor: sensorsReducer,
+    sensorEntity: sensorCRUDReducer,
     form: formReducer,
     keycloak:(state={})=>state
 });

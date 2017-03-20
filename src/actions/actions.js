@@ -24,10 +24,8 @@ export function fetchSensors() {
     return function(dispatch) {
           dispatch(requestSensors());
           return axios.get('http://orion.waziup.io/v1/data/entities',{
-            
-                  method: 'get',
                   headers: {
-                    'Fiware-ServicePath':'/#',
+                    'Fiware-ServicePath':'/C4A',
                     'Fiware-Service':'waziup',
                   },
                 })
@@ -41,21 +39,20 @@ export function fetchSensors() {
 };
 export function createSensor(sensor) {
     return function(dispatch) {
-          dispatch({type: types.REQ_SENSORS});
-          return axios.post('http://orion.waziup.io/v1/data/entities',{
-                  method: 'post',
-                  data:sensor,
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Fiware-ServicePath':'/C4A',
-                    'Fiware-Service':'waziup',
-                  },
-  
-                })
+          dispatch({type: types.CREATE_SENSOR_START});
+          return axios.post('http://orion.waziup.io/v1/data/entities',sensor,{
+                      headers: {
+                        'content-type':'application/json',
+                        'fiware-servicepath':'/c4a',
+                        'fiware-service':'waziup',
+                      },
+                  })
             .then(function(response) {
+                console.log(response);
               dispatch(createSensorSuccess(response.data));
             })
             .catch(function(response){
+                console.log(response);
               dispatch(createSensorError(response.data));
             })
         }
@@ -64,14 +61,49 @@ export function createSensor(sensor) {
 
 export function createSensorSuccess(json) {
     return{
-          type: types.RECV_SENSORS,
+          type: types.CREATE_SENSOR_SUCCESS,
           data: json
         }
 };
 
 export function createSensorError(json) {
     return {
-          type: types.RECV_ERROR,
+          type: types.CREATE_SENSOR_ERROR,
           data: json
         }
 };
+export function deleteSensor(sensor) {
+    return function(dispatch) {
+          dispatch({type: types.DELETE_SENSOR_START});
+          return axios.delete('http://orion.waziup.io/v1/data/entities'+sensor.sensorId,{
+                      headers: {
+                        'content-type':'application/json',
+                        'fiware-servicepath':'/c4a',
+                        'fiware-service':'waziup',
+                      },
+                  })
+            .then(function(response) {
+                console.log(response);
+              dispatch(deleteSensorSuccess(response.data));
+            })
+            .catch(function(response){
+                console.log(response);
+              dispatch(deleteSensorError(response.data));
+            })
+        }
+
+};
+export function deleteSensorSuccess(json) {
+    return{
+          type: types.DELETE_SENSOR_SUCCESS,
+          data: json
+        }
+};
+
+export function deleteSensorError(json) {
+    return {
+          type: types.DELETE_SENSOR_ERROR,
+          data: json
+        }
+};
+

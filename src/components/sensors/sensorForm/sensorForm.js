@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { reduxForm, Field } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 // import RaisedButton from 'material-ui/RaisedButton';
 
@@ -15,13 +16,28 @@ import {  Row, Col, Visible} from 'react-grid-system'
 // validation functions
 const required = value => value == null ? 'Required' : undefined
 
+const position = [12.238, -1.561];
+
 class sensorForm extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      position : [12.238000,-1.561111],
+
+    };
+  }
   componentDidMount() {
 
   }
-  
+  choosePosition = (event) => {
+    this.setState({position:[event.latlng.lat,event.latlng.lng]})
+    this.props.change('sensorLon', event.latlng.lng);
+    this.props.change('sensorLat', event.latlng.lat);
+  }
+
   render() {
-    const {pristine, reset, submitting,modalShowing, modalOpen,handleClose, onSubmit} = this.props;
+    const {pristine, reset, submitting,modalShowing, modalOpen,handleClose, onSubmit,formData} = this.props;
+    console.log(formData);
       const actions = [
       <FlatButton
         label="Cancel"
@@ -32,11 +48,12 @@ class sensorForm extends Component {
         label="Submit"
         primary={true}
         onTouchTap={()=>{
-          this.props.submit();          
+          this.props.submit();
           handleClose();
         }}
       />,
     ];
+
     return (
         <Dialog
               title="Add new Sensor"
@@ -47,6 +64,37 @@ class sensorForm extends Component {
               ref={'sensorFormDialog'}
             >
           <form onSubmit={onSubmit}>
+            <Row>
+                <Col md={8}>
+                   <Map  className="sensorform" ref="map" center={position} zoom={5}>
+                    <TileLayer
+                      url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker onDrag={(e)=>{this.choosePosition(e)}} position={this.state.position} draggable={true}>
+                      <Popup>
+                        <span>Your sensor position !</span>
+                      </Popup>
+                    </Marker>
+                    </Map>
+                </Col>
+                <Col md={4}>
+                    <div>Sensor Location:</div>
+                    <Field name="sensorLon"
+                      component={TextField}
+                      hintText="Longitude"
+                      floatingLabelText="Longitude"
+                      validate={required}
+                      ref="sensorLon" withRef/>
+                    <Field
+                      name="sensorLat"
+                      component={TextField}
+                      hintText="Latitude"
+                      floatingLabelText="Latitude"
+                      validate={required}
+                      ref="sensorLat" withRef/>
+              </Col>
+            </Row>
             <Row>
               <Col md={4}>
                 <Field name="sensorId"
@@ -70,12 +118,12 @@ class sensorForm extends Component {
               </Row>
               <Row>
                 <Col md={4}>
-                  <Field name="sensorName"
+                  <Field name="sensorMeasurement"
                     component={TextField}
                     hintText="'Temperature'"
-                    floatingLabelText="Sensor value"
+                    floatingLabelText="Measurement"
                     validate={required}
-                    ref="sensorName" withRef/>
+                    ref="sensorMeasurement" withRef/>
                 </Col>
                 <Col md={4} offset={{md:2}}>
                   <Field name="sensorUnit"

@@ -190,7 +190,12 @@ p {
     height: 400px;
     width: 100%;
 }
-
+.sensorform.leaflet-container{
+    height:150px;
+}
+.sk-fade-in {
+    float: right;
+}
 /* Mobile hiding/showing */
 .navbar > button {
   display: block;
@@ -204,7 +209,7 @@ p {
 }
 .navbar .profile-menu{
   padding: 0;
-  width:167px !important;
+  width:auto !important;
 }
 .navbar .profile-menu svg{
   color: #34425A !important;

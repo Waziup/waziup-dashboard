@@ -9,6 +9,7 @@ import Page from '../App'
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 const position = [12.238, -1.561];
+
 class Home extends Component {
   constructor(props){
     super(props);
@@ -21,8 +22,8 @@ class Home extends Component {
   defaultProps = {
     sensors: []
   };
+
   addAlert() {
-    
     var now = new Date().toUTCString();
     this.refs.toastContainer.success(
         <div>
@@ -33,46 +34,42 @@ class Home extends Component {
           closeButton: true,
         });
   }
+
   componentWillReceiveProps(nextProps){
-    var defaultLocation = [
-      {position:[6.666600,-1.616271]},
-      {position:[16.062637,-16.425864]},
-      {position:[6.163909,-1.208513]},
-      {position:[14.670868,-17.430936]},
-      {position:[14.743417,-17.485433]},
-      {position:[5.569658,-0.168994]},
-      {position:[11.164922,-4.305154]},
-    ];
-     var markers = [];
-     for(var i = 0; i<defaultLocation.length;i++){
-      markers.push({
-              position:defaultLocation[i].position,
-              defaultAnimation: 2,
-      });
-     }
-      this.setState({markers:markers})
+    //var defaultLocation = [
+    //  {position:[6.666600,-1.616271]},
+    //  {position:[16.062637,-16.425864]},
+    //  {position:[6.163909,-1.208513]},
+    //  {position:[14.670868,-17.430936]},
+    //  {position:[14.743417,-17.485433]},
+    //  {position:[5.569658,-0.168994]},
+    //  {position:[11.164922,-4.305154]},
+    //];
+     //for(var i = 0; i<defaultLocation.length;i++){
+     // markers.push({
+     //         position:defaultLocation[i].position,
+     //         defaultAnimation: 2,
+     // });
+     //}
+     // this.setState({markers:markers})
         
+    var markers = [];
     if (nextProps.sensors) {
-      
-      // this.setState({sensors:nextProps.data})
-       
         for (var i = 0; i < nextProps.sensors.length; i++) {
-          
-          if(nextProps.sensors[i].location){
+          if(nextProps.sensors[i].location && nextProps.sensors[i].location.value && nextProps.sensors[i].location.value.coordinates){
             markers.push({
               position:[
-                parseFloat(nextProps.sensors[i].location.value.split(",")[0]),
-                parseFloat(nextProps.sensors[i].location.value.split(",")[1]),
+                nextProps.sensors[i].location.value.coordinates[1],
+                nextProps.sensors[i].location.value.coordinates[0]
               ],
               defaultAnimation: 2,
             });
-          }else{
-           
           }
         } 
+
+        console.log(markers);
         this.setState({markers:markers})
     }
-    
     
 
   }
@@ -97,8 +94,8 @@ class Home extends Component {
     return (
       <div>
         <h1 className="page-title">Dashboard</h1>
-        <Container>
-           <Map center={position} zoom={5}>
+        <Container fluid={true}>
+           <Map ref="map" center={position} zoom={5}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -117,7 +114,7 @@ class Home extends Component {
 }
 function mapStateToProps(state) {
   return { 
-    sensors : state.example.data ,
+    sensors : state.example.data,
     user: state.keycloak.idTokenParsed,
     keycloak: state.keycloak
   };

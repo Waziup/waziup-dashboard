@@ -15,6 +15,7 @@ import MVPAgri from './components/Mvpagri.js';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
+import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import './index.css';
@@ -40,7 +41,7 @@ const MyApp = () =>{
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Home },
+  indexRoute: { component: Home,onEnter:loadSensors },
   childRoutes: [
     { path: 'home', component:  Home, onEnter:loadSensors},
     { path: 'apps', component:  Home },
@@ -50,8 +51,8 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'sensors', component:  Sensors , onEnter:loadSensors},
+    { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
     { path: 'users', component:  UserList },
-    { path: 'home', component:  Home },
   ]
 }
 

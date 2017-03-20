@@ -4,16 +4,22 @@ import FullWidthSection from './FullWidthSection'
 import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
-import {createSensor} from '../actions/actions';
+import SensorOwner from './sensors/SensorOwner.js'
+import RowActions from './sensors/RowActions.js'
+import {createSensor, Row, Col } from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
+import Spinner from 'react-spinkit';
+
 
 class Sensors extends Component {
   constructor(props){
     super(props);
     this.state = {
       data : props.data,
-      modalOpen:false
+      formData:{},
+      modalOpen:false,
+      isLoading:false
     };
   }
   defaultProps = {
@@ -23,7 +29,17 @@ class Sensors extends Component {
     if (nextProps.data) {
       this.setState({data:nextProps.data})
     }
+    if (nextProps.isLoading) {
+      this.setState({isLoading:nextProps.isLoading})
+    }
   }
+  handleSensorDelete = (data)=>{console.log(data)}
+  handleSensorUpdate = (data)=>{
+      this.setState({formData:data});
+      this.setState({modalOpen: true});
+  }
+
+
 
   handleOpen = () => {
     this.setState({modalOpen: true});
@@ -47,7 +63,9 @@ class Sensors extends Component {
     {
       "columnName": "owner",
       "order": 3,
-      "displayName": "Owner"
+      "visible": true,
+      "displayName": "Owner",
+      "customComponent": SensorOwner
     },
     {
       "columnName": "last_value",
@@ -56,34 +74,55 @@ class Sensors extends Component {
       "displayName": "Last Value",
       "customComponent": SensorData
     },
+    {
+      "columnName": "actions",
+      "order": 5,
+      "visible": true,
+      "displayName": "Actions",
+      "customComponent": RowActions,
+	  'customComponentMetadata': {
+		'deleteAction': this.handleSensorDelete,
+		'updateAction': this.handleSensorUpdate
+		}
+    },
+
   ];
-  handleSubmit = (values) => {
+    handleSubmit = (values) => {
     // Do something with the form values
     let sensor  = {
       id: values.sensorId,
       type: values.sensorType,
-  
+      location: {
+          value: {
+            type: "Point",
+            coordinates: [values.sensorLon,values.sensorLat]
+          },
+          type: "geo:json"
+        },
+
     }
-    sensor[values.sensorName] = {
+    sensor[values.sensorMeasurement] = {
       value: 0,
       type: values.sensorValueType
     }
-    
     this.props.createSensor(sensor)
-  
+
   }
   render() {
     let {data} = this.props;
-  
+
     return (
       <div>
-          <h1 className="page-title">Sensors</h1>
-          <Container>
+
+            <h1 className="page-title">Sensors</h1>
+          { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
+
+          <Container fluid={true}>
             <RaisedButton label="Add Sensors" primary={true} onTouchTap={this.handleOpen} />
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value"]} showFilter={true} />
+                <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
-            <SensorForm  modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} />     
+            <SensorForm   modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} formData={this.state.formData}/>
           </Container>
       </div>
     );
@@ -91,7 +130,10 @@ class Sensors extends Component {
 }
 
 function mapStateToProps(state) {
-  return { data: state.example.data };
+  return {
+      data: state.example.data,
+      isLoading:state.example.isLoading
+  };
 }
 
 function mapDispatchToProps(dispatch) {

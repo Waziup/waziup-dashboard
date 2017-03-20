@@ -10,7 +10,7 @@ class SensorData extends Component {
       if (i!=='id'&&i!='type'&&i!='owner'&&i!='last_value') {
         let val = (this.props.rowData[i] && typeof this.props.rowData[i].value != 'undefined' )? this.props.rowData[i].value : 0;
         returnValue.push(
-           <FlatButton label={i + " : " + val} />
+           <FlatButton key={i} label={i + " : " + val} />
           )
         }
       }
