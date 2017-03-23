@@ -122,8 +122,10 @@ class Sensors extends Component {
               <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
+            {this.state.modalOpen ?
             <SensorForm   modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} formData={this.state.formData}/>
-          </Container>
+            :null}
+            </Container>
       </div>
     );
   }

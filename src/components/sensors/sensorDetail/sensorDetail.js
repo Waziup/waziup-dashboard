@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import { Container,  Col, Visible, Hidden } from 'react-grid-system'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-
+import node from './barChart';
+import rd3 from 'react-d3-library';
+const BarChart = rd3.BarChart;
 
 
 
@@ -15,6 +17,7 @@ class sensorDetail extends Component {
             sensor:{},
             markers: [],
             id:this.props.params.sensorId,
+            d3: '',
         };
       }
  
@@ -44,7 +47,9 @@ class sensorDetail extends Component {
         this.setState({markers:markers})
     }
   }
-
+  componentDidMount() {
+    this.setState({d3: node});
+  }
   render() {
     if (this.state.markers.lenght>0) {
     }
@@ -76,7 +81,7 @@ class sensorDetail extends Component {
             </CardMedia>
             <CardTitle title="Sensor details"/>
             <CardText>
-                
+                <BarChart data={this.state.d3} />
             </CardText>
             <CardActions>
             </CardActions>
