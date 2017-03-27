@@ -21,7 +21,6 @@ class sensorDetail extends Component {
         };
       }
  
-
   defaultProps = {
     sensors: []
   };
@@ -62,11 +61,11 @@ class sensorDetail extends Component {
     ); 
     return (
       <div className="sensor">
-        <h1 className="page-title">Sensors / {this.state.id}</h1>
+        <h1 className="page-title">Sensor: {this.state.id}</h1>
         <Container fluid={true}>
            <Card>
             <CardHeader
-              title={this.state.id+" Map location"}
+              title={this.state.id + " Map Location"}
             />
             <CardMedia
             >
@@ -79,7 +78,7 @@ class sensorDetail extends Component {
               </Map>
 
             </CardMedia>
-            <CardTitle title="Sensor details"/>
+            <CardTitle title="Historical Data"/>
             <CardText>
                 <BarChart data={this.state.d3} />
             </CardText>

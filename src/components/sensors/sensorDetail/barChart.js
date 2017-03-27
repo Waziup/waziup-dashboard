@@ -1,7 +1,27 @@
+import * as d3 from "d3";
+
 // Build data for a classic bar chart
 const data = {}
 
 // Labels are displayed in component, quantities are calculated to define height of each bar
+
+
+//curl -s -S --header 'Accept: application/json' --header 'Fiware-Service: waziup' --header 'Fiware-ServicePath: /FL'  
+
+var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature?lastN=2';
+
+d3.json(url)
+    .header("Accept", "application/json")
+    .header("Fiware-Service", "waziup")
+    .header("Fiware-ServicePath", "/FL")
+    //.post("lastN=2", callback);
+    .get(callback);
+
+function callback(json, data) {
+    console.info(json + data[1]);
+    console.debug(json);
+}
+
 data.dataSet = [
     {label: "Jan. '13'", value: 53},
     {label: "Feb. '13'", value: 165},
@@ -23,7 +43,7 @@ data.dataSet = [
 data.margins = {top: 20, right: 20, bottom: 70, left: 40};
 
 //Define label of y-axis
-data.yAxisLabel = 'My Money!';
+data.yAxisLabel = 'Temperature (Celsious)';
 
 // Colors are optional for each bar
 // If colors are not given, bars will default to 'steelblue'
