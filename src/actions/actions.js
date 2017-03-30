@@ -1,6 +1,10 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 
+const fiwareService = 'waziup'
+const fiwareServicePath = '/'
+const fiwareServicePathQuery = '/#'
+
 function requestSensors() {
     return {type: types.REQ_SENSORS}
 };
@@ -23,12 +27,15 @@ export function fetchSensors() {
 // curl http://broker.waziup.io/v2/entities --header 'Fiware-ServicePath:/#' --header 'Fiware-Service:waziup' -X GET
     return function(dispatch) {
           dispatch(requestSensors());
-          return axios.get('http://orion.waziup.io/v1/data/entities',{
-                  headers: {
-                    'Fiware-ServicePath':'/C4A',
-                    'Fiware-Service':'waziup',
-                  },
-                })
+          const querystring = require('query-string');
+          return axios.get('http://orion.waziup.io/v1/data/entities',
+                           {
+                             params: {'limit': '100'},
+                             headers: {
+                               'Fiware-ServicePath':fiwareServicePathQuery,
+                               'Fiware-Service':fiwareService,
+                             }
+                           })
             .then(function(response) {
               dispatch(receiveSensors(response.data));
             })
@@ -43,8 +50,8 @@ export function createSensor(sensor) {
           return axios.post('http://orion.waziup.io/v1/data/entities',sensor,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':'/c4a',
-                        'fiware-service':'waziup',
+                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-service':fiwareService,
                       },
                   })
             .then(function(response) {
@@ -78,8 +85,8 @@ export function deleteSensor(sensor) {
           return axios.delete('http://orion.waziup.io/v1/data/entities'+sensor.sensorId,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':'/c4a',
-                        'fiware-service':'waziup',
+                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-service':fiwareService,
                       },
                   })
             .then(function(response) {
