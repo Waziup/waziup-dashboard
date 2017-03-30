@@ -56,33 +56,46 @@ const routes = {
   ]
 }
 
+function displayPage() {
 
-
-
-
-
-
-const kc = Keycloak('/keycloak.json');
-
-// let kc = Keycloak(KeycloakConfig);
-  
-kc.init({ onLoad: 'login-required'}).success(authenticated => {
-  
-  if (authenticated) {
-    console.log(authenticated);
-   store.getState().keycloak = kc;
-    setInterval(() => {
-      kc.updateToken(10).error(() => kc.logout());
-    }, 10000);
     ReactDOM.render(
       <Provider store={store}>
         <Router history={history} routes={routes} />
       </Provider>
-      , document.getElementById('root'))
-  } else {
-    // show possibly other page here...
-    kc.login();
-  }
-}).error(function (error) {
+      , document.getElementById('root'));
+}
+
+const kc = Keycloak('/keycloak.json');
+
+const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
+
+if (checkIdentity === 'false') {
+
+  console.log("test" + checkIdentity)
+  displayPage();
+} else {
+
+  
+  kc.init({ onLoad: 'login-required'}).success(authenticated => {
+  
+    if (!authenticated) {
+
+      kc.login();
+    
+    } else {
+    
+      console.log(authenticated);
+      store.getState().keycloak = kc;
+      setInterval(() => {
+        kc.updateToken(10).error(() => kc.logout());
+      }, 10000);
+    
+      displayPage();
+    }
+  }).error(function (error) {
     console(error);
-});
+  });
+
+}
+
+  
