@@ -11,7 +11,7 @@ Install
 To install and test locally, use the following:
 ```
 $ npm install
-$ npm start 
+$ REACT_APP_DASHBOARD_IDENTITY=false npm start
 ```
 
 Deploy
@@ -42,7 +42,3 @@ The following environment variables can be used:
 
 - REACT_APP_DASHBOARD_IDENTITY: set to false to avoid queries to identity server
 
-For developping on the dashboard, you can start it like that:
-```
-REACT_APP_DASHBOARD_IDENTITY=false npm start
-```
