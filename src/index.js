@@ -15,10 +15,10 @@ import MVPAgri from './components/Mvpagri.js';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
-import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
+import Notification from './components/notification/NotificationForm.js';
 import './index.css';
 import {fetchSensors} from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -42,7 +42,7 @@ const MyApp = () =>{
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Home,onEnter:loadSensors },
+  indexRoute: { component: Home },
   childRoutes: [
     { path: 'home', component:  Home, onEnter:loadSensors},
     { path: 'apps', component:  Home },
@@ -52,24 +52,24 @@ const routes = {
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
+    { path: 'notification', component: Notification},
     { path: 'sensors', component:  Sensors , onEnter:loadSensors},
-    { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
     { path: 'users', component:  UserList },
+    { path: 'home', component:  Home },
   ]
 }
 
 
+ReactDOM.render( 
+   <Provider store={store}>
+        <Router history={history} routes={routes} />
+      </Provider>,
+  document.getElementById('root')
+  );
 
 
-
-
-
-const kc = Keycloak('/keycloak.json');
-
-// let kc = Keycloak(KeycloakConfig);
-  
+/*const kc = Keycloak('/keycloak.json');
 kc.init({ onLoad: 'login-required'}).success(authenticated => {
-  
   if (authenticated) {
     console.log(authenticated);
    store.getState().keycloak = kc;
@@ -84,7 +84,8 @@ kc.init({ onLoad: 'login-required'}).success(authenticated => {
   } else {
     // show possibly other page here...
     kc.login();
+   
   }
 }).error(function (error) {
     console(error);
-});
+});*/
