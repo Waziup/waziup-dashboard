@@ -17,6 +17,7 @@ import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
 import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
+import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import './index.css';
 import {fetchSensors} from './actions/actions';
@@ -46,6 +47,7 @@ const routes = {
     { path: 'home', component:  Home, onEnter:loadSensors},
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
+    { path: 'profile/settings', component:  Settings },
     { path: 'apps/weather', component:  MVPWeather },
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },

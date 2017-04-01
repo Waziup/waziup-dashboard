@@ -28,8 +28,7 @@ class sensorForm extends Component {
     };
   }
   componentDidMount() {
-      console.log(this.props.formData);
-        if(this.props.formData){
+    if(!UTIL.objIsEmpty(this.props.formData)){
             this.setState({sensor:{
                 "sensorLon": this.props.formData.location? this.props.formData.location.value.coordinates[0]:position[0],
                 "sensorLat": this.props.formData.location? this.props.formData.location.value.coordinates[1]:position[1],
@@ -37,10 +36,20 @@ class sensorForm extends Component {
                 "sensorType" :  this.props.formData.type,
                 "sensorMeasurement": UTIL.getMeasurment(this.props.formData)[0]?UTIL.getMeasurment(this.props.formData)[0]:"",
             }})
-        }
-     this.props.initialize(this.state.sensor);
+     }
   }
   componentWillReceiveProps(nextProps){
+     if(!UTIL.objIsEmpty(nextProps.formData)){
+            this.setState({sensor:{
+                "sensorLon": nextProps.formData.location? nextProps.formData.location.value.coordinates[0]:position[0],
+                "sensorLat": nextProps.formData.location? nextProps.formData.location.value.coordinates[1]:position[1],
+                "sensorId": nextProps.formData.id,
+                "sensorType" :  nextProps.formData.type,
+                "sensorMeasurement": UTIL.getMeasurment(nextProps.formData)[0]?UTIL.getMeasurment(nextProps.formData)[0]:"",
+            }})
+    }
+    this.props.dispatch(initialize('sensorForm', this.state.sensor))
+
   }
   choosePosition = (event) => {
     this.setState({position:[event.latlng.lat,event.latlng.lng]})
@@ -54,7 +63,11 @@ class sensorForm extends Component {
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={handleClose}
+        onTouchTap={()=>{
+            this.setState({sensor:{}});
+            reset();
+            handleClose();
+        }}
       />,
       <FlatButton
         label="Submit"
