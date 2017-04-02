@@ -90,156 +90,167 @@ render() {
   return (
     
     <div id="main">
+      <AppBar
+        title={<img style={styles.logo} src={Logo}/>}
+        onLeftIconButtonTouchTap={this.toggleNavigation}
+        iconElementRight={this.headerMenu(this.state.user)}
+        className="navbar"
+        onLeftIconButtonTouchTap={this.toggleNavigation}
+      />
     
-    <AppBar
-    title={<img style={styles.logo} src={Logo}/>}
-    onLeftIconButtonTouchTap={this.toggleNavigation}
-   // iconElementRight={this.headerMenu(this.state.user)}
-    className="navbar"
-    onLeftIconButtonTouchTap={this.toggleNavigation}/>
+      <Visible xs sm>
     
-    <Visible xs sm>
+        <Drawer
+          open={this.state.open}
+          docked={false}
+          onRequestChange={(open) => this.setState({open})}
+        >
     
-    <Drawer
-    open={this.state.open}
-    docked={false}
-    onRequestChange={(open) => this.setState({open})}>
-    
-    <MenuItem
-    containerElement={<Link to="/home" />}
-    primaryText="Dashboard"
-    innerDivStyle={styles.menuLink}/>
+          <MenuItem
+            containerElement={<Link to="/home" />}
+            primaryText="Dashboard"
+            innerDivStyle={styles.menuLink}
+          />
 
-    <MenuItem
-    containerElement={<Link to="/profile" />}
-    primaryText="Profile"
-    innerDivStyle={styles.menuLink}/>  
-    
-    <MenuItem
-    containerElement={<Link to="/users" />}
-    primaryText="Users"
-    innerDivStyle={styles.menuLink}/>
-    
-    <MenuItem
-    primaryText="Apps"
-    innerDivStyle={styles.menuLink}
-    rightIcon={<ArrowDropRight />}
-    menuItems={[
-      <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
-      <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-      <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
-      <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
-      ]} />
+          <MenuItem
+            containerElement={<Link to="/profile" />}
+            primaryText="Profile"
+            innerDivStyle={styles.menuLink}
+          />  
+          
+          <MenuItem
+            containerElement={<Link to="/users" />}
+            primaryText="Users"
+            innerDivStyle={styles.menuLink}
+          />
+          
+          <MenuItem
+            primaryText="Apps"
+            innerDivStyle={styles.menuLink}
+            rightIcon={<ArrowDropRight />}
+            menuItems={[
+              <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
+              <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
+              <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+              <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
+              ]}
+          />
 
-    <MenuItem
-    containerElement={<Link to="/sensors" />}
-    innerDivStyle={styles.menuLink}
-    primaryText="Sensors"/>
+          <MenuItem
+            containerElement={<Link to="/sensors" />}
+            innerDivStyle={styles.menuLink}
+            primaryText="Sensors"
+          />
 
-    <MenuItem
-    primaryText="Notifications"      
-    innerDivStyle={styles.menuLink}
-    rightIcon={<ArrowDropRight />}
-    menuItems={[
-     <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
-     <MenuItem primaryText="Social media setting" />
-    ]} />
+          <MenuItem
+            primaryText="Notifications"      
+            innerDivStyle={styles.menuLink}
+            rightIcon={<ArrowDropRight />}
+            menuItems={[
+             <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
+             <MenuItem primaryText="Social media setting" />
+            ]}
+          />
+          
+          <MenuItem
+            containerElement={<Link to="/logout" />}
+            innerDivStyle={styles.menuLink}
+            primaryText="Logout"
+          />
     
-    <MenuItem
-    containerElement={<Link to="/logout" />}
-    innerDivStyle={styles.menuLink}
-    primaryText="Logout"/>
-    
-    </Drawer>
+        </Drawer>
 
-    </Visible>
+      </Visible>
     
-    <Hidden xs sm>
-    
-    <Col md={2} className="page-sidebar sidebar">
-    
-    <div className="page-sidebar-inner">
-    <div className="sidebar-header">
-    <div className="sidebar-profile">
-    <a id="profile-menu-link">
-      <div className="sidebar-profile-image">
-        <Avatar icon={<AccountCircle />} className="img-circle img-responsive"/>
-      </div>
-      <div className="sidebar-profile-details">
-        <span>
+      <Hidden xs sm>
+      
+        <Col md={2} className="page-sidebar sidebar">
+      
+          <div className="page-sidebar-inner">
+            <div className="sidebar-header">
+              <div className="sidebar-profile">
+                <a id="profile-menu-link">
+                  <div className="sidebar-profile-image">
+                    <Avatar icon={<AccountCircle />} className="img-circle img-responsive"/>
+                  </div>
+                  <div className="sidebar-profile-details">
+                    <span>{this.state.user.name}<br/><small></small></span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div className="menu">
+      
+              <MenuItem  containerElement={<Link to="/home" />}  primaryText="Dashboard"  innerDivStyle={styles.menuLink} />
+
+              <MenuItem
+                containerElement={<Link to="/profile" />}
+                primaryText="Profile"
+                innerDivStyle={styles.menuLink}
+              />
+              
+              <MenuItem
+                containerElement={<Link to="/users" />}
+                primaryText="Users"
+                innerDivStyle={styles.menuLink}
+              />
+              
+              <MenuItem
+                primaryText="Apps"
+                innerDivStyle={styles.menuLink}
+                rightIcon={<ArrowDropRight />}
+                menuItems={[
+                  <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
+                  <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
+                  <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+                  <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
+                  ]}
+              />
         
-        <br/><small></small>
-        </span>
-      </div>
-    </a>
-    </div>
-    </div>
-    <div className="menu">
-    
-    <MenuItem  containerElement={<Link to="/home" />}  primaryText="Dashboard"  innerDivStyle={styles.menuLink} />
+              <MenuItem
+                containerElement={<Link to="/sensors" />}
+                innerDivStyle={styles.menuLink}
+                primaryText="Sensors"
+              />
 
-    <MenuItem
-    containerElement={<Link to="/profile" />}
-    primaryText="Profile"
-    innerDivStyle={styles.menuLink}/>
-    
-    <MenuItem
-    containerElement={<Link to="/users" />}
-    primaryText="Users"
-    innerDivStyle={styles.menuLink}/>
-    
-    <MenuItem
-    primaryText="Apps"
-    innerDivStyle={styles.menuLink}
-    rightIcon={<ArrowDropRight />}
-    menuItems={[
-      <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
-      <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-      <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
-      <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
-      ]} />
-      
-      <MenuItem
-      containerElement={<Link to="/sensors" />}
-      innerDivStyle={styles.menuLink}
-      primaryText="Sensors"/>
-
-      <MenuItem
-      primaryText="Notifications"      
-      innerDivStyle={styles.menuLink}
-      rightIcon={<ArrowDropRight />}
-      menuItems={[
-          <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
-          <MenuItem primaryText="Social media setting" />
-        ]} />
-      
-      <MenuItem
-      containerElement={<Link to="/logout" />}
-      innerDivStyle={styles.menuLink}
-      primaryText="Logout"/>
-      
+              <MenuItem
+                primaryText="Notifications"      
+                innerDivStyle={styles.menuLink}
+                rightIcon={<ArrowDropRight />}
+                menuItems={[
+                    <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
+                    <MenuItem primaryText="Social media setting" />
+                  ]}
+              />
+        
+              <MenuItem
+                containerElement={<Link to="/logout" />}
+                innerDivStyle={styles.menuLink}
+                primaryText="Logout"
+              />
+        
+              </div>
+            </div>
+          </Col>
+        </Hidden>
+        <Col md={10} className="page-inner">
+          <div id="main-wrapper">
+            {this.props.children}
+          </div>
+          <div className="page-footer">
+            <Container>
+              <Col md={6}>
+                <img className="waziup-logo" src={Logo}/>
+              </Col>
+              <Col md={6} className="footer-left">
+                <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2016 <a href="">Waziup.io</a></p>
+              </Col>
+            </Container>
+          </div>
+        </Col>
       </div>
-      </div>
-      </Col>
-      </Hidden>
-      <Col md={10} className="page-inner">
-      <div id="main-wrapper">
-        {this.props.children}
-      </div>
-      <div className="page-footer">
-      <Container>
-      <Col md={6}>
-      <img className="waziup-logo" src={Logo}/>
-      </Col>
-      <Col md={6} className="footer-left">
-      <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2016 <a href="">Waziup.io</a></p>
-      </Col>
-      </Container>
-      </div>
-      </Col>
-      </div>
-      );
-    }
+    );
+  }
 }
 
 Layout.childContextTypes = {
@@ -248,8 +259,8 @@ Layout.childContextTypes = {
 
 function mapStateToProps(state) {
   return { 
-    //user: state.keycloak.idTokenParsed,
-    //keycloak: state.keycloak
+    user: state.keycloak.idTokenParsed,
+    keycloak: state.keycloak
   };
 }
 
