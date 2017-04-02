@@ -51,7 +51,9 @@ class Layout extends Component {
   headerMenu = (user)=>(
       <IconMenu  iconButtonElement={this.profileButton(user)} anchorOrigin={{horizontal: 'left', vertical: 'top'}} targetOrigin={{horizontal: 'left', vertical: 'top'}}>
         <MenuItem primaryText="Profile" />
-        <MenuItem primaryText="Settings" />
+        <MenuItem primaryText="Settings"
+          containerElement={<Link to="/profile/settings" />}
+        />
         <MenuItem primaryText="Help" />
         <MenuItem primaryText="Sign out" onClick={()=>{this.props.keycloak.logout()}}/>
       </IconMenu>

@@ -27,6 +27,30 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return state;
             }
   };
+function userReducer(state = {isLoading: false, currentUser: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.UPDATE_USER_START:
+                return Object.assign({}, state, {isLoading: true});
+              case types.UPDATE_USER_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, currentUser: action.data, error: false });
+              case types.UPDATE_USER_ERROR:
+                return Object.assign({}, state, {isLoading: false, currentUser:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
+function adminReducer(state = {isLoading: false, adminUser: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.ADMIN_LOGIN:
+                return Object.assign({}, state, {isLoading: true});
+              case types.ADMIN_LOGIN_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, adminUser: action.data, error: false });
+              case types.ADMIN_LOGIN_ERROR:
+                return Object.assign({}, state, {isLoading: false, adminUser:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
 function sensorCRUDReducer(state = {isLoading: false, sensorEntity: {}, error: false},action = null) {
       switch(action.type) {
               case types.DELETE_SENSORS_START:
@@ -46,6 +70,8 @@ const rootReducer = combineReducers({
     example: exampleReducer,
     sensor: sensorsReducer,
     sensorEntity: sensorCRUDReducer,
+    currentUser: userReducer,
+    admin:adminReducer,
     form: formReducer,
     keycloak:(state={})=>state
 });

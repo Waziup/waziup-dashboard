@@ -118,12 +118,15 @@ class Sensors extends Component {
           { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
 
           <Container fluid={true}>
-            <RaisedButton label="Add Sensors" primary={true} onTouchTap={this.handleOpen} />
+            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{
+                this.setState({formData:{}});
+                this.handleOpen();
+            }} />
               <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
             {this.state.modalOpen ?
-            <SensorForm   modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} formData={this.state.formData}/>
+            <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} formData={this.state.formData}/>
             :null}
             </Container>
       </div>

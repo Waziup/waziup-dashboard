@@ -16,6 +16,7 @@ import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
 import Profile from './components/profile/ProfileContainer.js';
+import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import Notification from './components/notification/NotificationForm.js';
 import './index.css';
@@ -46,6 +47,7 @@ const routes = {
     { path: 'home', component:  Home, onEnter:loadSensors},
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
+    { path: 'profile/settings', component:  Settings },
     { path: 'apps/weather', component:  MVPWeather },
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
