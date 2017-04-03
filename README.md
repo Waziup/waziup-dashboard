@@ -8,10 +8,16 @@ The Waziup dashboard allows visualize your sensors and applications.
 Install
 -------
 
-To install and test locally, use the following:
+To test the dashboard locally, first rename and change the content of exports.sh:
+```
+$ cp exports-template.sh exports.sh
+$ vi exports.sh
+```
+
+Install and start:
 ```
 $ npm install
-$ REACT_APP_DASHBOARD_IDENTITY=false npm start
+$ npm start
 ```
 
 Deploy

@@ -2,7 +2,7 @@ import * as types from './actionTypes';
 import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
 const settings = {
-  baseUrl: 'http://localhost:8180/auth',
+  baseUrl: process.env.REACT_APP_KC_URL,
   username: process.env.REACT_APP_ADMIN_USER,
   password: process.env.REACT_APP_ADMIN_PASS,
   grant_type: 'password',
