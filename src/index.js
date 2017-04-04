@@ -59,17 +59,12 @@ const routes = {
   ]
 }
 
+const kc = Keycloak('/keycloak.json');
 
-ReactDOM.render( 
-   <Provider store={store}>
-        <Router history={history} routes={routes} />
-      </Provider>,
-  document.getElementById('root')
-  );
-
-
-/*const kc = Keycloak('/keycloak.json');
+// let kc = Keycloak(KeycloakConfig);
+  
 kc.init({ onLoad: 'login-required'}).success(authenticated => {
+  
   if (authenticated) {
     console.log(authenticated);
    store.getState().keycloak = kc;
@@ -84,8 +79,7 @@ kc.init({ onLoad: 'login-required'}).success(authenticated => {
   } else {
     // show possibly other page here...
     kc.login();
-   
   }
 }).error(function (error) {
     console(error);
-});*/
+});

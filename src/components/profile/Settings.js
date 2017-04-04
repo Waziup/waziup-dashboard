@@ -27,6 +27,7 @@ class Settings extends Component {
     }
   }
   componentWillMount(){
+      console.log(this.props.user);
     this.props.adminLogin(this.props.user);
   }
   render() {

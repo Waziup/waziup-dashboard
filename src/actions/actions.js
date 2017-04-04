@@ -116,9 +116,9 @@ export function deleteSensorError(json) {
 };
 export function adminLogin(user) {
     return function(dispatch) {
-        console.log(settings);
         adminClient(settings)
           .then((client) => {
+            console.log(user);
             client.users.find(user.aud,{email:user.email})
                 .then((userK) => {
                     console.log(userK);
