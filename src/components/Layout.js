@@ -143,13 +143,9 @@ render() {
           />
 
           <MenuItem
-            primaryText="Notifications"      
+            containerElement={<Link to="/notification" />}
             innerDivStyle={styles.menuLink}
-            rightIcon={<ArrowDropRight />}
-            menuItems={[
-             <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
-             <MenuItem primaryText="Social media setting" />
-            ]}
+            primaryText="Notifications"
           />
           
           <MenuItem
@@ -214,13 +210,9 @@ render() {
               />
 
               <MenuItem
-                primaryText="Notifications"      
+                containerElement={<Link to="/notification" />}
                 innerDivStyle={styles.menuLink}
-                rightIcon={<ArrowDropRight />}
-                menuItems={[
-                    <MenuItem primaryText="Notification setting" containerElement={<Link to="/notification" />}/>,
-                    <MenuItem primaryText="Social media setting" />
-                  ]}
+                primaryText="Notifications"
               />
         
               <MenuItem
