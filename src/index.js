@@ -10,11 +10,12 @@ import Keycloak from 'keycloak-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import MVPWeather from './components/Mvpweather';
-import MVPAgri from './components/Mvpagri.js';
+import MVPCattle from './components/Mvpcattle';
+import MVPAgri from './components/Mvpagri';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
+import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
@@ -42,44 +43,64 @@ const MyApp = () =>{
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Home },
+  indexRoute: { component: Home, onEnter:loadSensors },
   childRoutes: [
     { path: 'home', component:  Home, onEnter:loadSensors},
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
     { path: 'profile/settings', component:  Settings },
-    { path: 'apps/weather', component:  MVPWeather },
+    { path: 'apps/cattle', component:  MVPCattle },
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
     { path: 'sensors', component:  Sensors , onEnter:loadSensors},
+    { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
     { path: 'users', component:  UserList },
     { path: 'home', component:  Home },
   ]
 }
 
+function displayPage() {
+
+  ReactDOM.render( 
+     <Provider store={store}>
+          <Router history={history} routes={routes} />
+        </Provider>,
+    document.getElementById('root')
+    );
+
+}
+
 const kc = Keycloak('/keycloak.json');
 
-// let kc = Keycloak(KeycloakConfig);
+const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
+
+if (checkIdentity === 'false') {
+
+  console.log("test" + checkIdentity)
+  displayPage();
+
+} else {
   
-kc.init({ onLoad: 'login-required'}).success(authenticated => {
+  kc.init({ onLoad: 'login-required'}).success(authenticated => {
   
-  if (authenticated) {
-    console.log(authenticated);
-   store.getState().keycloak = kc;
-    setInterval(() => {
-      kc.updateToken(10).error(() => kc.logout());
-    }, 10000);
-    ReactDOM.render(
-      <Provider store={store}>
-        <Router history={history} routes={routes} />
-      </Provider>
-      , document.getElementById('root'))
-  } else {
-    // show possibly other page here...
-    kc.login();
-  }
-}).error(function (error) {
+    if (!authenticated) {
+
+      kc.login();
+    
+    } else {
+    
+      console.log(authenticated);
+      store.getState().keycloak = kc;
+      setInterval(() => {
+        kc.updateToken(10).error(() => kc.logout());
+      }, 10000);
+    
+      displayPage();
+    }
+  }).error(function (error) {
+
     console(error);
-});
+  });
+}
