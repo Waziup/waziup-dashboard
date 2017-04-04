@@ -129,7 +129,7 @@ render() {
             innerDivStyle={styles.menuLink}
             rightIcon={<ArrowDropRight />}
             menuItems={[
-              <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
+              <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
               <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
               <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
               <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
@@ -200,9 +200,9 @@ render() {
                 innerDivStyle={styles.menuLink}
                 rightIcon={<ArrowDropRight />}
                 menuItems={[
-                  <MenuItem primaryText="MVP Weather" containerElement={<Link to="/apps/weather" />}/>,
+                  <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
                   <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-                  <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+                  <MenuItem primaryText="MVP Cattle Rustling" containerElement={<Link to="/apps/cattle" />} />,
                   <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
                   ]}
               />

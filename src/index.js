@@ -10,8 +10,8 @@ import Keycloak from 'keycloak-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import MVPWeather from './components/Mvpweather';
-import MVPAgri from './components/Mvpagri.js';
+import MVPCattle from './components/Mvpcattle';
+import MVPAgri from './components/Mvpagri';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/Sensors';
@@ -49,7 +49,7 @@ const routes = {
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
     { path: 'profile/settings', component:  Settings },
-    { path: 'apps/weather', component:  MVPWeather },
+    { path: 'apps/cattle', component:  MVPCattle },
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
