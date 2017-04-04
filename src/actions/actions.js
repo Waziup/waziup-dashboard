@@ -160,7 +160,10 @@ export function updateUser(user,attrs) {
             client.users.find(user.aud,{email:user.email})
                 .then((userK) => {
                     console.log(userK);
-                    userK[0].attributes.ServicePath  = attrs.servicePath || "" ;
+                    if(typeof userK[0].attributes==='undefined'){
+                        userK[0].attributes = {};
+                    }
+                    userK[0].attributes.ServicePath  =  attrs.servicePath || "" ;
                     userK[0].attributes.Phone  = attrs.phone || "" ;
                     client.users.update(user.aud, userK[0])
                     .then(() => {
