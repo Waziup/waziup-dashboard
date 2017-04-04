@@ -18,6 +18,12 @@ class Settings extends Component {
       if (!UTIL.objIsEmpty(values) && values.hasOwnProperty("Phone")) {
           attrs.phone = values.Phone;
       }
+      if (!UTIL.objIsEmpty(values) && values.hasOwnProperty("Facebook")) {
+          attrs.facebook = values.Facebook;
+      }
+      if (!UTIL.objIsEmpty(values) && values.hasOwnProperty("Twitter")) {
+          attrs.twitter = values.Twitter;
+      }
       console.log(values);
       this.props.updateUser(this.props.user,attrs)
   }

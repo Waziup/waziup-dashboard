@@ -163,8 +163,10 @@ export function updateUser(user,attrs) {
                     if(typeof userK[0].attributes==='undefined'){
                         userK[0].attributes = {};
                     }
-                    userK[0].attributes.ServicePath  =  attrs.servicePath || "" ;
-                    userK[0].attributes.Phone  = attrs.phone || "" ;
+                    userK[0].attributes.ServicePath  = attrs.servicePath || "" ;
+                    userK[0].attributes.Phone        = attrs.phone       || "" ;
+                    userK[0].attributes.Facebook     = attrs.facebook    || "" ;
+                    userK[0].attributes.Twitter      = attrs.twitter     || "" ;
                     client.users.update(user.aud, userK[0])
                     .then(() => {
                         updateUserSuccess(userK[0]);
