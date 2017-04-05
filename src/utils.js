@@ -44,10 +44,12 @@ const UTIL = {
             }
      },
 
+    // Get all measurements for a sensor
+    // an attribute is considered as a measurement if it has a timestamp metadata
     getMeasurement: function(sensor){
         var returnValue = [];
         for(var i in sensor){
-          if (i!=='id'&&i!=='type'&&i!=='owner'&&i!=='last_value'&&i!=='location') {
+          if (sensor[i].metadata && sensor[i].metadata.timestamp) {
             returnValue.push({"key": i, "value": sensor[i].value})
             }
           }
