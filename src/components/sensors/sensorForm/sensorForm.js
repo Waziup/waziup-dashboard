@@ -34,7 +34,7 @@ class sensorForm extends Component {
                 "sensorLat": this.props.formData.location? this.props.formData.location.coordinates[1]:position[1],
                 "sensorId": this.props.formData.id,
                 "sensorType" :  this.props.formData.type,
-                "sensorMeasurement": UTIL.getMeasurment(this.props.formData)[0]?UTIL.getMeasurment(this.props.formData)[0]:"",
+                "sensorMeasurement": UTIL.getMeasurement(this.props.formData)[0].key?UTIL.getMeasurment(this.props.formData)[0].key:"",
             }})
      }
   }
@@ -45,7 +45,7 @@ class sensorForm extends Component {
                 "sensorLat": nextProps.formData.location? nextProps.formData.location.coordinates[1]:position[1],
                 "sensorId": nextProps.formData.id,
                 "sensorType" :  nextProps.formData.type,
-                "sensorMeasurement": UTIL.getMeasurment(nextProps.formData)[0]?UTIL.getMeasurment(nextProps.formData)[0]:"",
+                "sensorMeasurement": UTIL.getMeasurment(nextProps.formData)[0].key?UTIL.getMeasurement(nextProps.formData)[0].key:"",
             }})
     }
     this.props.dispatch(initialize('sensorForm', this.state.sensor))

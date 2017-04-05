@@ -43,11 +43,11 @@ const UTIL = {
               throw error;
             }
      },
-    getMeasurment: function(sensor){
+    getMeasurement: function(sensor){
         var returnValue = [];
         for(var i in sensor){
           if (i!=='id'&&i!=='type'&&i!=='owner'&&i!=='last_value'&&i!=='location') {
-            returnValue.push(i)
+            returnValue.push({"key": i, "value": sensor[i]})
             }
           }
         return returnValue;

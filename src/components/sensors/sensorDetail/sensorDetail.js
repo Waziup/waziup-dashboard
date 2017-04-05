@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import { Container,  Col, Visible, Hidden } from 'react-grid-system'
+import {List, ListItem} from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import node from './barChart';
 import rd3 from 'react-d3-library';
-import SensorData from './SensorData.js'
+import SensorData from '../../SensorData.js'
+import UTIL from '../../../utils.js'
 const BarChart = rd3.BarChart;
 
 
@@ -43,6 +45,7 @@ class sensorDetail extends Component {
           }
         position = markers[0].position;
         this.setState({markers:markers})
+
     }
   }
   componentDidMount() {
@@ -63,7 +66,7 @@ class sensorDetail extends Component {
         <h1 className="page-title">Sensor: {this.state.id}</h1>
         <Container fluid={true}>
            <Card>
-            <CardHeader title={this.state.id + " Map Location"} />
+            <CardTitle title="Sensor location"/>
             <CardMedia>
               <Map ref="map" center={position} zoom={8}>
                 <TileLayer
@@ -76,7 +79,14 @@ class sensorDetail extends Component {
 
             <CardTitle title="Current values"/>
             <CardText>
-                <BarChart data={this.state.d3} />
+              <List>
+                {UTIL.getMeasurement(this.state.sensor).map((itemID) => {
+                  return (
+                    <ListItem primaryText={itemID.key + ": " + itemID.value} />
+                  )
+                })}
+              </List>
+
             </CardText>
             
             <CardTitle title="Historical Data"/>
