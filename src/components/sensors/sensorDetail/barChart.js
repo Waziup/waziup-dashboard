@@ -2,42 +2,41 @@ import * as d3 from "d3";
 
 // Build data for a classic bar chart
 const data = {}
-
 // Labels are displayed in component, quantities are calculated to define height of each bar
 
 
 //curl -s -S --header 'Accept: application/json' --header 'Fiware-Service: waziup' --header 'Fiware-ServicePath: /FL'  
 
-var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature?lastN=2';
+var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature?lastN=10';
 
-d3.json(url)
+var ds2 = d3.json(url)
     .header("Accept", "application/json")
     .header("Fiware-Service", "waziup")
     .header("Fiware-ServicePath", "/FL")
-    //.post("lastN=2", callback);
     .get(callback);
 
-function callback(json, data) {
-    console.info(json + data[1]);
-    console.debug(json);
+function callback(error, json) {
+    var ds = [];
+    console.debug("callback: json in info");
+    var contextResponse0 = json.contextResponses[0];
+    const {contextElement: contextElement} = contextResponse0;
+    const attribute0 = contextElement.attributes[0];
+    const values = attribute0.values;
+    console.log("Temperature:" + attribute0.name);
+
+    for (var i in values) {
+        var value = values[i];
+        console.log(value.attrValue + "  ,  " + value.recvTime);
+        ds.push({label: value.attrValue, value: value.recvTime.toString()});
+    }
+    console.log("inside" + ds);
+
+    return ds;
 }
 
-data.dataSet = [
-    {label: "Jan. '13'", value: 53},
-    {label: "Feb. '13'", value: 165},
-    {label: "Mar. '13'", value: 269},
-    {label: "Apr. '13'", value: 344},
-    {label: "May  '13'", value: 376},
-    {label: "Jun. '13'", value: 410},
-    {label: "Jul. '13'", value: 421},
-    {label: "Aug. '13'", value: 405},
-    {label: "Sep. '13'", value: 376},
-    {label: "Oct. '13'", value: 359},
-    {label: "Nov. '13'", value: 392},
-    {label: "Dec. '13'", value: 433},
-    {label: "Jan. '14'", value: 455},
-    {label: "Feb. '14'", value: 478}
-];
+console.log("outside" +ds2);
+
+data.dataSet = ds2;
 
 //Set margins for bar graph within svg element
 data.margins = {top: 20, right: 20, bottom: 70, left: 40};
