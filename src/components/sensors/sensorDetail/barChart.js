@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import axios from 'axios'
 
 // Build data for a classic bar chart
 const data = {}
@@ -7,34 +8,45 @@ const data = {}
 
 //curl -s -S --header 'Accept: application/json' --header 'Fiware-Service: waziup' --header 'Fiware-ServicePath: /FL'  
 
-var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature?lastN=10';
 
-var ds2 = d3.json(url)
-    .header("Accept", "application/json")
-    .header("Fiware-Service", "waziup")
-    .header("Fiware-ServicePath", "/FL")
-    .get(callback);
+// var ds2 = d3.json(url)
+//     .header("Accept", "application/json")
+//     .header("Fiware-Service", "waziup")
+//     .header("Fiware-ServicePath", "/FL")
+//     .get(function callback(error, json) {
+//    // var ds = [];
+//     console.debug("callback: json in info");
 
-function callback(error, json) {
-    var ds = [];
-    console.debug("callback: json in info");
-    var contextResponse0 = json.contextResponses[0];
-    const {contextElement: contextElement} = contextResponse0;
-    const attribute0 = contextElement.attributes[0];
-    const values = attribute0.values;
-    console.log("Temperature:" + attribute0.name);
+var ds2 = [];
+const querystring = require('query-string');
+var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
+axios.get(url,
+    {
+    params: {'lastN': '10'},
+    headers: {
+    'Fiware-ServicePath':"/FL",
+    'Fiware-Service':"waziup",
+    "Accept": "application/json"
+    }})
+    .then(function(response) {
+        console.log(response);
+        var contextResponse0 = response.data.contextResponses[0];
+        const {contextElement: contextElement} = contextResponse0;
+        const attribute0 = contextElement.attributes[0];
+        const values = attribute0.values;
+        console.log("Temperature:" + attribute0.name);
 
-    for (var i in values) {
-        var value = values[i];
-        console.log(value.attrValue + "  ,  " + value.recvTime);
-        ds.push({label: value.attrValue, value: value.recvTime.toString()});
-    }
-    console.log("inside" + ds);
-
-    return ds;
-}
-
-console.log("outside" +ds2);
+        for (var i in values) {
+            var value = values[i];
+            console.log(value.attrValue + "  ,  " + value.recvTime);
+            ds2.push({"label": value.recvTime.toString(), "value":value.attrValue});
+        }
+        console.log("inside" + JSON.stringify(ds2));  
+    })
+    .catch(function(response){
+        console.log("ERROR");
+        console.log(response);      
+    })
 
 data.dataSet = ds2;
 
