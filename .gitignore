@@ -14,3 +14,4 @@ build
 .env
 *.un*
 npm-debug.log
+exports-template.sh
