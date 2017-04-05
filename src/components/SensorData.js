@@ -9,7 +9,7 @@ class SensorData extends Component {
     for(var i in rowData){
       if (i !== 'id' && i != 'type' && i != 'owner' && i != 'last_value' && i != "actions") {
         
-        let val = (this.props.rowData[i] && typeof this.props.rowData[i] != 'undefined' )? this.props.rowData[i] : 0;
+        let val = (this.props.rowData[i] && typeof this.props.rowData[i].value != 'undefined' )? this.props.rowData[i].value : 0;
         returnValue.push(
            <li> {i + ": " + String(val)} </li>
         )
