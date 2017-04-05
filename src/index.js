@@ -23,6 +23,7 @@ import Notification from './components/notification/NotificationForm.js';
 import './index.css';
 import {fetchSensors} from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
 injectTapEventPlugin();
 
 const store = configureStore();
