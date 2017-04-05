@@ -4,9 +4,8 @@ import { Container,  Col, Visible, Hidden } from 'react-grid-system'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import node from './barChart';
 import rd3 from 'react-d3-library';
+import SensorData from './SensorData.js'
 const BarChart = rd3.BarChart;
-
-
 
 
 var position = [12.238, -1.561];
@@ -64,11 +63,8 @@ class sensorDetail extends Component {
         <h1 className="page-title">Sensor: {this.state.id}</h1>
         <Container fluid={true}>
            <Card>
-            <CardHeader
-              title={this.state.id + " Map Location"}
-            />
-            <CardMedia
-            >
+            <CardHeader title={this.state.id + " Map Location"} />
+            <CardMedia>
               <Map ref="map" center={position} zoom={8}>
                 <TileLayer
                   url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -76,14 +72,17 @@ class sensorDetail extends Component {
                 />
                 {listMarkers}
               </Map>
-
             </CardMedia>
+
+            <CardTitle title="Current values"/>
+            <CardText>
+                <BarChart data={this.state.d3} />
+            </CardText>
+            
             <CardTitle title="Historical Data"/>
             <CardText>
                 <BarChart data={this.state.d3} />
             </CardText>
-            <CardActions>
-            </CardActions>
           </Card>
         </Container>
       </div>

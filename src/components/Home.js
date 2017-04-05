@@ -36,22 +36,6 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    //var defaultLocation = [
-    //  {position:[6.666600,-1.616271]},
-    //  {position:[16.062637,-16.425864]},
-    //  {position:[6.163909,-1.208513]},
-    //  {position:[14.670868,-17.430936]},
-    //  {position:[14.743417,-17.485433]},
-    //  {position:[5.569658,-0.168994]},
-    //  {position:[11.164922,-4.305154]},
-    //];
-     //for(var i = 0; i<defaultLocation.length;i++){
-     // markers.push({
-     //         position:defaultLocation[i].position,
-     //         defaultAnimation: 2,
-     // });
-     //}
-     // this.setState({markers:markers})
         
     var markers = [];
     if (nextProps.sensors) {
