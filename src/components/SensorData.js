@@ -4,23 +4,24 @@ import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader';
 
 class SensorData extends Component {
-  getRow = ()=>{
+  getRow = (rowData) => {
     var returnValue = [];
-    for(var i in this.props.rowData){
-      if (i!=='id'&&i!='type'&&i!='owner'&&i!='last_value'&&i!="actions") {
+    for(var i in rowData){
+      if (i !== 'id' && i != 'type' && i != 'owner' && i != 'last_value' && i != "actions") {
+        
         let val = (this.props.rowData[i] && typeof this.props.rowData[i].value != 'undefined' )? this.props.rowData[i].value : 0;
         returnValue.push(
-           <FlatButton key={i} label={i + " : " + val} />
-          )
-        }
+           <li> {i + ": " + String(val)} </li>
+        )
       }
+    }
     return returnValue;
   }
   render() {
     return (
       <div>
         {
-          this.getRow()
+          this.getRow(this.props.rowData)
         }
         </div>
     );

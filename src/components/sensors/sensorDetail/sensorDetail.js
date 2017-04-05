@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import { Container,  Col, Visible, Hidden } from 'react-grid-system'
+import {List, ListItem} from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import node from './barChart';
 import rd3 from 'react-d3-library';
+import SensorData from '../../SensorData.js'
+import UTIL from '../../../utils.js'
 const BarChart = rd3.BarChart;
-
-
 
 
 var position = [12.238, -1.561];
@@ -33,17 +34,18 @@ class sensorDetail extends Component {
         });
         this.setState({sensor:sensor});
         var markers = [];
-        if(sensor.location && sensor.location.value && sensor.location.value.coordinates){
+        if(sensor.location && sensor.location.coordinates){
             markers.push({
               position:[
-                sensor.location.value.coordinates[1],
-                sensor.location.value.coordinates[0]
+                sensor.location.coordinates[1],
+                sensor.location.coordinates[0]
               ],
               defaultAnimation: 2,
             });
           }
         position = markers[0].position;
         this.setState({markers:markers})
+
     }
   }
   componentDidMount() {
@@ -64,11 +66,8 @@ class sensorDetail extends Component {
         <h1 className="page-title">Sensor: {this.state.id}</h1>
         <Container fluid={true}>
            <Card>
-            <CardHeader
-              title={this.state.id + " Map Location"}
-            />
-            <CardMedia
-            >
+            <CardTitle title="Sensor location"/>
+            <CardMedia>
               <Map ref="map" center={position} zoom={8}>
                 <TileLayer
                   url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -76,14 +75,24 @@ class sensorDetail extends Component {
                 />
                 {listMarkers}
               </Map>
-
             </CardMedia>
+
+            <CardTitle title="Current values"/>
+            <CardText>
+              <List>
+                {UTIL.getMeasurement(this.state.sensor).map((itemID) => {
+                  return (
+                    <ListItem primaryText={itemID.key + ": " + itemID.value} />
+                  )
+                })}
+              </List>
+
+            </CardText>
+            
             <CardTitle title="Historical Data"/>
             <CardText>
                 <BarChart data={this.state.d3} />
             </CardText>
-            <CardActions>
-            </CardActions>
           </Card>
         </Container>
       </div>

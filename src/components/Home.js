@@ -37,6 +37,7 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+        
     var markers = [];
     if (nextProps.sensors) {
         for (var i = 0; i < nextProps.sensors.length; i++) {

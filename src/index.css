@@ -290,3 +290,11 @@ p {
     display: none !important;
   }
 }
+
+li {
+  margin-left: 15px;
+}
+
+ul {
+      list-style-position: inside;
+}

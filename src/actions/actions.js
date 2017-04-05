@@ -37,7 +37,7 @@ export function fetchSensors() {
           const querystring = require('query-string');
           return axios.get('http://orion.waziup.io/v1/data/entities',
                            {
-                             params: {'limit': '100'},
+                             params: {'limit': '100', 'attrs': 'dateModified,*'},
                              headers: {
                                'Fiware-ServicePath':fiwareServicePathQuery,
                                'Fiware-Service':fiwareService,
@@ -171,8 +171,10 @@ export function updateUser(user,attrs) {
                     if(typeof userK[0].attributes==='undefined'){
                         userK[0].attributes = {};
                     }
-                    userK[0].attributes.ServicePath  =  attrs.servicePath || "" ;
-                    userK[0].attributes.Phone  = attrs.phone || "" ;
+                    userK[0].attributes.ServicePath  = attrs.servicePath || "" ;
+                    userK[0].attributes.Phone        = attrs.phone       || "" ;
+                    userK[0].attributes.Facebook     = attrs.facebook    || "" ;
+                    userK[0].attributes.Twitter      = attrs.twitter     || "" ;
                     client.users.update(user.aud, userK[0])
                     .then(() => {
                         updateUserSuccess(userK[0]);

@@ -75,7 +75,7 @@ class Sensors extends Component {
       "columnName": "last_value",
       "order": 4,
       "visible": true,
-      "displayName": "Last Value",
+      "displayName": "Last Values",
       "customComponent": SensorData
     },
     {
