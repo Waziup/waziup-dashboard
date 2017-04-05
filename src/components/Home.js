@@ -56,11 +56,11 @@ class Home extends Component {
     var markers = [];
     if (nextProps.sensors) {
         for (var i = 0; i < nextProps.sensors.length; i++) {
-          if(nextProps.sensors[i].location && nextProps.sensors[i].location.value && nextProps.sensors[i].location.value.coordinates){
+          if(nextProps.sensors[i].location && nextProps.sensors[i].location.coordinates){
             markers.push({
               position:[
-                nextProps.sensors[i].location.value.coordinates[1],
-                nextProps.sensors[i].location.value.coordinates[0]
+                nextProps.sensors[i].location.coordinates[1],
+                nextProps.sensors[i].location.coordinates[0]
               ],
               defaultAnimation: 2,
             });

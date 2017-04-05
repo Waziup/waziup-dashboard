@@ -5,9 +5,9 @@ class SensorOwner extends Component {
   render() {
       let own = "-";
       if (this.props.rowData.owner) {
-       own = this.props.rowData.owner.value; 
+       own = this.props.rowData.owner; 
       }else if(this.props.rowData.Owner){
-       own = this.props.rowData.Owner.value; 
+       own = this.props.rowData.Owner; 
       }
     return (
         <div>

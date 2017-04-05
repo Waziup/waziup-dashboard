@@ -33,11 +33,11 @@ class sensorDetail extends Component {
         });
         this.setState({sensor:sensor});
         var markers = [];
-        if(sensor.location && sensor.location.value && sensor.location.value.coordinates){
+        if(sensor.location && sensor.location.coordinates){
             markers.push({
               position:[
-                sensor.location.value.coordinates[1],
-                sensor.location.value.coordinates[0]
+                sensor.location.coordinates[1],
+                sensor.location.coordinates[0]
               ],
               defaultAnimation: 2,
             });
