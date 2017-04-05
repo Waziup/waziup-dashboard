@@ -32,7 +32,6 @@ function receiveError(json) {
 };
 
 export function fetchSensors() {
-// curl http://broker.waziup.io/v2/entities --header 'Fiware-ServicePath:/#' --header 'Fiware-Service:waziup' -X GET
     return function(dispatch) {
           dispatch(requestSensors());
           const querystring = require('query-string');
@@ -87,6 +86,14 @@ export function createSensorError(json) {
           data: json
         }
 };
+
+export function updateSensorStart(json) {
+    return{
+          type: types.UPDATE_SENSORS_START,
+          data: json
+        }
+};
+
 export function deleteSensor(sensor) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
@@ -122,14 +129,16 @@ export function deleteSensorError(json) {
         }
 };
 export function adminLogin(user) {
+    console.log(user);
     return function(dispatch) {
         adminClient(settings)
           .then((client) => {
-            console.log(user);
             client.users.find(user.aud,{email:user.email})
                 .then((userK) => {
                     console.log(userK);
                     dispatch(updateUserSuccess(userK[0]));
+              },(err)=>{
+                dispatch(adminLoginError(err));
               });
 
           })
@@ -152,7 +161,6 @@ export function adminLoginError(json) {
         }
 };
 export function updateUser(user,attrs) {
-
     return function(dispatch) {
          dispatch({type: types.UPDATE_USER_START});
          adminClient(settings)
@@ -174,9 +182,7 @@ export function updateUser(user,attrs) {
           .catch((err) => {
             updateUserError(err);
           });
-
     }
-
 };
 export function updateUserSuccess(json) {
     return{

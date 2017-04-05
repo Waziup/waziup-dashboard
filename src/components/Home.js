@@ -4,6 +4,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
+import { adminLogin } from '../actions/actions'
 import FullWidthSection from './FullWidthSection'
 import Page from '../App'
 
@@ -36,23 +37,6 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    //var defaultLocation = [
-    //  {position:[6.666600,-1.616271]},
-    //  {position:[16.062637,-16.425864]},
-    //  {position:[6.163909,-1.208513]},
-    //  {position:[14.670868,-17.430936]},
-    //  {position:[14.743417,-17.485433]},
-    //  {position:[5.569658,-0.168994]},
-    //  {position:[11.164922,-4.305154]},
-    //];
-     //for(var i = 0; i<defaultLocation.length;i++){
-     // markers.push({
-     //         position:defaultLocation[i].position,
-     //         defaultAnimation: 2,
-     // });
-     //}
-     // this.setState({markers:markers})
-        
     var markers = [];
     if (nextProps.sensors) {
         for (var i = 0; i < nextProps.sensors.length; i++) {
@@ -70,8 +54,6 @@ class Home extends Component {
         console.log(markers);
         this.setState({markers:markers})
     }
-    
-
   }
   componentWillMount(){
     if (this.props.user) {
@@ -79,10 +61,10 @@ class Home extends Component {
     }
   }
   componentDidMount(prevProps, prevState) {
-      this.addAlert()    
+      this.addAlert();
+      this.props.adminLogin(this.state.user);
   }
 
-      
   render() {
     const listMarkers = this.state.markers.map((marker,index) =>
             <Marker key={index} position={marker.position}>
@@ -121,7 +103,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    adminLogin:(user)=>{dispatch(adminLogin(user))}
+  };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

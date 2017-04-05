@@ -6,7 +6,7 @@ import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import RowActions from './sensors/RowActions.js'
-import {createSensor, Row, Col } from '../actions/actions';
+import {createSensor, updateSensorStart ,adminLogin} from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
@@ -33,8 +33,12 @@ class Sensors extends Component {
       this.setState({isLoading:nextProps.isLoading})
     }
   }
+  componentDidMount(){
+    this.props.adminLogin(this.props.user);
+  }
   handleSensorDelete = (data)=>{console.log(data)}
   handleSensorUpdate = (data)=>{
+      this.props.updateSensorStart(data);
       this.setState({formData:data});
       this.setState({modalOpen: true});
   }
@@ -137,13 +141,17 @@ class Sensors extends Component {
 function mapStateToProps(state) {
   return {
       data: state.example.data,
-      isLoading:state.example.isLoading
+      isLoading:state.example.isLoading,
+      user: state.keycloak.idTokenParsed,
+      currentUser:state.currentUser.currentUser,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    createSensor:(sensor)=>{dispatch(createSensor(sensor))}
+    createSensor:(sensor)=>{dispatch(createSensor(sensor))},
+    updateSensorStart:(sensor)=>{dispatch(updateSensorStart(sensor))},
+    adminLogin:(user)=>{dispatch(adminLogin(user))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sensors);

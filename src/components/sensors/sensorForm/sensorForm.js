@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field,FieldArray } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
-// import RaisedButton from 'material-ui/RaisedButton';
+import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
 import UTIL from '../../../utils.js';
 import MenuItem from 'material-ui/MenuItem'
 import { RadioButton } from 'material-ui/RadioButton'
+import IconButton from 'material-ui/IconButton';
+import {blue500, red500, greenA200} from 'material-ui/styles/colors';
+import Delete from 'material-ui/svg-icons/action/delete';
 import {
   SelectField,
   TextField,
@@ -17,6 +21,44 @@ import { initialize } from 'redux-form'
 const required = value => value == null ? 'Required' : undefined
 
 const position = [12.238, -1.561];
+
+
+const renderField = props => (
+  <div>
+    <label>{props.placeholder}</label>
+    <div>
+      <input {...props}/>
+      {props.touched && props.error && <span>{props.error}</span>}
+    </div>
+  </div>
+)
+
+
+const renderMeasurement = ({ fields }) => (
+  <ul>
+    <li>
+      <RaisedButton onClick={() => fields.push({})}>Add Measurement</RaisedButton>
+    </li>
+    {fields.map((measurement, index) =>
+      <li key={index}>
+          <IconButton tooltip="Delete" tooltipPosition="top-center" onTouchTap={()=>{fields.remove(index)}}>
+			<Delete  color={red500}/>
+		   </IconButton>
+        <h4>Measurement #{index + 1}</h4>
+        <Field
+          name={`${measurement}.measure`}
+          type="text"
+          component={renderField}
+          placeholder="Measurement"/>
+        <Field
+          name={`${measurement}.type`}
+          type="text"
+          component={renderField}
+          placeholder="Type"/>
+      </li>
+    )}
+  </ul>
+)
 
 class sensorForm extends Component {
   constructor(props){
@@ -40,15 +82,8 @@ class sensorForm extends Component {
   }
   componentWillReceiveProps(nextProps){
      if(!UTIL.objIsEmpty(nextProps.formData)){
-            this.setState({sensor:{
-                "sensorLon": nextProps.formData.location? nextProps.formData.location.value.coordinates[0]:position[0],
-                "sensorLat": nextProps.formData.location? nextProps.formData.location.value.coordinates[1]:position[1],
-                "sensorId": nextProps.formData.id,
-                "sensorType" :  nextProps.formData.type,
-                "sensorMeasurement": UTIL.getMeasurment(nextProps.formData)[0]?UTIL.getMeasurment(nextProps.formData)[0]:"",
-            }})
+         // this.props.updateSensorStart(nextProps.formData);
     }
-    this.props.dispatch(initialize('sensorForm', this.state.sensor))
 
   }
   choosePosition = (event) => {
@@ -158,6 +193,7 @@ class sensorForm extends Component {
                     validate={required}
                     ref="sensorUnit" withRef/>
                 </Col>
+              <FieldArray name="measurement" component={renderMeasurement}/>
             </Row>
             <Row>
               <Col>
@@ -182,6 +218,16 @@ sensorForm = reduxForm({
   form: 'sensorForm',
   enableReinitialize : true, // this is needed!!
 })(sensorForm)
-
+sensorForm = connect(
+  state => ({
+    initialValues:{
+        "sensorLon": state.sensor.sensor.location? state.sensor.sensor.location.value.coordinates[0]:position[0],
+        "sensorLat": state.sensor.sensor.location? state.sensor.sensor.location.value.coordinates[1]:position[1],
+        "sensorId": state.sensor.sensor.id,
+        "sensorType" :  state.sensor.sensor.type,
+        "sensorMeasurement": UTIL.getMeasurment(state.sensor.sensor)[0]?UTIL.getMeasurment(state.sensor.sensor)[0]:"",
+    }
+  })
+)(sensorForm)
 export default sensorForm;
 
