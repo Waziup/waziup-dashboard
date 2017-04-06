@@ -11,7 +11,6 @@ import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
 
-
 class Sensors extends Component {
   constructor(props){
     super(props);
@@ -91,8 +90,8 @@ class Sensors extends Component {
     },
 
   ];
-    handleSubmit = (values) => {
-    // Do something with the form values
+
+  handleSubmit = (values) => {
     let sensor  = {
       id: values.sensorId,
       type: values.sensorType,
@@ -103,21 +102,22 @@ class Sensors extends Component {
           },
           type: "geo:json"
         },
-
+        owner: {
+         type: "String",
+         value: this.props.currentUser.username,
+        },
     }
-    sensor[values.sensorMeasurement] = {
-      value: 0,
-      type: values.sensorValueType
-    }
+/*     sensor[values.sensorMeasurement] = { */
+      // value: 0,
+      // type: values.sensorValueType
+    /* } */
     this.props.createSensor(sensor)
-
   }
   render() {
     let {data} = this.props;
 
     return (
-      <div>
-
+          <div>
             <h1 className="page-title">Sensors</h1>
           { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
 
@@ -129,9 +129,8 @@ class Sensors extends Component {
               <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
-            {this.state.modalOpen ?
-            <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} formData={this.state.formData}/>
-            :null}
+                <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
+                 handleClose={this.handleClose} onSubmit={this.handleSubmit} />
             </Container>
       </div>
     );

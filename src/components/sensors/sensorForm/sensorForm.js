@@ -23,42 +23,6 @@ const required = value => value == null ? 'Required' : undefined
 const position = [12.238, -1.561];
 
 
-const renderField = props => (
-  <div>
-    <label>{props.placeholder}</label>
-    <div>
-      <input {...props}/>
-      {props.touched && props.error && <span>{props.error}</span>}
-    </div>
-  </div>
-)
-
-
-const renderMeasurement = ({ fields }) => (
-  <ul>
-    <li>
-      <RaisedButton onClick={() => fields.push({})}>Add Measurement</RaisedButton>
-    </li>
-    {fields.map((measurement, index) =>
-      <li key={index}>
-          <IconButton tooltip="Delete" tooltipPosition="top-center" onTouchTap={()=>{fields.remove(index)}}>
-			<Delete  color={red500}/>
-		   </IconButton>
-        <h4>Measurement #{index + 1}</h4>
-        <Field
-          name={`${measurement}.measure`}
-          type="text"
-          component={renderField}
-          placeholder="Measurement"/>
-        <Field
-          name={`${measurement}.type`}
-          type="text"
-          component={renderField}
-          placeholder="Type"/>
-      </li>
-    )}
-  </ul>
-)
 
 class sensorForm extends Component {
   constructor(props){
@@ -70,27 +34,8 @@ class sensorForm extends Component {
     };
   }
   componentDidMount() {
-    if(!UTIL.objIsEmpty(this.props.formData)){
-            this.setState({sensor:{
-                "sensorLon": this.props.formData.location? this.props.formData.location.value.coordinates[0]:position[0],
-                "sensorLat": this.props.formData.location? this.props.formData.location.value.coordinates[1]:position[1],
-                "sensorId": this.props.formData.id,
-                "sensorType" :  this.props.formData.type,
-                "sensorMeasurement": UTIL.getMeasurement(this.props.formData)[0].key?UTIL.getMeasurment(this.props.formData)[0].key:"",
-            }})
-     }
   }
   componentWillReceiveProps(nextProps){
-     if(!UTIL.objIsEmpty(nextProps.formData)){
-            this.setState({sensor:{
-                "sensorLon": nextProps.formData.location? nextProps.formData.location.value.coordinates[0]:position[0],
-                "sensorLat": nextProps.formData.location? nextProps.formData.location.value.coordinates[1]:position[1],
-                "sensorId": nextProps.formData.id,
-                "sensorType" :  nextProps.formData.type,
-                "sensorMeasurement": UTIL.getMeasurment(nextProps.formData)[0]?UTIL.getMeasurment(nextProps.formData)[0]:"",
-            }})
-    }
-
   }
   choosePosition = (event) => {
     this.setState({position:[event.latlng.lat,event.latlng.lng]})
@@ -150,14 +95,12 @@ class sensorForm extends Component {
                       component={TextField}
                       hintText="Longitude"
                       floatingLabelText="Longitude"
-                      validate={required}
                       ref="sensorLon" withRef/>
                     <Field
                       name="sensorLat"
                       component={TextField}
                       hintText="Latitude"
                       floatingLabelText="Latitude"
-                      validate={required}
                       ref="sensorLat" withRef/>
               </Col>
             </Row>
@@ -167,7 +110,6 @@ class sensorForm extends Component {
                   component={TextField}
                   hintText="Sensor id"
                   floatingLabelText="Sensor Id"
-                  validate={required}
                   ref="sensorId" withRef/>
               </Col>
               <Col md={4} offset={{md:2}}>
@@ -175,20 +117,18 @@ class sensorForm extends Component {
                   name="sensorType"
                   component={SelectField}
                   hintText="Sensor Type"
-                  floatingLabelText="Sensor Type"
-                  validate={required}>
+                  floatingLabelText="Sensor Type">
                   <MenuItem value="SensingDevice" primaryText="Sensing Device"/>
                   <MenuItem value="Device" primaryText="Device"/>
                 </Field>
               </Col>
               </Row>
               <Row>
-                <Col md={4}>
+                {/*<Col md={4}>
                   <Field name="sensorMeasurement"
                     component={TextField}
                     hintText="'Temperature'"
                     floatingLabelText="Measurement"
-                    validate={required}
                     ref="sensorMeasurement" withRef/>
                 </Col>
                 <Col md={4} offset={{md:2}}>
@@ -196,22 +136,20 @@ class sensorForm extends Component {
                     component={TextField}
                     hintText="Unit"
                     floatingLabelText="Sensor Unit"
-                    validate={required}
                     ref="sensorUnit" withRef/>
-                </Col>
-              <FieldArray name="measurement" component={renderMeasurement}/>
+                </Col> */}
+
             </Row>
             <Row>
               <Col>
-                <Field
+            {/* <Field
                     name="sensorValueType"
                     component={SelectField}
                     hintText="Sensor Value type"
-                    floatingLabelText="Sensor Value Type"
-                    validate={required}>
+                    floatingLabelText="Sensor Value Type">
                     <MenuItem value="number" primaryText="Number"/>
                     <MenuItem value="percent" primaryText="Percent"/>
-                  </Field>
+                  </Field>*/}
               </Col>
             </Row>
           </form>
@@ -231,7 +169,7 @@ sensorForm = connect(
         "sensorLat": state.sensor.sensor.location? state.sensor.sensor.location.value.coordinates[1]:position[1],
         "sensorId": state.sensor.sensor.id,
         "sensorType" :  state.sensor.sensor.type,
-        "sensorMeasurement": UTIL.getMeasurment(state.sensor.sensor)[0]?UTIL.getMeasurment(state.sensor.sensor)[0]:"",
+        // "sensorMeasurement": UTIL.getMeasurement(state.sensor.sensor)[0].key?UTIL.getMeasurement(state.sensor.sensor)[0].key:"",
     }
   })
 )(sensorForm)

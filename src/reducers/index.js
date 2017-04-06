@@ -21,6 +21,8 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return Object.assign({}, state, {isLoading: true});
               case types.CREATE_SENSORS_SUCCESS:
                 return Object.assign({}, state, {isLoading: false, sensor: action.data, error: false });
+              case types.UPDATE_SENSORS_START:
+                return Object.assign({}, state, {isLoading: false, sensor: action.data, error: false });
               case types.CREATE_SENSORS_ERROR:
                 return Object.assign({}, state, {isLoading: false, sensor:{error:action.data}, error: false });
               default:

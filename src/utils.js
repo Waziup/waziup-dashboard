@@ -34,7 +34,6 @@ const UTIL = {
      *
      */
     checkStatus: function(response) {
-      console.log(response);
       if (response.status >= 200 && response.status < 300) {
               return response;
             } else {
@@ -49,12 +48,13 @@ const UTIL = {
     getMeasurement: function(sensor){
         var returnValue = [];
         for(var i in sensor){
-          if (sensor[i].metadata && sensor[i].metadata.timestamp) {
+            console.info(sensor[i]);
+          if (sensor[i] && sensor[i].hasOwnProperty('metadata') && sensor[i].metadata.timestamp) {
             returnValue.push({"key": i, "value": sensor[i].value})
             }
           }
         return returnValue;
-        }
+    }
 };
 
 /* Export ==================================================================== */

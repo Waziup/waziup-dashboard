@@ -27,12 +27,10 @@ class settingsForm extends Component {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps){
-
   }
 
   render() {
-    const {pristine, reset, submitting, onSubmit} = this.props;
-
+    const { pristine, reset, submitting, onSubmit } = this.props;
     return (
           <form onSubmit={onSubmit}>
             <Row>
@@ -77,7 +75,8 @@ class settingsForm extends Component {
 settingsForm = reduxForm({
   form: 'settingsForm',
   enableReinitialize : true, // this is needed!!
-})(settingsForm)
+})(settingsForm);
+
 settingsForm = connect(
   state => ({
     initialValues: {
