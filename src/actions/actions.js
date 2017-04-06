@@ -127,11 +127,45 @@ export function updateSensorStart(json) {
           data: json
         }
 };
+export function updateSensorLocation(sensor) {
+    console.log(sensor);
+    return function(dispatch) {
+          return axios.put('http://orion.waziup.io/v1/data/entities/'+sensor.id+'/attrs',sensor.update,{
+                      headers: {
+                        'content-type':'application/json',
+                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-service':fiwareService,
+                      }
+                  })
+            .then(function(response) {
+                console.log(response);
+              dispatch(deleteSensorSuccess(response.data));
+            })
+            .catch(function(response){
+                console.log(response);
+              dispatch(deleteSensorError(response.data));
+            })
+        }
+
+};
+export function updateSensorSuccess(json) {
+    return{
+          type: types.UPDATE_SENSORS_SUCCESS,
+          data: json
+        }
+};
+
+export function updateSensorError(json) {
+    return {
+          type: types.UPDATE_SENSORS_ERROR,
+          data: json
+        }
+};
 
 export function deleteSensor(sensor) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete('http://orion.waziup.io/v1/data/entities'+sensor.sensorId,{
+          return axios.delete('http://orion.waziup.io/v1/data/entities/'+sensor.sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':fiwareServicePath,

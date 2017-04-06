@@ -6,7 +6,7 @@ import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import RowActions from './sensors/RowActions.js'
-import {createSensor, updateSensorStart ,adminLogin} from '../actions/actions';
+import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation} from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
@@ -49,6 +49,7 @@ class Sensors extends Component {
   };
 
   handleClose = () => {
+    this.setState({formData:{}});
     this.setState({modalOpen: false});
   };
   tableMeta = [
@@ -90,6 +91,28 @@ class Sensors extends Component {
     },
 
   ];
+  handleSubmitUpdate = (values) => {
+      if (values.sensorLon) {
+        let sensor  = {
+          id: values.sensorId,
+          update:{
+              location: {
+                  value: {
+                    type: "point",
+                    coordinates: [values.sensorLon,values.sensorLat]
+                  },
+                  type: "geo:json"
+            },
+            owner: {
+             type: "string",
+             value: this.props.currentUser.username,
+            },
+          }
+        }
+
+        this.props.updateSensorLocation(sensor);
+      }
+  }
 
   handleSubmit = (values) => {
     let sensor  = {
@@ -97,13 +120,13 @@ class Sensors extends Component {
       type: values.sensorType,
       location: {
           value: {
-            type: "Point",
-            coordinates: [values.sensorLon,values.sensorLat]
+            type: "point",
+            coordinates: [values.sensorLon,values.sensorlat]
           },
           type: "geo:json"
         },
         owner: {
-         type: "String",
+         type: "string",
          value: this.props.currentUser.username,
         },
     }
@@ -130,7 +153,7 @@ class Sensors extends Component {
                 <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
                 <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
-                 handleClose={this.handleClose} onSubmit={this.handleSubmit} />
+                 handleClose={this.handleClose} onSubmit={ this.state.formData ? this.handleSubmitUpdate:this.handleSubmit} />
             </Container>
       </div>
     );
@@ -150,6 +173,7 @@ function mapDispatchToProps(dispatch) {
   return {
     createSensor:(sensor)=>{dispatch(createSensor(sensor))},
     updateSensorStart:(sensor)=>{dispatch(updateSensorStart(sensor))},
+    updateSensorLocation:(sensor)=>{dispatch(updateSensorLocation(sensor))},
     adminLogin:(user)=>{dispatch(adminLogin(user))}
   };
 }
