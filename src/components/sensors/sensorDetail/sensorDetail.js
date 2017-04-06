@@ -15,7 +15,9 @@ class sensorDetail extends Component {
      constructor(props){
         super(props);
         this.state = {
-            sensor:{},
+            sensor: {},
+            dateModified: "not available",
+            dateCreated: "not available",
             markers: [],
             id:this.props.params.sensorId,
             d3: '',
@@ -33,6 +35,14 @@ class sensorDetail extends Component {
             return el.id === this.props.params.sensorId;
         });
         this.setState({sensor:sensor});
+        
+        if(sensor.dateModified && sensor.dateModified.value) {
+           this.setState({dateModified:sensor.dateModified.value});
+        }
+        if(sensor.dateCreated && sensor.dateCreated.value) {
+           this.setState({dateCreated:sensor.dateCreated.value});
+        }
+
         var markers = [];
         if(sensor.location && sensor.location.coordinates){
             markers.push({
@@ -80,11 +90,15 @@ class sensorDetail extends Component {
             <CardTitle title="Current values"/>
             <CardText>
               <List>
-                {UTIL.getMeasurement(this.state.sensor).map((itemID) => {
+                {UTIL.getMeasurements(this.state.sensor).map((itemID) => {
                   return (
                     <ListItem primaryText={itemID.key + ": " + itemID.value} />
                   )
                 })}
+                <ListItem primaryText={"Date created: " + this.state.dateCreated} />
+                <ListItem primaryText={"Date modified: " + this.state.dateModified} />
+
+                
               </List>
 
             </CardText>
