@@ -124,7 +124,7 @@ class Sensors extends Component {
       type: values.sensorType,
       location: {
           value: {
-            type: "point",
+            type: "Point",
             coordinates: [values.sensorLon,values.sensorLat]
           },
           type: "geo:json"
