@@ -50,24 +50,35 @@ class SubmitNotificationForm extends Component {
       {(touched || submitFailed) && error && <span>{error}</span>}
     </li>
     {fields.map((member, index) =>
-      <li key={index}> 
-        <Field
-          name={`${member}.channel`}
-          component={renderSelectField}
-          label={`Channel ${index}`}>
-          <MenuItem value="facebook" primaryText="Facebook"/>
-          <MenuItem value="twitter"  primaryText="Twitter"/>
-          <MenuItem value="viber"    primaryText="Viber"/>
-        </Field>
-        <Field
-          name={`${member}.profile`}
-          type="text"
-          component={renderTextField}
-          label="Profile"/>  
-        <RaisedButton
-          label="Remove"
-          secondary={true}
-          onClick={() => fields.remove(index)}/>      
+      <li key={index}>      
+       <table>  
+        <tr>
+          <td>
+            <Field
+              name={`${member}.channel`}
+              component={renderSelectField}
+              label={`Channel ${index}`}>
+              <MenuItem value='facebook' primaryText='Facebook'/>
+              <MenuItem value='twitter' primaryText='Tweeter'/>
+              <MenuItem value='viber' primaryText='Viber'/>
+            </Field>
+            </td>
+            <td>
+            <Field
+              name={`${member}.profile`}
+              type="text"
+              component={renderTextField}
+              label="Profile"
+            />
+            </td>
+            <td>
+           <RaisedButton
+            label="Remove"
+            secondary={true}
+            onClick={() => fields.remove(index)}/>
+            </td>
+         </tr>
+        </table>
       </li>
     )}
   </ul>
@@ -80,26 +91,44 @@ const renderSensors = ({ fields, meta: { touched, error, submitFailed } }) => (
     </li>
     {fields.map((member, index) =>
       <li key={index}> 
+      <table>
+       <tr>
+        <td>
         <Field
           name={`${member}.sensorvalue`}
-          type="text"
-          component={renderTextField}
-          label={`Sensor value ${index}`}/>
+          component={renderSelectField}
+          label={`Sensor value ${index}`}>
+          <MenuItem value={'temperature'} primaryText='Temperature'/>
+          <MenuItem value={'pressure'} primaryText='Pressure'/>
+          <MenuItem value={'humidity'} primaryText='Humidity'/>
+        </Field>  
+        </td>   
+        <td>
         <Field
            name={`${member}.treshordvalue`}
           type="text"
           component={renderTextField}
           label="Threshold"/>  
+       </td>
+       <td>   
        <Field
           name={`${member}.filter`}
-          type="text"
-          component={renderTextField}
-          label="Filter"/>     
+          component={renderSelectField}
+          label="Filter">
+          <MenuItem value={'equal'} primaryText='Equal'/>
+          <MenuItem value={'inferior'} primaryText='Inferior'/>
+          <MenuItem value={'superior'} primaryText='Superior'/>
+       </Field>   
+       </td>
+       <td>     
         <RaisedButton
           label="Remove"
           name="removesensor"
           secondary={true}
           onClick={() => fields.remove(index)}/>      
+        </td>   
+        </tr>
+       </table>
       </li>
     )}
   </ul>
@@ -121,7 +150,10 @@ const renderSensors = ({ fields, meta: { touched, error, submitFailed } }) => (
         </Field>
         </div>
         <FieldArray name="members" component={renderMembers}/> 
-        <Field label="Sensor" name="sensor" type="text" component={renderTextField} />
+        <Field label="Sensor" name="sensor" component={renderSelectField}>
+          <MenuItem value={'Sensor1'} primaryText="Sensor 1"/>
+          <MenuItem value={'Sensor2'} primaryText="Sensor 2"/>
+        </Field>
         <FieldArray name="sensors" component={renderSensors}/> 
         <Field label="Notification message" name="notificationmessage" type="text" component={renderTextField}/>
     </form>
