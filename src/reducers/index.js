@@ -29,6 +29,19 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return state;
             }
   };
+function historicalReducer(state = {isLoading: false, data: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.GET_HISTORICAL_START:
+                return Object.assign({}, state, {isLoading: true});
+              case types.GET_HISTORICAL_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, data: action.data, error: false });
+              case types.GET_HISTORICAL_ERROR:
+                return Object.assign({}, state, {isLoading: false, data:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
+
 function userReducer(state = {isLoading: false, currentUser: {}, error: false},action = null) {
       switch(action.type) {
               case types.UPDATE_USER_START:
@@ -41,6 +54,19 @@ function userReducer(state = {isLoading: false, currentUser: {}, error: false},a
                 return state;
             }
   };
+function usersListReducer(state = {isLoading: false, users: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.GET_USERS_START:
+                return Object.assign({}, state, {isLoading: true});
+              case types.GET_USERS_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, users: action.data, error: false });
+              case types.GET_USERS_ERROR:
+                return Object.assign({}, state, {isLoading: false, users:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
+
 function adminReducer(state = {isLoading: false, adminUser: {}, error: false},action = null) {
       switch(action.type) {
               case types.ADMIN_LOGIN:
@@ -73,7 +99,9 @@ const rootReducer = combineReducers({
     sensor: sensorsReducer,
     sensorEntity: sensorCRUDReducer,
     currentUser: userReducer,
+    users:usersListReducer,
     admin:adminReducer,
+    historical:historicalReducer,
     form: formReducer,
     keycloak:(state={})=>state
 });

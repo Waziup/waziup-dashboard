@@ -42,7 +42,7 @@ function receiveError(json) {
         }
 };
 
-export function fetchData() {
+  /*export function fetchData() {
     return function(dispatch) {
           dispatch(requestData());
           const querystring = require('query-string');
@@ -63,7 +63,7 @@ export function fetchData() {
               dispatch(receiveError(response.data));
             })
         }
-};
+};*/
 
 export function fetchSensors() {
     return function(dispatch) {
@@ -85,6 +85,41 @@ export function fetchSensors() {
             })
         }
 };
+export function getHistoData(sensor,measurement) {
+    return function(dispatch) {
+          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
+          return axios.get(url,{
+                      params: {'lastN': '10'},
+                      headers: {
+                        'content-type':'application/json',
+                        'fiware-servicepath':'/FL',
+                        'fiware-service':fiwareService,
+                      },
+                  })
+            .then(function(response) {
+              dispatch(getHistoDataSuccess(response.data));
+            })
+            .catch(function(response){
+              dispatch(getHistoDataError(response.data));
+            })
+        }
+};
+
+export function getHistoDataSuccess(json) {
+    return{
+          type: types.GET_HISTORICAL_SUCCESS,
+          data: json
+    }
+};
+
+export function getHistoDataError(json) {
+    return {
+          type: types.GET_HISTORICAL_ERROR,
+          data: json
+        }
+};
+
+
 export function createSensor(sensor) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
@@ -228,6 +263,37 @@ export function adminLoginError(json) {
           data: json
         }
 };
+export function getUsers() {
+    return function(dispatch) {
+        adminClient(settings)
+          .then((client) => {
+            client.users.find('waziup')
+                .then((users) => {
+                    dispatch(getUsersSuccess(users));
+              },(err)=>{
+                dispatch(getUsersError(err));
+              });
+
+          })
+          .catch((err) => {
+            dispatch(getUsersError(err));
+          });
+    }
+};
+export function getUsersSuccess(json) {
+    return{
+          type: types.GET_USERS_SUCCESS,
+          data: json
+        }
+};
+
+export function getUsersError(json) {
+    return {
+          type: types.GET_USERS_ERROR,
+          data: json
+        }
+};
+
 export function updateUser(user,attrs) {
     return function(dispatch) {
          dispatch({type: types.UPDATE_USER_START});

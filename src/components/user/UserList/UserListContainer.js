@@ -4,16 +4,12 @@ import UserList from './UserList'
 
 const mapStateToProps = (state) => {
     return {
-        users: state.user
+      users: state.users.users,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        // fetchUser: () => {
-        //     dispatch(fetchUser)
-        // }
-    }
+    return {}
 }
 
 
