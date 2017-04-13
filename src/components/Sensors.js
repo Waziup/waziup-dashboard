@@ -102,7 +102,7 @@ class Sensors extends Component {
           update:{
               location: {
                   value: {
-                    type: "point",
+                    type: "Point",
                     coordinates: [values.sensorLon,values.sensorLat]
                   },
                   type: "geo:json"
