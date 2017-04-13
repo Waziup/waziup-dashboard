@@ -154,7 +154,7 @@ class Sensors extends Component {
                 this.handleOpen();
             }} />
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
+                <Griddle resultsPerPage={50} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
                 <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
                  handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
