@@ -71,7 +71,7 @@ export function fetchSensors() {
           const querystring = require('query-string');
           return axios.get('http://orion.waziup.io/v1/data/entities',
                            {
-                             params: {'limit': '100', 'attrs': 'dateModified,dateCreated,*'},
+                             params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
                                'Fiware-ServicePath':fiwareServicePathQuery,
                                'Fiware-Service':fiwareService,

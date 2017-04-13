@@ -18,6 +18,7 @@ class sensorDetail extends Component {
             sensor: {},
             dateModified: "not available",
             dateCreated: "not available",
+            servicePath: "not available",
             markers: [],
             id:this.props.params.sensorId,
             d3: '',
@@ -41,6 +42,9 @@ class sensorDetail extends Component {
         }
         if(sensor.dateCreated && sensor.dateCreated.value) {
            this.setState({dateCreated:sensor.dateCreated.value});
+        }
+        if(sensor.servicePath && sensor.servicePath.value) {
+           this.setState({servicePath:sensor.servicePath.value});
         }
 
         var markers = [];
@@ -97,6 +101,7 @@ class sensorDetail extends Component {
                 })}
                 <ListItem primaryText={"Date created: " + this.state.dateCreated} />
                 <ListItem primaryText={"Date modified: " + this.state.dateModified} />
+                <ListItem primaryText={"Service path: " + this.state.servicePath} />
 
                 
               </List>
