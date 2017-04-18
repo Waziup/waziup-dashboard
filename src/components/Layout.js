@@ -50,7 +50,6 @@ class Layout extends Component {
 
   headerMenu = (user)=>(
       <IconMenu  iconButtonElement={this.profileButton(user)} anchorOrigin={{horizontal: 'left', vertical: 'top'}} targetOrigin={{horizontal: 'left', vertical: 'top'}}>
-        <MenuItem primaryText="Profile" />
         <MenuItem primaryText="Settings"
           containerElement={<Link to="/profile/settings" />}
         />
@@ -148,13 +147,7 @@ render() {
             primaryText="Notifications"
           />
           
-          <MenuItem
-            containerElement={<Link to="/logout" />}
-            innerDivStyle={styles.menuLink}
-            primaryText="Logout"
-          />
-    
-        </Drawer>
+         </Drawer>
 
       </Visible>
     
@@ -179,12 +172,6 @@ render() {
       
               <MenuItem  containerElement={<Link to="/home" />}  primaryText="Dashboard"  innerDivStyle={styles.menuLink} />
 
-              <MenuItem
-                containerElement={<Link to="/profile" />}
-                primaryText="Profile"
-                innerDivStyle={styles.menuLink}
-              />
-              
               <MenuItem
                 containerElement={<Link to="/users" />}
                 primaryText="Users"
@@ -213,12 +200,6 @@ render() {
                 containerElement={<Link to="/notification" />}
                 innerDivStyle={styles.menuLink}
                 primaryText="Notifications"
-              />
-        
-              <MenuItem
-                containerElement={<Link to="/logout" />}
-                innerDivStyle={styles.menuLink}
-                primaryText="Logout"
               />
         
               </div>

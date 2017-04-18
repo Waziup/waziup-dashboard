@@ -48,7 +48,7 @@ const UTIL = {
     // an attribute is considered as a measurement if it has a timestamp metadata
     getMeasurements: function(sensor){
         var returnValue = [];
-        const attributesExcludes = ["id", "type", "location", "dateCreated", "dateModified", "owner"];
+        const attributesExcludes = ["id", "type", "location", "dateCreated", "dateModified", "owner", "servicePath"];
         for(var i in sensor){
           if (attributesExcludes.indexOf(i) == -1 && sensor[i]) {
             returnValue.push({"key": i, "value": sensor[i].value})

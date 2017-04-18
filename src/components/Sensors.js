@@ -10,6 +10,7 @@ import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation} from '
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
+import UTIL from '../utils';
 
 class Sensors extends Component {
   constructor(props){
@@ -17,6 +18,7 @@ class Sensors extends Component {
     this.state = {
       data : props.data,
       formData:{},
+      update:false,
       modalOpen:false,
       isLoading:false
     };
@@ -38,6 +40,7 @@ class Sensors extends Component {
   handleSensorDelete = (data)=>{console.log(data)}
   handleSensorUpdate = (data)=>{
       this.props.updateSensorStart(data);
+      this.setState({update:true});
       this.setState({formData:data});
       this.setState({modalOpen: true});
   }
@@ -45,6 +48,7 @@ class Sensors extends Component {
 
 
   handleOpen = () => {
+    this.setState({update:false});
     this.setState({modalOpen: true});
   };
 
@@ -98,7 +102,7 @@ class Sensors extends Component {
           update:{
               location: {
                   value: {
-                    type: "point",
+                    type: "Point",
                     coordinates: [values.sensorLon,values.sensorLat]
                   },
                   type: "geo:json"
@@ -120,8 +124,8 @@ class Sensors extends Component {
       type: values.sensorType,
       location: {
           value: {
-            type: "point",
-            coordinates: [values.sensorLon,values.sensorlat]
+            type: "Point",
+            coordinates: [values.sensorLon,values.sensorLat]
           },
           type: "geo:json"
         },
@@ -150,10 +154,10 @@ class Sensors extends Component {
                 this.handleOpen();
             }} />
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={10} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
+                <Griddle resultsPerPage={50} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
                 <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
-                 handleClose={this.handleClose} onSubmit={ this.state.formData ? this.handleSubmitUpdate:this.handleSubmit} />
+                 handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
             </Container>
       </div>
     );

@@ -21,7 +21,7 @@ import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import Notification from './components/notification/NotificationForm.js';
 import './index.css';
-import {fetchSensors} from './actions/actions';
+import {fetchSensors,getUsers} from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -32,7 +32,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 function loadSensors() {
     store.dispatch(fetchSensors());
 };
-
+function loadUsers(){
+  store.dispatch(getUsers());
+}
 const MyApp = () =>{
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
@@ -57,14 +59,14 @@ const routes = {
     { path: 'notification', component: Notification},
     { path: 'sensors', component:  Sensors , onEnter:loadSensors},
     { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
-    { path: 'users', component:  UserList },
+    { path: 'users', component:  UserList, onEnter:loadUsers },
     { path: 'home', component:  Home },
   ]
 }
 
 function displayPage() {
 
-  ReactDOM.render( 
+  ReactDOM.render(
      <Provider store={store}>
           <Router history={history} routes={routes} />
         </Provider>,
@@ -83,21 +85,18 @@ if (checkIdentity === 'false') {
   displayPage();
 
 } else {
-  
-  kc.init({ onLoad: 'login-required'}).success(authenticated => {
-  
-    if (!authenticated) {
 
+  kc.init({ onLoad: 'login-required'}).success(authenticated => {
+    if (!authenticated) {
       kc.login();
-    
     } else {
-    
+
       console.log(authenticated);
       store.getState().keycloak = kc;
       setInterval(() => {
         kc.updateToken(10).error(() => kc.logout());
       }, 10000);
-    
+
       displayPage();
     }
   }).error(function (error) {
