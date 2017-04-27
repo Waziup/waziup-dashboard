@@ -4,10 +4,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import { Container,  Col, Visible, Hidden } from 'react-grid-system'
 import {List, ListItem} from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import rd3 from 'react-d3-library';
-import SensorData from '../../SensorData.js'
 import UTIL from '../../../utils.js'
-const BarChart = rd3.BarChart;
+import { LineChart, Line,CartesianGrid, XAxis, YAxis, Tooltip} from 'recharts';
 
 var position = [12.238, -1.561];
 class sensorDetail extends Component {
@@ -20,7 +18,7 @@ class sensorDetail extends Component {
             servicePath: "not available",
             markers: [],
             id:this.props.params.sensorId,
-            historicalData: []
+            historicalData: [],
         };
       }
  
@@ -65,53 +63,56 @@ class sensorDetail extends Component {
   }
 
  componentWillMount() {
+   //console.log('SSSSSSSSSSss:' + this.state.servicePath + " ---" + this.props.params.sensorId);
+      //var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + this.props.params.sensorId + '/attributes/temperature';
       var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
-      console.log('sensor: ' + JSON.stringify(this.state.sensor));
-
-
       axios.get(url, {
         params: {'lastN': '10'},
         headers: {
-        'Fiware-ServicePath':"/FL",
+        'Fiware-ServicePath': '/FL',
         'Fiware-Service':"waziup",
         "Accept": "application/json"
         }})
         .then((response)  => {
-          console.log(response);
           var contextResponse0 = response.data.contextResponses[0];
           const {contextElement: contextElement} = contextResponse0;
           const attribute0 = contextElement.attributes[0];
           const values = attribute0.values;
           console.log("Temperature:" + attribute0.name);
 
-          const data = {}
-          data.dataSet = [];        
+          var data = [];
         
           for (var i in values) {
               var value = values[i];
               console.log(value.attrValue + "  ,  " + value.recvTime);
-              data.dataSet.push({"label": value.recvTime.toString(), "value":value.attrValue});
+              data.push({time: value.recvTime.toString().substring(11, 19), value:parseFloat(value.attrValue)});
           }
-          console.log("inside" + JSON.stringify(data.dataSet));  
-        
-          
-          data.margins = {top: 20, right: 20, bottom: 70, left: 40};
-          data.yAxisLabel = 'Temperature (Celsious)';
-          data.fill = [];
-          data.width = 960;
-          data.height = 700;
-          data.ticks = 10;
-          data.barClass = 'bar';
-          this.setState({historicalData: [data]});        
+          this.setState({historicalData: (data.length > 0 ? [data] : [])});       
       })
       .catch((response) => {
           console.log("ERROR");
           console.log(response);
-          return;    
+          return;
       })
   }
   
   render() {
+    var visComp = <CardText> Data is not available. </CardText>
+    if(this.state.historicalData.length > 0) {
+        console.log("tehre are some data");
+          visComp = <CardText>
+                <LineChart width={1200} height={1000} data={this.state.historicalData[0]} margin={{ top: 5, right: 20, bottom: 5, left: 5 }}>
+                <Line type="monotone" fill="#8884d8" dataKey="value" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 5 }} activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} name="Temperature" />
+                <CartesianGrid  stroke="#ccc" strokeDasharray="3 3"/>
+                <XAxis dataKey="time"  padding={{ left: 20, right: 20 }}  label="Time" name="Date"/>
+                <YAxis   />            
+                <Tooltip />
+                </LineChart>
+            </CardText>
+    } 
+      
+    
+
     if (this.state.markers.lenght>0) {
     }
     const listMarkers = this.state.markers.map((marker,index) =>
@@ -155,11 +156,7 @@ class sensorDetail extends Component {
             </CardText>
             
             <CardTitle title="Historical Data"/>
-            <CardText> {
-                //console.log("data at use: " + JSON.stringify(this.state.historicalData[0].dataSet))
-                }
-                <BarChart data={this.state.historicalData[0]} />
-            </CardText>
+              {visComp}
           </Card>
         </Container>
       </div>
