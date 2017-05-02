@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import Checkbox from 'material-ui/Checkbox';
 import FullWidthSection from './FullWidthSection'
 import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import RowActions from './sensors/RowActions.js'
-import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation} from '../actions/actions';
+import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation,fetchSensors} from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
@@ -20,7 +21,8 @@ class Sensors extends Component {
       formData:{},
       update:false,
       modalOpen:false,
-      isLoading:false
+      isLoading:false,
+        loadAll:false
     };
   }
   defaultProps = {
@@ -30,10 +32,14 @@ class Sensors extends Component {
     if (nextProps.data) {
       this.setState({data:nextProps.data})
     }
+    if (nextProps.currentUser !== this.props.currentUser){
+      this.props.fetchSensors(nextProps.currentUser.attributes.ServicePath[0]);
+    }
     if (nextProps.isLoading) {
       this.setState({isLoading:nextProps.isLoading})
     }
   }
+
   componentDidMount(){
     this.props.adminLogin(this.props.user);
   }
@@ -44,6 +50,7 @@ class Sensors extends Component {
       this.setState({formData:data});
       this.setState({modalOpen: true});
   }
+
 
 
 
@@ -114,7 +121,7 @@ class Sensors extends Component {
           }
         }
 
-        this.props.updateSensorLocation(sensor);
+        this.props.updateSensorLocation(sensor,this.props.currentUser.attributes.ServicePath[0]);
       }
   }
 
@@ -138,7 +145,14 @@ class Sensors extends Component {
       // value: 0,
       // type: values.sensorValueType
     /* } */
-    this.props.createSensor(sensor)
+    this.props.createSensor(sensor,this.props.currentUser.attributes.ServicePath[0])
+  }
+  handleLoadAll = (event) =>{
+   if (event.target.checked){
+       this.props.fetchSensors(null);
+   }else{
+       this.props.fetchSensors(this.props.currentUser.attributes.ServicePath[0]);
+   }
   }
   render() {
     let {data} = this.props;
@@ -153,6 +167,10 @@ class Sensors extends Component {
                 this.setState({formData:{}});
                 this.handleOpen();
             }} />
+              <Checkbox
+                  label="All sensor"
+                  onCheck = {(evt)=>{this.handleLoadAll(evt)}}
+              />
               <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={50} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
@@ -175,10 +193,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createSensor:(sensor)=>{dispatch(createSensor(sensor))},
-    updateSensorStart:(sensor)=>{dispatch(updateSensorStart(sensor))},
-    updateSensorLocation:(sensor)=>{dispatch(updateSensorLocation(sensor))},
-    adminLogin:(user)=>{dispatch(adminLogin(user))}
+    createSensor:(sensor,servicePath)=>{dispatch(createSensor(sensor,servicePath))},
+    updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
+    updateSensorLocation:(sensor,servicePath)=>{dispatch(updateSensorLocation(sensor,servicePath))},
+    adminLogin:(user)=>{dispatch(adminLogin(user))},
+    fetchSensors:(servicePath)=>{dispatch(fetchSensors(servicePath))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sensors);

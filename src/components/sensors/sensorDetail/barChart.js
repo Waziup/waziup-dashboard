@@ -20,7 +20,7 @@ const data = {}
 var ds2 = [];
 const querystring = require('query-string');
 var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
-axios.get(url,
+/* axios.get(url,
     {
     params: {'lastN': '10'},
     headers: {
@@ -47,7 +47,7 @@ axios.get(url,
         console.log("ERROR");
         console.log(response);      
     })
-
+    */
 data.dataSet = ds2;
 
 //Set margins for bar graph within svg element

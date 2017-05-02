@@ -10,7 +10,8 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {}
+    return {
+    }
 }
 const sensorDetailContainer = connect( mapStateToProps,mapDispatchToProps)(sensorDetail);
 export default sensorDetailContainer;

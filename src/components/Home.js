@@ -4,7 +4,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
-import { adminLogin } from '../actions/actions'
+import { adminLogin ,fetchSensors} from '../actions/actions'
 import FullWidthSection from './FullWidthSection'
 import Page from '../App'
 
@@ -55,6 +55,11 @@ class Home extends Component {
         console.log(markers);
         this.setState({markers:markers})
     }
+
+    if (nextProps.currentUser !== this.props.currentUser){
+      this.props.fetchSensors(nextProps.currentUser.attributes.ServicePath[0]);
+    }
+
   }
   componentWillMount(){
     if (this.props.user) {
@@ -97,15 +102,17 @@ class Home extends Component {
 }
 function mapStateToProps(state) {
   return { 
-    sensors : state.example.data,
-    user: state.keycloak.idTokenParsed,
-    keycloak: state.keycloak
+      sensors : state.example.data,
+      user: state.keycloak.idTokenParsed,
+      keycloak: state.keycloak,
+      currentUser:state.currentUser.currentUser,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    adminLogin:(user)=>{dispatch(adminLogin(user))}
+      adminLogin:(user)=>{dispatch(adminLogin(user))},
+      fetchSensors:(servicePath)=>{dispatch(fetchSensors(servicePath))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

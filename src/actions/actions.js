@@ -65,7 +65,8 @@ function receiveError(json) {
         }
 };*/
 
-export function fetchSensors() {
+export function fetchSensors(servicePath) {
+    if (!servicePath) {servicePath = fiwareServicePath;}
     return function(dispatch) {
           dispatch(requestSensors());
           const querystring = require('query-string');
@@ -73,7 +74,7 @@ export function fetchSensors() {
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
-                               'Fiware-ServicePath':fiwareServicePathQuery,
+                               'Fiware-ServicePath':servicePath,
                                'Fiware-Service':fiwareService,
                              }
                            })
@@ -120,13 +121,13 @@ export function getHistoDataError(json) {
 };
 
 
-export function createSensor(sensor) {
+export function createSensor(sensor,servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
           return axios.post('http://orion.waziup.io/v1/data/entities',sensor,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-servicepath':servicePath,
                         'fiware-service':fiwareService,
                       },
                   })
@@ -162,13 +163,12 @@ export function updateSensorStart(json) {
           data: json
         }
 };
-export function updateSensorLocation(sensor) {
-    console.log(sensor);
+export function updateSensorLocation(sensor,servicePath) {
     return function(dispatch) {
           return axios.put('http://orion.waziup.io/v1/data/entities/'+sensor.id+'/attrs',sensor.update,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-servicepath':servicePath,
                         'fiware-service':fiwareService,
                       }
                   })
@@ -197,13 +197,13 @@ export function updateSensorError(json) {
         }
 };
 
-export function deleteSensor(sensor) {
+export function deleteSensor(sensor,servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
           return axios.delete('http://orion.waziup.io/v1/data/entities/'+sensor.sensorId,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':fiwareServicePath,
+                        'fiware-servicepath':servicePath,
                         'fiware-service':fiwareService,
                       },
                   })
@@ -232,7 +232,6 @@ export function deleteSensorError(json) {
         }
 };
 export function adminLogin(user) {
-    console.log(user);
     return function(dispatch) {
         adminClient(settings)
           .then((client) => {
