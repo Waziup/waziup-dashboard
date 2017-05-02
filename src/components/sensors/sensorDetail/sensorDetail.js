@@ -136,7 +136,7 @@ class sensorDetail extends Component {
       </Marker>
     );
 
-    var visCompAll = '';
+    var visCompAll = [];
     //this.state.historicalData[measurementId]
     //Object.keys(this.state.historicalData).forEach (([measurementId], data) => { });
     for (var measurementId in this.state.historicalData) {
@@ -154,7 +154,7 @@ class sensorDetail extends Component {
           </LineChart>
         </CardText>
       }
-      visCompAll += visComp
+      visCompAll = visCompAll.concat(visComp);
     }
     //visCompAll += '</div>';
     console.log('visCompAll:' + visCompAll);
@@ -192,7 +192,7 @@ class sensorDetail extends Component {
             </CardText>
 
             <CardTitle title="Historical Data" />
-            
+            {visCompAll}
           </Card>
         </Container>
       </div>
