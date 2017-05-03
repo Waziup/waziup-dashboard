@@ -65,8 +65,11 @@ function receiveError(json) {
         }
 };*/
 
-export function fetchSensors(servicePath) {
+export function fetchSensors(service, servicePath) {
+    
     if (!servicePath) {servicePath = fiwareServicePathQuery;}
+    if (!service) {service = fiwareService;}
+
     return function(dispatch) {
           dispatch(requestSensors());
           const querystring = require('query-string');
@@ -75,7 +78,7 @@ export function fetchSensors(servicePath) {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
                                'Fiware-ServicePath':servicePath,
-                               'Fiware-Service':fiwareService,
+                               'Fiware-Service':service,
                              }
                            })
             .then(function(response) {

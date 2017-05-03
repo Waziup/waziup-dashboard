@@ -57,7 +57,9 @@ class Home extends Component {
     }
 
     if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(nextProps.currentUser.attributes.ServicePath[0]);
+      var service = nextProps.currentUser.attributes.Service[0];
+      var servicePath = nextProps.currentUser.attributes.ServicePath[0];
+      this.props.fetchSensors(service, servicePath);
     }
 
   }
@@ -112,7 +114,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
       adminLogin:(user)=>{dispatch(adminLogin(user))},
-      fetchSensors:(servicePath)=>{dispatch(fetchSensors(servicePath))}
+      fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

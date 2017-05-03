@@ -33,7 +33,7 @@ class Sensors extends Component {
       this.setState({data:nextProps.data})
     }
     if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(nextProps.currentUser.attributes.ServicePath[0]);
+      this.props.fetchSensors(nextProps.currentUser.attributes.Service[0], nextProps.currentUser.attributes.ServicePath[0]);
     }
     if (nextProps.isLoading) {
       this.setState({isLoading:nextProps.isLoading})
@@ -149,9 +149,9 @@ class Sensors extends Component {
   }
   handleLoadAll = (event) =>{
    if (event.target.checked){
-       this.props.fetchSensors(null);
+       this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
    }else{
-       this.props.fetchSensors(this.props.currentUser.attributes.ServicePath[0]);
+       this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
    }
   }
   render() {
@@ -197,7 +197,7 @@ function mapDispatchToProps(dispatch) {
     updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
     updateSensorLocation:(sensor,servicePath)=>{dispatch(updateSensorLocation(sensor,servicePath))},
     adminLogin:(user)=>{dispatch(adminLogin(user))},
-    fetchSensors:(servicePath)=>{dispatch(fetchSensors(servicePath))}
+    fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Sensors);
