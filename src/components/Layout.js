@@ -11,7 +11,6 @@ import Avatar from 'material-ui/Avatar';
 import {connect} from 'react-redux';
 import FontIcon from 'material-ui/FontIcon';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import Logo from "../images/logo-waziup-white.svg";
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import {Container,  Col, Visible, Hidden} from 'react-grid-system'
 
@@ -86,8 +85,16 @@ render() {
     marginLeft: '-8px'
   };
 
+  var Logo;
+  console.log("user:" + JSON.stringify(this.props.user));
+  //console.log("user:" + this.props.user.username);
+
+  if(this.props.user.preferred_username === 'watersense')
+    Logo = require("../images/logo-watersense-white.svg");
+  else
+    Logo = require("../images/logo-waziup-white.svg");
+
   return (
-    
     <div id="main">
       <AppBar
         title={<img style={styles.logo} src={Logo}/>}

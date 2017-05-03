@@ -68,7 +68,7 @@ class sensorDetail extends Component {
       //   })
       this.fetchData(deviceID);
       console.log("DeviceID: " + JSON.stringify(deviceID));
-      console.log("sensor" + JSON.stringify(this.state.sensor));
+      console.log("Sensor" + JSON.stringify(this.state.sensor));
       // for(var measurementId in UTIL.getMeasurements(this.state.sensor)) {
       //   console.log("json measurement" + JSON.stringify(measurementId));
       //   this.getData(deviceID, measurementId.key);
@@ -88,8 +88,6 @@ class sensorDetail extends Component {
     Promise.all(UTIL.getMeasurements(this.state.sensor).map((item) => {
       //console.log("ikey" + item.key);
       var measurementId = item.key;
-      var unit = this.state.sensor[measurementId]["metadata"]["unit"]["value"];
-      console.log("Unit " + unit);
 
       var url = 'http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + deviceID + '/attributes/' + measurementId;
       axios.get(url, {
@@ -146,6 +144,9 @@ class sensorDetail extends Component {
     for (var measurementId in this.state.historicalData) {
       var visComp; // = <CardText> Data is not available. </CardText>
       //const data = this.state.historicalData[measurementId];
+      const unit = this.state.sensor[measurementId]["metadata"]["unit"]["value"];
+      const YAxisLabel = measurementId + '(' + unit + ')';
+      console.log("Unit " + unit);
       if (this.state.historicalData[measurementId].length > 0) {
         console.log("There are some data for " + measurementId + " " + JSON.stringify(this.state.historicalData[measurementId]));
         visComp = <CardText>
@@ -153,7 +154,7 @@ class sensorDetail extends Component {
             <Line type="monotone" fill="#8884d8" dataKey="value" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 5 }} activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} name={measurementId} />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="time" padding={{ left: 30, right: 20 }} label="Time" name="Date" />
-            <YAxis dataKey="value" padding={{ left: 20, right: 20, bottom: 40}} label={measurementId} name={measurementId} />
+            <YAxis dataKey="value" padding={{ left: 20, right: 20, bottom: 40}} label={YAxisLabel} name={measurementId} />
             <Tooltip />
             <ReferenceLine y={10} label="Max" padding={{ left: 10, right: 10 }} stroke="red"/>
           </LineChart>
