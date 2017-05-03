@@ -20,7 +20,7 @@ const styles = {
      color:'#cecece'
   },
   logo:{
-    width:171,
+    width:221,
     paddingTop:10,
   },
   menuLink:{

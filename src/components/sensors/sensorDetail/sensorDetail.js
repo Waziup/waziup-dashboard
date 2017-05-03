@@ -142,23 +142,30 @@ class sensorDetail extends Component {
     //Object.keys(this.state.historicalData).forEach (([measurementId], data) => { });
     //<!-- ReferenceLine x="Page C" stroke="red" label="Max PV PAGE"/ -->
     for (var measurementId in this.state.historicalData) {
-      var visComp; // = <CardText> Data is not available. </CardText>
+      
       //const data = this.state.historicalData[measurementId];
       const unit = this.state.sensor[measurementId]["metadata"]["unit"]["value"];
+      //const unit = 'cm';
       const YAxisLabel = measurementId + '(' + unit + ')';
-      console.log("Unit " + unit);
+      var visComp = [<CardText> Historical data is not available for {YAxisLabel}. </CardText>]
       if (this.state.historicalData[measurementId].length > 0) {
-        console.log("There are some data for " + measurementId + " " + JSON.stringify(this.state.historicalData[measurementId]));
-        visComp = <CardText>
+        //console.log("There are some data for " + measurementId + " " + JSON.stringify(this.state.historicalData[measurementId]));
+        var title = 'Historical data graph for ' + YAxisLabel;
+        visComp = [<CardTitle title={title} /> ]
+        var visComp2 = [
+          <CardText>
           <LineChart width={900} height={800} data={this.state.historicalData[measurementId]} margin={{ top: 40, right: 40, bottom: 25, left: 50 }}>
             <Line type="monotone" fill="#8884d8" dataKey="value" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 5 }} activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} name={measurementId} />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="time" padding={{ left: 30, right: 20 }} label="Time" name="Date" />
             <YAxis dataKey="value" padding={{ left: 20, right: 20, bottom: 40}} label={YAxisLabel} name={measurementId} />
             <Tooltip />
-            <ReferenceLine y={10} label="Max" padding={{ left: 10, right: 10 }} stroke="red"/>
+            (measurementId === 'SM1')? <ReferenceLine y={300} label="the most wet condition" padding={{ left: 10, right: 10 }} stroke="blue"/>
+              <ReferenceLine y={1000} label="the driest condition" padding={{ left: 10, right: 10 }} stroke="red"/>
+              : ;
           </LineChart>
-        </CardText>
+        </CardText>]
+        visComp = visComp.concat(visComp2);
       }
       visCompAll = visCompAll.concat(visComp);
     }
@@ -169,7 +176,7 @@ class sensorDetail extends Component {
         <h1 className="page-title">Sensor: {this.state.id}</h1>
         <Container fluid={true}>
           <Card>
-            <CardTitle title="Sensor location" />
+            <CardTitle title="Sensor Location" />
             <CardMedia>
               <Map ref="map" center={position} zoom={8}>
                 <TileLayer
@@ -180,7 +187,7 @@ class sensorDetail extends Component {
               </Map>
             </CardMedia>
 
-            <CardTitle title="Current values" />
+            <CardTitle title="Current Values" />
             <CardText>
               <List>
                 {UTIL.getMeasurements(this.state.sensor).map((itemID) => {
