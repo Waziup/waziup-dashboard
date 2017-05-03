@@ -60,7 +60,6 @@ const routes = {
     { path: 'sensors', component:  Sensors , onEnter:loadSensors},
     { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
     { path: 'users', component:  UserList, onEnter:loadUsers },
-    { path: 'home', component:  Home },
   ]
 }
 
