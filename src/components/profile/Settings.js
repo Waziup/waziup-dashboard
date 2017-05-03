@@ -3,6 +3,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import UTIL from '../../utils.js';
 import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
 import SettingsForm from './settingsForm/SettingsFormContainer'
+
 class Settings extends Component {
     constructor(props){
         super(props);

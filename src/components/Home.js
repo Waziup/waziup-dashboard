@@ -47,6 +47,7 @@ class Home extends Component {
                 nextProps.sensors[i].location.value.coordinates[1],
                 nextProps.sensors[i].location.value.coordinates[0]
               ],
+              name: nextProps.sensors[i].id,
               defaultAnimation: 2,
             });
           }
@@ -57,7 +58,10 @@ class Home extends Component {
     }
 
     if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(nextProps.currentUser.attributes.ServicePath[0]);
+      var service = nextProps.currentUser.attributes.Service[0];
+      var servicePath = nextProps.currentUser.attributes.ServicePath[0];
+
+      this.props.fetchSensors(service, servicePath);
     }
 
   }
@@ -75,7 +79,7 @@ class Home extends Component {
     const listMarkers = this.state.markers.map((marker,index) =>
             <Marker key={index} position={marker.position}>
               <Popup>
-                <span>Sensor infos<br/>{marker.position}</span>
+                <span>{marker.name}</span>
               </Popup>
             </Marker>
     );    
@@ -112,7 +116,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
       adminLogin:(user)=>{dispatch(adminLogin(user))},
-      fetchSensors:(servicePath)=>{dispatch(fetchSensors(servicePath))}
+      fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
