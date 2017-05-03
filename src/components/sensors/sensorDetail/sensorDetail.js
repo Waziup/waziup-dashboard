@@ -5,7 +5,7 @@ import { Container, Col, Visible, Hidden } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import UTIL from '../../../utils.js'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 
 var position = [12.238, -1.561];
 class sensorDetail extends Component {
@@ -142,18 +142,20 @@ class sensorDetail extends Component {
     var visCompAll = [];
     //this.state.historicalData[measurementId]
     //Object.keys(this.state.historicalData).forEach (([measurementId], data) => { });
+    //<!-- ReferenceLine x="Page C" stroke="red" label="Max PV PAGE"/ -->
     for (var measurementId in this.state.historicalData) {
       var visComp; // = <CardText> Data is not available. </CardText>
       //const data = this.state.historicalData[measurementId];
       if (this.state.historicalData[measurementId].length > 0) {
         console.log("There are some data for " + measurementId + " " + JSON.stringify(this.state.historicalData[measurementId]));
         visComp = <CardText>
-          <LineChart width={1200} height={1000} data={this.state.historicalData[measurementId]} margin={{ top: 5, right: 20, bottom: 5, left: 5 }}>
+          <LineChart width={900} height={800} data={this.state.historicalData[measurementId]} margin={{ top: 40, right: 40, bottom: 25, left: 50 }}>
             <Line type="monotone" fill="#8884d8" dataKey="value" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 5 }} activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} name={measurementId} />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-            <XAxis dataKey="time" padding={{ left: 20, right: 20 }} label="Time" name="Date" />
-            <YAxis />
+            <XAxis dataKey="time" padding={{ left: 30, right: 20 }} label="Time" name="Date" />
+            <YAxis dataKey="value" padding={{ left: 20, right: 20, bottom: 40}} label={measurementId} name={measurementId} />
             <Tooltip />
+            <ReferenceLine y={10} label="Max" padding={{ left: 10, right: 10 }} stroke="red"/>
           </LineChart>
         </CardText>
       }
