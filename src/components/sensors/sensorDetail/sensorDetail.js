@@ -150,7 +150,7 @@ class sensorDetail extends Component {
       var visComp = [<CardText> Historical data is not available for {YAxisLabel}. </CardText>]
       if (this.state.historicalData[measurementId].length > 0) {
         //console.log("There are some data for " + measurementId + " " + JSON.stringify(this.state.historicalData[measurementId]));
-        var title = 'Historical data graph for ' + YAxisLabel;
+        var title = 'Historical data graph for ' + measurementId;
         visComp = [<CardTitle title={title} /> ]
         var visComp2 = [
           <CardText>
