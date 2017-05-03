@@ -88,6 +88,9 @@ class sensorDetail extends Component {
     Promise.all(UTIL.getMeasurements(this.state.sensor).map((item) => {
       //console.log("ikey" + item.key);
       var measurementId = item.key;
+      var unit = this.state.sensor[measurementId]["metadata"]["unit"]["value"];
+      console.log("Unit " + unit);
+
       var url = 'http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + deviceID + '/attributes/' + measurementId;
       axios.get(url, {
         params: { 'lastN': '10' },
