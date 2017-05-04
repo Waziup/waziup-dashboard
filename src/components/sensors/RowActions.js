@@ -13,19 +13,15 @@ class RowActions extends Component {
     let {rowData} = this.props;
     return (
         <div>
-		   <IconButton 
-            tooltip="View" 
-            tooltipPosition="top-center" 
-            containerElement={<Link to={"/sensors/"+rowData.id} />}
-            >
-			<View color={blue500}/>
-		   </IconButton> 
+           <IconButton tooltip="View" tooltipPosition="top-center" containerElement={<Link to={"/sensors/"+rowData.id} />} >
+              <View color={blue500}/>
+           </IconButton> 
            <IconButton tooltip="Update" tooltipPosition="top-center" onTouchTap={()=>{updateAction(rowData)}}>
-			<Update />
-		   </IconButton> 
+              <Update />
+           </IconButton> 
            <IconButton tooltip="Delete" tooltipPosition="top-center" onTouchTap={()=>{deleteAction(rowData)}}>
-			<Delete  color={red500}/>
-		   </IconButton>
+              <Delete  color={red500}/>
+           </IconButton>
         </div>
     );
   }
