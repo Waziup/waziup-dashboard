@@ -121,7 +121,10 @@ class Sensors extends Component {
           }
         }
 
-        this.props.updateSensorLocation(sensor,this.props.currentUser.attributes.ServicePath[0]);
+        var mySensor = this.state.data.find((s) => {
+            return s.id === sensor.id;
+        });
+        this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
       }
   }
 
@@ -195,7 +198,7 @@ function mapDispatchToProps(dispatch) {
   return {
     createSensor:(sensor,servicePath)=>{dispatch(createSensor(sensor,servicePath))},
     updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
-    updateSensorLocation:(sensor,servicePath)=>{dispatch(updateSensorLocation(sensor,servicePath))},
+    updateSensorLocation:(sensor, service, servicePath)=>{dispatch(updateSensorLocation(sensor, service, servicePath))},
     adminLogin:(user)=>{dispatch(adminLogin(user))},
     fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
