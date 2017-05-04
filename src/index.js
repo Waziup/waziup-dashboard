@@ -29,12 +29,6 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
-function loadSensors() {
-    store.dispatch(fetchSensors());
-};
-function loadUsers(){
-  store.dispatch(getUsers());
-}
 const MyApp = () =>{
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
@@ -46,9 +40,9 @@ const MyApp = () =>{
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Home, onEnter:loadSensors },
+  indexRoute: { component: Home },
   childRoutes: [
-    { path: 'home', component:  Home, onEnter:loadSensors},
+    { path: 'home', component:  Home },
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
     { path: 'profile/settings', component:  Settings },
@@ -57,9 +51,9 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
-    { path: 'sensors', component:  Sensors , onEnter:loadSensors},
-    { path: 'sensors/:sensorId', component:Sensor , onEnter:loadSensors},
-    { path: 'users', component:  UserList, onEnter:loadUsers },
+    { path: 'sensors', component:  Sensors},
+    { path: 'sensors/:sensorId', component:Sensor},
+    { path: 'users', component:  UserList},
   ]
 }
 
