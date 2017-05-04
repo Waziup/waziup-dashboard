@@ -58,7 +58,7 @@ class Home extends Component {
     }
 
     if (nextProps.currentUser !== this.props.currentUser){
-      var service = nextProps.currentUser.attributes.Service[0];
+      var service = nextProps.currentUser.attributes.Service? nextProps.currentUser.attributes.Service[0] : null;
       var servicePath = nextProps.currentUser.attributes.ServicePath[0];
 
       this.props.fetchSensors(service, servicePath);
