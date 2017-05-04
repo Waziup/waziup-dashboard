@@ -201,11 +201,10 @@ p {
   display: block;
 }
 .navbar > div > img{
-   width: 16.6667%;
    display: block;
-   padding: 9px 21px;
-   background: #34425A;
-   
+   height: 40px;
+   padding-top: 8px;
+   padding-left: 10px;
 }
 .navbar .profile-menu{
   padding: 0;

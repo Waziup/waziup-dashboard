@@ -19,10 +19,6 @@ const styles = {
      marginRight: 30,
      color:'#cecece'
   },
-  logo:{
-    width:221,
-    paddingTop:10,
-  },
   menuLink:{
     border:'none',
   }
