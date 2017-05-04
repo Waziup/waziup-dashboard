@@ -16,6 +16,7 @@ class sensorDetail extends Component {
       dateModified: "not available",
       dateCreated: "not available",
       servicePath: "not available",
+      service: "watersense",
       markers: [],
       id: this.props.params.sensorId,
       historicalData: {},
@@ -27,7 +28,10 @@ class sensorDetail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+      
+    console.log("Sensors=" + JSON.stringify(nextProps.sensors));
     if (nextProps.sensors && this.props.params.sensorId) {
+      console.log("Sensors=" + JSON.stringify(nextProps.sensors));
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
       });
@@ -42,6 +46,7 @@ class sensorDetail extends Component {
       if (sensor.servicePath && sensor.servicePath.value) {
         this.setState({ servicePath: sensor.servicePath.value });
       }
+      
 
       var markers = [];
       if (sensor.location && sensor.location.coordinates) {
@@ -78,6 +83,8 @@ class sensorDetail extends Component {
       console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
   
+  componentDidMount(){
+  }
 
   componentWillMount() {
 
@@ -94,7 +101,7 @@ class sensorDetail extends Component {
         params: { 'lastN': '10' },
         headers: {
           'Fiware-ServicePath': this.state.servicePath,
-          'Fiware-Service': "waziup",
+          'Fiware-Service': this.state.service,
           "Accept": "application/json"
         }
       })
