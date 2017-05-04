@@ -9,15 +9,17 @@ import FullWidthSection from './FullWidthSection'
 import Page from '../App'
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
-const position = [12.238, -1.561];
 
 class Home extends Component {
   constructor(props){
     super(props);
+
+
     this.state = {
       sensors : props.sensors,
-      user:{},
+      user:props.user,
       markers: [],
+      position: [12.238, -1.561]
     };
   }
   defaultProps = {
@@ -37,7 +39,13 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-        
+    
+    if(this.props.user.preferred_username === 'watersense'){
+      this.setState({position: [31.58, 74.32]});
+    } else {
+      this.setState({position: [12.238, -1.561]});
+    }
+
     var markers = [];
     if (nextProps.sensors) {
         for (var i = 0; i < nextProps.sensors.length; i++) {
@@ -53,7 +61,7 @@ class Home extends Component {
           }
         } 
 
-        console.log(markers);
+        console.log(JSON.stringify(markers));
         this.setState({markers:markers})
     }
 
@@ -87,7 +95,7 @@ class Home extends Component {
       <div>
         <h1 className="page-title">Dashboard</h1>
         <Container fluid={true}>
-           <Map ref="map" center={position} zoom={5}>
+           <Map ref="map" center={this.state.position} zoom={5}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
