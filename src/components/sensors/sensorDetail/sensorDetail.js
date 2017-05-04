@@ -11,12 +11,13 @@ var position = [12.238, -1.561];
 class sensorDetail extends Component {
   constructor(props) {
     super(props);
+  
     this.state = {
       sensor: {},
       dateModified: "not available",
       dateCreated: "not available",
       servicePath: "not available",
-      service: "watersense",
+      service: "waziup",
       markers: [],
       id: this.props.params.sensorId,
       historicalData: {},
@@ -29,6 +30,11 @@ class sensorDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
       
+    if(this.props.user.preferred_username === 'watersense'){
+      this.setState({service: "watersense"});
+    } else {
+      this.setState({service: "waziup"});
+    }
     console.log("Sensors=" + JSON.stringify(nextProps.sensors));
     if (nextProps.sensors && this.props.params.sensorId) {
       console.log("Sensors=" + JSON.stringify(nextProps.sensors));
@@ -151,7 +157,7 @@ class sensorDetail extends Component {
     for (var measurementId in this.state.historicalData) {
       
       //const data = this.state.historicalData[measurementId];
-      const unit = this.state.sensor[measurementId]["metadata"]["unit"]["value"];
+      const unit = this.state.sensor[measurementId]["metadata"]["unit"]? this.state.sensor[measurementId]["metadata"]["unit"]["value"]: "";
       //const unit = 'cm';
       const YAxisLabel = measurementId + '(' + unit + ')';
       var visComp = [<CardText> Historical data is not available for {YAxisLabel}. </CardText>]
