@@ -118,6 +118,7 @@ function mapStateToProps(state) {
       user: state.keycloak.idTokenParsed,
       keycloak: state.keycloak,
       currentUser:state.currentUser.currentUser,
+      position:state.position
   };
 }
 
