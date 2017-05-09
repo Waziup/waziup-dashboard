@@ -9,7 +9,7 @@ const settings = {
   client_id: 'admin-cli'
 };
 
-const fiwareService = 'waziup'
+const fiwareService = 'watersense'
 const fiwareServicePath = '/'
 const fiwareServicePathQuery = '/#'
 

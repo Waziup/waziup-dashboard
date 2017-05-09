@@ -126,7 +126,7 @@ class Sensors extends Component {
         });
         this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
       }
-  }
+  } 
 
   handleSubmit = (values) => {
     let sensor  = {

@@ -29,6 +29,14 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
+function loadSensors() {
+    store.dispatch(fetchSensors());
+};
+
+function loadUsers(){
+  store.dispatch(getUsers());
+};
+
 const MyApp = () =>{
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
@@ -51,9 +59,9 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
-    { path: 'sensors', component:  Sensors},
-    { path: 'sensors/:sensorId', component:Sensor},
-    { path: 'users', component:  UserList},
+    { path: 'sensors', component:  Sensors, onEnter: loadSensors},
+    { path: 'sensors/:sensorId', component:Sensor, onEnter: loadSensors},
+    { path: 'users', component:  UserList, onEnter: loadUsers},
   ]
 }
 
@@ -79,7 +87,8 @@ if (checkIdentity === 'false') {
 
 } else {
 
-  kc.init({ onLoad: 'login-required'}).success(authenticated => {
+  kc.init({ onLoad: 'login-required'}).
+    success(authenticated => {
     if (!authenticated) {
       kc.login();
     } else {

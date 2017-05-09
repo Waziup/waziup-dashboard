@@ -10,14 +10,13 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } 
 var position = [12.238, -1.561];
 class sensorDetail extends Component {
   constructor(props) {
-    super(props);
-  
+    super(props);  
     this.state = {
       sensor: {},
       dateModified: "not available",
       dateCreated: "not available",
-      servicePath: "not available",
-      service: "waziup",
+      servicePath: "/",
+      service: "watersense",
       markers: [],
       id: this.props.params.sensorId,
       historicalData: {},
@@ -28,16 +27,15 @@ class sensorDetail extends Component {
     sensors: []
   };
 
-  componentWillReceiveProps(nextProps) {
-      
+  componentWillReceiveProps(nextProps) {   
     if(this.props.user.preferred_username === 'watersense'){
       this.setState({service: "watersense"});
     } else {
       this.setState({service: "waziup"});
     }
-    console.log("Sensors=" + JSON.stringify(nextProps.sensors));
+    //console.log("Sensors=" + JSON.stringify(nextProps.sensors));
     if (nextProps.sensors && this.props.params.sensorId) {
-      console.log("Sensors=" + JSON.stringify(nextProps.sensors));
+      //console.log("Sensors=" + JSON.stringify(nextProps.sensors));
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
       });
@@ -53,7 +51,6 @@ class sensorDetail extends Component {
         this.setState({ servicePath: sensor.servicePath.value });
       }
       
-
       var markers = [];
       if (sensor.location && sensor.location.coordinates) {
         markers.push({
@@ -66,35 +63,23 @@ class sensorDetail extends Component {
       }
       position = markers[0].position;
       this.setState({ markers: markers })
-    }
-
-      var deviceID = 'Device_6';
-      if(this.props.params.sensorId)
-        var deviceID = this.props.params.sensorId;
     
-      //  var measurementIds = UTIL.getMeasurements(sensor).map((item) => {
-      //    console.log(item.key);
-      //     this.getData(deviceID, item.key);
-      //     return (item.key);
-      //   })
-      this.fetchData(deviceID);
-      console.log("DeviceID: " + JSON.stringify(deviceID));
-      console.log("Sensor" + JSON.stringify(this.state.sensor));
-      // for(var measurementId in UTIL.getMeasurements(this.state.sensor)) {
-      //   console.log("json measurement" + JSON.stringify(measurementId));
-      //   this.getData(deviceID, measurementId.key);
-      // }
-      //console.log("measurementIds: " + JSON.stringify(measurementIds));
-
-      console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
+    }
+    var deviceID = 'Device_6';
+    if (this.props.params.sensorId)
+      var deviceID = this.props.params.sensorId;
+    this.fetchData(deviceID);
+    // console.log("device: " + deviceID);
+    // console.log("this.state.servicePath: " + this.state.servicePath);
+    // console.log("this.state.service: " + this.state.service);
+    // console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
   
   componentDidMount(){
+  
   }
 
   componentWillMount() {
-
-    //console.log("willMount lifecycle this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
 
   fetchData(deviceID) {
@@ -104,7 +89,7 @@ class sensorDetail extends Component {
 
       var url = 'http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + deviceID + '/attributes/' + measurementId;
       axios.get(url, {
-        params: { 'lastN': '10' },
+        params: { 'lastN': '24' },
         headers: {
           'Fiware-ServicePath': this.state.servicePath,
           'Fiware-Service': this.state.service,
@@ -154,8 +139,10 @@ class sensorDetail extends Component {
     //this.state.historicalData[measurementId]
     //Object.keys(this.state.historicalData).forEach (([measurementId], data) => { });
     //<!-- ReferenceLine x="Page C" stroke="red" label="Max PV PAGE"/ -->
-    for (var measurementId in this.state.historicalData) {
-      
+            //the driest condition
+            //the highest moisture condition
+
+    for (var measurementId in this.state.historicalData) {   
       //const data = this.state.historicalData[measurementId];
       const unit = this.state.sensor[measurementId]["metadata"]["unit"]? this.state.sensor[measurementId]["metadata"]["unit"]["value"]: "";
       //const unit = 'cm';
@@ -167,14 +154,14 @@ class sensorDetail extends Component {
         visComp = [<CardTitle title={title} /> ]
         var visComp2 = [
           <CardText>
-          <LineChart width={900} height={800} data={this.state.historicalData[measurementId]} margin={{ top: 40, right: 40, bottom: 25, left: 50 }}>
+          <LineChart width={1400} height={800} data={this.state.historicalData[measurementId]} margin={{ top: 40, right: 40, bottom: 25, left: 50 }}>
             <Line type="monotone" fill="#8884d8" dataKey="value" stroke="#8884d8" dot={{ stroke: 'red', strokeWidth: 5 }} activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} name={measurementId} />
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
             <XAxis dataKey="time" padding={{ left: 30, right: 20 }} label="Time" name="Date" />
             <YAxis dataKey="value" padding={{ left: 20, right: 20, bottom: 40}} label={YAxisLabel} name={measurementId} />
             <Tooltip />
-            (measurementId === 'SM1')? <ReferenceLine y={300} label="the most wet condition" padding={{ left: 10, right: 10 }} stroke="blue"/>
-              <ReferenceLine y={1000} label="the driest condition" padding={{ left: 10, right: 10 }} stroke="red"/>
+            (measurementId === 'SM1' || measurementId === 'SM2')? <ReferenceLine y={200} label="WET" padding={{ left: 10, right: 10 }} stroke="blue"/>
+              <ReferenceLine y={1000} label="DRY" padding={{ left: 10, right: 10 }} stroke="red"/>
               : ;
           </LineChart>
         </CardText>]
@@ -183,7 +170,7 @@ class sensorDetail extends Component {
       visCompAll = visCompAll.concat(visComp);
     }
     //visCompAll += '</div>';
-    console.log('visCompAll:' + visCompAll);
+    //console.log('visCompAll:' + visCompAll);
     return (
       <div className="sensor">
         <h1 className="page-title">Sensor: {this.state.id}</h1>
@@ -199,7 +186,6 @@ class sensorDetail extends Component {
                 {listMarkers}
               </Map>
             </CardMedia>
-
             <CardTitle title="Current Values" />
             <CardText>
               <List>
@@ -211,12 +197,8 @@ class sensorDetail extends Component {
                 <ListItem primaryText={"Date created: " + this.state.dateCreated} />
                 <ListItem primaryText={"Date modified: " + this.state.dateModified} />
                 <ListItem primaryText={"Service path: " + this.state.servicePath} />
-
-
               </List>
-
             </CardText>
-
             <CardTitle title="Historical Data" />
             {visCompAll}
           </Card>
