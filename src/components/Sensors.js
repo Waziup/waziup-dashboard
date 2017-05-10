@@ -7,7 +7,6 @@ import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import RowActions from './sensors/RowActions.js'
-import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation,fetchSensors} from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
@@ -29,8 +28,8 @@ class Sensors extends Component {
     data: []
   };
   componentWillReceiveProps(nextProps){
-    if (nextProps.data) {
-      this.setState({data:nextProps.data})
+    if (nextProps.sensors) {
+      this.setState({sensors:nextProps.sensors})
     }
     if (nextProps.currentUser !== this.props.currentUser){
       this.props.fetchSensors(nextProps.currentUser.attributes.Service[0], nextProps.currentUser.attributes.ServicePath[0]);
@@ -126,7 +125,7 @@ class Sensors extends Component {
         });
         this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
       }
-  } 
+  }
 
   handleSubmit = (values) => {
     let sensor  = {
@@ -175,7 +174,7 @@ class Sensors extends Component {
                   onCheck = {(evt)=>{this.handleLoadAll(evt)}}
               />
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={50} results={this.state.data} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
+                <Griddle resultsPerPage={50} results={this.state.sensors} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
               </FullWidthSection>
                 <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
                  handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
@@ -185,23 +184,6 @@ class Sensors extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-      data: state.example.data,
-      isLoading:state.example.isLoading,
-      user: state.keycloak.idTokenParsed,
-      currentUser:state.currentUser.currentUser,
-  };
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createSensor:(sensor,servicePath)=>{dispatch(createSensor(sensor,servicePath))},
-    updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
-    updateSensorLocation:(sensor, service, servicePath)=>{dispatch(updateSensorLocation(sensor, service, servicePath))},
-    adminLogin:(user)=>{dispatch(adminLogin(user))},
-    fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
-  };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Sensors);
+export default Sensors;
 

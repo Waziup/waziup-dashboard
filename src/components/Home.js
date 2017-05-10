@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Checkbox from 'material-ui/Checkbox';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
@@ -30,21 +31,22 @@ class Home extends Component {
     var now = new Date().toUTCString();
     this.refs.toastContainer.success(
         <div>
-          <h3>Welcome {this.state.user.name} !</h3> 
+          <h3>Welcome {this.state.user.name} !</h3>
           <p>{now}</p>
-        </div>, 
+        </div>,
         `WAZIUP`, {
           closeButton: true,
         });
   }
 
   componentWillReceiveProps(nextProps){
-    
+
     if(this.props.user.preferred_username === 'watersense'){
       this.setState({position: [31.58, 74.32]});
     } else {
       this.setState({position: [12.238, -1.561]});
     }
+
 
     var markers = [];
     if (nextProps.sensors) {
@@ -59,7 +61,7 @@ class Home extends Component {
               defaultAnimation: 2,
             });
           }
-        } 
+        }
 
         console.log(JSON.stringify(markers));
         this.setState({markers:markers})
@@ -68,7 +70,7 @@ class Home extends Component {
     if (nextProps.currentUser !== this.props.currentUser){
       var service = nextProps.currentUser.attributes.Service? nextProps.currentUser.attributes.Service[0] : null;
       var servicePath = nextProps.currentUser.attributes.ServicePath[0];
-
+      console.log(servicePath);
       this.props.fetchSensors(service, servicePath);
     }
 
@@ -82,6 +84,13 @@ class Home extends Component {
       this.addAlert();
       this.props.adminLogin(this.state.user);
   }
+    handleLoadAll = (event) =>{
+       if (event.target.checked){
+           this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
+       }else{
+           this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
+       }
+      }
 
   render() {
     const listMarkers = this.state.markers.map((marker,index) =>
@@ -90,11 +99,16 @@ class Home extends Component {
                 <span>{marker.name}</span>
               </Popup>
             </Marker>
-    );    
+    );
     return (
       <div>
         <h1 className="page-title">Dashboard</h1>
         <Container fluid={true}>
+          <Checkbox
+              label="All sensor"
+              onCheck = {(evt)=>{this.handleLoadAll(evt)}}
+          />
+
            <Map ref="map" center={this.state.position} zoom={5}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -113,8 +127,8 @@ class Home extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { 
-      sensors : state.example.data,
+  return {
+      sensors : state.sensors.sensors,
       user: state.keycloak.idTokenParsed,
       keycloak: state.keycloak,
       currentUser:state.currentUser.currentUser

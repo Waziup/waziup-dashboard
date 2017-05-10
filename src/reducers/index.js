@@ -3,12 +3,12 @@ import { combineReducers } from 'redux'; //might need to remove
 import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
 
-function exampleReducer(state = {isLoading: false, data: [], error: false},action = null) {
+function sensorListReducer(state = {isLoading: false, data: [], error: false},action = null) {
       switch(action.type) {
               case types.RECV_ERROR:
-                return Object.assign({}, state, {isLoading: false, data: action.data, error: true});
+                return Object.assign({}, state, {isLoading: false, sensors: action.data, error: true});
               case types.RECV_SENSORS:
-                return Object.assign({}, state, {isLoading: false, data: action.data, error: false });
+                return Object.assign({}, state, {isLoading: false, sensors: action.data, error: false });
               case types.REQ_SENSORS:
                 return Object.assign({}, state, {isLoading: true, error: false });
               default:
@@ -95,7 +95,7 @@ function sensorCRUDReducer(state = {isLoading: false, sensorEntity: {}, error: f
 
 const rootReducer = combineReducers({
     routing: routerReducer,
-    example: exampleReducer,
+    sensors: sensorListReducer,
     sensor: sensorsReducer,
     sensorEntity: sensorCRUDReducer,
     currentUser: userReducer,

@@ -14,7 +14,7 @@ import MVPCattle from './components/Mvpcattle';
 import MVPAgri from './components/Mvpagri';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
-import Sensors from './components/Sensors';
+import Sensors from './components/SensorsContainer';
 import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';

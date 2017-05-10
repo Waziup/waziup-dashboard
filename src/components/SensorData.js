@@ -2,8 +2,8 @@
 import React, {Component} from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader';
-import UTILS from '../utils.js'
-
+import UTILS from '../utils.js';
+import shortid from 'shortid';
 class SensorData extends Component {
 
   getRow = (rowData) => {
@@ -17,8 +17,9 @@ class SensorData extends Component {
     return returnValue;
   }
   render() {
+      var id = shortid.generate();
     return (
-      <div>
+      <div key={id}>
         {
           this.getRow(this.props.rowData)
         }
