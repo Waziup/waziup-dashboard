@@ -16,7 +16,7 @@ class sensorDetail extends Component {
       dateModified: "not available",
       dateCreated: "not available",
       servicePath: "/",
-      service: "watersense",
+      service: "waziup",
       markers: [],
       id: this.props.params.sensorId,
       historicalData: {},
@@ -33,9 +33,8 @@ class sensorDetail extends Component {
     } else {
       this.setState({service: "waziup"});
     }
-    //console.log("Sensors=" + JSON.stringify(nextProps.sensors));
+    
     if (nextProps.sensors && this.props.params.sensorId) {
-      //console.log("Sensors=" + JSON.stringify(nextProps.sensors));
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
       });

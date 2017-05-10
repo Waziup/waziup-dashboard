@@ -83,7 +83,6 @@ render() {
 
   var Logo;
   console.log("user:" + JSON.stringify(this.props.user));
-  //console.log("user:" + this.props.user.username);
 
   if(this.props.user.preferred_username === 'watersense')
     Logo = require("../images/logo-watersense-white.svg");
