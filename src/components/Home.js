@@ -117,8 +117,7 @@ function mapStateToProps(state) {
       sensors : state.example.data,
       user: state.keycloak.idTokenParsed,
       keycloak: state.keycloak,
-      currentUser:state.currentUser.currentUser,
-      position:state.position
+      currentUser:state.currentUser.currentUser
   };
 }
 
