@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "material-ui": "^0.18.0",
+    "react-tap-event-plugin": "^2.0.1",
     "axios": "^0.15.3",
     "keycloak-admin-client": "^0.4.0",
     "keycloak-js": "^2.5.5",

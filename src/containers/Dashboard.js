@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
 import User from '../components/User'
 import SensingDevices from '../components/SensingDevices'
 import { fetchDevicesList} from '../actions/sensingDeviceActions'
@@ -35,18 +36,17 @@ class Dashboard extends Component {
   render() {
     const userInfo = this.props.userInfo
     return (
-      <MuiThemeProvider>
-        import RaisedButton from 'material-ui/RaisedButton';
-        <RaisedButton label="Default" />
-
+      <div>
         <a href="#" onClick={this.handleUserComponent}> User Info </a>
-        {this.state.showUserComponent && <User userInfo={userInfo} />}
-        {" --  "}
-        <a href="#" onClick={this.handleSensingDevicesComponent}> Sensing Devices </a>
-        {this.state.showSensingDevicesComponent && <SensingDevices userInfo={userInfo} />}
-
-      </MuiThemeProvider>
-    )
+           {this.state.showUserComponent && <User userInfo={userInfo} />}
+           {" --  "}
+           <a href="#" onClick={this.handleSensingDevicesComponent}> Sensing Devices </a>
+           {this.state.showSensingDevicesComponent && <SensingDevices userInfo={userInfo} />}
+        <MuiThemeProvider>
+          <RaisedButton label="Default"  />  
+        </MuiThemeProvider>
+      </div>
+    );
   }
 }
 
