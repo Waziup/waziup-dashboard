@@ -1,108 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import { syncHistoryWithStore} from 'react-router-redux'
-import Keycloak from 'keycloak-js';
-import configureStore from './store';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import MVPCattle from './components/Mvpcattle';
-import MVPAgri from './components/Mvpagri';
-import MVPUrbanWaste from './components/Mvpurbanwaste';
-import MVPFishFarming from './components/Mvpfishfarming';
-import Sensors from './components/Sensors';
-import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
-import Profile from './components/profile/ProfileContainer.js';
-import Settings from './components/profile/SettingsContainer.js';
-import UserList from './components/user/UserList/UserListContainer';
-import Notification from './components/notification/NotificationForm.js';
-import './index.css';
-import {fetchSensors,getUsers} from './actions/actions';
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore, combineReducers, applyMiddleware} from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+import securityReducer from './reducers/securityReducer'
+import sensingDeviceReducer from './reducers/sensingDeviceReducer'
+import SecurityContainer from './containers/SecurityContainer'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+//font-family: 'Roboto', sans-serif;
 
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store)
+const rootReducer = combineReducers({
+  security: securityReducer,
+  sensingDevice: sensingDeviceReducer
+})
 
-function loadSensors() {
-    store.dispatch(fetchSensors());
-};
-
-function loadUsers(){
-  store.dispatch(getUsers());
-};
-
-const MyApp = () =>{
-  return (
-    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
-      <Layout />
-    </MuiThemeProvider>
-  );
+const middleware = [thunk]
+if (process.env.NODE_ENV !== 'production') {
+  middleware.push(createLogger())
 }
 
-const routes = {
-  path: '/',
-  component: Layout,
-  indexRoute: { component: Home },
-  childRoutes: [
-    { path: 'home', component:  Home },
-    { path: 'apps', component:  Home },
-    { path: 'profile', component:  Profile },
-    { path: 'profile/settings', component:  Settings },
-    { path: 'apps/cattle', component:  MVPCattle },
-    { path: 'apps/agri', component:  MVPAgri },
-    { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
-    { path: 'apps/fishfarming', component:  MVPFishFarming },
-    { path: 'notification', component: Notification},
-    { path: 'sensors', component:  Sensors, onEnter: loadSensors},
-    { path: 'sensors/:sensorId', component:Sensor, onEnter: loadSensors},
-    { path: 'users', component:  UserList, onEnter: loadUsers},
-  ]
-}
+let store = createStore(
+  rootReducer,
+  applyMiddleware(...middleware)
+)
 
-function displayPage() {
 
-  ReactDOM.render(
-     <Provider store={store}>
-          <Router history={history} routes={routes} />
-        </Provider>,
-    document.getElementById('root')
-    );
-
-}
-
-const kc = Keycloak('/keycloak.json');
-
-const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
-
-if (checkIdentity === 'false') {
-
-  console.log("test" + checkIdentity)
-  displayPage();
-
-} else {
-
-  kc.init({ onLoad: 'login-required'}).
-    success(authenticated => {
-    if (!authenticated) {
-      kc.login();
-    } else {
-
-      console.log(authenticated);
-      store.getState().keycloak = kc;
-      setInterval(() => {
-        kc.updateToken(10).error(() => kc.logout());
-      }, 10000);
-
-      displayPage();
-    }
-  }).error(function (error) {
-
-    console(error);
-  });
-}
+console.log("Initial STORE: " + JSON.stringify(store.getState()));
+render(
+  <Provider store={store}>
+    <SecurityContainer />
+  </Provider>,
+  document.getElementById('root')
+)
