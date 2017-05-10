@@ -5,7 +5,7 @@ import sensorDetail from './sensorDetail.js';
 
 function mapStateToProps(state) {
     return {
-      sensors: state.example.data,
+      sensors: state.sensors.sensors,
       user: state.keycloak.idTokenParsed,
       currentUser:state.currentUser.currentUser,
     }
