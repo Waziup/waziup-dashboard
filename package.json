@@ -32,14 +32,15 @@
     "react-spinkit": "^2.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-toastr": "^2.8.2",
+    "recharts": "^0.22.4",
     "redux": "^3.6.0",
     "redux-form": "^6.5.0",
     "redux-form-material-ui": "^4.1.2",
     "redux-router": "^2.1.2",
     "redux-thunk": "^2.2.0",
+    "shortid": "^2.2.8",
     "tcomb": "^3.2.16",
-    "whatwg-fetch": "^2.0.2",
-    "recharts":"^0.22.4"
+    "whatwg-fetch": "^2.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
