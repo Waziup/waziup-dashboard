@@ -66,7 +66,7 @@ function receiveError(json) {
 };*/
 
 export function fetchSensors(service, servicePath) {
-    
+
     if (!servicePath) {servicePath = fiwareServicePathQuery;}
     if (!service) {service = fiwareService;}
 
@@ -89,19 +89,36 @@ export function fetchSensors(service, servicePath) {
             })
         }
 };
-export function getHistoData(sensor,measurement) {
+export function getHistoData(sensor,measurement,servicePath,service) {
+    if (!servicePath) {servicePath = fiwareServicePathQuery;}
+    if (!service) {service = fiwareService;}
+    console.log(sensor);
     return function(dispatch) {
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
+          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensor.id + '/attributes/' + measurement;
           return axios.get(url,{
-                      params: {'lastN': '10'},
-                      headers: {
-                        'content-type':'application/json',
-                        'fiware-servicepath':'/FL',
-                        'fiware-service':fiwareService,
-                      },
-                  })
+              params: {'lastN': '24'},
+              headers: {
+                'content-type':'application/json',
+                'fiware-servicepath':sensor.servicePath.value,
+                'fiware-service':service,
+              },
+            })
             .then(function(response) {
-              dispatch(getHistoDataSuccess(response.data));
+                console.log(response);
+                const contextResponse0 = response.data.contextResponses[0];
+                  const { contextElement: contextElement } = contextResponse0;
+                  const attribute0 = contextElement.attributes[0];
+                  const values = attribute0.values;
+                  const data = [];
+                  for (var i in values) {
+                    const value = values[i];
+                    //console.log(value.attrValue + "  ,  " + value.recvTime);
+                    data.push({ time: value.recvTime.toString().substring(11, 19), value: parseFloat(value.attrValue) });
+                  }
+                  if (data.length > 0) {
+                      dispatch(getHistoDataSuccess(measurement,data));
+                  }
+
             })
             .catch(function(response){
               dispatch(getHistoDataError(response.data));
@@ -109,10 +126,10 @@ export function getHistoData(sensor,measurement) {
         }
 };
 
-export function getHistoDataSuccess(json) {
+export function getHistoDataSuccess(measurementId,data) {
     return{
           type: types.GET_HISTORICAL_SUCCESS,
-          data: json
+          data: {measurementId:measurementId,json:data}
     }
 };
 

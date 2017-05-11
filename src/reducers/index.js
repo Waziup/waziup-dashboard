@@ -34,7 +34,10 @@ function historicalReducer(state = {isLoading: false, data: {}, error: false},ac
               case types.GET_HISTORICAL_START:
                 return Object.assign({}, state, {isLoading: true});
               case types.GET_HISTORICAL_SUCCESS:
-                return Object.assign({}, state, {isLoading: false, data: action.data, error: false });
+              return Object.assign({}, state, {isLoading: false, data:{
+                ...state.data,
+                [action.data.measurementId] : action.data.json
+              } , error: false });
               case types.GET_HISTORICAL_ERROR:
                 return Object.assign({}, state, {isLoading: false, data:{error:action.data}, error: false });
               default:
