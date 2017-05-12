@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import sensorDetail from './sensorDetail.js';
+import {fetchSensors, adminLogin} from '../../../actions/actions';
 
 
 
@@ -13,6 +14,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+    fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))},
+    adminLogin:(user)=>{dispatch(adminLogin(user))},
     }
 }
 const sensorDetailContainer = connect( mapStateToProps,mapDispatchToProps)(sensorDetail);

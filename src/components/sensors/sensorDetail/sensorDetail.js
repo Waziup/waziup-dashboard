@@ -34,6 +34,9 @@ class sensorDetail extends Component {
     } else {
       this.setState({service: "waziup"});
     }
+    if (nextProps.currentUser !== this.props.currentUser){
+      this.props.fetchSensors(this.state.service, this.state.servicePath);
+    }
 
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
@@ -76,6 +79,7 @@ class sensorDetail extends Component {
   }
 
   componentDidMount(){
+    this.props.adminLogin(this.props.user);
 
   }
 
@@ -122,7 +126,7 @@ class sensorDetail extends Component {
               </List>
             </CardText>
             <CardTitle title="Historical Data" />
-            <SensorChart sensor={this.state.sensor}/>
+            <SensorChart sensor={this.state.sensor} service={this.state.service} servicePath={this.state.servicePath}/> 
           </Card>
         </Container>
       </div>

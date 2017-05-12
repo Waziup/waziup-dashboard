@@ -60,7 +60,7 @@ const routes = {
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
     { path: 'sensors', component:  Sensors, onEnter: loadSensors},
-    { path: 'sensors/:sensorId', component:Sensor, onEnter: loadSensors},
+    { path: 'sensors/:sensorId', component:Sensor}, //, onEnter: loadSensors},
     { path: 'users', component:  UserList, onEnter: loadUsers},
   ]
 }

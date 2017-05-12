@@ -14,10 +14,12 @@ class SensorChart extends Component {
 
   componentWillReceiveProps(nextProps){
     var measurements = [];
+    
     if(!UTIL.objIsEmpty(nextProps.sensor) && (nextProps.sensor !== this.props.sensor)){
+     
         measurements =  UTIL.getMeasurements(nextProps.sensor);
         UTIL.getMeasurements(nextProps.sensor).map((item) => {
-            this.props.getHistoData(nextProps.sensor,item.key);
+            this.props.getHistoData(nextProps.sensor, item.key, nextProps.servicePath, nextProps.service);
         });
       }
   }
