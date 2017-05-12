@@ -18,7 +18,7 @@ class SensorChart extends Component {
     if(!UTIL.objIsEmpty(nextProps.sensor) && (nextProps.sensor !== this.props.sensor)){
      
         measurements =  UTIL.getMeasurements(nextProps.sensor);
-        UTIL.getMeasurements(nextProps.sensor).map((item) => {
+        measurements.map((item) => {
             this.props.getHistoData(nextProps.sensor, item.key, nextProps.servicePath, nextProps.service);
         });
       }
