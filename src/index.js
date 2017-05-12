@@ -7,12 +7,6 @@ import { createLogger } from 'redux-logger'
 import securityReducer from './reducers/securityReducer'
 import sensingDeviceReducer from './reducers/sensingDeviceReducer'
 import SecurityContainer from './containers/SecurityContainer'
-import injectTapEventPlugin from 'react-tap-event-plugin';
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
-//font-family: 'Roboto', sans-serif;
 
 const rootReducer = combineReducers({
   security: securityReducer,
@@ -30,7 +24,7 @@ let store = createStore(
 )
 
 
-console.log("Initial STORE: " + JSON.stringify(store.getState()));
+//console.log("Initial STORE: " + JSON.stringify(store.getState()));
 render(
   <Provider store={store}>
     <SecurityContainer />

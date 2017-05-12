@@ -1,44 +1,72 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../App.css';
+import {PageHeader, Panel, Well, ListGroupItem, ListGroup} from 'react-bootstrap';
 
 const User = ({userInfo}) => (
-  <ul>
-    <p className="App-intro">
-      idTokenParsed: {JSON.stringify(userInfo.idTokenParsed)}
-    </p>
-    <p className="App-intro">
-      subject: {JSON.stringify(userInfo.subject)}
-    </p>
-    <p className="App-intro">
-      realmAccess: {JSON.stringify(userInfo.realmAccess)}
-    </p>
-    <p className="App-intro">
-      resourceAccess: {JSON.stringify(userInfo.resourceAccess)}
-    </p>
-    <p className="App-intro">
-      refreshToken: {JSON.stringify(userInfo.refreshToken)}
-    </p>
-    <p className="App-intro">
-      refreshTokenParsed: {JSON.stringify(userInfo.refreshTokenParsed)}
-    </p>
-    <p className="App-intro">
-      tokenParsed: {JSON.stringify(userInfo.tokenParsed)}
-    </p>
-    <p className="App-intro">
-      responseMode: {JSON.stringify(userInfo.responseMode)}
-    </p>
-    <p className="App-intro">
-      flow: {JSON.stringify(userInfo.flow)}
-    </p>
-    <p className="App-intro">
-      responseType: {JSON.stringify(userInfo.responseType)}
-    </p>
-  </ul>
-)
+  <div>
+  <PageHeader>User Information and Security Tokens <small> </small></PageHeader>
+  <Panel collapsible defaultExpanded header="User Information" bsStyle="primary">
+    <ListGroup >
+      <ListGroupItem>
+        <Well> 
+          Subject: {userInfo.subject}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem>
+        <Well>
+        Realm Access: {JSON.stringify(userInfo.realmAccess)}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem>
+        <Well>
+        Resource Access: {JSON.stringify(userInfo.resourceAccess)}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem>
+        <Well>
+        Response Mode: {userInfo.responseMode}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem>
+        <Well>
+        Flow: {userInfo.flow}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem>
+        <Well>
+        Response Type: {userInfo.responseType}
+        </Well>
+      </ListGroupItem>
+    </ListGroup>
+  </Panel>
+  <Panel collapsible defaultExpanded header="Security Tokens" bsStyle="success">
+    <ListGroup >
+      <ListGroupItem> 
+        <Well>
+        ID Token Parsed: {JSON.stringify(userInfo.idTokenParsed)}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem> 
+        <Well> 
+          Refresh Token Parsed: {JSON.stringify(userInfo.refreshTokenParsed)}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem> 
+        <Well>
+          Token Parsed: 
+          {JSON.stringify(userInfo.tokenParsed)}
+        </Well>
+      </ListGroupItem>
+      <ListGroupItem> <Well> Refresh Token: 
+        {userInfo.refreshToken}
+        </Well>
+      </ListGroupItem>
+    </ListGroup>
+  </Panel>
+  </div>)
 
 User.propTypes = {
-  userInfo: PropTypes.object.isRequired
+      userInfo: PropTypes.object.isRequired
 }
 
 export default User
