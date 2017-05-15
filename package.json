@@ -18,11 +18,10 @@
     "react-dom": "^15.5.0",
     "react-redux": "^5.0.3",
     "react-router": "^3.0.0",
-    "react-router-redux": "^4.0.8",
-    "react-router-dom": "^4.1.1",
     "redux": "^3.5.2",
-    "redux-auth-wrapper": "^1.1.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "react-leaflet": "latest",
+    "react-grid-system": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

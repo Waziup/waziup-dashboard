@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Router, Route, IndexRoute } from 'react-router'
+import { browserHistory } from 'react-router'
 import User from '../components/User'
 import SensingDevices from '../components/SensingDevices'
-import { fetchDevicesList } from '../actions/sensingDeviceActions'
-import { Button } from 'react-bootstrap';
-import { ButtonToolbar } from 'react-bootstrap';
+import MainLayout from '../components/MainLayout'
+import ContentLayout from '../components/ContentLayout'
+import Home from '../components/Home'
+import {doLogout, accountManagement} from '../actions/securityActions'
+
 
 class Dashboard extends Component {
   constructor(props) {
@@ -13,62 +17,35 @@ class Dashboard extends Component {
       showUserComponent: false,
       showSensingDevicesComponent: false
     };
-
-    this.handleUserComponent = this.handleUserComponent.bind(this)
-    this.handleSensingDevicesComponent = this.handleSensingDevicesComponent.bind(this)
   }
-
+  
   componentDidMount() {
-  }
-
-  handleUserComponent = e => {
-    e.preventDefault()
-    this.setState({ showUserComponent: !this.state.showUserComponent });
-  }
-
-  handleSensingDevicesComponent = e => {
-    e.preventDefault()
-    const { dispatch } = this.props
-    dispatch(fetchDevicesList())
-    this.setState({ showSensingDevicesComponent: !this.state.showSensingDevicesComponent });
+    //const { dispatch, authenticated, isAuthenticating} = this.props
   }
 
   render() {
     const userInfo = this.props.userInfo
+    //var browserHistory = ReactRouter.browserHistory;
+
     return (
-      <div>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css"/>
-        <ButtonToolbar>
-          {/* Provides extra visual weight and identifies the primary action in a set of buttons */}
-          <Button bsStyle="primary" onClick={this.handleUserComponent}>User Info</Button>
-          {/* Indicates a successful or positive action */}
-          <Button bsStyle="success" onClick={this.handleSensingDevicesComponent}> Sensing Devices</Button>
-          {/* Standard button */}
-          <Button>Default</Button>
-
-          {/* Contextual button for informational alert messages */}
-          <Button bsStyle="info">Info</Button>
-
-          {/* Indicates caution should be taken with this action */}
-          <Button bsStyle="warning" >Warning</Button>
-
-          {/* Indicates a dangerous or potentially negative action */}
-          <Button bsStyle="danger" disabled >Danger</Button>
-
-          {/* Deemphasize a button by making it look like a link while maintaining button behavior */}
-          <Button bsStyle="link" disabled>Link</Button>
-        </ButtonToolbar>
-         {this.state.showSensingDevicesComponent && <SensingDevices userInfo={userInfo} />}
-         {this.state.showUserComponent && <User userInfo={userInfo} />}
-
-      </div>
+      <Router history={browserHistory}>
+          <Route path="/" component={MainLayout}>
+            <IndexRoute component={() => <Home userInfo={userInfo} />} />
+            <Route component={ContentLayout}>
+              <Route path="/home" component={() => <Home userInfo={userInfo} />} />
+              <Route path="/userinfo" component={() => <User userInfo={userInfo} />} />
+              <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
+              <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
+              <Route path="/accountmngmnt" component={() => this.props.dispatch(accountManagement())} />
+              <Route path="/logout" component={() => this.props.dispatch(doLogout())} />
+            </Route>
+          </Route>
+      </Router>
     );
   }
 }
 
 const mapStateToProps = state => {
-  //console.log("state.security.userInfo in Dashboard:" + JSON.stringify(state.security.userInfo)); // state
   return { userInfo: state.security.userInfo }
 }
 

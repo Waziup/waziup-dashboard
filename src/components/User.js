@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {PageHeader, Panel, Well, ListGroupItem, ListGroup} from 'react-bootstrap';
-
+import {Panel, Well, ListGroupItem, ListGroup} from 'react-bootstrap';
+//<PageHeader>User Information and Security Tokens <small> </small></PageHeader>
 const User = ({userInfo}) => (
   <div>
-  <PageHeader>User Information and Security Tokens <small> </small></PageHeader>
   <Panel collapsible defaultExpanded header="User Information" bsStyle="primary">
     <ListGroup >
       <ListGroupItem>

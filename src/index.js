@@ -7,6 +7,7 @@ import { createLogger } from 'redux-logger'
 import securityReducer from './reducers/securityReducer'
 import sensingDeviceReducer from './reducers/sensingDeviceReducer'
 import SecurityContainer from './containers/SecurityContainer'
+import './App.css'
 
 const rootReducer = combineReducers({
   security: securityReducer,

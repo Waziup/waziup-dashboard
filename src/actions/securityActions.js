@@ -7,8 +7,10 @@ export const LOGIN_SUCCEED = 'LOGIN_SUCCEED'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
 export const LOGOUT_COMPLETED = 'LOGOUT_COMPLETED'
+export const ACCOUNT_MNGMNT = 'ACCOUNT_MNGMNT'
 
 //accountManagement()Redirects to the Account Management Console.
+
 export const loginRequest = () => ({
   type: LOGIN_REQUEST
 })
@@ -45,10 +47,28 @@ export const logoutCompleted = () => ({
 
 export const doLogout = () => (dispatch, getState) => {
   dispatch(logoutRequest())
-  getState().security.userInfo.logout()
-  // .success( done => {
-  //   console.log("Logout: " + done);
-  // })
+  getState().security.userInfo.logout().success(done => {
+     dispatch(logoutCompleted())
+     console.log("Logout: " + done);
+    }).error( () => {
+     //dispatch(logoutFailed())
+     console.log("Logout failed: ");
+    }
+  )
+}
+
+//Redirects to the Account Management Console.
+export const accountManagement = () => (dispatch, getState) => {
+  //dipatch({ type: LOGIN_REQUEST})
+  getState().security.userInfo.accountManagement().success(done => {
+     //dispatch(logoutCompleted())
+     console.log("accountManagement: " + done);
+     
+    }).error( () => {
+     //dispatch(logoutFailed())
+     console.log("accountManagement failed: ");
+    }
+  )
 }
 
 const doLogin = () => dispatch => {

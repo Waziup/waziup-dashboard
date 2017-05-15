@@ -2,7 +2,7 @@ import {
   DEVICES_LIST_REQUEST, DEVICES_LIST_REQUEST_ERROR, DEVICES_LIST_FETCHED
 } from '../actions/sensingDeviceActions.js'
 
-const sensingDeviceReducer = (state={ isFetching: false }, action) => {
+const sensingDeviceReducer = (state={ isFetching: false, fetched: false }, action) => {
   switch (action.type) {
     case DEVICES_LIST_REQUEST:
       return {
@@ -13,13 +13,15 @@ const sensingDeviceReducer = (state={ isFetching: false }, action) => {
       return {
         ...state, 
         isFetching: false,
+        fetched: true,
         listDevices: action.listDevices,
         lastUpdated: action.lastUpdated
-       }
+      }
     case DEVICES_LIST_REQUEST_ERROR:
       return {
         ...state, 
         isFetching: false,
+        fetched: false,
         errMsg: action.errMsg
       }
     default:

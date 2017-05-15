@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Table, PageHeader, Panel, Well, ListGroupItem, ListGroup} from 'react-bootstrap';
+import { fetchDevicesList } from '../actions/sensingDeviceActions'
 
 class SensingDevices extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sensingDevice: false,
-    }
+  // constructor(props) {
+  //   super(props)
+  //   // this.state = {
+  //   //   sensingDevice: false,
+  //   // }
+  // }
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(fetchDevicesList())
   }
 
   filterSensorsSensingDevice(device) {
@@ -27,6 +33,7 @@ class SensingDevices extends Component {
   }
 
   tableSensingDeivces(listDevices) {
+    console.log(listDevices)
     let index = 1
     let tableRows = listDevices.map((device) => {
       let latestSensorsValues = this.filterSensorsSensingDevice(device).map(
@@ -47,12 +54,14 @@ class SensingDevices extends Component {
   render() {
     const sensingDevice = this.props.sensingDevice
     const isFetching = sensingDevice.isFetching
+    const fetched = sensingDevice.fetched
+
+    //<PageHeader>Summary of Sensing Devices Information <small> </small></PageHeader>
     return (
       <div>
-        <PageHeader>Summary of Sensing Devices Information <small> </small></PageHeader>
         <Panel collapsible defaultExpanded header="List of Sensing Devices">
-          {(isFetching === true) ? <Well> Sensing devices are being loaded. </Well> :
-            <Table responsive fill>
+          {(isFetching === true) ? (<Well> Sensing devices are being loaded. </Well> ):
+            ((fetched === true) ?<Table responsive fill>
               <thead>
                 <tr><th>#</th><th>DeviceID</th><th>dateCreated</th>
                 <th>dateModified</th><th>Latest Sensors Data</th></tr>
@@ -60,7 +69,7 @@ class SensingDevices extends Component {
               <tbody>
                 {this.tableSensingDeivces(sensingDevice.listDevices)}
               </tbody>
-            </Table>
+            </Table>: (<Well> Error happened during fetching sensing devices: {sensingDevice.errMsg} </Well> ))
           }
         </Panel>
       </div>
@@ -68,6 +77,9 @@ class SensingDevices extends Component {
   }
 }
 
+// const mapDispatchToProps = state => {
+//   return { fetchDevicesList: state.sensingDevice }
+// }
 const mapStateToProps = state => {
   return { sensingDevice: state.sensingDevice }
 }

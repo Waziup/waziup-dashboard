@@ -1,9 +1,9 @@
 import {
   LOGIN_REQUEST, LOGIN_REQUEST_IFNEEDED, LOGIN_NOT_NEEDED,
-  LOGIN_SUCCEED, LOGIN_FAILED, LOGOUT_REQUEST
+  LOGIN_SUCCEED, LOGIN_FAILED, LOGOUT_REQUEST, LOGOUT_COMPLETED,
+  ACCOUNT_MNGMNT
 } from '../actions/securityActions'
-
-//= 
+ 
 const securityReducer = (state={ isAuthenticating: false, authenticated: false }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
@@ -48,6 +48,18 @@ const securityReducer = (state={ isAuthenticating: false, authenticated: false }
         lastUpdated: action.lastUpdated
 //        userInfo: action.userInfo
       }
+    case LOGOUT_COMPLETED:
+      return {
+        ...state, 
+        isAuthenticating: false,
+        authenticated: false,
+        lastUpdated: action.lastUpdated
+      }
+    case ACCOUNT_MNGMNT:
+      return {
+        ...state
+      }
+
     default:
       return state
   }

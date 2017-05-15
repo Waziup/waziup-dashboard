@@ -6,7 +6,6 @@ export const DEVICES_LIST_FETCHED = 'DEVICES_LIST_FETCHED'
 
 export const devicesListRequest = () => ({
   type: DEVICES_LIST_REQUEST,
-  isFetching: true,
   lastUpdated: Date.now()
 })
 
