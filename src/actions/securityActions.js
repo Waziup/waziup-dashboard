@@ -47,7 +47,7 @@ export const logoutCompleted = () => ({
 
 export const doLogout = () => (dispatch, getState) => {
   dispatch(logoutRequest())
-  getState().security.userInfo.logout().success(done => {
+  getState().security.userInfo.logout({redirectUri: 'http://localhost:3000/'}).success(done => {
      dispatch(logoutCompleted())
      console.log("Logout: " + done);
     }).error( () => {
@@ -84,6 +84,11 @@ const doLogin = () => dispatch => {
     if(!authenticated) {
       kc.login();
     } else {
+      kc.loadUserInfo().success(function (profile) {
+        alert(JSON.stringify(profile, null, "  "));
+      }).error(function () {
+        alert('Failed to load user profile');
+      });
         dispatch(loginSucceed(kc));
       }}).error(function() {
         dispatch(loginFailed("Init Error KeyCloak."));

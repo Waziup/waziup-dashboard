@@ -24,12 +24,14 @@ export const fetchDevicesList = () => (dispatch, getState) => {
   dispatch(devicesListRequest())
 //  return (dispatch) => {
     //const querystring = require('query-string');
+    const servicePath = getState().security.userInfo.idTokenParsed.ServicePath
+    const service = getState().security.userInfo.idTokenParsed.Service
     return axios.get('http://orion.waziup.io/v1/data/entities',
       {
         params: { 'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*' },
         headers: {
-          'Fiware-ServicePath': '/FL',
-          'Fiware-Service': 'waziup',
+          'Fiware-ServicePath': servicePath,
+          'Fiware-Service': service,
         }
       })
       .then((response) => {
