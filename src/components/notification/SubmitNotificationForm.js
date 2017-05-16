@@ -9,6 +9,22 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
 class SubmitNotificationForm extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      notifications : props.notifications,
+    };
+  }
+
+
+  componentWillReceiveProps(nextProps){
+    
+    if (nextProps.currentUser !== this.props.currentUser){
+      this.props.fetchNotifications(nextProps.currentUser.attributes.Service[0], nextProps.currentUser.attributes.ServicePath[0]);
+    }
+  }
+
   render(){
     const customContentStyle = {
       width: '60%',

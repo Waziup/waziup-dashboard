@@ -42,29 +42,6 @@ function receiveError(json) {
         }
 };
 
-  /*export function fetchData() {
-    return function(dispatch) {
-          dispatch(requestData());
-          const querystring = require('query-string');
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
-          return axios.get(url,
-                           {
-                             params: {'lastN': '10'},
-                             headers: {
-                               'Fiware-ServicePath':"/FL",
-                               'Fiware-Service':"waziup",
-                               "Accept": "application/json"
-                             }
-                           })
-            .then(function(response) {
-              dispatch(receiveData(response.data));
-            })
-            .catch(function(response){
-              dispatch(receiveError(response.data));
-            })
-        }
-};*/
-
 export function fetchSensors(service, servicePath) {
 
     if (!servicePath) {servicePath = fiwareServicePathQuery;}
@@ -89,6 +66,7 @@ export function fetchSensors(service, servicePath) {
             })
         }
 };
+
 export function getHistoData(sensor,measurement,servicePath,service) {
     if (!servicePath) {servicePath = fiwareServicePathQuery;}
     if (!service) {service = fiwareService;}
@@ -353,3 +331,38 @@ export function updateUserError(json) {
         }
 };
 
+export function getNotifications(servicePath,service) {
+    if (!servicePath) {servicePath = fiwareServicePathQuery;}
+    if (!service) {service = fiwareService;}
+    return function(dispatch) {
+
+          var url='http://orion.waziup.io/v2/subscriptions'
+          return axios.get(url, {
+              headers: {
+                'content-type':'application/json',
+                'fiware-servicepath': servicePath,
+                'fiware-service': service,
+              },
+            })
+            .then(function(response) {
+               dispatch(getNotificationsSuccess(response.data));
+            })
+            .catch(function(response){
+               dispatch(getNotificationsError(response.data));
+            })
+        }
+};
+
+export function getNotificationsSuccess(data) {
+    return{
+          type: types.GET_NOTIFICATIONS_SUCCESS,
+          data: {json:data}
+    }
+};
+
+export function getNotificationsError(json) {
+    return {
+          type: types.GET_NOTIFICATIONS_ERROR,
+          data: json
+        }
+};
