@@ -9,9 +9,9 @@ const settings = {
   client_id: 'admin-cli'
 };
 
-const fiwareService = 'waziup'
-const fiwareServicePath = '/'
-const fiwareServicePathQuery = '/#'
+const defaultService = 'waziup'
+const defaultServicePath = '/'
+const defaultServicePathQuery = '/#'
 
 function requestSensors() {
     return {type: types.REQ_SENSORS}
@@ -64,9 +64,9 @@ export function fetchSensors(service, servicePath) {
         }
 };
 
-export function getHistoData(sensor,measurement,servicePath,service) {
-    if (!servicePath) {servicePath = fiwareServicePathQuery;}
-    if (!service) {service = fiwareService;}
+export function getHistoData(sensor, measurement, servicePath, service) {
+    if (!servicePath) {servicePath = defaultServicePathQuery;}
+    if (!service)     {service     = defaultService;}
     console.log(sensor);
     return function(dispatch) {
           var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensor.id + '/attributes/' + measurement;
@@ -116,14 +116,14 @@ export function getHistoDataError(json) {
 };
 
 
-export function createSensor(sensor,servicePath) {
+export function createSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post('http://orion.waziup.io/v1/data/entities',sensor,{
+          return axios.post('http://orion.waziup.io/v1/data/entities', sensor,{
                       headers: {
-                        'content-type':'application/json',
-                        'fiware-servicepath':servicePath,
-                        'fiware-service':fiwareService,
+                        'content-type': 'application/json',
+                        'fiware-servicepath': servicePath,
+                        'fiware-service': service,
                       },
                   })
             .then(function(response) {
@@ -192,14 +192,14 @@ export function updateSensorError(json) {
         }
 };
 
-export function deleteSensor(sensor,servicePath) {
+export function deleteSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
           return axios.delete('http://orion.waziup.io/v1/data/entities/'+sensor.sensorId,{
                       headers: {
                         'content-type':'application/json',
-                        'fiware-servicepath':servicePath,
-                        'fiware-service':fiwareService,
+                        'fiware-servicepath': servicePath,
+                        'fiware-service': service,
                       },
                   })
             .then(function(response) {
