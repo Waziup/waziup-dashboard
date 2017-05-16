@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 import SensorChart from './SensorChart/SensorChartContainer';
 import UTIL from '../../../utils.js';
+import { loadSensors } from "../../../index.js"
 
 var position = [12.238, -1.561];
 class sensorDetail extends Component {
@@ -22,6 +23,8 @@ class sensorDetail extends Component {
       id: this.props.params.sensorId,
       historicalData: {},
     };
+    
+    loadSensors(true);
   }
 
   defaultProps = {
@@ -29,14 +32,6 @@ class sensorDetail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.user.preferred_username === 'watersense'){
-      this.setState({service: "watersense"});
-    } else {
-      this.setState({service: "waziup"});
-    }
-    if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(this.state.service, this.state.servicePath);
-    }
 
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
@@ -68,14 +63,6 @@ class sensorDetail extends Component {
       this.setState({ markers: markers })
 
     }
-    var deviceID = 'Device_6';
-    if (this.props.params.sensorId)
-      var deviceID = this.props.params.sensorId;
-    //this.fetchData(deviceID);
-    // console.log("device: " + deviceID);
-    // console.log("this.state.servicePath: " + this.state.servicePath);
-    // console.log("this.state.service: " + this.state.service);
-    // console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
 
   componentDidMount() {

@@ -64,7 +64,7 @@ export function fetchSensors(service, servicePath) {
         }
 };
 
-export function getHistoData(sensor, measurement, servicePath, service) {
+export function getHistoData(sensor, measurement, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
     console.log(sensor);
