@@ -32,13 +32,42 @@ const history = syncHistoryWithStore(browserHistory, store)
 export function loadSensors(isAllSensors) {
     //console.log("loadSensors" + JSON.stringify(store.getState()));
 
-    if(store.getState().keycloak.idTokenParsed) {
-       var service = store.getState().keycloak.idTokenParsed.Service;
-       var servicePath = store.getState().keycloak.idTokenParsed.ServicePath + (isAllSensors?"#":"");
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+       var service     = userDetails.Service;
+       var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
        store.dispatch(fetchSensors(service, servicePath));
     }
 };
 
+export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
+
+    var userDetails = store.getState().keycloak.idTokenParsed;
+    var service     = userDetails.Service;
+    var servicePath = userDetails.ServicePath;
+
+    if(userDetails) {
+    
+      var sensor  = {
+        id: sensorId,
+        type: sensorType,
+        location: {
+            value: {
+              type: "Point",
+              coordinates: [sensorLon, sensorLat]
+            },
+            type: "geo:json"
+          },
+          owner: {
+           type: "string",
+           value: userDetails.preferred_username
+          },
+      }
+      store.dispatch(createSensor(sensor, userDetails.service, userDetails.servicePath));
+    }
+}
+  
 function loadUsers(){
   store.dispatch(getUsers());
 };

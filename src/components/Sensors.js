@@ -11,7 +11,7 @@ import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
 import UTIL from '../utils';
-import {loadSensors} from "../index.js"
+import {loadSensors, createSensor} from "../index.js"
 
 class Sensors extends Component {
   constructor(props){
@@ -131,33 +131,14 @@ class Sensors extends Component {
       }
   }
 
-  handleSubmit = (values) => {
-    let sensor  = {
-      id: values.sensorId,
-      type: values.sensorType,
-      location: {
-          value: {
-            type: "Point",
-            coordinates: [values.sensorLon,values.sensorLat]
-          },
-          type: "geo:json"
-        },
-        owner: {
-         type: "string",
-         value: this.props.currentUser.username,
-        },
-    }
-/*     sensor[values.sensorMeasurement] = { */
-      // value: 0,
-      // type: values.sensorValueType
-    /* } */
-    this.props.createSensor(sensor,this.props.currentUser.attributes.ServicePath[0])
-  }
+  handleSubmit = (values) => createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat) 
 
-  handleChangeAllSensors = (event) =>{
+
+  handleChangeAllSensors = (event) => {
      loadSensors(event.target.checked);
      this.setState({isAllSensors: event.target.checked});
   }
+
   render() {
     let {data} = this.props;
 
