@@ -42,29 +42,6 @@ function receiveError(json) {
         }
 };
 
-  /*export function fetchData() {
-    return function(dispatch) {
-          dispatch(requestData());
-          const querystring = require('query-string');
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/Device_6/attributes/temperature';
-          return axios.get(url,
-                           {
-                             params: {'lastN': '10'},
-                             headers: {
-                               'Fiware-ServicePath':"/FL",
-                               'Fiware-Service':"waziup",
-                               "Accept": "application/json"
-                             }
-                           })
-            .then(function(response) {
-              dispatch(receiveData(response.data));
-            })
-            .catch(function(response){
-              dispatch(receiveError(response.data));
-            })
-        }
-};*/
-
 export function fetchSensors(service, servicePath) {
 
     return function(dispatch) {
@@ -86,6 +63,7 @@ export function fetchSensors(service, servicePath) {
             })
         }
 };
+
 export function getHistoData(sensor,measurement,servicePath,service) {
     if (!servicePath) {servicePath = fiwareServicePathQuery;}
     if (!service) {service = fiwareService;}

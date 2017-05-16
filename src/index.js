@@ -30,7 +30,7 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
 export function loadSensors(isAllSensors) {
-    console.log("loadSensors" + JSON.stringify(store.getState()));
+    //console.log("loadSensors" + JSON.stringify(store.getState()));
 
     if(store.getState().keycloak.idTokenParsed) {
        var service = store.getState().keycloak.idTokenParsed.Service;

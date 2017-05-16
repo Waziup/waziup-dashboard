@@ -37,25 +37,16 @@ class Sensors extends Component {
        this.setState({sensors:nextProps.sensors})
     }
 
-    ///console.log(JSON.stringify(nextProps.user.Service));
-    //if (nextProps.user !== this.props.user){
-    //  loadSensors(true);
-    //}
-   // if (nextProps.sensors) {
-   //   this.setState({sensors:nextProps.sensors})
-   // }
-   // if (nextProps.currentUser !== this.props.currentUser) {
-   //     this.props.fetchSensors(nextProps.user.Service[0], nextProps.user.ServicePath[0], this.state.isAllSensors);
-   // }
-   // 
-   // if (nextProps.isLoading) {
-   //   this.setState({isLoading:nextProps.isLoading})
-   // }
+    if (nextProps.isLoading) {
+      this.setState({isLoading:nextProps.isLoading})
+    }
   }
 
   componentDidMount(){
    // this.props.adminLogin(this.props.user);
   }
+
+
   handleSensorDelete = (data)=>{console.log(data)}
   handleSensorUpdate = (data)=>{
       this.props.updateSensorStart(data);
