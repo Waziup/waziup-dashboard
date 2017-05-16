@@ -21,7 +21,7 @@ import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import Notification from './components/notification/NotificationForm.js';
 import './index.css';
-import {fetchSensors,getUsers} from './actions/actions';
+import * as actions from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -37,15 +37,13 @@ export function loadSensors(isAllSensors) {
     if(userDetails) {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
-       store.dispatch(fetchSensors(service, servicePath));
+       store.dispatch( actions.fetchSensors(service, servicePath));
     }
 };
 
 export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
 
     var userDetails = store.getState().keycloak.idTokenParsed;
-    var service     = userDetails.Service;
-    var servicePath = userDetails.ServicePath;
 
     if(userDetails) {
     
@@ -64,12 +62,12 @@ export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
            value: userDetails.preferred_username
           },
       }
-      store.dispatch(createSensor(sensor, userDetails.service, userDetails.servicePath));
+      store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath));
     }
 }
   
 function loadUsers(){
-  store.dispatch(getUsers());
+  store.dispatch(actions.getUsers());
 };
 
 const MyApp = () =>{

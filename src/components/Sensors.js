@@ -14,6 +14,7 @@ import UTIL from '../utils';
 import {loadSensors, createSensor} from "../index.js"
 
 class Sensors extends Component {
+
   constructor(props){
     super(props);
     this.state = {
@@ -26,11 +27,13 @@ class Sensors extends Component {
       isAllSensors: true,
     };
 
-      loadSensors(true);
+    loadSensors(true);
   }
+
   defaultProps = {
     data: []
   };
+  
   componentWillReceiveProps(nextProps){
  
     if (nextProps.sensors) {
@@ -131,7 +134,9 @@ class Sensors extends Component {
       }
   }
 
-  handleSubmit = (values) => createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat) 
+  handleSubmit(values) {
+     createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat);
+  }
 
 
   handleChangeAllSensors = (event) => {
