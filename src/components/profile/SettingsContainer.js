@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import Settings from './Settings.js';
 import { updateUser,adminLogin } from '../../actions/actions';
-// import {} from '../../redux/action/ActionCounter.js';
 
 
 function mapStateToProps(state) {

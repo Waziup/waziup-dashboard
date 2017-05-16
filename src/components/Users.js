@@ -6,7 +6,7 @@ import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import RowActions from './sensors/RowActions.js'
-import {createSensor, updateSensorStart ,adminLogin,updateSensorLocation} from '../actions/actions';
+import {createSensor, updateSensorStart, adminLogin, updateSensorLocation} from '../actions/actions';
 import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';

@@ -9,8 +9,6 @@ class Profile extends Component {
   }
   componentWillMount(){
     console.log(this.props);
-   // this.props.adminLogin();
-    // this.props.updateUser(this.props.user);
   }
   render() {
     return (
