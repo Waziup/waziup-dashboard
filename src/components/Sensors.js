@@ -43,7 +43,6 @@ class Sensors extends Component {
   }
 
   componentDidMount(){
-   // this.props.adminLogin(this.props.user);
   }
 
 

@@ -78,9 +78,7 @@ class sensorDetail extends Component {
     // console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
 
-  componentDidMount(){
-    this.props.adminLogin(this.props.user);
-
+  componentDidMount() {
   }
 
   componentWillMount() {

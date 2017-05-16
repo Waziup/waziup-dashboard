@@ -5,9 +5,10 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
-import { adminLogin ,fetchSensors} from '../actions/actions'
+import { fetchSensors} from '../actions/actions'
 import FullWidthSection from './FullWidthSection'
 import Page from '../App'
+import {loadSensors} from "../index.js"
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
@@ -15,14 +16,16 @@ class Home extends Component {
   constructor(props){
     super(props);
 
-
     this.state = {
       sensors : props.sensors,
       user:props.user,
       markers: [],
       position: [12.238, -1.561]
     };
+  
+    loadSensors(true);
   }
+
   defaultProps = {
     sensors: []
   };
@@ -66,31 +69,25 @@ class Home extends Component {
         console.log(JSON.stringify(markers));
         this.setState({markers:markers})
     }
-
-    if (nextProps.currentUser !== this.props.currentUser){
-      var service = nextProps.currentUser.attributes.Service? nextProps.currentUser.attributes.Service[0] : null;
-      var servicePath = nextProps.currentUser.attributes.ServicePath[0];
-      console.log(servicePath);
-      this.props.fetchSensors(service, servicePath);
-    }
-
   }
+  
   componentWillMount(){
     if (this.props.user) {
         this.setState({user:this.props.user});
     }
   }
+  
   componentDidMount(prevProps, prevState) {
-      this.addAlert();
-      this.props.adminLogin(this.state.user);
+     this.addAlert();
   }
-    handleLoadAll = (event) =>{
+  
+  handleLoadAll = (event) => {
        if (event.target.checked){
-           this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
-       }else{
-           this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
+          this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
+       } else {
+          this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
        }
-      }
+  }
 
   render() {
     const listMarkers = this.state.markers.map((marker,index) =>
@@ -137,7 +134,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-      adminLogin:(user)=>{dispatch(adminLogin(user))},
       fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
 }
