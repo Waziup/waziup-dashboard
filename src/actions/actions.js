@@ -67,7 +67,6 @@ export function fetchSensors(service, servicePath) {
 export function getHistoData(sensorId, measurement, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
-    //console.log(sensorId);
     return function(dispatch) {
           var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
@@ -330,3 +329,38 @@ export function updateUserError(json) {
         }
 };
 
+export function getNotifications(servicePath,service) {
+    if (!servicePath) {servicePath = fiwareServicePathQuery;}
+    if (!service) {service = fiwareService;}
+    return function(dispatch) {
+
+          var url='http://orion.waziup.io/v2/subscriptions'
+          return axios.get(url, {
+              headers: {
+                'content-type':'application/json',
+                'fiware-servicepath': servicePath,
+                'fiware-service': service,
+              },
+            })
+            .then(function(response) {
+               dispatch(getNotificationsSuccess(response.data));
+            })
+            .catch(function(response){
+               dispatch(getNotificationsError(response.data));
+            })
+        }
+};
+
+export function getNotificationsSuccess(data) {
+    return{
+          type: types.GET_NOTIFICATIONS_SUCCESS,
+          data: {json:data}
+    }
+};
+
+export function getNotificationsError(json) {
+    return {
+          type: types.GET_NOTIFICATIONS_ERROR,
+          data: json
+        }
+};

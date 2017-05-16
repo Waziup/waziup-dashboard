@@ -15,6 +15,7 @@ function sensorListReducer(state = {isLoading: false, data: [], error: false},ac
                 return state;
             }
   };
+
 function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},action = null) {
       switch(action.type) {
               case types.CREATE_SENSORS_START:
@@ -29,6 +30,7 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return state;
             }
   };
+
 function historicalReducer(state = {isLoading: false, data: {}, error: false},action = null) {
       switch(action.type) {
               case types.GET_HISTORICAL_START:
@@ -57,6 +59,7 @@ function userReducer(state = {isLoading: false, currentUser: {}, error: false},a
                 return state;
             }
   };
+
 function usersListReducer(state = {isLoading: false, users: {}, error: false},action = null) {
       switch(action.type) {
               case types.GET_USERS_START:
@@ -82,6 +85,7 @@ function adminReducer(state = {isLoading: false, adminUser: {}, error: false},ac
                 return state;
             }
   };
+
 function sensorCRUDReducer(state = {isLoading: false, sensorEntity: {}, error: false},action = null) {
       switch(action.type) {
               case types.DELETE_SENSORS_START:
@@ -95,6 +99,14 @@ function sensorCRUDReducer(state = {isLoading: false, sensorEntity: {}, error: f
             }
   };
 
+function notificationsReducer(state = {isLoading: false, data: {}, error: false}, action = null) {
+   switch(action.type) {
+      case types.GET_NOTIFICATIONS_START:     return Object.assign({}, state, {isLoading: true});
+      case types.GET_NOTIFICATIONS_SUCCESS:   return Object.assign({}, state, {isLoading: false, notifications: action.json, error: false });
+      case types.GET_NOTIFICATIONS_ERROR:     return Object.assign({}, state, {isLoading: false, notifications: { error:action.data},  error: false });
+      default: return state;
+   }
+};
 
 const rootReducer = combineReducers({
     routing: routerReducer,
