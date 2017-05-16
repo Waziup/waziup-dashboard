@@ -29,15 +29,19 @@ class sensorDetail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextProps");
     if(this.props.user.preferred_username === 'watersense'){
       this.setState({service: "watersense"});
     } else {
       this.setState({service: "waziup"});
     }
+    
     if (nextProps.currentUser !== this.props.currentUser){
       this.props.fetchSensors(this.state.service, this.state.servicePath);
     }
 
+    console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
+    console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
@@ -68,19 +72,10 @@ class sensorDetail extends Component {
       this.setState({ markers: markers })
 
     }
-    var deviceID = 'Device_6';
-    if (this.props.params.sensorId)
-      var deviceID = this.props.params.sensorId;
-    //this.fetchData(deviceID);
-    // console.log("device: " + deviceID);
-    // console.log("this.state.servicePath: " + this.state.servicePath);
-    // console.log("this.state.service: " + this.state.service);
-    // console.log("this.state.historicalData: " + JSON.stringify(this.state.historicalData));
   }
 
   componentDidMount(){
     this.props.adminLogin(this.props.user);
-
   }
 
   componentWillMount() {
