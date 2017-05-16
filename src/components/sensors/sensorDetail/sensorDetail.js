@@ -34,6 +34,8 @@ class sensorDetail extends Component {
 
   componentWillReceiveProps(nextProps) {
 
+    console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
+    console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
@@ -66,7 +68,12 @@ class sensorDetail extends Component {
     }
   }
 
+<<<<<<< a0196bc93f7e8604dfcf148d467b5f68b26e1494
   componentDidMount() {
+=======
+  componentDidMount(){
+    this.props.adminLogin(this.props.user);
+>>>>>>> clean
   }
 
   componentWillMount() {
