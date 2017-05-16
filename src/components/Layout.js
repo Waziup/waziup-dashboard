@@ -13,6 +13,7 @@ import FontIcon from 'material-ui/FontIcon';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import {Container,  Col, Visible, Hidden} from 'react-grid-system'
+import {loadSensors} from "../index.js"
 
 const styles = {
    medium: {
@@ -31,7 +32,8 @@ class Layout extends Component {
     super(props);
     this.state = {
       open : false,
-      user : {}
+      user : {},
+      keycloak: {}
     };
     this.toggleNavigation  = this.toggleNavigation.bind(this);
   }
@@ -58,11 +60,20 @@ getChildContext(){
     muiTheme : this.state.muiTheme
   };
 }
+
 componentWillReceiveProps(nextProps){
+
+  
+  console.log("inside" + JSON.stringify(nextProps));  
+  if (nextProps.keycloak !== this.props.keycloak){
+    loadSensors(true);
+  }
 
 }
 
 componentWillMount() {
+
+
   if (this.props.user) {
     this.setState({user:this.props.user});
   }

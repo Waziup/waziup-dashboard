@@ -11,36 +11,50 @@ import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
 import UTIL from '../utils';
+import {loadSensors} from "../index.js"
 
 class Sensors extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data : props.data,
-      formData:{},
-      update:false,
-      modalOpen:false,
-      isLoading:false,
-        loadAll:false
+      data:       props.data,
+      formData:   {},
+      update:     false,
+      modalOpen:  false,
+      isLoading:  false,
+      loadAll:    false,
+      isAllSensors: true,
     };
+
+      loadSensors(true);
   }
   defaultProps = {
     data: []
   };
   componentWillReceiveProps(nextProps){
+ 
     if (nextProps.sensors) {
-      this.setState({sensors:nextProps.sensors})
+       this.setState({sensors:nextProps.sensors})
     }
-    if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(nextProps.currentUser.attributes.Service[0], nextProps.currentUser.attributes.ServicePath[0]);
-    }
-    if (nextProps.isLoading) {
-      this.setState({isLoading:nextProps.isLoading})
-    }
+
+    ///console.log(JSON.stringify(nextProps.user.Service));
+    //if (nextProps.user !== this.props.user){
+    //  loadSensors(true);
+    //}
+   // if (nextProps.sensors) {
+   //   this.setState({sensors:nextProps.sensors})
+   // }
+   // if (nextProps.currentUser !== this.props.currentUser) {
+   //     this.props.fetchSensors(nextProps.user.Service[0], nextProps.user.ServicePath[0], this.state.isAllSensors);
+   // }
+   // 
+   // if (nextProps.isLoading) {
+   //   this.setState({isLoading:nextProps.isLoading})
+   // }
   }
 
   componentDidMount(){
-    this.props.adminLogin(this.props.user);
+   // this.props.adminLogin(this.props.user);
   }
   handleSensorDelete = (data)=>{console.log(data)}
   handleSensorUpdate = (data)=>{
@@ -149,12 +163,10 @@ class Sensors extends Component {
     /* } */
     this.props.createSensor(sensor,this.props.currentUser.attributes.ServicePath[0])
   }
-  handleLoadAll = (event) =>{
-   if (event.target.checked){
-       this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
-   }else{
-       this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
-   }
+
+  handleChangeAllSensors = (event) =>{
+     loadSensors(event.target.checked);
+     this.setState({isAllSensors: event.target.checked});
   }
   render() {
     let {data} = this.props;
@@ -171,7 +183,8 @@ class Sensors extends Component {
             }} />
               <Checkbox
                   label="All sensor"
-                  onCheck = {(evt)=>{this.handleLoadAll(evt)}}
+                  checked = {this.state.isAllSensors}
+                  onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
               />
               <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={50} results={this.state.sensors} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />

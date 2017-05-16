@@ -67,9 +67,6 @@ function receiveError(json) {
 
 export function fetchSensors(service, servicePath) {
 
-    if (!servicePath) {servicePath = fiwareServicePathQuery;}
-    if (!service) {service = fiwareService;}
-
     return function(dispatch) {
           dispatch(requestSensors());
           const querystring = require('query-string');

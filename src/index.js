@@ -29,8 +29,14 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
-function loadSensors() {
-    store.dispatch(fetchSensors());
+export function loadSensors(isAllSensors) {
+    console.log("loadSensors" + JSON.stringify(store.getState()));
+
+    if(store.getState().keycloak.idTokenParsed) {
+       var service = store.getState().keycloak.idTokenParsed.Service;
+       var servicePath = store.getState().keycloak.idTokenParsed.ServicePath + (isAllSensors?"#":"");
+       store.dispatch(fetchSensors(service, servicePath));
+    }
 };
 
 function loadUsers(){
@@ -59,7 +65,7 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
-    { path: 'sensors', component:  Sensors, onEnter: loadSensors},
+    { path: 'sensors', component:  Sensors}, //, onEnter: loadSensors(true)},
     { path: 'sensors/:sensorId', component:Sensor}, //, onEnter: loadSensors},
     { path: 'users', component:  UserList, onEnter: loadUsers},
   ]
