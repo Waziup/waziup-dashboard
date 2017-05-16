@@ -68,6 +68,58 @@ export function fetchSensors(service, servicePath) {
         }
 };
 
+export function getHistoData(sensorId, measurement, service, servicePath) {
+    if (!servicePath) {servicePath = defaultServicePathQuery;}
+    if (!service)     {service     = defaultService;}
+    return function(dispatch) {
+          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
+          return axios.get(url,{
+              params: {'lastN': '24'},
+              headers: {
+                'content-type': 'application/json',
+                'fiware-servicepath': servicePath,
+                'fiware-service': service,
+              },
+            })
+            .then(function(response) {
+                //console.log(response);
+                const contextResponse0 = response.data.contextResponses[0];
+                  const { contextElement: contextElement } = contextResponse0;
+                  const attribute0 = contextElement.attributes[0];
+                  const values = attribute0.values;
+                  const data = [];
+                  for (var i in values) {
+                    const value = values[i];
+                    //console.log(value.attrValue + "  ,  " + value.recvTime); 
+                    //.toString().substring(11, 19)
+                    data.push({ time: value.recvTime, value: parseFloat(value.attrValue) });
+                  }
+                  if (data.length > 0) {
+                      dispatch(getHistoDataSuccess(measurement,data));
+                  }
+
+            })
+            .catch(function(response){
+              dispatch(getHistoDataError(response.data));
+            })
+        }
+};
+
+export function getHistoDataSuccess(measurementId,data) {
+    return{
+          type: types.GET_HISTORICAL_SUCCESS,
+          data: {measurementId:measurementId,json:data}
+    }
+};
+
+export function getHistoDataError(json) {
+    return {
+          type: types.GET_HISTORICAL_ERROR,
+          data: json
+        }
+};
+
+
 export function createSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
@@ -282,156 +334,38 @@ export function updateUserError(json) {
         }
 };
 
-export function getHistoData(sensorId, measurement, service, servicePath) {
-    if (!servicePath) {servicePath = defaultServicePathQuery;}
-    if (!service)     {service     = defaultService;}
-    console.log(sensorId);
+export function getNotifications(servicePath,service) {
+    if (!servicePath) {servicePath = fiwareServicePathQuery;}
+    if (!service) {service = fiwareService;}
     return function(dispatch) {
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
-          return axios.get(url,{
-              params: {'lastN': '24'},
-              headers: {
-                'content-type': 'application/json',
-                'fiware-servicepath': servicePath,
-                'fiware-service': service,
-              },
-            })
-            .then(function(response) {
-                console.log(response);
-                const contextResponse0 = response.data.contextResponses[0];
-                  const { contextElement: contextElement } = contextResponse0;
-                  const attribute0 = contextElement.attributes[0];
-                  const values = attribute0.values;
-                  const data = [];
-                  for (var i in values) {
-                    const value = values[i];
-                    //console.log(value.attrValue + "  ,  " + value.recvTime);
-                    data.push({ time: value.recvTime.toString().substring(11, 19), value: parseFloat(value.attrValue) });
-                  }
-                  if (data.length > 0) {
-                      dispatch(getHistoDataSuccess(measurement,data));
-                  }
 
-            })
-            .catch(function(response){
-              dispatch(getHistoDataError(response.data));
-            })
-        }
-};
-
-export function getHistoDataSuccess(measurementId,data) {
-    return{
-          type: types.GET_HISTORICAL_SUCCESS,
-          data: {measurementId:measurementId,json:data}
-    }
-};
-
-export function getHistoDataError(json) {
-    return {
-          type: types.GET_HISTORICAL_ERROR,
-          data: json
-        }
-};
-
-export function createSubscription(sub, service, servicePath) {
-    if (!servicePath) {servicePath = defaultServicePathQuery;}
-    if (!service)     {service     = defaultService;}
-    return function(dispatch) {
-          var url='http://orion.waziup.io/v1/data/subscriptions'
-          return axios.post(url, sub, {
-              headers: {
-                'content-type': 'application/json',
-                'fiware-servicepath': servicePath,
-                'fiware-service': service,
-              },
-            })
-            .then(function(response) {
-              dispatch(createSubscriptionSuccess(response.data));
-            })
-            .catch(function(response){
-              dispatch(createSubscriptionError(response.data));
-            })
-        }
-};
-
-export function createSubscriptionSuccess(data) {
-    return{
-          type: types.CREATE_SUBSCRIPTION_SUCCESS,
-          data: {json:data}
-    }
-};
-
-export function createSubscriptionError(json) {
-    return {
-          type: types.CREATE_SUBCRIPTION_ERROR,
-          data: json
-        }
-};
-
-export function getNotifications(service, servicePath) {
-    return function(dispatch) {
-          var url='http://orion.waziup.io/v1/data/subscriptions'
+          var url='http://orion.waziup.io/v2/subscriptions'
           return axios.get(url, {
               headers: {
+                'content-type':'application/json',
                 'fiware-servicepath': servicePath,
                 'fiware-service': service,
               },
             })
             .then(function(response) {
-              console.log("notif succ")
-              dispatch(getNotificationsSuccess(response.data));
+               dispatch(getNotificationsSuccess(response.data));
             })
-           // .catch(function(response){
-           //   console.log("notif error")
-           //   dispatch(getNotificationsError(response.data));
-           // })
+            .catch(function(response){
+               dispatch(getNotificationsError(response.data));
+            })
         }
 };
 
 export function getNotificationsSuccess(data) {
     return{
           type: types.GET_NOTIFICATIONS_SUCCESS,
-          data: data
+          data: {json:data}
     }
 };
 
 export function getNotificationsError(json) {
     return {
           type: types.GET_NOTIFICATIONS_ERROR,
-          data: json
-        }
-};
-export function deleteNotif(notifId, service, servicePath) {
-    return function(dispatch) {
-          dispatch({type: types.DELETE_NOTIF_START});
-          return axios.delete('http://orion.waziup.io/v1/data/subscriptions/' + notifId,{
-                      headers: {
-                        'fiware-servicepath': servicePath,
-                        'fiware-service': service,
-                      },
-                  })
-            .then(function(response) {
-                console.log(response);
-              dispatch(deleteNotifSuccess(response.data));
-            })
-            .catch(function(response){
-                console.log(response);
-              dispatch(deleteNotifError(response.data));
-            })
-        }
-
-};
-
-export function deleteNotifSuccess(json) {
-    return{
-          type: types.DELETE_NOTIF_SUCCESS,
-          data: json
-        }
-};
-
-export function deleteNotifError(json) {
-    return {
-          type: types.DELETE_NOTIF_ERROR,
           data: json
         }
 };
