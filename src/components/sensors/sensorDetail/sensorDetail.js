@@ -33,7 +33,19 @@ class sensorDetail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log("nextProps");
+    if(this.props.user.preferred_username === 'watersense'){
+      this.setState({service: "watersense"});
+    } else {
+      this.setState({service: "waziup"});
+    }
+    
+    if (nextProps.currentUser !== this.props.currentUser){
+      this.props.fetchSensors(this.state.service, this.state.servicePath);
+    }
 
+    console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
+    console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
@@ -66,7 +78,8 @@ class sensorDetail extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount(){
+    this.props.adminLogin(this.props.user);
   }
 
   componentWillMount() {
