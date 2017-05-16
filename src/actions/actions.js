@@ -197,23 +197,14 @@ export function updateSensorError(json) {
         }
 };
 
-<<<<<<< 61329d0b6f3fb3d95aa978f774ca6e445e2f3826
 export function deleteSensor(sensorId, service, servicePath) {
-=======
-export function deleteSensor(sensor, service, servicePath) {
->>>>>>> mistake in actions
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
           return axios.delete('http://orion.waziup.io/v1/data/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
-<<<<<<< 61329d0b6f3fb3d95aa978f774ca6e445e2f3826
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,
-=======
-                        'fiware-servicepath':servicePath,
-                        'fiware-service':service,
->>>>>>> mistake in actions
                       },
                   })
             .then(function(response) {
