@@ -20,7 +20,8 @@ class Home extends Component {
       sensors : props.sensors,
       user:props.user,
       markers: [],
-      position: [12.238, -1.561]
+      position: [12.238, -1.561],
+      isAllSensors: true,
     };
   
     loadSensors(true);
@@ -81,12 +82,9 @@ class Home extends Component {
      this.addAlert();
   }
   
-  handleLoadAll = (event) => {
-       if (event.target.checked){
-          this.props.fetchSensors(this.props.currentUser.attributes.Service[0], null);
-       } else {
-          this.props.fetchSensors(this.props.currentUser.attributes.Service[0], this.props.currentUser.attributes.ServicePath[0]);
-       }
+  handleChangeAllSensors = (event) => {
+     loadSensors(event.target.checked);
+     this.setState({isAllSensors: event.target.checked});
   }
 
   render() {
@@ -103,7 +101,8 @@ class Home extends Component {
         <Container fluid={true}>
           <Checkbox
               label="All sensor"
-              onCheck = {(evt)=>{this.handleLoadAll(evt)}}
+              checked = {this.state.isAllSensors}
+              onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
           />
 
            <Map ref="map" center={this.state.position} zoom={5}>
