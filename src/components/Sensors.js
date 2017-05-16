@@ -11,7 +11,7 @@ import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
 import UTIL from '../utils';
-import {loadSensors, createSensor} from "../index.js"
+import {loadSensors, createSensor, deleteSensor} from "../index.js"
 
 class Sensors extends Component {
 
@@ -49,16 +49,14 @@ class Sensors extends Component {
   }
 
 
-  handleSensorDelete = (data)=>{console.log(data)}
+  handleSensorDelete = (data)=>{deleteSensor(data)}
+
   handleSensorUpdate = (data)=>{
       this.props.updateSensorStart(data);
       this.setState({update:true});
       this.setState({formData:data});
       this.setState({modalOpen: true});
   }
-
-
-
 
   handleOpen = () => {
     this.setState({update:false});
@@ -69,6 +67,7 @@ class Sensors extends Component {
     this.setState({formData:{}});
     this.setState({modalOpen: false});
   };
+
   tableMeta = [
     {
       "columnName": "id",

@@ -44,9 +44,8 @@ export function loadSensors(isAllSensors) {
 export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
 
     var userDetails = store.getState().keycloak.idTokenParsed;
-
-    if(userDetails) {
     
+    if(userDetails) {
       var sensor  = {
         id: sensorId,
         type: sensorType,
@@ -65,6 +64,16 @@ export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
       store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath));
     }
 }
+
+export function deleteSensor(sensor) {
+    console.log("deleteSensors" + JSON.stringify(sensor));
+
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+       store.dispatch( actions.deleteSensor(sensor.id, userDetails.Service, sensor.servicePath.value));
+    }
+};
   
 function loadUsers(){
   store.dispatch(actions.getUsers());
@@ -92,8 +101,8 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
-    { path: 'sensors', component:  Sensors}, //, onEnter: loadSensors(true)},
-    { path: 'sensors/:sensorId', component:Sensor}, //, onEnter: loadSensors},
+    { path: 'sensors', component:  Sensors},
+    { path: 'sensors/:sensorId', component:Sensor},
     { path: 'users', component:  UserList, onEnter: loadUsers},
   ]
 }
