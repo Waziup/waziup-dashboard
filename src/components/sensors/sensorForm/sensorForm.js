@@ -22,8 +22,6 @@ const required = value => value == null ? 'Required' : undefined
 
 const position = [12.238, -1.561];
 
-
-
 class sensorForm extends Component {
   constructor(props){
     super(props);
@@ -33,10 +31,13 @@ class sensorForm extends Component {
       }
     };
   }
+
   componentDidMount() {
   }
+
   componentWillReceiveProps(nextProps){
   }
+  
   choosePosition = (event) => {
     this.setState({position:[event.latlng.lat,event.latlng.lng]})
     this.props.change('sensorLon', event.latlng.lng);
@@ -157,11 +158,13 @@ class sensorForm extends Component {
       );
   }
 }
+
 // Decorate with redux-form
 sensorForm = reduxForm({
   form: 'sensorForm',
   enableReinitialize : true, // this is needed!!
 })(sensorForm)
+
 sensorForm = connect(
   state => ({
     initialValues:{
