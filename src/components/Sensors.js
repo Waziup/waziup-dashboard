@@ -74,10 +74,12 @@ class Sensors extends Component {
   handleSubmitUpdate = (values) => {
     updateSensorLocation(values.sensorId, values.sensorLon, values.sensorLat);
     updateSensorOwner(values.sensorId);
+    loadSensors(this.state.isAllSensors);
   }
 
   handleSubmit = (values) => {
-     createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat);
+    createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat);
+    loadSensors(this.state.isAllSensors);
   }
 
 
