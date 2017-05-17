@@ -30,8 +30,10 @@ injectTapEventPlugin();
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
+// load all sensors in the store, using service and servicePath from the user attributes.
+// if isAllSensors == true, the sensors with the same servicePath as the user or un sub-paths are loaded. 
+// if isAllSensors == false, the sensors with the strictly same servicePath as the user are loaded.
 export function loadSensors(isAllSensors) {
-    //console.log("loadSensors" + JSON.stringify(store.getState()));
 
     var userDetails = store.getState().keycloak.idTokenParsed;
 
@@ -42,6 +44,8 @@ export function loadSensors(isAllSensors) {
     }
 };
 
+// Create a sensor with the given parameters.
+// the user's service and servicePath will be used.
 export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
 
     var userDetails = store.getState().keycloak.idTokenParsed;
@@ -66,6 +70,7 @@ export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
     }
 }
 
+//delete a sensor.
 export function deleteSensor(sensor) {
     console.log("deleteSensors" + JSON.stringify(sensor));
 
@@ -75,7 +80,8 @@ export function deleteSensor(sensor) {
        store.dispatch( actions.deleteSensor(sensor.id, userDetails.Service, sensor.servicePath.value));
     }
 };
-  
+
+//get the history of values for each attributes of the sensor.
 export function getHisto(sensor) {
     console.log("getHisto" + JSON.stringify(sensor));
 
@@ -89,6 +95,7 @@ export function getHisto(sensor) {
     }
 };
 
+//update the sensor location
 export function updateSensorLocation(sensorId, sensorLon, sensorLat) {
 
   var userDetails = store.getState().keycloak.idTokenParsed;
@@ -105,13 +112,14 @@ export function updateSensorLocation(sensorId, sensorLon, sensorLat) {
     }
 
     console.log("update" + JSON.stringify(store.getState().sensors));
-    var mySensor = store.getState().sensors.sensors.find((s) => {
+    var sensor = store.getState().sensors.sensors.find((s) => {
         return s.id === sensorId;
     });
-    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, mySensor.servicePath.value));
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, sensor.servicePath.value));
   }
 }
 
+//update the sensor owner
 export function updateSensorOwner(sensorId) {
 
   var userDetails = store.getState().keycloak.idTokenParsed;
