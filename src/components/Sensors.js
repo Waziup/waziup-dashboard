@@ -32,11 +32,11 @@ class Sensors extends Component {
 
   defaultProps = {
     data: []
-  };
+  }
   
   componentWillReceiveProps(nextProps){
- 
-    if (nextProps.sensors) {
+
+    if (nextProps.sensors !== this.props.sensors) {
        this.setState({sensors:nextProps.sensors})
     }
 
@@ -49,9 +49,12 @@ class Sensors extends Component {
   }
 
 
-  handleSensorDelete = (data)=>{deleteSensor(data)}
+  handleSensorDelete = (data) => {
+      deleteSensor(data);
+      loadSensors(this.state.isAllSensors);
+  }
 
-  handleSensorUpdate = (data)=>{
+  handleSensorUpdate = (data) => {
       this.props.updateSensorStart(data);
       this.setState({update:true});
       this.setState({formData:data});
@@ -61,12 +64,48 @@ class Sensors extends Component {
   handleOpen = () => {
     this.setState({update:false});
     this.setState({modalOpen: true});
-  };
+  }
 
   handleClose = () => {
     this.setState({formData:{}});
     this.setState({modalOpen: false});
-  };
+  }
+  
+  handleSubmitUpdate = (values) => {
+      if (values.sensorLon) {
+        let sensor  = {
+          id: values.sensorId,
+          update:{
+              location: {
+                  value: {
+                    type: "Point",
+                    coordinates: [values.sensorLon,values.sensorLat]
+                  },
+                  type: "geo:json"
+            },
+            owner: {
+             type: "string",
+             value: this.props.currentUser.username,
+            },
+          }
+        }
+
+        var mySensor = this.state.data.find((s) => {
+            return s.id === sensor.id;
+        });
+        this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
+      }
+  }
+
+  handleSubmit = (values) => {
+     createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat);
+  }
+
+
+  handleChangeAllSensors = (event) => {
+     loadSensors(event.target.checked);
+     this.setState({isAllSensors: event.target.checked});
+  }
 
   tableMeta = [
     {
@@ -107,44 +146,8 @@ class Sensors extends Component {
     },
 
   ];
-  handleSubmitUpdate = (values) => {
-      if (values.sensorLon) {
-        let sensor  = {
-          id: values.sensorId,
-          update:{
-              location: {
-                  value: {
-                    type: "Point",
-                    coordinates: [values.sensorLon,values.sensorLat]
-                  },
-                  type: "geo:json"
-            },
-            owner: {
-             type: "string",
-             value: this.props.currentUser.username,
-            },
-          }
-        }
-
-        var mySensor = this.state.data.find((s) => {
-            return s.id === sensor.id;
-        });
-        this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
-      }
-  }
-
-  handleSubmit(values) {
-     createSensor(values.sensorId, values.sensorType, values.sensorLon, values.sensorLat);
-  }
-
-
-  handleChangeAllSensors = (event) => {
-     loadSensors(event.target.checked);
-     this.setState({isAllSensors: event.target.checked});
-  }
 
   render() {
-    let {data} = this.props;
 
     return (
           <div>

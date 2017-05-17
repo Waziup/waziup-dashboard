@@ -12,10 +12,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    createSensor:(sensor,servicePath)=>{dispatch(createSensor(sensor,servicePath))},
     updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
     updateSensorLocation:(sensor, service, servicePath)=>{dispatch(updateSensorLocation(sensor, service, servicePath))},
-    fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))}
   };
 }
 const SensorsContainer = connect(mapStateToProps, mapDispatchToProps)(Sensors);
