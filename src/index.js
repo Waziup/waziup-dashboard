@@ -42,7 +42,7 @@ export function loadSensors(isAllSensors) {
     }
 };
 
-export function createSensor(sensorId, sensorType, sensorLat, sensorLon) {
+export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
 
     var userDetails = store.getState().keycloak.idTokenParsed;
     
@@ -88,6 +88,49 @@ export function getHisto(sensor) {
         });
     }
 };
+
+export function updateSensorLocation(sensorId, sensorLon, sensorLat) {
+
+  var userDetails = store.getState().keycloak.idTokenParsed;
+
+  if(userDetails) {
+    let attribute  = {
+      location: {
+        value: {
+          type: "Point",
+          coordinates: [sensorLon, sensorLat]
+        },
+        type: "geo:json"
+      }
+    }
+
+    console.log("update" + JSON.stringify(store.getState().sensors));
+    var mySensor = store.getState().sensors.sensors.find((s) => {
+        return s.id === sensorId;
+    });
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, mySensor.servicePath.value));
+  }
+}
+
+export function updateSensorOwner(sensorId) {
+
+  var userDetails = store.getState().keycloak.idTokenParsed;
+
+  if(userDetails) {
+    let attribute  = {
+      owner: {
+        type: "string",
+        value: userDetails.preferred_username,
+      }
+    }
+
+    var mySensor = store.getState().sensors.sensors.find((s) => {
+        return s.id === sensorId;
+    });
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, mySensor.servicePath.value));
+  }
+}
+
 
 function loadUsers(){
   store.dispatch(actions.getUsers());

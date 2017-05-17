@@ -11,7 +11,7 @@ import { Container} from 'react-grid-system'
 import Griddle from 'griddle-react';
 import Spinner from 'react-spinkit';
 import UTIL from '../utils';
-import {loadSensors, createSensor, deleteSensor} from "../index.js"
+import {loadSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor} from "../index.js"
 
 class Sensors extends Component {
 
@@ -36,7 +36,7 @@ class Sensors extends Component {
   
   componentWillReceiveProps(nextProps){
 
-    if (nextProps.sensors !== this.props.sensors) {
+    if (nextProps.sensors) { // !== this.props.sensors) {
        this.setState({sensors:nextProps.sensors})
     }
 
@@ -72,29 +72,8 @@ class Sensors extends Component {
   }
   
   handleSubmitUpdate = (values) => {
-      if (values.sensorLon) {
-        let sensor  = {
-          id: values.sensorId,
-          update:{
-              location: {
-                  value: {
-                    type: "Point",
-                    coordinates: [values.sensorLon,values.sensorLat]
-                  },
-                  type: "geo:json"
-            },
-            owner: {
-             type: "string",
-             value: this.props.currentUser.username,
-            },
-          }
-        }
-
-        var mySensor = this.state.data.find((s) => {
-            return s.id === sensor.id;
-        });
-        this.props.updateSensorLocation(sensor, this.props.currentUser.attributes.Service[0], mySensor.servicePath.value);
-      }
+    updateSensorLocation(values.sensorId, values.sensorLon, values.sensorLat);
+    updateSensorOwner(values.sensorId);
   }
 
   handleSubmit = (values) => {

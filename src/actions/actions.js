@@ -158,9 +158,9 @@ export function updateSensorStart(json) {
           data: json
         }
 };
-export function updateSensorLocation(sensor, service, servicePath) {
+export function updateSensorAttributes(sensorId, update, service, servicePath) {
     return function(dispatch) {
-          return axios.post('http://orion.waziup.io/v1/data/entities/'+sensor.id+'/attrs', sensor.update, {
+          return axios.post('http://orion.waziup.io/v1/data/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
