@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 import UTIL from '../../../../utils'
+import { getHisto } from "../../../../index.js"
 
 class SensorChart extends Component {
   constructor(props){
@@ -13,15 +14,10 @@ class SensorChart extends Component {
   };
 
   componentWillReceiveProps(nextProps){
-    var measurements = [];
     
     if(!UTIL.objIsEmpty(nextProps.sensor) && (nextProps.sensor !== this.props.sensor)){
-     
-        measurements =  UTIL.getMeasurements(nextProps.sensor);
-        measurements.map((item) => {
-            this.props.getHistoData(nextProps.sensor, item.key, nextProps.servicePath, nextProps.service);
-        });
-      }
+      getHisto(nextProps.sensor);
+    }
   }
 
   render() {

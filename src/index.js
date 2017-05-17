@@ -23,6 +23,7 @@ import Notification from './components/notification/NotificationForm.js';
 import './index.css';
 import * as actions from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import UTIL from './utils'
 
 injectTapEventPlugin();
 
@@ -75,6 +76,19 @@ export function deleteSensor(sensor) {
     }
 };
   
+export function getHisto(sensor) {
+    console.log("getHisto" + JSON.stringify(sensor));
+
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+        var meas =  UTIL.getMeasurements(sensor);
+        meas.map((item) => {
+           store.dispatch( actions.getHistoData(sensor.id, item.key, userDetails.Service, sensor.servicePath.value));
+        });
+    }
+};
+
 function loadUsers(){
   store.dispatch(actions.getUsers());
 };

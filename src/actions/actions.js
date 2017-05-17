@@ -64,18 +64,18 @@ export function fetchSensors(service, servicePath) {
         }
 };
 
-export function getHistoData(sensor, measurement, service, servicePath) {
+export function getHistoData(sensorId, measurement, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
-    console.log(sensor);
+    console.log(sensorId);
     return function(dispatch) {
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensor.id + '/attributes/' + measurement;
+          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
               params: {'lastN': '24'},
               headers: {
-                'content-type':'application/json',
-                'fiware-servicepath':sensor.servicePath.value,
-                'fiware-service':service,
+                'content-type': 'application/json',
+                'fiware-servicepath': servicePath,
+                'fiware-service': service,
               },
             })
             .then(function(response) {
