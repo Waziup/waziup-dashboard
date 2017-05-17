@@ -92,9 +92,9 @@ class Layout extends Component {
     console.log("user:" + JSON.stringify(this.props.user));
   
     if(this.props.user.preferred_username === 'watersense')
-      Logo = require("../images/logo-watersense-white.svg");
+      Logo = require("../images/logo-watersense-white.png");
     else
-      Logo = require("../images/logo-waziup-white.svg");
+      Logo = require("../images/logo-waziup-white.png");
   
     return (
       <div id="main">
