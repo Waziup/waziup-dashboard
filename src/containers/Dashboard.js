@@ -4,19 +4,18 @@ import { Router, Route, IndexRoute } from 'react-router'
 import { browserHistory } from 'react-router'
 import User from '../components/User'
 import SensingDevices from '../components/SensingDevices'
+import Subscriptions from '../components/Subscriptions'
 import MainLayout from '../components/MainLayout'
 import ContentLayout from '../components/ContentLayout'
 import Home from '../components/Home'
+import {Visualizations, VisualizationsWrapperComponent} from '../components/Visualizations'
+
 import {doLogout, accountManagement} from '../actions/securityActions'
 
 
 class Dashboard extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      showUserComponent: false,
-      showSensingDevicesComponent: false
-    };
   }
   
   componentDidMount() {
@@ -35,7 +34,8 @@ class Dashboard extends Component {
               <Route path="/home" component={() => <Home userInfo={userInfo} />} />
               <Route path="/userinfo" component={() => <User userInfo={userInfo} />} />
               <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
-              <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
+              <Route path="/visualizations" component={VisualizationsWrapperComponent} />
+              <Route path="/subscriptions" component={Subscriptions} />
               <Route path="/accountmngmnt" component={() => this.props.dispatch(accountManagement())} />
               <Route path="/logout" component={() => this.props.dispatch(doLogout())} />
             </Route>

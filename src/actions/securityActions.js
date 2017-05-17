@@ -80,12 +80,12 @@ const doLogin = () => dispatch => {
   // break into several actions
   // use KC callbacks on login-success, or login-failure, etc.
   return kc.init({onLoad: 'login-required'}).success(authenticated => {
-    console.log("AUTH STATUS: " + authenticated);
+    //console.log("AUTH STATUS: " + authenticated);
     if(!authenticated) {
       kc.login();
     } else {
       kc.loadUserInfo().success(function (profile) {
-        alert(JSON.stringify(profile, null, "  "));
+        //alert(JSON.stringify(profile, null, "  "));
       }).error(function () {
         alert('Failed to load user profile');
       });

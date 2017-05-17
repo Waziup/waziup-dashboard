@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap';
-import { PageHeader, ButtonToolbar, Grid, Row, Col, Nav, NavItem, Navbar } from 'react-bootstrap';
+
+import { PageHeader, Grid, Row, Col, Nav, NavItem, Glyphicon } from 'react-bootstrap';
 import { Link } from 'react-router'
+//import { Button } from 'react-bootstrap';, ButtonToolbar, Navbar
 //import SideBarMenu from './SideBarMenu'
 
 
@@ -18,7 +19,7 @@ class MainLayout extends Component {
     //     //dispatch(fetchDevicesList())
     //     //this.setState({ showSensingDevicesComponent: !this.state.showSensingDevicesComponent });
     // }onClick={this.handleSensingDevicesComponent}
-
+    //circle-arrow-left
     render() {
         return (
             <div>
@@ -32,11 +33,12 @@ class MainLayout extends Component {
                     </Row>
                     <Col lg={2} md={2} xs={2} className="side-bar">
                         <Nav bsStyle="pills" stacked>
-                            <NavItem eventKey={3} title="Home"> <Link activeClassName="active" to="/home">Home</Link></NavItem>
-                            <NavItem eventKey={1} title="User Info"><Link activeClassName="active" to="/userinfo">User Info</Link></NavItem>
-                            <NavItem eventKey={2} title="Sensing Devices"><Link activeClassName="active" to="/sensingdevices" >Sensing Devices</Link></NavItem>
-                            <NavItem eventKey={2} title="Account Management"><Link activeClassName="active" to="/accountmngmnt" >Account Management</Link></NavItem>                            
-                            <NavItem eventKey={3} title="Logout"> <Link activeClassName="active" to="/logout">Logout</Link></NavItem>                            
+                            <NavItem eventKey={3} title="Home"> <Glyphicon glyph="home" /> <Link activeClassName="active" to="/home">Home</Link></NavItem>
+                            <NavItem eventKey={2} title="Sensing Devices"><Glyphicon glyph="object-align-vertical" /> <Link activeClassName="active" to="/sensingdevices">Sensing Devices</Link></NavItem>
+                            <NavItem eventKey={2} title="Subscriptions"><Glyphicon glyph="wrench" /> <Link activeClassName="active" to="/subscriptions">Subscriptions</Link></NavItem>
+                            <NavItem eventKey={1} title="User Info"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/userinfo">User Information & Tokens</Link></NavItem>
+                            <NavItem eventKey={2} title="Account Management"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/accountmngmnt">Account Management</Link></NavItem>
+                            <NavItem eventKey={3} title="Logout"><Glyphicon glyph="log-out" /> <Link activeClassName="active" to="/logout">Logout</Link></NavItem>                            
                         </Nav>
                     </Col>
                     <Col lg={10} md={10} xs={10}>
