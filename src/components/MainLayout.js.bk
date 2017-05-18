@@ -1,0 +1,69 @@
+import React, { Component } from 'react'
+import { Button } from 'react-bootstrap';
+import { ButtonToolbar,Grid, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router'
+import SideBarMenu from './SideBarMenu'
+
+
+class MainLayout extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {}
+        //this.handleSensingDevicesComponent = this.handleSensingDevicesComponent.bind(this)
+    }
+
+    // handleSensingDevicesComponent = e => {
+    //     e.preventDefault()
+    //     //const { dispatch } = this.props
+    //     //dispatch(fetchDevicesList())
+    //     //this.setState({ showSensingDevicesComponent: !this.state.showSensingDevicesComponent });
+    // }onClick={this.handleSensingDevicesComponent}
+
+    render() {
+        return (
+
+            <div>
+                            <Grid fluid='true'>
+                <Row className="show-grid">
+                    <Col lg={12} md={12} xs={12}>TOP<code>&lt;{'Col lg={12} xs={12} md={12}'} /&gt;</code></Col>
+                </Row>
+                <Row className="show-grid">
+                    <Col lg={2} md={2} xs={2}>SIDEBAR<code>&lt;{'Col lg={2} md={2} xs={2}'} /&gt;</code></Col>
+                    <Col lg={10} md={10} xs={10}>CONTENT<code>&lt;{'Col lg={10} md={10} xs={10}'} /&gt;</code></Col>
+                </Row>
+            </Grid>
+                <header>MainLayout: Header</header>
+                <aside >
+                    <SideBarMenu />
+                    <ButtonToolbar>
+                        {/* Provides extra visual weight and identifies the primary action in a set of buttons */}
+                        <Button bsStyle="primary">
+                            <Link activeClassName="active" to="/userinfo">User Info</Link>
+                        </Button>
+                        {/* Indicates a successful or positive action */}
+                        <Button bsStyle="success">
+                            <Link activeClassName="active" to="/sensingdevices" >Sensing Devices</Link>
+                        </Button>
+                        {/* Standard button */}
+                        <Button>
+                            <Link activeClassName="active" to="/">Home</Link>
+                        </Button>
+                        {/* Contextual button for informational alert messages */}
+                        <Button bsStyle="info">Info</Button>
+                        {/* Indicates caution should be taken with this action */}
+                        <Button bsStyle="warning" >Warning</Button>
+                        {/* Indicates a dangerous or potentially negative action */}
+                        <Button bsStyle="danger" disabled >Danger</Button>
+                        {/* Deemphasize a button by making it look like a link while maintaining button behavior */}
+                        <Button bsStyle="link" disabled>Link</Button>
+                    </ButtonToolbar>
+                </aside>
+                <main>
+                    {this.props.children}
+                </main>
+            </div>
+        )
+    }
+}
+
+export default MainLayout

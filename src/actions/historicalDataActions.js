@@ -50,7 +50,9 @@ const fetchHistoricalDataSensor = (deviceId, sensorId, sp) => (dispatch, getStat
     const data = [];
     for (var i in values) {
       const value = values[i]
-      data.push({ time: value.recvTime.toString().substring(11, 19), value: parseFloat(value.attrValue) })
+      //value.recvTime.toString().substring(11, 19)
+      var localDate = new Date(value.recvTime)
+      data.push({ time: localDate.toLocaleString().substring(11, 19), value: parseFloat(value.attrValue) })
     }
     dispatch(historicalDataFetched(deviceId, sensorId, data))
   }).catch((response) => {

@@ -1,0 +1,35 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import SidebarItem from './sidebar-item';
+
+class Sidebar extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    getChildContext(){
+      return {
+        router: {
+            history: this.props.history,
+        }
+      };
+    }
+
+    renderItems() {
+        return this.props.items.map(item => (
+            <SidebarItem {...item} key={item.label} getSelectedItem={this.props.getSelectedItem}/>
+        ));
+    }
+
+    render() {
+        return <div className="o-app__sidebar">{this.renderItems()}</div>;
+    }
+}
+
+Sidebar.childContextTypes = {
+    router: PropTypes.object
+};
+
+export default Sidebar;
+
+http://stackoverflow.com/questions/32794081/how-does-react-router-get-into-the-react-context
