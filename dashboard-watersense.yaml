@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dashboard-watersense
-        image: waziup/dashboard-watersense:latest
+        image: waziup/ws-dashboard:latest
         ports:
         - containerPort: 3000
         env:
@@ -49,7 +49,7 @@ metadata:
   namespace: waziup
 spec:
   rules:
-  - host: watersense.waziup.io
+  - host: ws.waziup.io
     http:
       paths:
       - path: /
