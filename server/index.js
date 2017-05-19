@@ -118,8 +118,8 @@ app.use(bodyParser.json());
 app.use('/api', router);
 
 async function run() {
-    await new Promise(resolve => app.listen(8000, () => resolve()));
-    console.log('Listening on port 8000');
+    await new Promise(resolve => app.listen(3000, () => resolve()));
+    console.log('Listening on port 3000');
 }
 
 run();
