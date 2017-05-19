@@ -10,6 +10,7 @@ import Keycloak from 'keycloak-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
+import SMComparisonChart from './components/SMComparisonChart';
 import MVPCattle from './components/Mvpcattle';
 import MVPAgri from './components/Mvpagri';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
@@ -166,6 +167,7 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
+    { path: 'complexvisualization', component: SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
     { path: 'users', component:  UserList, onEnter: loadUsers},
