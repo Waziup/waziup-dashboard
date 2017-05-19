@@ -7,6 +7,7 @@ import SensingDevices from '../components/SensingDevices'
 import Subscriptions from '../components/Subscriptions'
 import MainLayout from '../components/MainLayout'
 import ContentLayout from '../components/ContentLayout'
+import SMComparisonChart from '../components/SMComparisonChart'
 import Home from '../components/Home'
 import {Visualizations, VisualizationsWrapperComponent} from '../components/Visualizations'
 
@@ -35,6 +36,7 @@ class Dashboard extends Component {
               <Route path="/userinfo" component={() => <User userInfo={userInfo} />} />
               <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
               <Route path="/visualizations" component={VisualizationsWrapperComponent} />
+              <Route path="/complexvisualizations" component={SMComparisonChart} />
               <Route path="/subscriptions" component={Subscriptions} />
               <Route path="/accountmngmnt" component={() => this.props.dispatch(accountManagement())} />
               <Route path="/logout" component={() => this.props.dispatch(doLogout())} />

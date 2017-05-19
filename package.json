@@ -7,21 +7,22 @@
     "redux-logger": "^3.0.0"
   },
   "dependencies": {
-    "react-bootstrap":"^0.31.0",
-    "material-ui": "^0.18.0",
-    "react-tap-event-plugin": "^2.0.1",
     "axios": "^0.15.3",
     "keycloak-admin-client": "^0.4.0",
     "keycloak-js": "^2.5.5",
+    "material-ui": "^0.18.0",
+    "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.8",
     "react": "^15.5.0",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.5.0",
+    "react-grid-system": "latest",
+    "react-leaflet": "latest",
     "react-redux": "^5.0.3",
     "react-router": "^3.0.0",
+    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0",
-    "react-leaflet": "latest",
-    "react-grid-system": "latest"
+    "redux-thunk": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
