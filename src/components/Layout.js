@@ -149,6 +149,12 @@ class Layout extends Component {
               innerDivStyle={styles.menuLink}
               primaryText="Sensors"
             />
+
+            <MenuItem
+              containerElement={<Link to="/complexvisualization" />}
+              innerDivStyle={styles.menuLink}
+              primaryText="SMComparisonChart"
+            />
   
             <MenuItem
               containerElement={<Link to="/notification" />}
@@ -205,6 +211,11 @@ class Layout extends Component {
                   primaryText="Sensors"
                 />
   
+             <MenuItem
+              containerElement={<Link to="/complexvisualization" />}
+              innerDivStyle={styles.menuLink}
+              primaryText="SMComparisonChart"
+            />
                 <MenuItem
                   containerElement={<Link to="/notification" />}
                   innerDivStyle={styles.menuLink}
