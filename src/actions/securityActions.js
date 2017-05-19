@@ -47,7 +47,8 @@ export const logoutCompleted = () => ({
 
 export const doLogout = () => (dispatch, getState) => {
   dispatch(logoutRequest())
-  getState().security.userInfo.logout({redirectUri: 'http://localhost:3000/'}).success(done => {
+  //URL http://localhost:3000
+  getState().security.userInfo.logout({redirectUri: '/'}).success(done => {
      dispatch(logoutCompleted())
      console.log("Logout: " + done);
     }).error( () => {
