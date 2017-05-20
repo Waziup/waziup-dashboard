@@ -89,7 +89,7 @@ class Layout extends Component {
     };
   
     var Logo;
-    console.log("user:" + JSON.stringify(this.props.user));
+    //console.log("user:" + JSON.stringify(this.props.user));
   
     if(this.props.user.preferred_username === 'watersense')
       Logo = require("../images/logo-watersense-white.svg");
@@ -152,8 +152,8 @@ class Layout extends Component {
 
             <MenuItem
               containerElement={<Link to="/complexvisualization" />}
+              primaryText="Farm View"
               innerDivStyle={styles.menuLink}
-              primaryText="SMComparisonChart"
             />
   
             <MenuItem
@@ -214,8 +214,8 @@ class Layout extends Component {
              <MenuItem
               containerElement={<Link to="/complexvisualization" />}
               innerDivStyle={styles.menuLink}
-              primaryText="SMComparisonChart"
-            />
+              primaryText="Farm View"
+              />
                 <MenuItem
                   containerElement={<Link to="/notification" />}
                   innerDivStyle={styles.menuLink}

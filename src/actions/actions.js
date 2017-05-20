@@ -87,8 +87,9 @@ export function getHistoData(sensorId, measurement, service, servicePath) {
                   const data = [];
                   for (var i in values) {
                     const value = values[i];
-                    //console.log(value.attrValue + "  ,  " + value.recvTime);
-                    data.push({ time: value.recvTime.toString().substring(11, 19), value: parseFloat(value.attrValue) });
+                    //console.log(value.attrValue + "  ,  " + value.recvTime); 
+                    //.toString().substring(11, 19)
+                    data.push({ time: value.recvTime, value: parseFloat(value.attrValue) });
                   }
                   if (data.length > 0) {
                       dispatch(getHistoDataSuccess(measurement,data));
