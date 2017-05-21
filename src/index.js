@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { createStore, combineReducers, applyMiddleware} from 'redux'
+import { reducer as formReducer } from 'redux-form'
+
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
@@ -16,7 +18,8 @@ const rootReducer = combineReducers({
   security: securityReducer,
   sensingDevice: sensingDeviceReducer,
   subscriptions: subscriptionsReducer,
-  historicalData: historicalDataReducer
+  historicalData: historicalDataReducer,
+  form: formReducer
 })
 
 const middleware = [thunk]

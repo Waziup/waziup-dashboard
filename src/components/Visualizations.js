@@ -25,7 +25,7 @@ class Visualizations extends Component {
       //const unit = ? : "";
       const unit = "%"
       //let sensorId = Object.keys(sensorData)
-      const YAxisLabel = 'Moisture' + '(' + unit + ')';
+      const YAxisLabel = 'Moisture (' + unit + ')';
       let sensorData = historicalData[sensorId].data
       let fetched = historicalData[sensorId].fetched
       let isFetching = historicalData[sensorId].isFetching

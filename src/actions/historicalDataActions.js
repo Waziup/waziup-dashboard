@@ -44,7 +44,7 @@ const fetchHistoricalDataSensor = (deviceId, sensorId, sp) => (dispatch, getStat
     }
   }).then((response) => {
     const contextResponse0 = response.data.contextResponses[0];
-    const { contextElement: contextElement } = contextResponse0;
+    const { contextElement} = contextResponse0;
     const attribute0 = contextElement.attributes[0];
     const values = attribute0.values;
     const data = [];
@@ -61,7 +61,5 @@ const fetchHistoricalDataSensor = (deviceId, sensorId, sp) => (dispatch, getStat
 }
 
 export const fetchHistoricalData = (deviceId, sensorIds, sp) => (dispatch, getState) => {
-  sensorIds.map((sensorId) => {
-    dispatch(fetchHistoricalDataSensor(deviceId, sensorId, sp))
-  })
+  sensorIds.map((sensorId) => dispatch(fetchHistoricalDataSensor(deviceId, sensorId, sp)))
 }

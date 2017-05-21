@@ -13,11 +13,11 @@ class SecurityContainer extends Component {
 //    dispatch: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
+  //constructor(props) {
+    //super(props)
     // this.handleLoginClick = this.handleLoginClick.bind(this)
     // this.handleLogoutClick = this.handleLogoutClick.bind(this)
-  }
+  //}
 
   componentDidMount() {
     const { dispatch, authenticated, isAuthenticating} = this.props

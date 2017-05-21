@@ -8,16 +8,17 @@ import Subscriptions from '../components/Subscriptions'
 import MainLayout from '../components/MainLayout'
 import ContentLayout from '../components/ContentLayout'
 import SMComparisonChart from '../components/SMComparisonChart'
+import UserSettingsPage from '../components/UserSettingsPage'
 import Home from '../components/Home'
-import {Visualizations, VisualizationsWrapperComponent} from '../components/Visualizations'
+import {VisualizationsWrapperComponent} from '../components/Visualizations'
 
 import {doLogout, accountManagement} from '../actions/securityActions'
 
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
   
   componentDidMount() {
     //const { dispatch, authenticated, isAuthenticating} = this.props
@@ -38,6 +39,7 @@ class Dashboard extends Component {
               <Route path="/visualizations" component={VisualizationsWrapperComponent} />
               <Route path="/complexvisualizations" component={SMComparisonChart} />
               <Route path="/subscriptions" component={Subscriptions} />
+              <Route path="/usersettingspage" component={UserSettingsPage} />
               <Route path="/accountmngmnt" component={() => this.props.dispatch(accountManagement())} />
               <Route path="/logout" component={() => this.props.dispatch(doLogout())} />
             </Route>
