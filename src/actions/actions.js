@@ -67,7 +67,7 @@ export function fetchSensors(service, servicePath) {
 export function getHistoData(sensorId, measurement, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
-    console.log(sensorId);
+    //console.log(sensorId);
     return function(dispatch) {
           var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
@@ -79,7 +79,7 @@ export function getHistoData(sensorId, measurement, service, servicePath) {
               },
             })
             .then(function(response) {
-                console.log(response);
+                //console.log(response);
                 const contextResponse0 = response.data.contextResponses[0];
                   const { contextElement: contextElement } = contextResponse0;
                   const attribute0 = contextElement.attributes[0];
@@ -233,7 +233,7 @@ export function adminLogin(user) {
           .then((client) => {
             client.users.find(user.aud,{email:user.email})
                 .then((userK) => {
-                    console.log(userK);
+                    //console.log(userK);
                     dispatch(updateUserSuccess(userK[0]));
               },(err)=>{
                 dispatch(adminLoginError(err));
@@ -296,7 +296,7 @@ export function updateUser(user,attrs) {
           .then((client) => {
             client.users.find(user.aud,{email:user.email})
                 .then((userK) => {
-                    console.log(userK);
+                    //console.log(userK);
                     if(typeof userK[0].attributes==='undefined'){
                         userK[0].attributes = {};
                     }
