@@ -9,6 +9,7 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import SubmitForm from './SubmitNotificationFormContainer.js' ;
+import {loadSensors, subscribeHistoData} from "../../index.js"
 
 export default class NotificationForm extends Component {
     // Constructor for the component
@@ -21,11 +22,14 @@ export default class NotificationForm extends Component {
         this.handleSubmit                   = this.handleSubmit.bind(this);
         this.handleOpen                     = this.handleOpen.bind(this);
         this.handleClose                    = this.handleClose.bind(this);
+        loadSensors(true);
     }
 
 
 //Fire when submitting the form data
 handleSubmit(event) {
+  console.log("submit:" + JSON.stringify(event))
+  subscribeHistoData("WS_UPPA_Sensor2", [])
     
 }
 
