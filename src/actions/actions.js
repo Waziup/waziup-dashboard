@@ -152,12 +152,6 @@ export function createSensorError(json) {
         }
 };
 
-export function updateSensorStart(json) {
-    return{
-          type: types.UPDATE_SENSORS_START,
-          data: json
-        }
-};
 export function updateSensorAttributes(sensorId, update, service, servicePath) {
     return function(dispatch) {
           return axios.post('http://orion.waziup.io/v1/data/entities/'+sensorId+'/attrs', update, {
@@ -169,15 +163,22 @@ export function updateSensorAttributes(sensorId, update, service, servicePath) {
                   })
             .then(function(response) {
                 console.log(response);
-              dispatch(deleteSensorSuccess(response.data));
+              dispatch(updateSensorSuccess(response.data));
             })
             .catch(function(response){
                 console.log(response);
-              dispatch(deleteSensorError(response.data));
+              dispatch(updateSensorError(response.data));
             })
         }
 
 };
+export function updateSensorStart(json) {
+    return{
+          type: types.UPDATE_SENSORS_START,
+          data: json
+        }
+};
+
 export function updateSensorSuccess(json) {
     return{
           type: types.UPDATE_SENSORS_SUCCESS,
