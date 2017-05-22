@@ -141,81 +141,53 @@ export function updateSensorOwner(sensorId) {
   }
 }
 
-export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling) {
+export function subscribeHistoData(sensorId, attrs) {
 
-  let userDetails = store.getState().keycloak.idTokenParsed;
-  let headers2 = headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {})
-
+  var userDetails = store.getState().keycloak.idTokenParsed;
   if(userDetails) {
-
-    var entities = sensorIds.map((s) => {
-            return {
-              id: s,
-              type: "SensingDevice"
-            }});
     let sub =
       {
-        description: desc,
-        subject: {
-          entities: entities,
-          condition: {
-            attrs: attrs,
-            expression: {
-              q: qExpr
+        "description": "A subscription to get info about WS_UPPA_Sensor2",
+        "subject": {
+          "entities": [
+            {
+              "id": sensorId,
+              "type": "SensingDevice"
             }
+          ],
+          "condition": {
+            "attrs": [
+              "SM1"
+            ]
           }
         },
-        notification: {
-          httpCustom: {
-            url: url,
-            headers: headers2,
-            method: "POST",
-            payload: URIEncodeForbiddens(payload)
+        "notification": {
+          "httpCustom": {
+            "url": "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/",
+            "headers": {
+               "Content-type": "application/json",
+               "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6WXpoaU5ESmpPRE5oTkRreE1qaGlZVGd4WkRkaE5qYzNPV1ZsTnpZMA=="
+               
+            },
+            "method": "POST",
+            "payload": "%7B%22src%22%3A%2200393806412092%22%2C%22dst%22%3A%2200393806412093%22%2C%22text%22%3A%22test%22%7D"
           },
-          attrs: attrs
+          "attrs": [
+            "SM1"
+          ]
         },
-        expires: expires,
-        throttling: throttling
+        "expires": "2040-01-01T14:00:00.00Z",
+        "throttling": 5
       }
-    console.log("sub: "+ JSON.stringify(sub))
-    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#"));
+
+    console.log("sensor" + JSON.stringify(sensorId)); 
+    console.log("sensors" + JSON.stringify(store.getState().sensors)); 
+    var mySensor = store.getState().sensors.sensors.find((s) => {
+        return s.id === sensorId;
+    });
+    store.dispatch(actions.subscribeHistoData(sub, userDetails.Service, mySensor.servicePath.value));
   }
 }
-
-// URI encode the forbidden characters of Orion
-function URIEncodeForbiddens(s) {
-   
-  // forbidden characters: <>"\;()
-  const forbiddens = ["<", ">", "\"", "\\\\", "\;", "\\(", "\\)"]
-  return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)
-
-}
-
-function replaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
-
-export function getNotifications() {
-
-    var userDetails = store.getState().keycloak.idTokenParsed;
-
-    if(userDetails) {
-       var service     = userDetails.Service;
-       var servicePath = userDetails.ServicePath + "#";
-       store.dispatch( actions.getNotifications(service, servicePath));
-    }
-};
-
-//delete a sensor.
-export function deleteNotif(notifId) {
-    console.log("deleteNotif" + JSON.stringify(notifId));
-
-    var userDetails = store.getState().keycloak.idTokenParsed;
-
-    if(userDetails) {
-       store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/"));
-    }
-};
 
 function loadUsers(){
   store.dispatch(actions.getUsers());
