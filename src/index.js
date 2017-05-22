@@ -191,7 +191,7 @@ const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
 
 if (checkIdentity === 'false') {
 
-  console.log("test" + checkIdentity)
+  //console.log("test" + checkIdentity)
   displayPage();
 
 } else {
@@ -202,7 +202,7 @@ if (checkIdentity === 'false') {
       kc.login();
     } else {
 
-      console.log(authenticated);
+      //console.log(authenticated);
       store.getState().keycloak = kc;
       setInterval(() => {
         kc.updateToken(10).error(() => kc.logout());
