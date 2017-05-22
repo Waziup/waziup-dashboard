@@ -167,7 +167,7 @@ const routes = {
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notification', component: Notification},
-    { path: 'complexvisualization', component: SMComparisonChart},
+    { path: '/farmview/farm1', component: SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
     { path: 'users', component:  UserList, onEnter: loadUsers},

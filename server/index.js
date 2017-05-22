@@ -104,18 +104,12 @@ const router = express.Router();
 router.get('/search', safeHandler(search));
 
 const app = express();
-
-app.use(express.static(path.join(__dirname, '../build/')));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '/build', 'index.html'));
-});
-
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use('/api', router);
+
 
 async function run() {
     await new Promise(resolve => app.listen(8000, () => resolve()));

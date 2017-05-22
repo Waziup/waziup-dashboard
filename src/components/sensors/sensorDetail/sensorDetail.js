@@ -8,6 +8,7 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } 
 import SensorChart from './SensorChart/SensorChartContainer';
 import UTIL from '../../../utils.js';
 import { loadSensors } from "../../../index.js"
+import moment from 'moment-timezone';
 
 var position = [12.238, -1.561];
 class sensorDetail extends Component {
@@ -105,9 +106,9 @@ class sensorDetail extends Component {
                     <ListItem primaryText={itemID.key + ": " + itemID.value} />
                   )
                 })}
-                <ListItem primaryText={"Date created: " + this.state.dateCreated} />
-                <ListItem primaryText={"Date modified: " + this.state.dateModified} />
-                <ListItem primaryText={"Service path: " + this.state.servicePath} />
+                <ListItem primaryText={"Creation Date: " + moment(this.state.dateCreated).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z')} />
+                <ListItem primaryText={"Last Updates: " + moment(this.state.dateModified).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z')} />
+                <ListItem primaryText={"Service Path: " + this.state.servicePath} />
               </List>
             </CardText>
             <CardTitle title="Historical Data" />
