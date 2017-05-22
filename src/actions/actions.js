@@ -75,7 +75,7 @@ export function createSensor(sensor, service, servicePath) {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
-                        'fiware-service':fiwareService,
+                        'fiware-service':service,
                       },
                   })
             .then(function(response) {
@@ -144,14 +144,14 @@ export function updateSensorError(json) {
         }
 };
 
-export function deleteSensor(sensor,servicePath) {
+export function deleteSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
           return axios.delete('http://orion.waziup.io/v1/data/entities/'+sensor.sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
-                        'fiware-service':fiwareService,
+                        'fiware-service':service,
                       },
                   })
             .then(function(response) {
