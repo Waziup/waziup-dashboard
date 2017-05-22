@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Sensors from './Sensors.js';
-import {createSensor, updateSensorStart, updateSensorLocation, fetchSensors} from '../actions/actions';
+import {updateSensorStart} from '../actions/actions';
 
 function mapStateToProps(state) {
   return {
@@ -13,7 +13,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateSensorStart:(sensor,servicePath)=>{dispatch(updateSensorStart(sensor,servicePath))},
-    updateSensorLocation:(sensor, service, servicePath)=>{dispatch(updateSensorLocation(sensor, service, servicePath))},
   };
 }
 const SensorsContainer = connect(mapStateToProps, mapDispatchToProps)(Sensors);
