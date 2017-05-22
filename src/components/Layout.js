@@ -83,13 +83,37 @@ class Layout extends Component {
   }
   
   render() {
-    
+    let jellyFishMenu;  
+    if (this.props.user.preferred_username === 'watersense') {
+      jellyFishMenu = <MenuItem
+              primaryText="Farm View"
+              innerDivStyle={styles.menuLink}
+              menuItems={[
+                <MenuItem primaryText="Farm 1" containerElement={<Link to="/farmview/farm1" />} />,
+                <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} disabled={true}/>,
+                <MenuItem primaryText="Farm 3" containerElement={<Link to="/farmview/farm3" />}  disabled={true}/>,
+                ]}
+            />
+      } else {
+       jellyFishMenu = <MenuItem
+              primaryText="Apps"
+              innerDivStyle={styles.menuLink}
+              rightIcon={<ArrowDropRight />}
+              menuItems={[
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
+                <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+                <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
+                ]}
+            />
+      } 
+
+     
     var navTitleStyle = {
       marginLeft: '-8px'
     };
   
     var Logo;
-    //console.log("user:" + JSON.stringify(this.props.user));
   
     if(this.props.user.preferred_username === 'watersense')
       Logo = require("../images/logo-watersense-white.png");
@@ -116,7 +140,7 @@ class Layout extends Component {
       
             <MenuItem
               containerElement={<Link to="/home" />}
-              primaryText="Dashboard"
+              primaryText="Global Map"
               innerDivStyle={styles.menuLink}
             />
   
@@ -131,18 +155,7 @@ class Layout extends Component {
               primaryText="Users"
               innerDivStyle={styles.menuLink}
             />
-            
-            <MenuItem
-              primaryText="Apps"
-              innerDivStyle={styles.menuLink}
-              rightIcon={<ArrowDropRight />}
-              menuItems={[
-                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
-                <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
-                <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
-                ]}
-            /> 
+
   
             <MenuItem
               containerElement={<Link to="/sensors" />}
@@ -150,12 +163,7 @@ class Layout extends Component {
               primaryText="Sensors"
             />
 
-            <MenuItem
-              containerElement={<Link to="/complexvisualization" />}
-              primaryText="Farm View"
-              innerDivStyle={styles.menuLink}
-            />
-  
+      
             <MenuItem
               containerElement={<Link to="/notification" />}
               innerDivStyle={styles.menuLink}
@@ -185,7 +193,8 @@ class Layout extends Component {
               </div>
               <div className="menu">
         
-                <MenuItem  containerElement={<Link to="/home" />}  primaryText="Dashboard"  innerDivStyle={styles.menuLink} />
+                <MenuItem  containerElement={<Link to="/home" />}  
+                primaryText="Global Map"  innerDivStyle={styles.menuLink} />
   
                 <MenuItem
                   containerElement={<Link to="/users" />}
@@ -193,17 +202,7 @@ class Layout extends Component {
                   innerDivStyle={styles.menuLink}
                 />
                 
-               <MenuItem
-                  primaryText="Apps"
-                  innerDivStyle={styles.menuLink}
-                  rightIcon={<ArrowDropRight />}
-                  menuItems={[
-                    <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
-                    <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-                    <MenuItem primaryText="MVP Cattle Rustling" containerElement={<Link to="/apps/cattle" />} />,
-                    <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
-                    ]}
-                />
+              {jellyFishMenu}
           
                 <MenuItem
                   containerElement={<Link to="/sensors" />}
@@ -211,11 +210,7 @@ class Layout extends Component {
                   primaryText="Sensors"
                 />
   
-             <MenuItem
-              containerElement={<Link to="/complexvisualization" />}
-              innerDivStyle={styles.menuLink}
-              primaryText="Farm View"
-              />
+ 
                 <MenuItem
                   containerElement={<Link to="/notification" />}
                   innerDivStyle={styles.menuLink}
