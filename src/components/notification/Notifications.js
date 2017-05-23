@@ -9,8 +9,10 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import SubmitForm from './SubmitNotificationFormContainer.js' ;
-import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js"
-import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
+import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js";
+import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
+import RowActions from './RowActions.js';
+import { connect } from 'react-redux';
 
 export default class NotificationForm extends Component {
   // Constructor for the component
@@ -50,55 +52,27 @@ handleOpen(event){
 handleClose(event){
     this.setState({modalOpen : false})
 }
-
-tableMeta = [
-  {
-    "columnName": "id",
-    "order": 1,
-    "displayName": "ID"
-  },
-  {
-    "columnName": "description",
-    "order": 2,
-    "visible": true,
-    "displayName": "Description"
-  },
-  {
-    "columnName": "subject",
-    "order": 2,
-    "visible": true,
-    "displayName": "Subject"
-  },
- // {
- //   "columnName": "entities",
- //   "order": 3,
- //   "visible": true,
- //   "displayName": "Entities",
- //   "customComponent": NotificationEntities
- // },
- // {
- //   "columnName": "conditions",
- //   "order": 4,
- //   "visible": true,
- //   "displayName": "Conditions",
- //   "customComponent": NotificationConditions
- // },
- // {
- //   "columnName": "notification",
- //   "order": 5,
- //   "visible": true,
- //   "displayName": "Notification",
- //   "customComponent": NotificationDetails
- // },
-
-];
-
 render() {
 
 const actions = [
     <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
     <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
 ];
+
+const rowDataSelector = (state, { griddleKey }) => {
+  return state
+    .get('data')
+    .find(rowMap => rowMap.get('griddleKey') === griddleKey)
+    .toJSON();
+};
+
+const enhancedWithRowData = connect((state, props) => {
+  return {
+    // rowData will be available into RowActions
+    rowData: rowDataSelector(state, props)
+  };
+});
+
 
 return(
     	<div>
@@ -110,6 +84,7 @@ return(
                               <ColumnDefinition id="id" title="ID"/>
                               <ColumnDefinition id="description" title="Description"/>
                               <ColumnDefinition id="subject" title="Subject"/>
+                              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
                            </RowDefinition>
 
                         </Griddle>
