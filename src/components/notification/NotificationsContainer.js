@@ -1,6 +1,6 @@
 'use strict';
 import { connect } from 'react-redux';
-import notification from './NotificationForm.js';
+import notification from './Notifications.js';
 
 
 function mapStateToProps(state) {
