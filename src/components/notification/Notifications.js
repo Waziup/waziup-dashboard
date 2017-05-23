@@ -8,29 +8,25 @@ import {Table, TableBody,TableHeader, TableHeaderColumn, TableRow}  from 'materi
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
-import NewNotifForm from './notifForm/NotifFormContainer.js' ;
-import {loadSensors, createSubscription, getNotifications, deleteNotif} from "../../index.js";
-import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
-import NotifActions from './NotifActions.js';
-import { connect } from 'react-redux';
-import Utils from '../../utils';
+import SubmitForm from './SubmitNotificationFormContainer.js' ;
+import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js"
+import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 
-export default class Notifications extends Component {
+export default class NotificationForm extends Component {
   // Constructor for the component
   constructor(props) {
       super(props);
       this.state = {
           modalOpen : false,
-          notifications: [],
-          sensors: []
+          notifications: []
       };
 
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleOpen   = this.handleOpen.bind(this);
-      this.handleClose  = this.handleClose.bind(this);
+      this.handleSubmit                   = this.handleSubmit.bind(this);
+      this.handleOpen                     = this.handleOpen.bind(this);
+      this.handleClose                    = this.handleClose.bind(this);
       getNotifications();
-      loadSensors(true);
   }
+
 
   componentWillReceiveProps(nextProps){
 
@@ -38,122 +34,115 @@ export default class Notifications extends Component {
     if (nextProps.notifications) {
        this.setState({notifications: nextProps.notifications})
     }
-    if (nextProps.sensors) {
-       this.setState({sensors: nextProps.sensors})
-    }
   }
-  //Fire when submitting the form data
-  handleSubmit(event) {
-    console.log("submit:" + JSON.stringify(event))
-    createSubscription(event.desc, 
-                       event.sensors, 
-                       event.attrs, 
-                       event.expr, 
-                       event.url, 
-                       event.headers,
-                       event.payload,
-                       event.expires,
-                       event.throttling) 
-    getNotifications();
-      
-  }
-  
-  //Fire the modal window when click on the button
-  handleOpen(event){
-      this.setState({modalOpen : true})
-  }
-  
-  handleClose(event){
-      this.setState({modalOpen : false})
-  }
-  
-  handleNotifDelete = (data) => {
-    deleteNotif(data);
-    getNotifications();
-  }
-
-  handleNotifUpdate = (data) => {
-  }
-
-  render() {
-  
-    const actions = [
-        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
-        <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
-    ];
+//Fire when submitting the form data
+handleSubmit(event) {
+  console.log("submit:" + JSON.stringify(event))
+  subscribeHistoData("WS_UPPA_Sensor2", [])
     
-    const rowDataSelector = (state, { griddleKey }) => {
-      return state
-        .get('data')
-        .find(rowMap => rowMap.get('griddleKey') === griddleKey)
-        .toJSON();
-    };
-    
-    const enhancedWithRowData = connect((state, props) => {
-      return {
-        // rowData will be available into RowActions
-        rowData: rowDataSelector(state, props),
-        deleteAction: this.handleNotifDelete,
-        updateAction: this.handleNotifUpdate
-      };
-    });
-   
-    function NotificationComponent({value, griddleKey}) {
-       var url = null
-       if (value.get("http"))
-          url = value.get("http").get("url") 
-       if (value.get("httpCustom"))
-          url = value.get("httpCustom").get("url") 
+}
 
-       return (
-        <div className="NotificationComponent">
-          {url}
-        </div>
-      );
+//Fire the modal window when click on the button
+handleOpen(event){
+    this.setState({modalOpen : true})
+}
+
+handleClose(event){
+    this.setState({modalOpen : false})
+}
+
+tableMeta = [
+  {
+    "columnName": "id",
+    "order": 1,
+    "displayName": "ID"
+  },
+  {
+    "columnName": "description",
+    "order": 2,
+    "visible": true,
+    "displayName": "Description"
+  },
+  {
+    "columnName": "subject",
+    "order": 2,
+    "visible": true,
+    "displayName": "Subject"
+  },
+ // {
+ //   "columnName": "entities",
+ //   "order": 3,
+ //   "visible": true,
+ //   "displayName": "Entities",
+ //   "customComponent": NotificationEntities
+ // },
+ // {
+ //   "columnName": "conditions",
+ //   "order": 4,
+ //   "visible": true,
+ //   "displayName": "Conditions",
+ //   "customComponent": NotificationConditions
+ // },
+ // {
+ //   "columnName": "notification",
+ //   "order": 5,
+ //   "visible": true,
+ //   "displayName": "Notification",
+ //   "customComponent": NotificationDetails
+ // },
+
+];
+
+render() {
+
+const actions = [
+    <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
+    <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
+];
+
+return(
+    	<div>
+            <h1 className="page-title">Notifications settings</h1>
+                <Container>
+                    <FullWidthSection useContent={true} >      
+                        <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                           <RowDefinition>
+                              <ColumnDefinition id="id" title="ID"/>
+                              <ColumnDefinition id="description" title="Description"/>
+                              <ColumnDefinition id="subject" title="Subject"/>
+                           </RowDefinition>
+
+                        </Griddle>
+                        <Card>                        
+                          <Table fixedHeader={true} fixedFooter={true} selectable={true} multiSelectable={true} heigth='300px'>
+                            <TableHeader displaySelectAll={true} adjustForCheckbox={true} enableSelectAll={true}>                                 
+                                 <TableRow>
+                                    <TableHeaderColumn tooltip="The id of notification">ID</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="The username">Username</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="Channel">Channel</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="The user profile">Profile</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="The sensor">Sensor</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="The data from sensor">Data type</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="The user profile">Threshold</TableHeaderColumn>
+                                    <TableHeaderColumn tooltip="Actions">Actions</TableHeaderColumn>
+                                 </TableRow>
+                            </TableHeader>
+                            <TableBody>
+
+                            </TableBody>
+                           
+                          </Table>
+                          <CardActions>                           
+                            <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
+                            <RaisedButton label="Edit"  primary={true}/>
+                            <RaisedButton label="Delete" primary={true}/>
+                          </CardActions>
+                          </Card>                            
+                         <SubmitForm  modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
+                    </FullWidthSection>
+                </Container>
+           </div>
+        );
     }
-
-    function SubjectComponent({value, griddleKey}) {
-       var ids = ""
-       console.log("Sub" + value)
-       for(var ent of value.get("entities")) {
-          console.log("Sub2" + typeof(ent))
-          if(ent.get("id"))
-             ids = ids + ent.get("id") + "\n"
-          if(ent.get("idPattern"))
-             ids = ids + ent.get("idPattern") + "\n"
-       }
- 
-       return (
-        <div className="SubjectComponent">
-          {ids}
-        </div>
-      );
-    }
-
-    return (
-       <div>
-          <h1 className="page-title">Notifications settings</h1>
-          <Container>
-              <FullWidthSection useContent={true} >      
-                  <Card>                        
-                    <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()}>
-                       <RowDefinition>
-                         <ColumnDefinition id="id" title="ID"/>
-                         <ColumnDefinition id="description" title="Description"/>
-                         <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
-                         <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
-                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/> 
-                       </RowDefinition>
-                    </Griddle>
-                    <CardActions>                           
-                      <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
-                    </CardActions>
-                  </Card>                            
-                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
-              </FullWidthSection>
-          </Container>
-       </div>
-    );
-  }
 }
 
