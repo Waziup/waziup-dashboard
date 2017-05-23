@@ -140,17 +140,16 @@ class Sensors extends Component {
                 this.setState({formData:{}});
                 this.handleOpen();
             }} />
-              <Checkbox
-                  label="All sensor"
-                  checked = {this.state.isAllSensors}
-                  onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
-              />
-              <FullWidthSection useContent={true}>
+            <Checkbox
+                label="All sensor"
+                checked = {this.state.isAllSensors}
+                onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
+            />
+            <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={50} results={this.state.sensors} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
-              </FullWidthSection>
-                <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen}
-                 handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
-            </Container>
+            </FullWidthSection>
+            <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
+          </Container>
       </div>
     );
   }
