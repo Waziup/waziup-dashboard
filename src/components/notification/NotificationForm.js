@@ -10,7 +10,7 @@ import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import SubmitForm from './SubmitNotificationFormContainer.js' ;
 import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js"
-import Griddle from 'griddle-react';
+import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 
 export default class NotificationForm extends Component {
   // Constructor for the component
@@ -63,6 +63,12 @@ tableMeta = [
     "visible": true,
     "displayName": "Description"
   },
+  {
+    "columnName": "subject",
+    "order": 2,
+    "visible": true,
+    "displayName": "Subject"
+  },
  // {
  //   "columnName": "entities",
  //   "order": 3,
@@ -99,7 +105,14 @@ return(
             <h1 className="page-title">Notifications settings</h1>
                 <Container>
                     <FullWidthSection useContent={true} >      
-                        <Griddle resultsPerPage={50} results={this.state.notifications} columnMetadata={this.tableMeta} columns={["id", "description"]} showFilter={true} />
+                        <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                           <RowDefinition>
+                              <ColumnDefinition id="id" title="ID"/>
+                              <ColumnDefinition id="description" title="Description"/>
+                              <ColumnDefinition id="subject" title="Subject"/>
+                           </RowDefinition>
+
+                        </Griddle>
                         <Card>                        
                           <Table fixedHeader={true} fixedFooter={true} selectable={true} multiSelectable={true} heigth='300px'>
                             <TableHeader displaySelectAll={true} adjustForCheckbox={true} enableSelectAll={true}>                                 
