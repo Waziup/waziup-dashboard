@@ -9,23 +9,32 @@ import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import SubmitForm from './SubmitNotificationFormContainer.js' ;
-import {loadSensors, subscribeHistoData} from "../../index.js"
+import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js"
+import Griddle from 'griddle-react';
 
 export default class NotificationForm extends Component {
-    // Constructor for the component
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalOpen : false ,
-        };
+  // Constructor for the component
+  constructor(props) {
+      super(props);
+      this.state = {
+          modalOpen : false,
+          notifications: []
+      };
 
-        this.handleSubmit                   = this.handleSubmit.bind(this);
-        this.handleOpen                     = this.handleOpen.bind(this);
-        this.handleClose                    = this.handleClose.bind(this);
-        loadSensors(true);
+      this.handleSubmit                   = this.handleSubmit.bind(this);
+      this.handleOpen                     = this.handleOpen.bind(this);
+      this.handleClose                    = this.handleClose.bind(this);
+      getNotifications();
+  }
+
+
+  componentWillReceiveProps(nextProps){
+
+    console.log("props:" + JSON.stringify(nextProps))
+    if (nextProps.notifications) {
+       this.setState({notifications: nextProps.notifications})
     }
-
-
+  }
 //Fire when submitting the form data
 handleSubmit(event) {
   console.log("submit:" + JSON.stringify(event))
@@ -42,6 +51,41 @@ handleClose(event){
     this.setState({modalOpen : false})
 }
 
+tableMeta = [
+  {
+    "columnName": "id",
+    "order": 1,
+    "displayName": "ID"
+  },
+  {
+    "columnName": "description",
+    "order": 2,
+    "visible": true,
+    "displayName": "Description"
+  },
+ // {
+ //   "columnName": "entities",
+ //   "order": 3,
+ //   "visible": true,
+ //   "displayName": "Entities",
+ //   "customComponent": NotificationEntities
+ // },
+ // {
+ //   "columnName": "conditions",
+ //   "order": 4,
+ //   "visible": true,
+ //   "displayName": "Conditions",
+ //   "customComponent": NotificationConditions
+ // },
+ // {
+ //   "columnName": "notification",
+ //   "order": 5,
+ //   "visible": true,
+ //   "displayName": "Notification",
+ //   "customComponent": NotificationDetails
+ // },
+
+];
 
 render() {
 
@@ -55,6 +99,7 @@ return(
             <h1 className="page-title">Notifications settings</h1>
                 <Container>
                     <FullWidthSection useContent={true} >      
+                        <Griddle resultsPerPage={50} results={this.state.notifications} columnMetadata={this.tableMeta} columns={["id", "description"]} showFilter={true} />
                         <Card>                        
                           <Table fixedHeader={true} fixedFooter={true} selectable={true} multiSelectable={true} heigth='300px'>
                             <TableHeader displaySelectAll={true} adjustForCheckbox={true} enableSelectAll={true}>                                 
