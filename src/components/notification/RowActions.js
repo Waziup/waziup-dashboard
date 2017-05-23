@@ -15,20 +15,18 @@ class RowActions extends Component {
   }
 
   render() {
-//    let {deleteAction, updateAction} = this.props.metadata.customComponentMetadata;
-
-    let {rowData} = this.props;
+    let {rowData, deleteAction, updateAction} = this.props;
     return (
         <div>
            <IconButton tooltip="View" tooltipPosition="top-center" containerElement={<Link to={"/notifications/" + rowData.id} />} >
               <View color={blue500}/>
            </IconButton> 
-        {/*   <IconButton tooltip="Update" tooltipPosition="top-center" onTouchTap={()=>{updateAction(rowData)}}>
+           <IconButton tooltip="Update" tooltipPosition="top-center" onTouchTap={()=>{updateAction(rowData)}}>
               <Update />
            </IconButton> 
            <IconButton tooltip="Delete" tooltipPosition="top-center" onTouchTap={()=>{deleteAction(rowData)}}>
               <Delete  color={red500}/>
-           </IconButton>*/}
+           </IconButton>
         </div>
     );
   }
