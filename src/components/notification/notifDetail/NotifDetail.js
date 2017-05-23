@@ -24,7 +24,7 @@ class notifDetail extends Component {
 
     console.log("nextProps.notifications:" + JSON.stringify(nextProps.notifications));
     if (nextProps.notifications && this.props.params.notifId) {
-      var notif = nextProps.sensors.find((el) => {
+      var notif = nextProps.notifications.find((el) => {
         return el.id === this.props.params.notifId;
       });
       this.setState({ notif: notif });
@@ -47,6 +47,7 @@ class notifDetail extends Component {
             <CardText>
               <List>
                 <ListItem primaryText={"ID: " + this.state.notif.id} />
+                {this.state.notif.description && <ListItem primaryText={"Description: " + this.state.notif.description}/> }
               </List>
             </CardText>
           </Card>
