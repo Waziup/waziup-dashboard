@@ -48,7 +48,8 @@ class SMComparisonChart extends Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('http://dashboardserver.waziup.io/api/search'); // I need to full URL of that server, service name in docker
+        const res = await axios.get('/api/search'); // I need to full URL of that server, service name in docker
+        //const res = await axios.get('http://dashboardserver.waziup.io/api/search'); // I need to full URL of that server, service name in docker
         const data = res.data;
         //console.log('data:', data)
         await this.setStateAsync({ data });

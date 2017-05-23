@@ -119,5 +119,5 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://dashboard-server:4000"
+  "proxy": "http://localhost:8000"
 }
