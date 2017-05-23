@@ -365,3 +365,37 @@ export function getSubscribeError(json) {
           data: json
         }
 };
+
+export function getNotifications(service, servicePath) {
+    return function(dispatch) {
+          var url='http://orion.waziup.io/v1/data/subscriptions'
+          return axios.get(url, {
+              headers: {
+                'fiware-servicepath': servicePath,
+                'fiware-service': service,
+              },
+            })
+            .then(function(response) {
+              console.log("notif succ")
+              dispatch(getNotificationsSuccess(response.data));
+            })
+            .catch(function(response){
+              console.log("notif error")
+              dispatch(getNotificationsError(response.data));
+            })
+        }
+};
+
+export function getNotificationsSuccess(data) {
+    return{
+          type: types.GET_NOTIFICATIONS_SUCCESS,
+          data: data
+    }
+};
+
+export function getNotificationsError(json) {
+    return {
+          type: types.GET_NOTIFICATIONS_ERROR,
+          data: json
+        }
+};
