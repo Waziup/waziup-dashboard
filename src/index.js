@@ -20,8 +20,7 @@ import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
-import Notifications from './components/notification/NotificationsContainer.js';
-import NotifDetail from './components/notification/notifDetail/NotifDetailContainer.js';
+import Notification from './components/notification/NotificationFormContainer.js';
 import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as actions from './actions/actions';
@@ -188,6 +187,17 @@ export function subscribeHistoData(sensorId, attrs) {
     store.dispatch(actions.subscribeHistoData(sub, userDetails.Service, mySensor.servicePath.value));
   }
 }
+
+export function getNotifications() {
+
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+       var service     = userDetails.Service;
+       var servicePath = userDetails.ServicePath + "#";
+       store.dispatch( actions.getNotifications(service, servicePath));
+    }
+};
 
 function loadUsers(){
   store.dispatch(actions.getUsers());
