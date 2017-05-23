@@ -20,7 +20,8 @@ import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
-import Notification from './components/notification/NotificationFormContainer.js';
+import Notifications from './components/notification/NotificationsContainer.js';
+import NotifDetail from './components/notification/notifDetail/NotifDetailContainer.js';
 import './index.css';
 import * as actions from './actions/actions';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -224,7 +225,8 @@ const routes = {
     { path: 'apps/agri', component:  MVPAgri },
     { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
     { path: 'apps/fishfarming', component:  MVPFishFarming },
-    { path: 'notification', component: Notification},
+    { path: 'notifications', component: Notifications},
+    { path: 'notifications/:notifId', component: NotifDetail},
     { path: '/farmview/farm1', component: SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
