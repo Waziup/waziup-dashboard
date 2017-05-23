@@ -165,7 +165,7 @@ class Layout extends Component {
 
       
             <MenuItem
-              containerElement={<Link to="/notification" />}
+              containerElement={<Link to="/notifications" />}
               innerDivStyle={styles.menuLink}
               primaryText="Notifications"
             />
@@ -212,7 +212,7 @@ class Layout extends Component {
   
  
                 <MenuItem
-                  containerElement={<Link to="/notification" />}
+                  containerElement={<Link to="/notifications" />}
                   innerDivStyle={styles.menuLink}
                   primaryText="Notifications"
                 />
