@@ -3,79 +3,45 @@ import axios from 'axios'
 export const DEVICES_LIST_REQUEST = 'DEVICES_LIST_REQUEST'
 export const DEVICES_LIST_REQUEST_ERROR = 'DEVICES_LIST_REQUEST_ERROR'
 export const DEVICES_LIST_FETCHED = 'DEVICES_LIST_FETCHED'
-export const SUBSCRIPTIONS_LIST_REQUEST = 'SUBSCRIPTIONS_LIST_REQUEST'
-export const SUBSCRIPTIONS_LIST_REQUEST_ERROR = 'SUBSCRIPTIONS_LIST_REQUEST_ERROR'
-export const SUBSCRIPTIONS_LIST_FETCHED = 'SUBSCRIPTIONS_LIST_FETCHED'
 
-export const devicesListRequest = () => ({
+export const devicesListRequest = (orionService, orionServicePath) => ({
   type: DEVICES_LIST_REQUEST,
+  orionService: orionService, 
+  orionServicePath: orionServicePath,
   lastUpdated: Date.now()
 })
 
-export const devicesListRequestError = (errMsg) => ({
+export const devicesListRequestError = (orionService, orionServicePath, errMsg) => ({
   type: DEVICES_LIST_REQUEST_ERROR,
+  orionService: orionService, 
+  orionServicePath: orionServicePath,
   errMsg: errMsg
 })
 
-export const devicesListFetched = (listDevices) => ({
+export const devicesListFetched = (orionService, orionServicePath, listDevices) => ({
   type: DEVICES_LIST_FETCHED,
+  orionService: orionService, 
+  orionServicePath: orionServicePath,
   listDevices: listDevices,
   lastUpdated: Date.now()
 })
 
-export const subscriptionsListRequest = () => ({
-  type: SUBSCRIPTIONS_LIST_REQUEST,
-  lastUpdated: Date.now()
-})
-
-export const subscriptionsListRequestError = (errMsg) => ({
-  type: SUBSCRIPTIONS_LIST_REQUEST_ERROR,
-  errMsg: errMsg
-})
-
-export const subscriptionsListFetched = (subscriptionsList) => ({
-  type: SUBSCRIPTIONS_LIST_FETCHED,
-  subscriptionsList: subscriptionsList,
-  lastUpdated: Date.now()
-})
-
-export const fetchDevicesList = () => (dispatch, getState) => {
-  dispatch(devicesListRequest())
-  const servicePath = getState().security.userInfo.idTokenParsed.ServicePath
-  const service = getState().security.userInfo.idTokenParsed.Service
+export const fetchDevicesList = (orionService, orionServicePath) => (dispatch, getState) => {
+  dispatch(devicesListRequest(orionService, orionServicePath))
+  //const servicePath = getState().security.userInfo.idTokenParsed.ServicePath
+  //const service = getState().security.userInfo.idTokenParsed.Service
   return axios.get('http://orion.waziup.io/v1/data/entities',
     {
       params: { 'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*' },
       headers: {
-        'Fiware-ServicePath': servicePath,
-        'Fiware-Service': service,
+        'Fiware-ServicePath': orionServicePath,
+        'Fiware-Service': orionService,
       }
     })
     .then((response) => {
-      dispatch(devicesListFetched(response.data));
+      dispatch(devicesListFetched(orionService, orionServicePath, response.data));
     })
     .catch((response) => {
-      dispatch(devicesListRequestError(response.data));
-    })
-}
-
-export const fetchSubscriptionsList = () => (dispatch, getState) => {
-  dispatch(subscriptionsListRequest())
-  const servicePath = getState().security.userInfo.idTokenParsed.ServicePath
-  const service = getState().security.userInfo.idTokenParsed.Service
-  //curl broker.waziup.io/v2/subscriptions -s -S --header "${service}" --header "${servicePath}" | jq "."
-  return axios.get('http://broker.waziup.io/v2/subscriptions',
-    {
-      headers: {
-        'Fiware-ServicePath': servicePath,
-        'Fiware-Service': service
-      }
-    })
-    .then((response) => {
-      dispatch(subscriptionsListFetched(response.data));
-    })
-    .catch((response) => {
-      console.log(JSON.stringify(response))
-      dispatch(subscriptionsListRequestError(JSON.stringify(response)));
+      dispatch(devicesListRequestError(orionService, orionServicePath, response.data));
     })
 }

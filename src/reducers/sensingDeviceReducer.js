@@ -8,6 +8,8 @@ const sensingDeviceReducer = (state={ isFetching: false, fetched: false }, actio
       return {
         ...state, 
         isFetching: true,
+        orionService: action.orionService, 
+        orionServicePath: action.orionServicePath,
       }
     case DEVICES_LIST_FETCHED:
       return {
@@ -15,6 +17,8 @@ const sensingDeviceReducer = (state={ isFetching: false, fetched: false }, actio
         isFetching: false,
         fetched: true,
         listDevices: action.listDevices,
+        orionService: action.orionService, 
+        orionServicePath: action.orionServicePath,
         lastUpdated: action.lastUpdated
       }
     case DEVICES_LIST_REQUEST_ERROR:
@@ -22,6 +26,8 @@ const sensingDeviceReducer = (state={ isFetching: false, fetched: false }, actio
         ...state, 
         isFetching: false,
         fetched: false,
+        orionService: action.orionService, 
+        orionServicePath: action.orionServicePath,
         errMsg: action.errMsg
       }
     default:

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Map, Marker, Popup, TileLayer, CircleMarker, Circle } from 'react-leaflet';
+import { Map,  Popup, TileLayer, CircleMarker, Circle } from 'react-leaflet';
 import { Container } from 'react-grid-system'
 //, Row, Col, Visible, Hidden, ScreenClassRender 
-
+//Marker,
 class Home extends Component {
     // constructor(props) {
     //     super(props);

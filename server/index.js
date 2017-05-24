@@ -105,12 +105,19 @@ router.get('/search', safeHandler(search));
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../build/')));
+app.use(express.static(path.join(__dirname, '/build/')));
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+// this assumes that all your app files
+// `public` directory relative to where your server.js is
+//app.use(express.static(__dirname + '/public'))
+
+//app.get('*', function (request, response){
+ // response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+//})
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

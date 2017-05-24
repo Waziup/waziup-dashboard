@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Table, Alert, Panel, Well, ListGroupItem, ListGroup, ButtonToolbar, ButtonGroup, Button, Glyphicon} from 'react-bootstrap';
+import moment from 'moment-timezone';
 import { fetchDevicesList } from '../actions/sensingDeviceActions'
 import { Link } from 'react-router'
+import OrionParamForm from './OrionParamForm';
+import SensingDeivceDetails from './SensingDeivceDetails'
+
 
 class SensingDevices extends Component {
+
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(fetchDevicesList())
+    const s = this.props.security.userInfo.idTokenParsed.Service
+    const sp = this.props.security.userInfo.idTokenParsed.ServicePath + '#' //check if / missing add an /
+    dispatch(fetchDevicesList(s, sp))
   }
 
   filterSensorsSensingDevice(device) {
@@ -30,8 +37,10 @@ class SensingDevices extends Component {
     return {sensors, sensorIds}
   }
 
+  
   tableSensingDeivces(listDevices) {
     //console.log(listDevices)
+    let readableDate = (d) => (moment(d).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z'))
     let index = 1
     let tableRows = listDevices.map((device) => {
       let {sensors, sensorIds} = this.filterSensorsSensingDevice(device)
@@ -41,9 +50,9 @@ class SensingDevices extends Component {
       
       return (<tr key={device.id}>
         <td> {index++} </td>
-        <td> {device.id} </td>
-        <td> {device.dateCreated.value} </td> 
-        <td> <Well>{device.dateModified.value}</Well> </td>
+        <td> <Well>{device.id}</Well> <SensingDeivceDetails device={device}/></td>
+        <td> <Well>{readableDate(device.dateCreated.value)}</Well> </td> 
+        <td> <Well>{readableDate(device.dateModified.value)}</Well> </td>
         <td> <Well><ListGroup >{latestSensorsValues}</ListGroup></Well> </td>
         <td> 
           <ButtonToolbar>
@@ -66,33 +75,47 @@ class SensingDevices extends Component {
     const sensingDevice = this.props.sensingDevice
     const isFetching = sensingDevice.isFetching
     const fetched = sensingDevice.fetched
+    const listDevices= sensingDevice.listDevices
 
     //<PageHeader>Summary of Sensing Devices Information <small> </small></PageHeader>
     return (
       <div>
-        <Panel collapsible defaultExpanded header="List of Sensing Devices">
-          {(isFetching === true) ? (<Well> Sensing devices are being loaded. </Well> ):
-            ((fetched === true) ?<Table responsive fill>
+        <OrionParamForm action={fetchDevicesList} actionName='Sensing Devices' orionService={this.props.security.userInfo.idTokenParsed.Service} orionServicePath={this.props.security.userInfo.idTokenParsed.ServicePath}/>
+        {(isFetching === true) ? (<Well> Sensing Devices are being loaded. </Well> ):
+        ((fetched === true) ?
+        (listDevices.length === 0 ?
+        (<Well> There are no Sensing Devices for the selected service and servicePath. </Well> )
+        :
+        (<Panel collapsible defaultExpanded header={<h3>List of Sensing Devices (<b>{listDevices.length}</b>) </h3>} >
+          <Table responsive fill>
               <thead>
-                <tr><th>#</th><th>DeviceID</th><th>dateCreated</th>
-                <th>dateModified</th><th>Latest Sensors Data</th><th>Actions</th></tr>
+                <tr>
+                  <th>#</th>
+                  <th>DeviceID</th>
+                  <th>Creation Date</th>
+                  <th>Last Updates</th>
+                  <th>Latest Sensors Data</th>
+                  <th>Actions</th>
+                </tr>
               </thead>
               <tbody>
-                {this.tableSensingDeivces(sensingDevice.listDevices)}
+                {this.tableSensingDeivces(listDevices)}
               </tbody>
-            </Table>: 
+            </Table></Panel>)
+            ): 
             (<Alert bsStyle="warning">
-              <strong>Error</strong> happened during fetching sensing devices: {sensingDevice.errMsg}.
-            </Alert> ))
+              <strong>Error</strong> happened during fetching sensing devices: <br/> {sensingDevice.errMsg}.
+            </Alert> )
+            )
           }
-        </Panel>
       </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  return { sensingDevice: state.sensingDevice }
+  return { sensingDevice: state.sensingDevice,
+          security: state.security}
 }
 
 export default connect(mapStateToProps)(SensingDevices)

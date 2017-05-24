@@ -13,8 +13,8 @@ class Visualizations extends Component {
     dispatch(fetchHistoricalData( deviceId, sensorIds, sp))
   }
 
-  render() {
-    const  { deviceId, sensorIds} = this.props.router.location.state
+  render() {//sensorIds
+    const  { deviceId} = this.props.router.location.state
     //console.log(JSON.stringify(deviceId))
     const historicalData = this.props.historicalData[deviceId]
     let graphics = [ <PageHeader> Visualizations for Sensing Device {deviceId} per sensors </PageHeader>]

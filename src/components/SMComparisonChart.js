@@ -5,10 +5,10 @@ import axios from 'axios';
 import moment from 'moment-timezone';
 
 class CustomTick extends Component {
-    constructor(props) {
-        super(props);
+    //constructor(props) {
+        //super(props);
         //console.log(props);
-    }
+   // }
 
     render() { 
         //'Europe/Berlin' moment.tz.guess()
@@ -18,15 +18,16 @@ class CustomTick extends Component {
         const props = this.props;
         //15th May, 2017 moment().format('MMMM Do YYYY
         //time.format('D.M.YYYY')
+                      {/*<text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
+                    <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
+                </text>*/}
 
         return (
             <g>
                 <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
                     <tspan dy="1em">{time.format('H:mm a z')}</tspan>
                 </text>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
-                </text>
+  
             </g>
         );
     }
@@ -57,7 +58,7 @@ class SMComparisonChart extends Component {
 
         function xFormatter(tick) {
             //return new moment(tick).format('MMMM Do YYYY H:mm a z');
-            return new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
+            return new moment(tick).tz(moment.tz.guess()).format('H:mm a z');
         }
 
         function yFormatter(tick) {
