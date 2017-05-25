@@ -8,8 +8,8 @@ import {Table, TableBody,TableHeader, TableHeaderColumn, TableRow}  from 'materi
 import {Card, CardActions, CardTitle} from 'material-ui/Card';
 import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
-import SubmitForm from './SubmitNotificationFormContainer.js' ;
-import {loadSensors, subscribeHistoData, getNotifications} from "../../index.js";
+import NewNotifForm from './notifForm/NotifFormContainer.js' ;
+import {loadSensors, createSubscription, getNotifications, deleteNotif} from "../../index.js";
 import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
 import RowActions from './RowActions.js';
 import { connect } from 'react-redux';
@@ -40,7 +40,11 @@ export default class NotificationForm extends Component {
   //Fire when submitting the form data
   handleSubmit(event) {
     console.log("submit:" + JSON.stringify(event))
-    subscribeHistoData("WS_UPPA_Sensor2", [])
+    let headers = { "Content-type": "application/json",
+                    "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6WXpoaU5ESmpPRE5oTkRreE1qaGlZVGd4WkRkaE5qYzNPV1ZsTnpZMA=="
+                  }
+    createSubscription(event.description, "WS_UPPA_Sensor2", ["SM1"], "SM1>400", "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", headers, "test", "2040-05-24T17:07:09.00Z", 1) 
+    //createSubscription(event.description, sensorId, attrs, qExpr, url, headers, payload, expires, throttling) 
       
   }
   
@@ -54,6 +58,8 @@ export default class NotificationForm extends Component {
   }
   
   handleNotifDelete = (data) => {
+    deleteNotif(data);
+    getNotifications();
   }
 
   handleNotifUpdate = (data) => {
@@ -61,50 +67,50 @@ export default class NotificationForm extends Component {
 
   render() {
   
-  const actions = [
-      <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
-      <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
-  ];
-  
-  const rowDataSelector = (state, { griddleKey }) => {
-    return state
-      .get('data')
-      .find(rowMap => rowMap.get('griddleKey') === griddleKey)
-      .toJSON();
-  };
-  
-  const enhancedWithRowData = connect((state, props) => {
-    return {
-      // rowData will be available into RowActions
-      rowData: rowDataSelector(state, props),
-      deleteAction: this.handleNotifDelete,
-      updateAction: this.handleNotifUpdate
+    const actions = [
+        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
+        <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
+    ];
+    
+    const rowDataSelector = (state, { griddleKey }) => {
+      return state
+        .get('data')
+        .find(rowMap => rowMap.get('griddleKey') === griddleKey)
+        .toJSON();
     };
-  });
-  
-  return (
-     <div>
-           <h1 className="page-title">Notifications settings</h1>
-               <Container>
-                   <FullWidthSection useContent={true} >      
-                       <Card>                        
-                         <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} >
-                            <RowDefinition>
-                              <ColumnDefinition id="id" title="ID"/>
-                              <ColumnDefinition id="description" title="Description"/>
-                              <ColumnDefinition id="subject.entities.id" title="Subject"/>
-                              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
-                            </RowDefinition>
-                         </Griddle>
-                         <CardActions>                           
-                           <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
-                         </CardActions>
-                         </Card>                            
-                        <SubmitForm  modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
-                   </FullWidthSection>
-               </Container>
-        </div>
-     );
+    
+    const enhancedWithRowData = connect((state, props) => {
+      return {
+        // rowData will be available into RowActions
+        rowData: rowDataSelector(state, props),
+        deleteAction: this.handleNotifDelete,
+        updateAction: this.handleNotifUpdate
+      };
+    });
+    
+    return (
+       <div>
+          <h1 className="page-title">Notifications settings</h1>
+          <Container>
+              <FullWidthSection useContent={true} >      
+                  <Card>                        
+                    <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                       <RowDefinition>
+                         <ColumnDefinition id="id" title="ID"/>
+                         <ColumnDefinition id="description" title="Description"/>
+                         <ColumnDefinition id="subject.entities.id" title="Subject"/>
+                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
+                       </RowDefinition>
+                    </Griddle>
+                    <CardActions>                           
+                      <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
+                    </CardActions>
+                  </Card>                            
+                  <NewNotifForm  modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
+              </FullWidthSection>
+          </Container>
+       </div>
+    );
   }
 }
 
