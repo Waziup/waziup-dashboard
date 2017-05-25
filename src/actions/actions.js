@@ -178,6 +178,7 @@ export function deleteSensorError(json) {
           data: json
         }
 };
+
 export function adminLogin(user) {
     return function(dispatch) {
         adminClient(settings)
@@ -331,7 +332,7 @@ export function getHistoDataError(json) {
         }
 };
 
-export function subscribeHistoData(sub, service, servicePath) {
+export function createSubscription(sub, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
     return function(dispatch) {
@@ -344,24 +345,24 @@ export function subscribeHistoData(sub, service, servicePath) {
               },
             })
             .then(function(response) {
-              dispatch(getSubscribeSuccess(response.data));
+              dispatch(createSubscriptionSuccess(response.data));
             })
             .catch(function(response){
-              dispatch(getSubscribeError(response.data));
+              dispatch(createSubscriptionError(response.data));
             })
         }
 };
 
-export function getSubscribeSuccess(data) {
+export function createSubscriptionSuccess(data) {
     return{
-          type: types.GET_SUBSCRIBE_SUCCESS,
+          type: types.CREATE_SUBSCRIPTION_SUCCESS,
           data: {json:data}
     }
 };
 
-export function getSubscribeError(json) {
+export function createSubscriptionError(json) {
     return {
-          type: types.GET_SUBCRIBE_ERROR,
+          type: types.CREATE_SUBCRIPTION_ERROR,
           data: json
         }
 };
@@ -379,10 +380,10 @@ export function getNotifications(service, servicePath) {
               console.log("notif succ")
               dispatch(getNotificationsSuccess(response.data));
             })
-            .catch(function(response){
-              console.log("notif error")
-              dispatch(getNotificationsError(response.data));
-            })
+           // .catch(function(response){
+           //   console.log("notif error")
+           //   dispatch(getNotificationsError(response.data));
+           // })
         }
 };
 
@@ -396,6 +397,40 @@ export function getNotificationsSuccess(data) {
 export function getNotificationsError(json) {
     return {
           type: types.GET_NOTIFICATIONS_ERROR,
+          data: json
+        }
+};
+export function deleteNotif(notifId, service, servicePath) {
+    return function(dispatch) {
+          dispatch({type: types.DELETE_NOTIF_START});
+          return axios.delete('http://orion.waziup.io/v1/data/subscriptions/' + notifId,{
+                      headers: {
+                        'fiware-servicepath': servicePath,
+                        'fiware-service': service,
+                      },
+                  })
+            .then(function(response) {
+                console.log(response);
+              dispatch(deleteNotifSuccess(response.data));
+            })
+            .catch(function(response){
+                console.log(response);
+              dispatch(deleteNotifError(response.data));
+            })
+        }
+
+};
+
+export function deleteNotifSuccess(json) {
+    return{
+          type: types.DELETE_NOTIF_SUCCESS,
+          data: json
+        }
+};
+
+export function deleteNotifError(json) {
+    return {
+          type: types.DELETE_NOTIF_ERROR,
           data: json
         }
 };
