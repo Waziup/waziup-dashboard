@@ -9,7 +9,7 @@ import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
 class RowActions extends Component {
   render() {
-    let {deleteAction,updateAction} = this.props.metadata.customComponentMetadata;
+    let {deleteAction, updateAction} = this.props.metadata.customComponentMetadata;
     let {rowData} = this.props;
     return (
         <div>
