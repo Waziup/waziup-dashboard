@@ -49,17 +49,17 @@ class SubmitNotificationForm extends Component {
     ];
     //Constant of usernames
     const usernames = ['constantin','corentin'];
-    const renderTextField = ({input, label, meta : {touched, error},...custom})=>(<TextField hinText={label} floatingLabelText={label} errorText={touched && error} {...input}{...custom} /> );
-    const renderCheckbox  = ({input, label}) =>(<Checkbox label={label} checked={input.value ? true : false} onCheck={input.onChange}/>);
-    const renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => 
+    let renderTextField = ({input, label, meta : {touched, error},...custom})=>(<TextField hinText={label} floatingLabelText={label} errorText={touched && error} {...input}{...custom} /> );
+    let renderCheckbox  = ({input, label}) =>(<Checkbox label={label} checked={input.value ? true : false} onCheck={input.onChange}/>);
+    let renderSelectField = ({ input, label, meta: { touched, error }, children, ...custom }) => 
     (<SelectField  floatingLabelText={label} 
                    errorText={touched && error}
                    {...input} 
                    onChange={(event, index, value) => input.onChange(value)} 
                    children={children} 
                    {...custom}/>);
-    const renderRadioGroup = ({ input, ...rest }) => (<RadioButtonGroup {...input} {...rest} valueSelected={input.value} onChange={(event, value) => input.onChange(value)}/>);
-    const renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (  
+    let renderRadioGroup = ({ input, ...rest }) => (<RadioButtonGroup {...input} {...rest} valueSelected={input.value} onChange={(event, value) => input.onChange(value)}/>);
+    let renderMembers = ({ fields, meta: { touched, error, submitFailed } }) => (  
     <ul>    
     <li>
       <RaisedButton label="Add channel"  primary={true} onClick={() => fields.push({})}/>
