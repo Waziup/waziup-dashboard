@@ -70,7 +70,8 @@ class notifDetail extends Component {
  
         if(httpCustom.headers) {
           let headers = httpCustom.headers
-          listItems.push(<ListItem primaryText={"HTTP headers: " + Object.keys(headers).map((a) => a + ": " + headers[a]).join("\n")}/>)
+          listItems.push(<ListItem primaryText="HTTP headers: " 
+                                   nestedItems={ Object.keys(headers).map(a => <ListItem primaryText={a + ": " + headers[a]}/>) } />)
         }
         if(httpCustom.qs)
           listItems.push(<ListItem primaryText={"HTTP query string: " + httpCustom.qs}/>)
