@@ -141,13 +141,13 @@ export function updateSensorOwner(sensorId) {
   }
 }
 
-export function subscribeHistoData(sensorId, attrs) {
+export function createSubscription(desc, sensorId, attrs, qExpr, url, headers, payload, expires, throttling) {
 
   var userDetails = store.getState().keycloak.idTokenParsed;
   if(userDetails) {
     let sub =
       {
-        "description": "A subscription to get info about WS_UPPA_Sensor2",
+        "description": desc,
         "subject": {
           "entities": [
             {
@@ -156,38 +156,31 @@ export function subscribeHistoData(sensorId, attrs) {
             }
           ],
           "condition": {
-            "attrs": [
-              "SM1"
-            ]
+            "attrs": attrs,
+            "expression": {
+              "q": qExpr
+            }
           }
         },
         "notification": {
           "httpCustom": {
-            "url": "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/",
-            "headers": {
-               "Content-type": "application/json",
-               "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6WXpoaU5ESmpPRE5oTkRreE1qaGlZVGd4WkRkaE5qYzNPV1ZsTnpZMA=="
-               
-            },
+            "url": url,
+            "headers": headers,
             "method": "POST",
-            "payload": "%7B%22src%22%3A%2200393806412092%22%2C%22dst%22%3A%2200393806412093%22%2C%22text%22%3A%22test%22%7D"
-          },
-          "attrs": [
-            "SM1"
-          ]
+            "payload": payload 
+          }
         },
-        "expires": "2040-01-01T14:00:00.00Z",
-        "throttling": 5
+        "expires": expires,
+        "throttling": throttling
       }
 
-    console.log("sensor" + JSON.stringify(sensorId)); 
-    console.log("sensors" + JSON.stringify(store.getState().sensors)); 
-    var mySensor = store.getState().sensors.sensors.find((s) => {
-        return s.id === sensorId;
-    });
-    store.dispatch(actions.subscribeHistoData(sub, userDetails.Service, mySensor.servicePath.value));
+   // var mySensor = store.getState().sensors.sensors.find((s) => {
+   //     return s.id === sensorId;
+   // });
+    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/"));
   }
 }
+
 
 export function getNotifications() {
 
@@ -197,6 +190,17 @@ export function getNotifications() {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + "#";
        store.dispatch( actions.getNotifications(service, servicePath));
+    }
+};
+
+//delete a sensor.
+export function deleteNotif(notifId) {
+    console.log("deleteNotif" + JSON.stringify(notifId));
+
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+       store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/"));
     }
 };
 
