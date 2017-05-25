@@ -92,7 +92,7 @@ export default class NotificationForm extends Component {
                             <RowDefinition>
                               <ColumnDefinition id="id" title="ID"/>
                               <ColumnDefinition id="description" title="Description"/>
-                              <ColumnDefinition id="subject" title="Subject"/>
+                              <ColumnDefinition id="subject.entities.id" title="Subject"/>
                               <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
                             </RowDefinition>
                          </Griddle>

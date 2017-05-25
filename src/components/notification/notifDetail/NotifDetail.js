@@ -28,6 +28,7 @@ class notifDetail extends Component {
         return el.id === this.props.params.notifId;
       });
       this.setState({ notif: notif });
+      console.log("notif: " + JSON.stringify(notif));
     }
   }
 
@@ -38,18 +39,58 @@ class notifDetail extends Component {
   }
 
   render() {
+    let details = null;
+    let notif = this.state.notif;
+    var listItems = [];
+    if (this.state.notif.id) {
+
+      listItems.push(<ListItem primaryText={"ID: " + notif.id} />)
+      if (notif.description)
+         listItems.push(<ListItem primaryText={"Description: " + notif.description}/>)
+      listItems.push(<ListItem primaryText={"Entities: " + notif.subject.entities.map((e) => e.id).join(", ")}/>)
+      if(notif.subject.condition) {
+        if(notif.subject.condition.attrs) 
+           listItems.push(<ListItem primaryText={"Condition attributes: " + notif.subject.condition.attrs.join(", ")}/>)
+        if(notif.subject.condition.expression) {
+          if(notif.subject.condition.expression.q) 
+            listItems.push(<ListItem primaryText={"Condition expression: " + notif.subject.condition.expression.q}/>)
+        }
+      }
+      if(notif.notification.timesSent)
+        listItems.push(<ListItem primaryText={"Times sent: " + notif.notification.timesSent}/>)
+      if(notif.notification.lastNotification)
+        listItems.push(<ListItem primaryText={"Last notification: " + notif.notification.lastNotification}/>)
+      if(notif.notification.http)
+        listItems.push(<ListItem primaryText={"Notified URL: " + notif.notification.http.url}/>)
+      if(notif.notification.httpCustom) {
+        listItems.push(<ListItem primaryText={"Notified URL: " + notif.notification.httpCustom.url}/>)
+ 
+        if(notif.notification.httpCustom.headers)
+          listItems.push(<ListItem primaryText={"HTTP headers: " + notif.notification.httpCustom.headers.map()}/>)
+        if(notif.notification.httpCustom.qs)
+          listItems.push(<ListItem primaryText={"HTTP query string: " + notif.notification.httpCustom.qs}/>)
+        if(notif.notification.httpCustom.method)
+          listItems.push(<ListItem primaryText={"HTTP method: " + notif.notification.httpCustom.method}/>)
+        if(notif.notification.httpCustom.payload)
+          listItems.push(<ListItem primaryText={"Notification payload: " + notif.notification.httpCustom.payload}/>)
+      }
+      details =
+            <CardText>
+              <List>
+                  {listItems}
+              </List>
+            </CardText>
+    } else {
+      details = "No data yet";
+    }
+
     return (
       <div className="sensor">
         <h1 className="page-title">Notification: {this.state.id}</h1>
         <Container fluid={true}>
           <Card>
             <CardTitle title="Notification" />
-            <CardText>
-              <List>
-                <ListItem primaryText={"ID: " + this.state.notif.id} />
-                {this.state.notif.description && <ListItem primaryText={"Description: " + this.state.notif.description}/> }
-              </List>
-            </CardText>
+            {details}
           </Card>
         </Container>
       </div>
