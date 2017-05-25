@@ -14,7 +14,7 @@ class notifDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notif: {},
+      subs: {},
     };
     
     getNotifications();
@@ -24,11 +24,10 @@ class notifDetail extends Component {
 
     console.log("nextProps.notifications:" + JSON.stringify(nextProps.notifications));
     if (nextProps.notifications && this.props.params.notifId) {
-      var notif = nextProps.notifications.find((el) => {
+      var subs = nextProps.notifications.find((el) => {
         return el.id === this.props.params.notifId;
       });
-      this.setState({ notif: notif });
-      console.log("notif: " + JSON.stringify(notif));
+      this.setState({ subs: subs });
     }
   }
 
@@ -40,7 +39,7 @@ class notifDetail extends Component {
 
   render() {
     let details = null;
-    let subs = this.state.notif;
+    let subs = this.state.subs;
     var listItems = [];
     if (subs.id) {
 
