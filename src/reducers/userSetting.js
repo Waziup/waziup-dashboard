@@ -9,6 +9,7 @@ const reducer = (state = {}, action) => {
       return {
         data: action.data
       }
+      userSettings
     default:
       return state
   }

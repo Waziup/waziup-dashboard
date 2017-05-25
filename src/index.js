@@ -19,7 +19,8 @@ const rootReducer = combineReducers({
   sensingDevice: sensingDeviceReducer,
   subscriptions: subscriptionsReducer,
   historicalData: historicalDataReducer,
-  form: formReducer
+  form: formReducer,
+  //orionParamForm: formReducer
 })
 
 const middleware = [thunk]

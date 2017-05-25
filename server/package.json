@@ -1,12 +1,13 @@
 {
   "name": "dashboard-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Client and server",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "WAZIUP",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.5.0",

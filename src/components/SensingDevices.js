@@ -7,13 +7,13 @@ import { Link } from 'react-router'
 import OrionParamForm from './OrionParamForm';
 import SensingDeivceDetails from './SensingDeivceDetails'
 
-
 class SensingDevices extends Component {
-
   componentDidMount() {
     const { dispatch } = this.props
-    const s = this.props.security.userInfo.idTokenParsed.Service
-    const sp = this.props.security.userInfo.idTokenParsed.ServicePath + '#' //check if / missing add an /
+    const s = this.props.security.userInfo.userInfo.Service
+    let sp = this.props.security.userInfo.userInfo.ServicePath + '#' 
+    if(sp === '/')
+      sp += '#'
     dispatch(fetchDevicesList(s, sp))
   }
 
@@ -23,34 +23,32 @@ class SensingDevices extends Component {
     let sensorIds = []
     for (var i in device) {
       if (attributesToExclude.indexOf(i) === -1 && device[i]) {
-        let unit
-        (device[i].metadata.unit === undefined) ?  unit = '':
+        let unit;
+        device[i].metadata.unit === undefined ?  unit = '':
         unit = "(" + device[i]['metadata']['unit'].value +")"
 
         sensors.push(i + unit + ': ' + device[i].value)
         sensorIds.push(i)
       }
-        //sensors.push({ "sensor": i, "value": device[i].value })  + '(' +  + ')'
     }
-
     //console.log("sensorIds in filter:", sensorIds)
     return {sensors, sensorIds}
   }
 
   
   tableSensingDeivces(listDevices) {
-    //console.log(listDevices)
     let readableDate = (d) => (moment(d).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z'))
     let index = 1
     let tableRows = listDevices.map((device) => {
       let {sensors, sensorIds} = this.filterSensorsSensingDevice(device)
-      //console.log("sensorIds in table:", sensorIds)
       let latestSensorsValues = sensors.map(
-        (sensor) => {return <ListGroupItem key={sensor} bsStyle="info"> {sensor} </ListGroupItem>})
+        (sensor) => (<ListGroupItem key={sensor} bsStyle="info"> {sensor} </ListGroupItem>))
       
+      //"owner":{"type":"string","value":"watersense","metadata":{}}
       return (<tr key={device.id}>
         <td> {index++} </td>
         <td> <Well>{device.id}</Well> <SensingDeivceDetails device={device}/></td>
+        <td> <Well>{device.owner?device.owner.value: 'No Owner'}</Well></td>
         <td> <Well>{readableDate(device.dateCreated.value)}</Well> </td> 
         <td> <Well>{readableDate(device.dateModified.value)}</Well> </td>
         <td> <Well><ListGroup >{latestSensorsValues}</ListGroup></Well> </td>
@@ -80,7 +78,7 @@ class SensingDevices extends Component {
     //<PageHeader>Summary of Sensing Devices Information <small> </small></PageHeader>
     return (
       <div>
-        <OrionParamForm action={fetchDevicesList} actionName='Sensing Devices' orionService={this.props.security.userInfo.idTokenParsed.Service} orionServicePath={this.props.security.userInfo.idTokenParsed.ServicePath}/>
+        <OrionParamForm action={fetchDevicesList} actionName='Sensing Devices' orionService={this.props.security.userInfo.userInfo.Service} orionServicePath={this.props.security.userInfo.userInfo.ServicePath}/>
         {(isFetching === true) ? (<Well> Sensing Devices are being loaded. </Well> ):
         ((fetched === true) ?
         (listDevices.length === 0 ?
@@ -92,6 +90,7 @@ class SensingDevices extends Component {
                 <tr>
                   <th>#</th>
                   <th>DeviceID</th>
+                  <th>Owner</th>
                   <th>Creation Date</th>
                   <th>Last Updates</th>
                   <th>Latest Sensors Data</th>

@@ -18,16 +18,15 @@ class CustomTick extends Component {
         const props = this.props;
         //15th May, 2017 moment().format('MMMM Do YYYY
         //time.format('D.M.YYYY')
-                      {/*<text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
-                </text>*/}
 
         return (
             <g>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
+            <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
                     <tspan dy="1em">{time.format('H:mm a z')}</tspan>
-                </text>
-  
+            </text>
+              <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
+                <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
+            </text>
             </g>
         );
     }
@@ -54,7 +53,8 @@ class SMComparisonChart extends Component {
     }
 
     render () {
-        const ticks = this.state.data.map(entry => entry.t);
+        let last8data = this.state.data.slice(-10)
+        const ticks = last8data.map(entry => entry.t);
 
         function xFormatter(tick) {
             //return new moment(tick).format('MMMM Do YYYY H:mm a z');
@@ -69,7 +69,7 @@ class SMComparisonChart extends Component {
             return Math.ceil(125 - 0.125 * parseFloat(reading))
         }
 
-        let dataPercent = this.state.data.map((entry) => 
+        let dataPercent = last8data.map((entry) => 
         ({'t': entry.t, 'sm1': readingToPercent(entry.sm1), 
         'sm2': readingToPercent(entry.sm2)}))
         //to start let us keep 0-20% as Over dry zone, 20 - 80% as optimal moisture zone and 80 - 100% over irrigation zone  

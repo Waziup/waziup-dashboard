@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: dashboard-admin
+  namespace: waziup
+  labels:
+    name: dashboard-admin
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      name: dashboard-admin
+      labels:
+        app: dashboard-admin
+    spec:
+      containers:
+      - name: dashboard-admin
+        image: waziup/dashboard-admin:latest
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: dashboard-admin
+  name: dashboard-admin
+  namespace: waziup
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+  selector:
+    app: dashboard-admin
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-admin
+  namespace: waziup
+spec:
+  rules:
+  - host: dashboardadmin.waziup.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dashboard-admin
+          servicePort: 8000

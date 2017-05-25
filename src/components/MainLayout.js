@@ -28,7 +28,7 @@ class MainLayout extends Component {
                 <Grid fluid={true}>
                     <Row className="show-grid">
                         <Col lg={12} md={12} xs={12}>
-                            <PageHeader>WaterSense Dashboard <small> </small></PageHeader>
+                            <PageHeader>IoT Platform Administration Dashboard <small> </small></PageHeader>
                         </Col>
                     </Row>
                     <Col lg={2} md={2} xs={2} className="side-bar">
