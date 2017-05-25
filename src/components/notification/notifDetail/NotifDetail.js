@@ -40,39 +40,44 @@ class notifDetail extends Component {
 
   render() {
     let details = null;
-    let notif = this.state.notif;
+    let subs = this.state.notif;
     var listItems = [];
-    if (this.state.notif.id) {
+    if (subs.id) {
 
-      listItems.push(<ListItem primaryText={"ID: " + notif.id} />)
-      if (notif.description)
-         listItems.push(<ListItem primaryText={"Description: " + notif.description}/>)
-      listItems.push(<ListItem primaryText={"Entities: " + notif.subject.entities.map((e) => e.id).join(", ")}/>)
-      if(notif.subject.condition) {
-        if(notif.subject.condition.attrs) 
-           listItems.push(<ListItem primaryText={"Condition attributes: " + notif.subject.condition.attrs.join(", ")}/>)
-        if(notif.subject.condition.expression) {
-          if(notif.subject.condition.expression.q) 
-            listItems.push(<ListItem primaryText={"Condition expression: " + notif.subject.condition.expression.q}/>)
+      listItems.push(<ListItem primaryText={"ID: " + subs.id} />)
+      if (subs.description)
+         listItems.push(<ListItem primaryText={"Description: " + subs.description}/>)
+      listItems.push(<ListItem primaryText={"Entities: " + subs.subject.entities.map((e) => e.id).join(", ")}/>)
+      if(subs.subject.condition) {
+      let cond = subs.subject.condition
+        if(cond.attrs) 
+           listItems.push(<ListItem primaryText={"Condition attributes: " + cond.attrs.join(", ")}/>)
+        if(cond.expression) {
+          if(cond.expression.q) 
+            listItems.push(<ListItem primaryText={"Condition expression: " + cond.expression.q}/>)
         }
       }
-      if(notif.notification.timesSent)
-        listItems.push(<ListItem primaryText={"Times sent: " + notif.notification.timesSent}/>)
-      if(notif.notification.lastNotification)
-        listItems.push(<ListItem primaryText={"Last notification: " + notif.notification.lastNotification}/>)
-      if(notif.notification.http)
-        listItems.push(<ListItem primaryText={"Notified URL: " + notif.notification.http.url}/>)
-      if(notif.notification.httpCustom) {
-        listItems.push(<ListItem primaryText={"Notified URL: " + notif.notification.httpCustom.url}/>)
+      let notif = subs.notification
+      if(notif.timesSent)
+        listItems.push(<ListItem primaryText={"Times sent: " + notif.timesSent}/>)
+      if(notif.lastNotification)
+        listItems.push(<ListItem primaryText={"Last notification: " + notif.lastNotification}/>)
+      if(notif.http)
+        listItems.push(<ListItem primaryText={"Notified URL: " + notif.http.url}/>)
+      if(notif.httpCustom) {
+        let httpCustom = notif.httpCustom
+        listItems.push(<ListItem primaryText={"Notified URL: " + httpCustom.url}/>)
  
-        if(notif.notification.httpCustom.headers)
-          listItems.push(<ListItem primaryText={"HTTP headers: " + notif.notification.httpCustom.headers.map()}/>)
-        if(notif.notification.httpCustom.qs)
-          listItems.push(<ListItem primaryText={"HTTP query string: " + notif.notification.httpCustom.qs}/>)
-        if(notif.notification.httpCustom.method)
-          listItems.push(<ListItem primaryText={"HTTP method: " + notif.notification.httpCustom.method}/>)
-        if(notif.notification.httpCustom.payload)
-          listItems.push(<ListItem primaryText={"Notification payload: " + notif.notification.httpCustom.payload}/>)
+        if(httpCustom.headers) {
+          let headers = httpCustom.headers
+          listItems.push(<ListItem primaryText={"HTTP headers: " + Object.keys(headers).map((a) => a + ": " + headers[a]).join("\n")}/>)
+        }
+        if(httpCustom.qs)
+          listItems.push(<ListItem primaryText={"HTTP query string: " + httpCustom.qs}/>)
+        if(httpCustom.method)
+          listItems.push(<ListItem primaryText={"HTTP method: " + httpCustom.method}/>)
+        if(httpCustom.payload)
+          listItems.push(<ListItem primaryText={"Notification payload: " + unescape(httpCustom.payload)}/>)
       }
       details =
             <CardText>
