@@ -56,22 +56,41 @@ class notifForm extends Component {
       />,
     ];
     
-    const names = [
-       'Sensor1',
-       'Sensor2',
-     ];
- 
-    function menuItems(values) {
-       return names.map((name) => (
-           <MenuItem
-             key={name}
-             insetChildren={true}
-             //checked={values && values.indexOf(name) > -1}
-             value={name}
-             primaryText={name}
-           />
-         ));
-       }
+    const renderHeaders = ({ fields, meta: { touched, error, submitFailed } }) => (  
+        <ul>    
+          <RaisedButton label="Add header" name="addheader"  primary={true} onClick={() => fields.push({})}/>
+          {(touched || submitFailed) && error && <span>{error}</span>}
+        {fields.map((member, index) =>
+          <li key={index}> 
+          <table>
+           <tr>
+            <td>
+            <Field
+              name={`${member}.headerName`}
+              component={TextField}
+              label={`header value ${index}`}>
+            </Field>  
+            </td>   
+            <td>
+            <Field
+               name={`${member}.headerValue`}
+              type="text"
+              component={TextField}
+              label="Header"/>  
+           </td>
+           <td>     
+            <RaisedButton
+              label="Remove"
+              name="removesensor"
+              secondary={true}
+              onClick={() => fields.remove(index)}/>      
+            </td>   
+            </tr>
+           </table>
+          </li>
+        )}
+      </ul>
+    );
 
     return (
         <Dialog
@@ -86,7 +105,7 @@ class notifForm extends Component {
             <Row>
                 <Field name="desc"
                   component={TextField}
-                  initialValues="notification for sensor xxx"
+                  floatingLabelText="Description"
                   ref="description" withRef/>
                 <Field name="sensors"
                   component={SelectField}
@@ -121,13 +140,13 @@ class notifForm extends Component {
                   floatingLabelText="URL"
                   ref="url" withRef>
                 </Field>
-                <Field name="headers"
-                  component={TextField}
+                <FieldArray name="headers"
+                  component={renderHeaders}
                   value={"headers"}
                   hintText="Headers"
                   floatingLabelText="Headers"
                   ref="headers" withRef>
-                </Field>
+                </FieldArray>
                 <Field name="payload"
                   component={TextField}
                   value={"payload"}
@@ -170,10 +189,8 @@ notifForm = connect(
         "attrs": 1, 
         "expr": "SM1>400", 
         "url": "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
-        "headers": {
-         "Content-type": "application/json",
-         "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="
-         }, 
+        "headers": [{ headerName: "Content-type",  headerValue: "application/json"}, 
+                    { headerName: "Authorization", headerValue: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
         "payload": "%7B%20%22src%22%3A%20%2200393806412092%22%2C%20%22dst%22%3A%20%2200923004075566%22%2C%20%22text%22%3A%20%22WaterSense%3A%20Field%20is%20too%20dry.%20${id}%20humidity%20value%20is%20${SM1}%20%22%7D", 
         "expires": new Date("2040-05-24T20:00:00.00Z"), 
         "throttling": 1, 
