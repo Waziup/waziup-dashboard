@@ -50,7 +50,7 @@
     "keycloak-admin-client": "latest",
     "keycloak-js": "latest",
     "leaflet": "^1.0.3",
-    "material-ui": "^0.16.0-rc2",
+    "material-ui": "^0.18.1",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "normalize.css": "^5.0.0",
