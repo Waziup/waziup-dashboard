@@ -23,6 +23,7 @@ import { initialize } from 'redux-form'
 class notifForm extends Component {
   constructor(props){
     super(props);
+    console.log("notif State " + JSON.stringify(this.state));
     this.state = {
       notif: {},
     };
@@ -32,6 +33,7 @@ class notifForm extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+    console.log("notif props " + JSON.stringify(nextProps));
   }
 
   render() {
@@ -102,73 +104,84 @@ class notifForm extends Component {
               ref={'notifFormDialog'}
             >
           <form onSubmit={onSubmit}>
-            <Row>
+           <Col>
+              <Row>
                 <Field name="desc"
+                  fullWidth={true}
                   component={TextField}
                   floatingLabelText="Description"
                   ref="description" withRef/>
+              </Row>
+              <Row>
                 <Field name="sensors"
                   component={SelectField}
                   multiple={true}
-                  hintText="sensors"
                   floatingLabelText="Sensors"
                   ref="sensors" withRef>
-                    <MenuItem value={1} primaryText="Sensor1" />
-                    <MenuItem value={2} primaryText="Sensor2" />
+                    <MenuItem value={"A"} primaryText="Sensor1" />
+                    <MenuItem value={"B"} primaryText="Sensor2" />
                 </Field>
                 <Field name="attrs"
                   component={SelectField}
                   multiple={true}
-                  value={["Sensor1", "Sensor2"]}
                   hintText="attributes"
                   floatingLabelText="Attributes"
                   ref="sensors" withRef>
                     <MenuItem value={1} primaryText="Attr1" />
                     <MenuItem value={2} primaryText="Attr2" />
                 </Field>
+              </Row>
+              <Row>
                 <Field name="expr"
                   component={TextField}
-                  value={"SM1>400"}
+                  fullWidth={true}
                   hintText="expression"
                   floatingLabelText="Expression"
                   ref="expression" withRef>
                 </Field>
+              </Row>
+              <Row>
                 <Field name="url"
                   component={TextField}
-                  value={"http://localhost"}
+                  fullWidth={true}
                   hintText="URL"
                   floatingLabelText="URL"
                   ref="url" withRef>
                 </Field>
+              </Row>
+              <Row>
                 <FieldArray name="headers"
+                  fullWidth={true}
                   component={renderHeaders}
-                  value={"headers"}
                   hintText="Headers"
                   floatingLabelText="Headers"
                   ref="headers" withRef>
                 </FieldArray>
+              </Row>
+              <Row>
                 <Field name="payload"
                   component={TextField}
-                  value={"payload"}
+                  fullWidth={true}
                   hintText="Payload"
                   floatingLabelText="Payload"
                   ref="payload" withRef>
                 </Field>
+              </Row>
+              <Row>
                 <Field name="expires"
                   component={DatePicker}
-                  value={"expires"}
                   hintText="Expires"
                   floatingLabelText="Expires"
                   ref="expires" withRef>
                 </Field>
                 <Field name="throttling"
                   component={TextField}
-                  value={"throttling"}
                   hintText="throttling"
                   floatingLabelText="Throttling"
                   ref="throttling" withRef>
                 </Field>
             </Row>
+           </Col>
           </form>
         </Dialog>
       );
@@ -184,16 +197,16 @@ notifForm = reduxForm({
 notifForm = connect(
   state => ({
     initialValues:{
-        "desc": "Send XXX when YYY",
-        "sensors": 1,
-        "attrs": 1, 
-        "expr": "SM1>400", 
-        "url": "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
-        "headers": [{ headerName: "Content-type",  headerValue: "application/json"}, 
-                    { headerName: "Authorization", headerValue: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
-        "payload": "%7B%20%22src%22%3A%20%2200393806412092%22%2C%20%22dst%22%3A%20%2200923004075566%22%2C%20%22text%22%3A%20%22WaterSense%3A%20Field%20is%20too%20dry.%20${id}%20humidity%20value%20is%20${SM1}%20%22%7D", 
-        "expires": new Date("2040-05-24T20:00:00.00Z"), 
-        "throttling": 1, 
+        desc: "Send XXX when YYY",
+        sensors: ["A","B"],
+        attrs: [1], 
+        expr: "SM1>400", 
+        url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
+        headers: [{ headerName: "Content-type",  headerValue: "application/json"}, 
+                  { headerName: "Authorization", headerValue: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
+        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
+        expires: new Date("2040-05-24T20:00:00.00Z"), 
+        throttling: 1, 
     }
   })
 )(notifForm)
