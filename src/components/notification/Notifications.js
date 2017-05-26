@@ -43,8 +43,7 @@ export default class NotificationForm extends Component {
     let headers = { "Content-type": "application/json",
                     "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6WXpoaU5ESmpPRE5oTkRreE1qaGlZVGd4WkRkaE5qYzNPV1ZsTnpZMA=="
                   }
-    createSubscription(event.description, "WS_UPPA_Sensor2", ["SM1"], "SM1>400", "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", headers, "test", "2040-05-24T17:07:09.00Z", 1) 
-    //createSubscription(event.description, sensorId, attrs, qExpr, url, headers, payload, expires, throttling) 
+    createSubscription(event.desc, event.sensors, event.attrs, event.expr, event.url, event.headers, event.payload, event.expires, event.throttling) 
       
   }
   
