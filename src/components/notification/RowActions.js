@@ -11,7 +11,6 @@ class RowActions extends Component {
 
   constructor(props) {
     super(props)
-    console.log("Row: " + JSON.stringify(props));
   }
 
   render() {
