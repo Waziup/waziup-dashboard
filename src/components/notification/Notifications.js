@@ -27,6 +27,7 @@ export default class NotificationForm extends Component {
       this.handleOpen                     = this.handleOpen.bind(this);
       this.handleClose                    = this.handleClose.bind(this);
       getNotifications();
+      loadSensors(true);
   }
 
 
@@ -40,10 +41,15 @@ export default class NotificationForm extends Component {
   //Fire when submitting the form data
   handleSubmit(event) {
     console.log("submit:" + JSON.stringify(event))
-    let headers = { "Content-type": "application/json",
-                    "Authorization": "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6WXpoaU5ESmpPRE5oTkRreE1qaGlZVGd4WkRkaE5qYzNPV1ZsTnpZMA=="
-                  }
-    createSubscription(event.desc, event.sensors, event.attrs, event.expr, event.url, event.headers, event.payload, event.expires, event.throttling) 
+    createSubscription(event.desc, 
+                       event.sensors, 
+                       event.attrs, 
+                       event.expr, 
+                       event.url, 
+                       event.headers,
+                       event.payload,
+                       event.expires,
+                       event.throttling) 
       
   }
   
