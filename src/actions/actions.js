@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
+import querystring from 'query-string';
+
 const settings = {
   baseUrl: process.env.REACT_APP_KC_URL,
   username: process.env.REACT_APP_ADMIN_USER,
@@ -49,7 +51,6 @@ export function fetchSensors(service, servicePath) {
 
     return function(dispatch) {
           dispatch(requestSensors());
-          const querystring = require('query-string');
           return axios.get('http://orion.waziup.io/v1/data/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},

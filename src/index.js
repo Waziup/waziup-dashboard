@@ -141,39 +141,40 @@ export function updateSensorOwner(sensorId) {
   }
 }
 
-export function createSubscription(desc, sensorId, attrs, qExpr, url, headers, payload, expires, throttling) {
+export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling) {
 
   var userDetails = store.getState().keycloak.idTokenParsed;
   if(userDetails) {
+
+    var entities = sensorIds.map((s) => {
+            return {
+              id: s,
+              type: "SensingDevice"
+            }});
     let sub =
       {
-        "description": desc,
-        "subject": {
-          "entities": [
-            {
-              "id": sensorId,
-              "type": "SensingDevice"
-            }
-          ],
-          "condition": {
-            "attrs": attrs,
-            "expression": {
-              "q": qExpr
+        description: desc,
+        subject: {
+          entities: entities,
+          condition: {
+            attrs: attrs,
+            expression: {
+              q: qExpr
             }
           }
         },
-        "notification": {
-          "httpCustom": {
-            "url": url,
-            "headers": headers,
-            "method": "POST",
-            "payload": payload 
+        notification: {
+          httpCustom: {
+            url: url,
+            headers: headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {}),
+            method: "POST",
+            payload: URIEncodeForbiddens(payload)
           }
         },
-        "expires": expires,
-        "throttling": throttling
+        expires: expires,
+        throttling: throttling
       }
-
+   console.log("sub"+ JSON.stringify(sub))
    // var mySensor = store.getState().sensors.sensors.find((s) => {
    //     return s.id === sensorId;
    // });
@@ -181,6 +182,18 @@ export function createSubscription(desc, sensorId, attrs, qExpr, url, headers, p
   }
 }
 
+
+function URIEncodeForbiddens(s) {
+ 
+  const forbiddens = ["<",">","\""] //,"\\","\;","(",")"]
+  
+  return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)
+
+}
+
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find, 'g'), replace);
+}
 
 export function getNotifications() {
 
