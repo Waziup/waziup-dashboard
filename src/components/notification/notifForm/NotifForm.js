@@ -33,11 +33,11 @@ class notifForm extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log("notif props " + JSON.stringify(nextProps));
+    console.log("notif form props " + JSON.stringify(nextProps));
   }
 
   render() {
-    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData} = this.props;
+    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData, sensors} = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -68,14 +68,14 @@ class notifForm extends Component {
            <tr>
             <td>
             <Field
-              name={`${member}.headerName`}
+              name={`${member}.key`}
               component={TextField}
               label={`header value ${index}`}>
             </Field>  
             </td>   
             <td>
             <Field
-               name={`${member}.headerValue`}
+               name={`${member}.value`}
               type="text"
               component={TextField}
               label="Header"/>  
@@ -94,6 +94,23 @@ class notifForm extends Component {
       </ul>
     );
 
+    let sensorList = sensors.map((s) =>  <MenuItem value={s.id} primaryText={s.id} />) 
+    let attrsList = () => {
+       var attrsList = []
+       for(let s of this.props.sensors) {
+          let attrs = UTIL.getMeasurements(s).map((m) => m.key)
+          attrsList.push(attrs)
+       }
+      let attrsList2 = uniq([].concat.apply([], attrsList))
+      return attrsList2.map((a) => <MenuItem value={a} primaryText={a}/>)
+    }
+
+
+    function uniq(a) {
+    return a.sort().filter(function(item, pos, array) {
+        return !pos || item != array[pos - 1];
+    })
+}
     return (
         <Dialog
               title="Add new Notification"
@@ -118,8 +135,7 @@ class notifForm extends Component {
                   multiple={true}
                   floatingLabelText="Sensors"
                   ref="sensors" withRef>
-                    <MenuItem value={"A"} primaryText="Sensor1" />
-                    <MenuItem value={"B"} primaryText="Sensor2" />
+                    {sensorList}
                 </Field>
                 <Field name="attrs"
                   component={SelectField}
@@ -127,8 +143,7 @@ class notifForm extends Component {
                   hintText="attributes"
                   floatingLabelText="Attributes"
                   ref="sensors" withRef>
-                    <MenuItem value={1} primaryText="Attr1" />
-                    <MenuItem value={2} primaryText="Attr2" />
+                    {attrsList()}
                 </Field>
               </Row>
               <Row>
@@ -191,19 +206,19 @@ class notifForm extends Component {
 // Decorate with redux-form
 notifForm = reduxForm({
   form: 'notifForm',
-  enableReinitialize : true, // this is needed!!
+  enableReinitialize : true, 
 })(notifForm)
 
 notifForm = connect(
   state => ({
     initialValues:{
         desc: "Send XXX when YYY",
-        sensors: ["A","B"],
-        attrs: [1], 
+        sensors: [],
+        attrs: [], 
         expr: "SM1>400", 
         url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
-        headers: [{ headerName: "Content-type",  headerValue: "application/json"}, 
-                  { headerName: "Authorization", headerValue: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
+        headers: [{ key: "Content-type",  value: "application/json"}, 
+                  { key: "Authorization", value: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
         payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
         expires: new Date("2040-05-24T20:00:00.00Z"), 
         throttling: 1, 
