@@ -6,6 +6,7 @@ import notification from './Notifications.js';
 function mapStateToProps(state) {
    return {
       notifications: state.notifications.notifications,
+      sensors: state.sensors.sensors,
    }
 }
 

@@ -20,22 +20,25 @@ export default class NotificationForm extends Component {
       super(props);
       this.state = {
           modalOpen : false,
-          notifications: []
+          notifications: [],
+          sensors: []
       };
 
-      this.handleSubmit                   = this.handleSubmit.bind(this);
-      this.handleOpen                     = this.handleOpen.bind(this);
-      this.handleClose                    = this.handleClose.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleOpen   = this.handleOpen.bind(this);
+      this.handleClose  = this.handleClose.bind(this);
       getNotifications();
       loadSensors(true);
   }
-
 
   componentWillReceiveProps(nextProps){
 
     console.log("props:" + JSON.stringify(nextProps))
     if (nextProps.notifications) {
        this.setState({notifications: nextProps.notifications})
+    }
+    if (nextProps.sensors) {
+       this.setState({sensors: nextProps.sensors})
     }
   }
   //Fire when submitting the form data
@@ -111,7 +114,7 @@ export default class NotificationForm extends Component {
                       <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
                     </CardActions>
                   </Card>                            
-                  <NewNotifForm  modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
+                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
               </FullWidthSection>
           </Container>
        </div>
