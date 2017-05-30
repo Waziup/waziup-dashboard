@@ -169,16 +169,14 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
             headers: headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {}),
             method: "POST",
             payload: URIEncodeForbiddens(payload)
-          }
+          },
+          attrs: attrs
         },
         expires: expires,
         throttling: throttling
       }
-   console.log("sub"+ JSON.stringify(sub))
-   // var mySensor = store.getState().sensors.sensors.find((s) => {
-   //     return s.id === sensorId;
-   // });
-    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/"));
+    console.log("sub: "+ JSON.stringify(sub))
+    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#"));
   }
 }
 

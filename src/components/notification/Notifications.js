@@ -14,7 +14,7 @@ import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} 
 import RowActions from './RowActions.js';
 import { connect } from 'react-redux';
 
-export default class NotificationForm extends Component {
+export default class Notifications extends Component {
   // Constructor for the component
   constructor(props) {
       super(props);
@@ -53,6 +53,7 @@ export default class NotificationForm extends Component {
                        event.payload,
                        event.expires,
                        event.throttling) 
+    getNotifications();
       
   }
   
@@ -95,7 +96,39 @@ export default class NotificationForm extends Component {
         updateAction: this.handleNotifUpdate
       };
     });
-    
+   
+    function NotificationComponent({value, griddleKey}) {
+       var url = null
+       if (value.get("http"))
+          url = value.get("http").get("url") 
+       if (value.get("httpCustom"))
+          url = value.get("httpCustom").get("url") 
+
+       return (
+        <div className="NotificationComponent">
+          {url}
+        </div>
+      );
+    }
+
+    function SubjectComponent({value, griddleKey}) {
+       var ids = ""
+       console.log("Sub" + value)
+       for(var ent of value.get("entities")) {
+          console.log("Sub2" + typeof(ent))
+          if(ent.get("id"))
+             ids = ids + ent.get("id") + "\n"
+          if(ent.get("idPattern"))
+             ids = ids + ent.get("idPattern") + "\n"
+       }
+ 
+       return (
+        <div className="SubjectComponent">
+          {ids}
+        </div>
+      );
+    }
+
     return (
        <div>
           <h1 className="page-title">Notifications settings</h1>
@@ -106,7 +139,8 @@ export default class NotificationForm extends Component {
                        <RowDefinition>
                          <ColumnDefinition id="id" title="ID"/>
                          <ColumnDefinition id="description" title="Description"/>
-                         <ColumnDefinition id="subject.entities.id" title="Subject"/>
+                         <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
+                         <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
                          <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
                        </RowDefinition>
                     </Griddle>
