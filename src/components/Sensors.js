@@ -104,26 +104,26 @@ class Sensors extends Component {
         updateAction: this.handleNotifUpdate
       };
     });
-   
+
     return (
           <div>
             <h1 className="page-title">Sensors</h1>
-          { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
+            { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
 
-          <Container fluid={true}>
-            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{
-                this.setState({formData:{}});
-                this.handleOpen();
-            }} />
-            <Checkbox
-                label="All sensor"
-                checked = {this.state.isAllSensors}
-                onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
-            />
+            <Container fluid={true}>
+            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData:{}}); this.handleOpen();}} />
+            <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
             <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={50} results={this.state.sensors} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
+                <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                    <RowDefinition>
+                       <ColumnDefinition id="id" title="ID"/>
+                       <ColumnDefinition id="owner.value" title="Owner"/>
+                       <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)}/>
+                       <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)}/> 
+                    </RowDefinition>
+                </Griddle>
             </FullWidthSection>
-            <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
+            <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
           </Container>
       </div>
     );

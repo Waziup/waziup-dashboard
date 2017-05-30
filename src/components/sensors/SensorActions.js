@@ -13,8 +13,7 @@ class SensorActions extends Component {
   }
 
   render() {
-    let {deleteAction, updateAction} = this.props.metadata.customComponentMetadata;
-    let {rowData} = this.props;
+    let {rowData, deleteAction, updateAction} = this.props;
     return (
         <div>
            <IconButton tooltip="View" tooltipPosition="top-center" containerElement={<Link to={"/sensors/"+rowData.id} />} >
