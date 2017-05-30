@@ -7,7 +7,7 @@ import Update from 'material-ui/svg-icons/content/create';
 import View from 'material-ui/svg-icons/image/remove-red-eye';
 import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 
-class RowActions extends Component {
+class NotifActions extends Component {
 
   constructor(props) {
     super(props)
@@ -31,4 +31,4 @@ class RowActions extends Component {
   }
 }
 
-export default RowActions;
+export default NotifActions;
