@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
-import RowActions from './sensors/RowActions.js'
+import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
-import Griddle from 'griddle-react';
+import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
 import Spinner from 'react-spinkit';
 import UTIL from '../utils';
 import {loadSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor} from "../index.js"
@@ -18,7 +18,7 @@ class Sensors extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data:       props.data,
+      sensors:    [],
       formData:   {},
       update:     false,
       modalOpen:  false,
@@ -30,11 +30,8 @@ class Sensors extends Component {
     loadSensors(true);
   }
 
-  defaultProps = {
-    data: []
-  }
-  
   componentWillReceiveProps(nextProps){
+    console.log("sensor props" + JSON.stringify(nextProps))
 
     if (nextProps.sensors) { // !== this.props.sensors) {
        this.setState({sensors:nextProps.sensors})
@@ -88,73 +85,50 @@ class Sensors extends Component {
      this.setState({isAllSensors: event.target.checked});
   }
 
-  tableMeta = [
-    {
-      "columnName": "id",
-      "order": 1,
-      "displayName": "ID"
-    },
-    {
-      "columnName": "type",
-      "order": 2,
-      "visible": true,
-      "displayName": "Sensor type"
-    },
-    {
-      "columnName": "owner",
-      "order": 3,
-      "visible": true,
-      "displayName": "Owner",
-      "customComponent": SensorOwner
-    },
-    {
-      "columnName": "last_value",
-      "order": 4,
-      "visible": true,
-      "displayName": "Last Values",
-      "customComponent": SensorData
-    },
-    {
-      "columnName": "actions",
-      "order": 5,
-      "visible": true,
-      "displayName": "Actions",
-      "customComponent": RowActions,
-	  'customComponentMetadata': {
-		'deleteAction': this.handleSensorDelete,
-		'updateAction': this.handleSensorUpdate
-		}
-    },
-
-  ];
-
   render() {
+    
+    const rowDataSelector = (state, { griddleKey }) => {
+      console.log("sel: " + JSON.stringify(state))
+      return state
+        .get('data')
+        .find(rowMap => rowMap.get('griddleKey') === griddleKey)
+        .delete('griddleKey')
+        .toJSON();
+    };
+    
+    const enhancedWithRowData = connect((state, props) => {
+      return {
+        // rowData will be available into RowActions
+        rowData: rowDataSelector(state, props),
+        deleteAction: this.handleNotifDelete,
+        updateAction: this.handleNotifUpdate
+      };
+    });
 
     return (
           <div>
             <h1 className="page-title">Sensors</h1>
-          { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
+            { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
 
-          <Container fluid={true}>
-            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{
-                this.setState({formData:{}});
-                this.handleOpen();
-            }} />
-            <Checkbox
-                label="All sensor"
-                checked = {this.state.isAllSensors}
-                onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
-            />
+            <Container fluid={true}>
+            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData:{}}); this.handleOpen();}} />
+            <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
             <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={50} results={this.state.sensors} columnMetadata={this.tableMeta} columns={["id", "type","owner","last_value",'actions']} showFilter={true} />
+                <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                    <RowDefinition>
+                       <ColumnDefinition id="id" title="ID"/>
+                       <ColumnDefinition id="owner.value" title="Owner"/>
+                       <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)}/>
+                       <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)}/> 
+                    </RowDefinition>
+                </Griddle>
             </FullWidthSection>
-            <SensorForm   ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
+            <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
           </Container>
       </div>
     );
   }
 }
-
 
 export default Sensors;
 
