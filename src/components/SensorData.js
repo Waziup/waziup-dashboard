@@ -4,11 +4,16 @@ import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader';
 import UTILS from '../utils.js';
 import shortid from 'shortid';
-class SensorData extends Component {
 
-  getRow = (rowData) => {
+class SensorData extends Component {
+  
+  constructor(props) {
+    super(props)
+  }
+
+  getSensorData = (sensor) => {
     var returnValue = [];
-    var meas = UTILS.getMeasurements(rowData);
+    var meas = UTILS.getMeasurements(sensor);
     for(var i in meas){
         returnValue.push(
            <li> {meas[i].key + ": " + meas[i].value} </li>
@@ -16,12 +21,17 @@ class SensorData extends Component {
     }
     return returnValue;
   }
+
   render() {
-      var id = shortid.generate();
+
+    let {griddleKey, rowData} = this.props;
+    console.log("SensorData" + JSON.stringify(this.props))
+    console.log("SensorData2" + JSON.stringify(rowData))
+    var id = shortid.generate();
     return (
       <div key={id}>
         {
-          this.getRow(this.props.rowData)
+          this.getSensorData(rowData)
         }
         </div>
     );

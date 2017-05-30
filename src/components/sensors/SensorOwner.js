@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import FlatButton from 'material-ui/FlatButton';
 
 class SensorOwner extends Component {
-  render() {
+
+render() {
       let own = "-";
       if (this.props.rowData.owner) {
        own = this.props.rowData.owner.value; 
