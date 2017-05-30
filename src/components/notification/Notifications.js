@@ -11,7 +11,7 @@ import TextField from 'material-ui/TextField';
 import NewNotifForm from './notifForm/NotifFormContainer.js' ;
 import {loadSensors, createSubscription, getNotifications, deleteNotif} from "../../index.js";
 import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
-import RowActions from './RowActions.js';
+import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 
 export default class Notifications extends Component {
@@ -141,7 +141,7 @@ export default class Notifications extends Component {
                          <ColumnDefinition id="description" title="Description"/>
                          <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
                          <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
-                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(RowActions)}/> 
+                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/> 
                        </RowDefinition>
                     </Griddle>
                     <CardActions>                           
