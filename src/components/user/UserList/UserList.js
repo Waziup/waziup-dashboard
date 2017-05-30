@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { Container} from 'react-grid-system'
 import FullWidthSection from '../../FullWidthSection'
-import Griddle from 'griddle-react';
+import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
+import * as actions from '../../../actions/actions';
 
 class UserList extends Component {
+  
   constructor(props){
     super(props);
     this.state = {
-      users : props.users,
-      isLoading:false
+      users : [],
+      isLoading: false
     };
+    actions.getUsers();
   }
-  defaultProps = {
-    users: []
-  };
+  
   componentWillReceiveProps(nextProps){
     if (nextProps.users) {
       this.setState({users:nextProps.users})
@@ -22,38 +23,6 @@ class UserList extends Component {
   }
   componentDidMount(){
   }
-
-  tableMeta = [
-    {
-      "columnName": "id",
-      "order": 1,
-      "displayName": "ID"
-    },
-    {
-      "columnName": "username",
-      "order": 2,
-      "visible": true,
-      "displayName": "Username"
-    },
-    {
-      "columnName": "firstName",
-      "order": 2,
-      "visible": true,
-      "displayName": "Firstname"
-    },
-    {
-      "columnName": "lastName",
-      "order": 2,
-      "visible": true,
-      "displayName": "Lastname"
-    },
-    {
-      "columnName": "email",
-      "order": 2,
-      "visible": true,
-      "displayName": "Email"
-    },
-  ];
 
   render() {
     let {user} = this.props;
@@ -63,7 +32,15 @@ class UserList extends Component {
             { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
             <Container fluid={true}>
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={10} results={this.state.users} columnMetadata={this.tableMeta} columns={[ "username","firstName","lastName","email"]} showFilter={true} />
+                <Griddle resultsPerPage={10} data={this.state.users} showFilter={true} >
+                  <RowDefinition>
+                    <ColumnDefinition id="id"        title="ID"/>
+                    <ColumnDefinition id="username"  title="Username"/>
+                    <ColumnDefinition id="firstName" title="First name"/>
+                    <ColumnDefinition id="lastName"  title="Last name"/> 
+                    <ColumnDefinition id="email"     title="Email"/> 
+                  </RowDefinition>
+                </Griddle>
               </FullWidthSection>
             </Container>
       </div>
