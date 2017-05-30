@@ -180,11 +180,11 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
   }
 }
 
-
+// URI encode the forbidden characters of Orion
 function URIEncodeForbiddens(s) {
- 
-  const forbiddens = ["<",">","\""] //,"\\","\;","(",")"]
-  
+   
+  // forbidden characters: <>"\;()
+  const forbiddens = ["<", ">", "\"", "\\\\", "\;", "\\(", "\\)"]
   return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)
 
 }
