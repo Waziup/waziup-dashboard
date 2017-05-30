@@ -143,7 +143,9 @@ export function updateSensorOwner(sensorId) {
 
 export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling) {
 
-  var userDetails = store.getState().keycloak.idTokenParsed;
+  let userDetails = store.getState().keycloak.idTokenParsed;
+  let headers2 = headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {})
+
   if(userDetails) {
 
     var entities = sensorIds.map((s) => {
@@ -166,7 +168,7 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
         notification: {
           httpCustom: {
             url: url,
-            headers: headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {}),
+            headers: headers2,
             method: "POST",
             payload: URIEncodeForbiddens(payload)
           },
