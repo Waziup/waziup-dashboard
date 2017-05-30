@@ -4,7 +4,6 @@ import FullWidthSection from '../../FullWidthSection'
 import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
 import * as actions from '../../../actions/actions';
-import Utils from '../../../utils';
 
 class UserList extends Component {
   
@@ -33,7 +32,7 @@ class UserList extends Component {
             { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
             <Container fluid={true}>
               <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={10} data={this.state.users} showFilter={true} styleConfig={Utils.styleConfig()}>
+                <Griddle resultsPerPage={10} data={this.state.users} showFilter={true} >
                   <RowDefinition>
                     <ColumnDefinition id="id"        title="ID"/>
                     <ColumnDefinition id="username"  title="Username"/>
