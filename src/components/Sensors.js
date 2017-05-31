@@ -10,7 +10,7 @@ import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
 import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
 import Spinner from 'react-spinkit';
-import UTIL from '../utils';
+import Utils from '../utils';
 import {loadSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor} from "../index.js"
 
 class Sensors extends Component {
@@ -104,7 +104,7 @@ class Sensors extends Component {
         updateAction: this.handleNotifUpdate
       };
     });
-
+   
     return (
           <div>
             <h1 className="page-title">Sensors</h1>
@@ -114,7 +114,7 @@ class Sensors extends Component {
             <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData:{}}); this.handleOpen();}} />
             <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
             <FullWidthSection useContent={true}>
-                <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
                     <RowDefinition>
                        <ColumnDefinition id="id" title="ID"/>
                        <ColumnDefinition id="owner.value" title="Owner"/>

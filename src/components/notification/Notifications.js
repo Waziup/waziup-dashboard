@@ -13,6 +13,7 @@ import {loadSensors, createSubscription, getNotifications, deleteNotif} from "..
 import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
+import Utils from '../../utils';
 
 export default class Notifications extends Component {
   // Constructor for the component
@@ -135,7 +136,7 @@ export default class Notifications extends Component {
           <Container>
               <FullWidthSection useContent={true} >      
                   <Card>                        
-                    <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} >
+                    <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()}>
                        <RowDefinition>
                          <ColumnDefinition id="id" title="ID"/>
                          <ColumnDefinition id="description" title="Description"/>
