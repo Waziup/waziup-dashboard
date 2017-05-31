@@ -55,7 +55,29 @@ const UTIL = {
           }
         }
         return returnValue;
-    }
+    },
+    
+    //Griddle table config
+    styleConfig: function() { 
+      return {
+        icons: {
+          TableHeadingCell: {
+            sortDescendingIcon: '▼',
+            sortAscendingIcon: '▲',
+          },
+        },
+        classNames: {
+          Row: 'row-class',
+          Table: 'table-striped, table',
+        },
+        styles: {
+          Filter: { fontSize: 18 },
+          Table: { width: "100%",  border: "1px solid #dddddd ", padding: "5px"},
+          Cell: { border: "1px solid #ededef ", padding: "5px", "background-color": "#FFFFFF" },
+        }
+      }
+    } 
+
 };
 
 /* Export ==================================================================== */
