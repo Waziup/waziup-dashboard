@@ -78,12 +78,7 @@ class sensorDetail extends Component {
     }
   }
 
-<<<<<<< a0196bc93f7e8604dfcf148d467b5f68b26e1494
   componentDidMount() {
-=======
-  componentDidMount(){
-    this.props.adminLogin(this.props.user);
->>>>>>> clean
   }
 
   componentWillMount() {
