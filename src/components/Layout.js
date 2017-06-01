@@ -194,7 +194,7 @@ class Layout extends Component {
               <div className="menu">
         
                 <MenuItem  containerElement={<Link to="/home" />}  
-                primaryText="Global Map"  innerDivStyle={styles.menuLink} />
+                primaryText="Map"  innerDivStyle={styles.menuLink} />
   
                 <MenuItem
                   containerElement={<Link to="/users" />}
