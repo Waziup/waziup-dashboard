@@ -11,17 +11,6 @@ class SensorData extends Component {
     super(props)
   }
 
-  getSensorData = (sensor) => {
-    var returnValue = [];
-    var meas = UTILS.getMeasurements(sensor);
-    for(var i in meas){
-        returnValue.push(
-           <li> {meas[i].key + ": " + meas[i].value} </li>
-        )
-    }
-    return returnValue;
-  }
-
   render() {
 
     let {griddleKey, rowData} = this.props;

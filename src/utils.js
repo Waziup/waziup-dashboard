@@ -1,9 +1,5 @@
-/**
- * Global Util Functions
- *
- * React Native Starter App
- * https://github.com/mcnamee/react-native-starter-app
- */
+import React from 'react';
+
 const UTIL = {
 	/**
 	  * Test if Obj is empty
@@ -76,8 +72,18 @@ const UTIL = {
           Cell: { border: "1px solid #ededef ", padding: "5px", "background-color": "#FFFFFF" },
         }
       }
-    } 
-
+    }, 
+  
+    getSensorData: function(sensor) {
+      var returnValue = [];
+      var meas = UTIL.getMeasurements(sensor);
+      for(var i in meas){
+          returnValue.push(
+             <li> {meas[i].key + ": " + meas[i].value} </li>
+          )
+      }
+      return returnValue;
+    }
 };
 
 /* Export ==================================================================== */

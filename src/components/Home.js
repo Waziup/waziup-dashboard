@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
@@ -9,6 +10,7 @@ import { fetchSensors} from '../actions/actions'
 import FullWidthSection from './FullWidthSection'
 import Page from '../App'
 import {loadSensors} from "../index.js"
+import UTILS from '../utils.js';
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
@@ -54,14 +56,16 @@ class Home extends Component {
 
     var markers = [];
     if (nextProps.sensors) {
-        for (var i = 0; i < nextProps.sensors.length; i++) {
-          if(nextProps.sensors[i].location && nextProps.sensors[i].location.value && nextProps.sensors[i].location.value.coordinates){
+        for (let sensor of nextProps.sensors) {
+
+          if(sensor.location && sensor.location.value && sensor.location.value.coordinates){
             markers.push({
               position:[
-                nextProps.sensors[i].location.value.coordinates[1],
-                nextProps.sensors[i].location.value.coordinates[0]
+                sensor.location.value.coordinates[1],
+                sensor.location.value.coordinates[0]
               ],
-              name: nextProps.sensors[i].id,
+              name: sensor.id,
+              values: UTILS.getSensorData(sensor),
               defaultAnimation: 2,
             });
           }
@@ -91,7 +95,10 @@ class Home extends Component {
     const listMarkers = this.state.markers.map((marker,index) =>
             <Marker key={index} position={marker.position}>
               <Popup>
-                <span>{marker.name}</span>
+                <span>
+                   <a href={"/sensors/" + marker.name}> {marker.name} </a>
+                   {marker.values}
+                </span>
               </Popup>
             </Marker>
     );
