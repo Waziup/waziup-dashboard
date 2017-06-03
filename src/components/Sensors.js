@@ -53,8 +53,8 @@ class Sensors extends Component {
 
   handleSensorUpdate = (data) => {
       this.props.updateSensorStart(data);
-      this.setState({update:true});
-      this.setState({formData:data});
+      this.setState({update: true});
+      this.setState({formData: data});
       this.setState({modalOpen: true});
   }
 
@@ -99,8 +99,8 @@ class Sensors extends Component {
       return {
         // rowData will be available into RowActions
         rowData: rowDataSelector(state, props),
-        deleteAction: this.handleNotifDelete,
-        updateAction: this.handleNotifUpdate
+        deleteAction: this.handleSensorDelete,
+        updateAction: this.handleSensorUpdate
       };
     });
    
@@ -110,7 +110,7 @@ class Sensors extends Component {
             { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
 
             <Container fluid={true}>
-            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData:{}}); this.handleOpen();}} />
+            <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData: {}}); this.handleOpen();}} />
             <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
             <FullWidthSection useContent={true}>
                 <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
