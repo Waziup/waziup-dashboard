@@ -8,7 +8,7 @@ import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import SensorOwner from './sensors/SensorOwner.js'
 import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
-import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
+import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
 import Utils from '../utils';
 import {loadSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor} from "../index.js"
@@ -88,7 +88,6 @@ class Sensors extends Component {
   render() {
     
     const rowDataSelector = (state, { griddleKey }) => {
-      console.log("sel: " + JSON.stringify(state))
       return state
         .get('data')
         .find(rowMap => rowMap.get('griddleKey') === griddleKey)

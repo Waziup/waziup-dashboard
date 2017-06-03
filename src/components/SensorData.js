@@ -25,8 +25,6 @@ class SensorData extends Component {
   render() {
 
     let {griddleKey, rowData} = this.props;
-    console.log("SensorData" + JSON.stringify(this.props))
-    console.log("SensorData2" + JSON.stringify(rowData))
     var id = shortid.generate();
     return (
       <div key={id}>

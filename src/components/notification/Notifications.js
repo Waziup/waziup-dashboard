@@ -10,7 +10,7 @@ import { Field, reduxForm } from 'redux-form';
 import TextField from 'material-ui/TextField';
 import NewNotifForm from './notifForm/NotifFormContainer.js' ;
 import {loadSensors, createSubscription, getNotifications, deleteNotif} from "../../index.js";
-import Griddle, {plugins, RowDefinition, ColumnDefinition, enhancedWithRowData} from 'griddle-react';
+import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 import Utils from '../../utils';
@@ -55,7 +55,6 @@ export default class Notifications extends Component {
                        event.expires,
                        event.throttling) 
     getNotifications();
-      
   }
   
   //Fire the modal window when click on the button
