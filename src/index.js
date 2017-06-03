@@ -73,13 +73,14 @@ export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
 }
 
 //delete a sensor.
-export function deleteSensor(sensor) {
-    console.log("deleteSensors" + JSON.stringify(sensor));
+export function deleteSensor(sensorId) {
+    console.log("deleteSensors" + JSON.stringify(sensorId));
 
     var userDetails = store.getState().keycloak.idTokenParsed;
+    var mySensor = store.getState().sensors.sensors.find((s) => { return s.id === sensorId; });
 
     if(userDetails) {
-       store.dispatch( actions.deleteSensor(sensor.id, userDetails.Service, sensor.servicePath.value));
+       store.dispatch( actions.deleteSensor(sensorId, userDetails.Service, mySensor.servicePath.value));
     }
 };
 
