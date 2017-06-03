@@ -45,7 +45,7 @@ class sensorForm extends Component {
   }
 
   render() {
-    const {pristine, reset, submitting,modalShowing, modalOpen,handleClose, onSubmit,formData} = this.props;
+    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData} = this.props;
       const actions = [
       <FlatButton
         label="Cancel"
