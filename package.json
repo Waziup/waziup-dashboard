@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "json-loader": "^0.5.4",
     "react-scripts": "^0.9.5",
     "redux-logger": "^3.0.0"
   },
@@ -32,5 +33,4 @@
     "test": "react-scripts test"
   },
   "proxy": "http://localhost:8000"
-
 }

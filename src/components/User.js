@@ -39,8 +39,8 @@ const User = ({userInfo}) => (
     </ListGroup>
   </Panel>
   <Panel collapsible defaultExpanded header="Security Tokens" bsStyle="success">
-    <ListGroup >
-      <ListGroupItem> 
+    <ListGroup>
+      <ListGroupItem>
         <Well>
         ID Token Parsed: {JSON.stringify(userInfo.idTokenParsed)}
         </Well>

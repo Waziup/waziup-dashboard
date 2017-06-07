@@ -1,11 +1,32 @@
 import {
   LOGIN_REQUEST, LOGIN_REQUEST_IFNEEDED, LOGIN_NOT_NEEDED,
   LOGIN_SUCCEED, LOGIN_FAILED, LOGOUT_REQUEST, LOGOUT_COMPLETED,
-  ACCOUNT_MNGMNT
+  ACCOUNT_MNGMNT, USERREP_REQ, USERREP_RES, USERREP_ERR
 } from '../actions/securityActions'
  
-const securityReducer = (state={ isAuthenticating: false, authenticated: false }, action) => {
+const securityReducer = (state={ isAuthenticating: false, authenticated: false, 
+  userRepReq: true, userRepRes: false}, action) => {
   switch (action.type) {
+    case USERREP_REQ:
+      return {
+        ...state, 
+        userRepReq: true,
+        userRepRes: false,
+      }
+    case USERREP_RES:
+      return {
+        ...state, 
+        userRepReq: false,
+        userRepRes: true,
+        userRep:  action.userRep
+      }
+    case USERREP_ERR:
+      return {
+        ...state,
+        userRepReq: false,
+        userRepRes: false,
+        userRepErrMsg: action.userRepErrMsg
+      }
     case LOGIN_REQUEST:
       return {
         ...state, 

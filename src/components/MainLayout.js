@@ -38,8 +38,7 @@ class MainLayout extends Component {
                             <NavItem eventKey={2} title="Subscriptions"><Glyphicon glyph="wrench" /> <Link activeClassName="active" to="/subscriptions">Subscriptions</Link></NavItem>
                             <NavItem eventKey={2} title="Complex Visualizations"><Glyphicon glyph="wrench" /> <Link activeClassName="active" to="/complexvisualizations">Complex Visualizations</Link></NavItem>
                             <NavItem eventKey={1} title="User Info"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/userinfo">User Information & Tokens</Link></NavItem>
-                            <NavItem eventKey={1} title="User Settings"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/usersettingspage">User Settings</Link></NavItem>
-                            
+                            <NavItem eventKey={1} title="User Representation"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/userrepresentation">User Representation</Link></NavItem>
                             <NavItem eventKey={2} title="Account Management"><Glyphicon glyph="user" /> <Link activeClassName="active" to="/accountmngmnt">Account Management</Link></NavItem>
                             <NavItem eventKey={3} title="Logout"><Glyphicon glyph="log-out" /> <Link activeClassName="active" to="/logout">Logout</Link></NavItem>                            
                         </Nav>
