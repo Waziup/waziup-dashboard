@@ -8,6 +8,7 @@ import {CardTitle} from 'material-ui/Card';
 class CustomTick extends Component {
     constructor(props) {
         super(props);
+        this.props.farm
         //console.log(props);
     }
 
@@ -48,7 +49,13 @@ class SMComparisonChart extends Component {
     }
 
     async componentDidMount() {
-        const res = await axios.get('/api/search'); // I need to full URL of that server, service name in docker
+        //xhr.js:175 GET http://localhost:4000/api/search/farm1 net::ERR_CONNECTION_REFUSED
+        //XHR failed loading: GET "http://localhost:4000/api/search/farm1"
+        console.log(this.props.params.farmid)
+        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid); 
+        //xhr.js:175 GET http://localhost:3000/api/search/farm2 500 (Internal Server Error)
+        //const res = await axios.get('/api/search/' + this.props.params.farmid);
+        // I need to full URL of that server, service name in docker
         //const res = await axios.get('http://dashboardserver.waziup.io/api/search'); // I need to full URL of that server, service name in docker
         const data = res.data;
         //console.log('data:', data)

@@ -90,7 +90,7 @@ class Layout extends Component {
               innerDivStyle={styles.menuLink}
               menuItems={[
                 <MenuItem primaryText="Farm 1" containerElement={<Link to="/farmview/farm1" />} />,
-                <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} disabled={true}/>,
+                <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} />,
                 <MenuItem primaryText="Farm 3" containerElement={<Link to="/farmview/farm3" />}  disabled={true}/>,
                 ]}
             />
