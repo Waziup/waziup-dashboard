@@ -13,12 +13,12 @@ class SensorData extends Component {
 
   render() {
 
-    let {griddleKey, rowData} = this.props;
+    let {rowData} = this.props;
     var id = shortid.generate();
     return (
       <div key={id}>
         {
-          this.getSensorData(rowData)
+          UTILS.getSensorData(rowData)
         }
         </div>
     );
