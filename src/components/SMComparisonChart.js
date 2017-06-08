@@ -8,8 +8,7 @@ import {CardTitle} from 'material-ui/Card';
 class CustomTick extends Component {
     constructor(props) {
         super(props);
-        this.props.farm
-        //console.log(props);
+                //console.log(props);
     }
 
     render() { 
@@ -24,10 +23,7 @@ class CustomTick extends Component {
         return (
             <g>
                 <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="1em">{time.format('H:mm a z')}</tspan>
-                </text>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
+                    <tspan dy="1em">{time.format('H:mm Do')}</tspan>
                 </text>
             </g>
         );
@@ -48,18 +44,15 @@ class SMComparisonChart extends Component {
         });
     }
 
-    async componentDidMount() {
-        //xhr.js:175 GET http://localhost:4000/api/search/farm1 net::ERR_CONNECTION_REFUSED
-        //XHR failed loading: GET "http://localhost:4000/api/search/farm1"
-        console.log(this.props.params.farmid)
-        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid); 
-        //xhr.js:175 GET http://localhost:3000/api/search/farm2 500 (Internal Server Error)
-        //const res = await axios.get('/api/search/' + this.props.params.farmid);
-        // I need to full URL of that server, service name in docker
-        //const res = await axios.get('http://dashboardserver.waziup.io/api/search'); // I need to full URL of that server, service name in docker
-        const data = res.data;
-        //console.log('data:', data)
-        await this.setStateAsync({ data });
+    async componentWillReceiveProps(nextProps) {
+        const prevFarmId = this.props.params.farmid
+        const newFarmId = nextProps.params.farmid
+        
+        if(newFarmId !== prevFarmId) {  
+        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid);
+            const data = res.data;
+            await this.setStateAsync({ data });
+        }
     }
 
     render() {
@@ -67,7 +60,7 @@ class SMComparisonChart extends Component {
 
         function xFormatter(tick) {
             //return new moment(tick).format('MMMM Do YYYY H:mm a z');
-            return new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
+            return new moment(tick).tz(moment.tz.guess()).format('H:mm z MMMM Do YYYY');
         }
 
         function yFormatter(tick) {
@@ -86,12 +79,12 @@ class SMComparisonChart extends Component {
         //to start let us keep 0-20% as Over dry zone, 20 - 80% as optimal moisture zone and 80 - 100% over irrigation zone 
         //console.log('filtered ones:', dataPercent)
 
+        const farmId = this.props.params.farmid
 
         return (
             <div>
-            <CardTitle title="Farm View" />
-            <ResponsiveContainer width="100%" height={500}>
-          
+            <CardTitle title={'Farm View: ' + farmId} />
+            <ResponsiveContainer width="100%" height={500}>  
                 <LineChart data={dataPercent} margin={{top: 5, right: 60, left: 0, bottom: 15}}>
                 <XAxis interval={0} type="number" dataKey="t" domain={['dataMin', 'dataMax']} tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick/>} />
                     <YAxis domain={[0, 100]} tickFormatter={yFormatter} />
