@@ -27,9 +27,10 @@ function safeHandler(handler) {
 async function search(req, res) {
     const msearch = [];
 
+   //config.get('elasticsearch.index')
     for (let sensorAttrib of ['SM1', 'SM2']) {
         msearch.push({
-            index: config.get('elasticsearch.index')
+            index: req.params.farmid
         });
 
         msearch.push({
@@ -101,24 +102,14 @@ async function search(req, res) {
 }
 
 const router = express.Router();
-router.get('/search', safeHandler(search));
+router.get('/search/:farmid', safeHandler(search));
 
 const app = express();
+var cors = require('cors')
+//below code for integration with client
+app.use(express.static(path.join(__dirname, 'build')));
 
-app.use(express.static(path.join(__dirname, '/build/')));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
-// this assumes that all your app files
-// `public` directory relative to where your server.js is
-//app.use(express.static(__dirname + '/public'))
-
-//app.get('*', function (request, response){
- // response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-//})
-
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

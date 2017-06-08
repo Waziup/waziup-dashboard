@@ -1,6 +1,6 @@
 import {SUBSCRIPTIONS_LIST_REQUEST,
 SUBSCRIPTIONS_LIST_REQUEST_ERROR,
-SUBSCRIPTIONS_LIST_FETCHED} from '../actions/subscriptionActions.js'
+SUBSCRIPTIONS_LIST_FETCHED,SUBSCRIPTION_ADD_REQUEST, SUBSCRIPTION_ADD_ERROR, SUBSCRIPTION_ADD_SUCCESS} from '../actions/subscriptionActions.js'
 
 const subscriptionsReducer = (state={ isFetching: false, fetched: false }, action) => {
   switch (action.type) {
@@ -15,7 +15,26 @@ const subscriptionsReducer = (state={ isFetching: false, fetched: false }, actio
         lastUpdated: action.lastUpdated
       }
     case SUBSCRIPTION_ADD_ERROR:
+      return {
+        ...state, 
+        isFetching: false,
+        fetched: true,
+        sensingDevice: action.sensingDevice,
+        orionService: action.orionService, 
+        orionServicePath: action.orionServicePath,
+        lastUpdated: action.lastUpdated
+      }
+
     case SUBSCRIPTION_ADD_SUCCESS:
+      return {
+        ...state, 
+        isFetching: false,
+        fetched: true,
+        sensingDevice: action.sensingDevice,
+        orionService: action.orionService, 
+        orionServicePath: action.orionServicePath,
+        lastUpdated: action.lastUpdated
+      }
 
     case SUBSCRIPTIONS_LIST_REQUEST:
       return {

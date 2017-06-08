@@ -6,6 +6,7 @@ import User from '../components/User'
 import UserRepresentation from '../components/UserRepresentation'
 import SensingDevices from '../components/SensingDevices'
 import Subscriptions from '../components/Subscriptions'
+import SubscriptionPage from '../components/SubscriptionPage'
 import MainLayout from '../components/MainLayout'
 import ContentLayout from '../components/ContentLayout'
 import SMComparisonChart from '../components/SMComparisonChart'
@@ -41,7 +42,7 @@ class Dashboard extends Component {
               <Route path="/userrepresentation" component={UserRepresentation} />
               <Route path="/sensingdevices" component={() => <SensingDevices userInfo={userInfo} />} />
               <Route path="/visualizations" component={VisualizationsWrapperComponent} />
-              <Route path="/complexvisualizations" component={SMComparisonChart} />
+              <Route path="/complexvisualizations/:farmid" component={SMComparisonChart} />
               <Route path="/subscriptions" component={Subscriptions} />
               <Route path="/addsubscription" component={SubscriptionPage} />
               <Route path="/usersettingspage" component={UserSettingsPage} />
