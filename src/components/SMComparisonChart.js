@@ -44,12 +44,18 @@ class SMComparisonChart extends Component {
         });
     }
 
+    async componentWillMount() {
+        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid);
+        const data = res.data;
+        await this.setStateAsync({ data });
+    }
+
     async componentWillReceiveProps(nextProps) {
         const prevFarmId = this.props.params.farmid
         const newFarmId = nextProps.params.farmid
         
         if(newFarmId !== prevFarmId) {  
-        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid);
+            const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + newFarmId);
             const data = res.data;
             await this.setStateAsync({ data });
         }
