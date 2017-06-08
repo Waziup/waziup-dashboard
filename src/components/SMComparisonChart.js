@@ -56,11 +56,11 @@ class SMComparisonChart extends Component {
         }
     }
 
-    // async componentDidMount() {
-    //     const res = await axios.get('/api/search/' + this.props.params.farmid);
-    //     const data = res.data;
-    //     await this.setStateAsync({ data });
-    // }
+     async componentWillMount() {
+        const res = await axios.get('/api/search/' + this.props.params.farmid);
+        const data = res.data;
+        await this.setStateAsync({ data });
+    }
 
     render () {
         let last8data = this.state.data.slice(-28)
@@ -85,7 +85,7 @@ class SMComparisonChart extends Component {
         // 'sm2': readingToPercent(entry.sm2)}))
         
         //filtering null and NaN
-        let dataPercent = last8data.filter(entry => !(isNaN(entry.sm1) || isNaN(entry.sm2))).map((entry) =>
+        let dataPercent = last8data.filter(entry => !(isNaN(parseInt(entry.sm1)) || isNaN(parseInt(entry.sm2)))).map((entry) =>
         ({'t': entry.t, 'sm1': readingToPercent(entry.sm1), 'sm2': readingToPercent(entry.sm2)}))
         //console.log(JSON.stringify(last8data))
         //console.log(JSON.stringify(dataPercent))
