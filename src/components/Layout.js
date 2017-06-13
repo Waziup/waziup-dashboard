@@ -9,6 +9,7 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'
 import FontIcon from 'material-ui/FontIcon';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
@@ -242,7 +243,7 @@ class Layout extends Component {
 }
 
 Layout.childContextTypes = {
-    muiTheme: React.PropTypes.object.isRequired
+    muiTheme: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

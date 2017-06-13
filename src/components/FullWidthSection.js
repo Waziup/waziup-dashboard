@@ -1,23 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ClearFix from 'material-ui/internal/ClearFix';
 import spacing from 'material-ui/styles/spacing';
+import PropTypes from 'prop-types';
 const desktopGutter = spacing.desktopGutter;
 
-const FullWidthSection = React.createClass({
-    propTypes: {
-      children: React.PropTypes.node,
-      contentStyle: React.PropTypes.object,
-      contentType: React.PropTypes.string,
-      style: React.PropTypes.object,
-      useContent: React.PropTypes.bool
-    },
+class  FullWidthSection extends Component {
 
     getDefaultProps() {
       return {
         useContent: false,
         contentType: 'div'
       };
-    },
+    }
 
     getStyles() {
       return {
@@ -32,7 +26,7 @@ const FullWidthSection = React.createClass({
           margin: '0 auto'
         }
       };
-    },
+    }
 
     render() {
       const {
@@ -63,7 +57,14 @@ const FullWidthSection = React.createClass({
         </ClearFix>
       );
     }
-});
+};
 
+FullWidthSection.propTypes = {
+      children: PropTypes.node,
+      contentStyle: PropTypes.object,
+      contentType:PropTypes.string,
+      style: PropTypes.object,
+      useContent: PropTypes.bool
+}
 export default FullWidthSection;
 
