@@ -7,8 +7,8 @@ const subscriptionsReducer = (state={ isFetching: false, fetched: false }, actio
     case SUBSCRIPTION_ADD_REQUEST:
       return {
         ...state, 
-        isFetching: false,
-        fetched: true,
+        isFetching: true,
+        fetched: false,
         sensingDevice: action.sensingDevice,
         orionService: action.orionService, 
         orionServicePath: action.orionServicePath,
@@ -16,9 +16,9 @@ const subscriptionsReducer = (state={ isFetching: false, fetched: false }, actio
       }
     case SUBSCRIPTION_ADD_ERROR:
       return {
-        ...state, 
+        ...state,
         isFetching: false,
-        fetched: true,
+        fetched: false,
         sensingDevice: action.sensingDevice,
         orionService: action.orionService, 
         orionServicePath: action.orionServicePath,
@@ -45,7 +45,7 @@ const subscriptionsReducer = (state={ isFetching: false, fetched: false }, actio
       }
     case SUBSCRIPTIONS_LIST_FETCHED:
       return {
-        ...state, 
+        ...state,
         isFetching: false,
         fetched: true,
         subscriptionsList: action.subscriptionsList,
