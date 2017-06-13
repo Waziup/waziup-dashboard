@@ -14,6 +14,9 @@ const settings = {
 const defaultService = 'waziup'
 const defaultServicePath = '/'
 const defaultServicePathQuery = '/#'
+const orionApi = process.env.REACT_APP_ORION_API
+const cometApi = process.env.REACT_APP_COMET_API
+
 
 function requestSensors() {
     return {type: types.REQ_SENSORS}
@@ -51,7 +54,7 @@ export function fetchSensors(service, servicePath) {
 
     return function(dispatch) {
           dispatch(requestSensors());
-          return axios.get('http://orion.waziup.io/v1/data/entities',
+          return axios.get(orionApi + '/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
@@ -71,7 +74,7 @@ export function fetchSensors(service, servicePath) {
 export function createSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post('http://orion.waziup.io/v1/data/entities', sensor,{
+          return axios.post(orionApi + '/entities', sensor,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -106,7 +109,7 @@ export function createSensorError(json) {
 
 export function updateSensorAttributes(sensorId, update, service, servicePath) {
     return function(dispatch) {
-          return axios.post('http://orion.waziup.io/v1/data/entities/'+sensorId+'/attrs', update, {
+          return axios.post(orionApi + '/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -148,7 +151,7 @@ export function updateSensorError(json) {
 export function deleteSensor(sensorId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete('http://orion.waziup.io/v1/data/entities/' + sensorId,{
+          return axios.delete(orionApi + '/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath': servicePath,
@@ -337,7 +340,7 @@ export function createSubscription(sub, service, servicePath) {
     if (!servicePath) {servicePath = defaultServicePathQuery;}
     if (!service)     {service     = defaultService;}
     return function(dispatch) {
-          var url='http://orion.waziup.io/v1/data/subscriptions'
+          var url= orionApi + '/subscriptions'
           return axios.post(url, sub, {
               headers: {
                 'content-type': 'application/json',
@@ -370,7 +373,7 @@ export function createSubscriptionError(json) {
 
 export function getNotifications(service, servicePath) {
     return function(dispatch) {
-          var url='http://orion.waziup.io/v1/data/subscriptions'
+          var url= orionApi + '/subscriptions'
           return axios.get(url, {
               headers: {
                 'fiware-servicepath': servicePath,
@@ -404,7 +407,7 @@ export function getNotificationsError(json) {
 export function deleteNotif(notifId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_NOTIF_START});
-          return axios.delete('http://orion.waziup.io/v1/data/subscriptions/' + notifId,{
+          return axios.delete(orionApi + '/subscriptions/' + notifId,{
                       headers: {
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,
