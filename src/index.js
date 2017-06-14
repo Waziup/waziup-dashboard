@@ -263,7 +263,11 @@ function displayPage() {
 
 }
 
-const kc = Keycloak('/keycloak.json');
+var keycloak = Keycloak({
+      url: process.env.REACT_APP_KC_URL,
+      realm: 'waziup',
+      clientId: 'waziup'
+});
 
 const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
 
@@ -274,22 +278,22 @@ if (checkIdentity === 'false') {
 
 } else {
 
-  kc.init({ onLoad: 'login-required'}).
+  keycloak.init({ onLoad: 'login-required'}).
     success(authenticated => {
     if (!authenticated) {
-      kc.login();
+      keycloak.login();
     } else {
 
       //console.log(authenticated);
-      store.getState().keycloak = kc;
+      store.getState().keycloak = keycloak;
       setInterval(() => {
-        kc.updateToken(10).error(() => kc.logout());
+        keycloak.updateToken(10).error(() => keycloak.logout());
       }, 10000);
 
       displayPage();
     }
   }).error(function (error) {
 
-    console(error);
+    console.log(error);
   });
 }
