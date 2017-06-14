@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Container } from 'react-grid-system'
-import FullWidthSection from '../FullWidthSection'
 
 class Profile extends Component {
   constructor(props){
@@ -15,7 +14,6 @@ class Profile extends Component {
       <div>
         <h1 className="page-title">Profile</h1>
         <Container>
-          <FullWidthSection useContent={true}></FullWidthSection>
         </Container>
       </div>
       );

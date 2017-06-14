@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container} from 'react-grid-system'
-import FullWidthSection from '../FullWidthSection'
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -133,7 +132,7 @@ export default class Notifications extends Component {
        <div>
           <h1 className="page-title">Notifications settings</h1>
           <Container>
-              <FullWidthSection useContent={true} >      
+              <div>      
                   <Card>                        
                     <Griddle resultsPerPage={50} data={this.state.notifications} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()}>
                        <RowDefinition>
@@ -149,7 +148,7 @@ export default class Notifications extends Component {
                     </CardActions>
                   </Card>                            
                   <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
-              </FullWidthSection>
+              </div>
           </Container>
        </div>
     );

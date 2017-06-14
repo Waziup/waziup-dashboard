@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container} from 'react-grid-system'
-import FullWidthSection from '../../FullWidthSection'
 import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
 import * as actions from '../../../actions/actions';
@@ -32,7 +31,7 @@ class UserList extends Component {
             <h1 className="page-title">Users</h1>
             { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
             <Container fluid={true}>
-              <FullWidthSection useContent={true}>
+              <div>
                 <Griddle resultsPerPage={10} data={this.state.users} showFilter={true} styleConfig={Utils.styleConfig()}>
                   <RowDefinition>
                     <ColumnDefinition id="id"        title="ID"/>
@@ -42,7 +41,7 @@ class UserList extends Component {
                     <ColumnDefinition id="email"     title="Email"/> 
                   </RowDefinition>
                 </Griddle>
-              </FullWidthSection>
+              </div>
             </Container>
       </div>
     );

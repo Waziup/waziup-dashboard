@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
-// import FullWidthSection from './FullWidthSection'
 import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
