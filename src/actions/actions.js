@@ -290,7 +290,7 @@ export function getHistoData(sensorId, measurement, service, servicePath) {
     if (!service)     {service     = defaultService;}
     console.log(sensorId);
     return function(dispatch) {
-          var url='http://historicaldata.waziup.io/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
+          var url= cometApi + '/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
               params: {'lastN': '24'},
               headers: {
