@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardText} from 'material-ui/Card';
 import UTIL from '../../utils.js';
-import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
+import { Container } from 'react-grid-system'
 import SettingsForm from './settingsForm/SettingsFormContainer'
 
 class Settings extends Component {

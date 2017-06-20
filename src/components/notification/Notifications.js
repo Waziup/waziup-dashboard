@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { Container} from 'react-grid-system'
-import MenuItem from 'material-ui/MenuItem';
+import { Container } from 'react-grid-system'
 import RaisedButton from 'material-ui/RaisedButton';
-import Dialog from 'material-ui/Dialog';
-import {Table, TableBody,TableHeader, TableHeaderColumn, TableRow}  from 'material-ui/Table';
-import {Card, CardActions, CardTitle} from 'material-ui/Card';
-import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
+import { Card, CardActions } from 'material-ui/Card';
 import NewNotifForm from './notifForm/NotifFormContainer.js' ;
 import {loadSensors, createSubscription, getNotifications, deleteNotif} from "../../index.js";
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
@@ -75,11 +70,6 @@ export default class Notifications extends Component {
 
   render() {
   
-    const actions = [
-        <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
-        <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
-    ];
-    
     const rowDataSelector = (state, { griddleKey }) => {
       return state
         .get('data')
@@ -141,6 +131,7 @@ export default class Notifications extends Component {
                          <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
                          <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
                          <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/> 
+                         <ColumnDefinition id="status" title="Status"/>
                        </RowDefinition>
                     </Griddle>
                     <CardActions>                           

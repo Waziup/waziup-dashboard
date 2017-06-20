@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
-import FlatButton from 'material-ui/FlatButton';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine, Legend, ResponsiveContainer } from 'recharts';
+import { CardText, CardTitle } from 'material-ui/Card';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
 import UTIL from '../../../../utils'
 import { getHisto } from "../../../../index.js"
 import moment from 'moment-timezone';
 
 class CustomTick extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() { 
         const time = new moment(this.props.payload.value).tz(moment.tz.guess());
@@ -28,9 +24,7 @@ class CustomTick extends Component {
     }
 }
 class SensorChart extends Component {
-  constructor(props){
-    super(props);
-  }
+
   defaultProps = {
     sensor: {}
   };
@@ -43,7 +37,6 @@ class SensorChart extends Component {
   }
 
   render() {
-    let {width,height} = this.props;
     var visCompAll = [];
     
     function xFormatter(tick) {

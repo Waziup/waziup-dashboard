@@ -2,13 +2,11 @@ import React, {Component} from 'react';
 import { Container } from 'react-grid-system'
 
 class Profile extends Component {
-  constructor(props){
-    super(props);
-
-  }
+  
   componentWillMount(){
     console.log(this.props);
   }
+
   render() {
     return (
       <div>

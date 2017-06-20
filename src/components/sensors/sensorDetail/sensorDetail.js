@@ -1,10 +1,8 @@
-import axios from 'axios'
 import React, { Component } from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { Container, Col, Visible, Hidden } from 'react-grid-system'
+import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts';
 import SensorChart from './SensorChart/SensorChartContainer';
 import UTIL from '../../../utils.js';
 import { loadSensors } from "../../../index.js"

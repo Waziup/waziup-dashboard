@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import VectorForm from './sensors/VectorMap/VectorMapFormContainer.js'
-import SensorOwner from './sensors/SensorOwner.js'
 import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
@@ -126,14 +125,14 @@ class Sensors extends Component {
             <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData: {}}); this.handleOpen();}} />
             <RaisedButton label="Add Crop or Pond" primary={true} onTouchTap={()=>{ this.handleVectorOpen();}} />
 
-            <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
+            <Checkbox label="All sensor" checked={this.state.isAllSensors} onCheck={(evt)=>{this.handleChangeAllSensors(evt)}} />
             <div>
                 <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
                     <RowDefinition>
-                       <ColumnDefinition id="id" title="ID"/>
+                       <ColumnDefinition id="id"          title="ID"/>
                        <ColumnDefinition id="owner.value" title="Owner"/>
-                       <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)}/>
-                       <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)}/>
+                       <ColumnDefinition id="values"      title="Values" customComponent={enhancedWithRowData(SensorData)}/>
+                       <ColumnDefinition id="actions"     title="Actions" customComponent={enhancedWithRowData(SensorActions)}/>
                     </RowDefinition>
                 </Griddle>
             </div>

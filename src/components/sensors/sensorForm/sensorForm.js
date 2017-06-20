@@ -1,28 +1,17 @@
 import React, {Component} from 'react';
-import { reduxForm, Field,FieldArray } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import UTIL from '../../../utils.js';
 import MenuItem from 'material-ui/MenuItem'
-import { RadioButton } from 'material-ui/RadioButton'
-import IconButton from 'material-ui/IconButton';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
-import Delete from 'material-ui/svg-icons/action/delete';
-import {
-  SelectField,
-  TextField,
-} from 'redux-form-material-ui'
-import {  Row, Col, Visible} from 'react-grid-system'
-import { initialize } from 'redux-form'
-// validation functions
-const required = value => value == null ? 'Required' : undefined
+import { SelectField, TextField } from 'redux-form-material-ui'
+import { Row, Col} from 'react-grid-system'
 
 const position = [12.238, -1.561];
 
 class sensorForm extends Component {
+
   constructor(props){
     super(props);
     this.state = {
@@ -45,7 +34,7 @@ class sensorForm extends Component {
   }
 
   render() {
-    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData} = this.props;
+    const {reset, modalOpen, handleClose, onSubmit} = this.props;
       const actions = [
       <FlatButton
         label="Cancel"

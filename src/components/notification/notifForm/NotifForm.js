@@ -1,24 +1,14 @@
 import React, {Component} from 'react';
 import { reduxForm, Field,FieldArray } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import UTIL from '../../../utils.js';
 import MenuItem from 'material-ui/MenuItem'
-import { RadioButton } from 'material-ui/RadioButton'
-import IconButton from 'material-ui/IconButton';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
-import Delete from 'material-ui/svg-icons/action/delete';
-import {
-  SelectField,
-  TextField,
-} from 'redux-form-material-ui'
-import {  Row, Col, Visible} from 'react-grid-system'
-import { initialize } from 'redux-form'
-
+import { SelectField, TextField } from 'redux-form-material-ui'
+import { Row, Col } from 'react-grid-system'
 
 class notifForm extends Component {
   constructor(props){
@@ -37,7 +27,7 @@ class notifForm extends Component {
   }
 
   render() {
-    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData, sensors} = this.props;
+    const {reset, modalOpen, handleClose, onSubmit, sensors} = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -108,7 +98,7 @@ class notifForm extends Component {
 
     function uniq(a) {
     return a.sort().filter(function(item, pos, array) {
-        return !pos || item != array[pos - 1];
+        return !pos || item !== array[pos - 1];
     })
 }
     return (
@@ -219,11 +209,11 @@ notifForm = connect(
         url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
         headers: [{ key: "Content-type",  value: "application/json"}, 
                   { key: "Authorization", value: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
-        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
+        payload: '{ "src": "00393806412092", "dst": "00393806412093", "text": "WaterSense: Field is too dry. ${id} humidity value is ${SM1} "}', 
         expires: new Date("2040-05-24T20:00:00.00Z"), 
         throttling: 1, 
     }
-  })
-)(notifForm)
+  }))(notifForm)
+
 export default notifForm;
 

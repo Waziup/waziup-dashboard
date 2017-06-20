@@ -25,7 +25,6 @@ class UserList extends Component {
   }
 
   render() {
-    let {user} = this.props;
     return (
           <div>
             <h1 className="page-title">Users</h1>

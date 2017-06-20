@@ -10,7 +10,6 @@ import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import FontIcon from 'material-ui/FontIcon';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import {Container,  Col, Visible, Hidden} from 'react-grid-system'
@@ -109,11 +108,6 @@ class Layout extends Component {
             />
       } 
 
-     
-    var navTitleStyle = {
-      marginLeft: '-8px'
-    };
-  
     var Logo;
   
     if(this.props.user.preferred_username === 'watersense')
@@ -124,11 +118,10 @@ class Layout extends Component {
     return (
       <div id="main">
         <AppBar
-          title={<img style={styles.logo} src={Logo}/>}
+          title={<img style={styles.logo} src={Logo} alt=""/>}
           onLeftIconButtonTouchTap={this.toggleNavigation}
           iconElementRight={this.headerMenu(this.state.user)}
           className="navbar"
-          onLeftIconButtonTouchTap={this.toggleNavigation}
         />
       
         <Visible xs sm>
@@ -229,7 +222,7 @@ class Layout extends Component {
             <div className="page-footer">
               <Container>
                 <Col md={6}>
-                  <img className="waziup-logo" src={Logo}/>
+                  <img className="waziup-logo" src={Logo} alt=""/>
                 </Col>
                 <Col md={6} className="footer-left">
                   <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2016 <a href="">Waziup.io</a></p>

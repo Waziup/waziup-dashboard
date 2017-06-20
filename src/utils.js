@@ -46,7 +46,7 @@ const UTIL = {
         var returnValue = [];
         const attributesExcludes = ["id", "type", "location", "dateCreated", "dateModified", "owner", "servicePath"];
         for(var i in sensor){
-          if (attributesExcludes.indexOf(i) == -1 && sensor[i]) {
+          if (attributesExcludes.indexOf(i) === -1 && sensor[i]) {
             returnValue.push({"key": i, "value": sensor[i].value})
           }
         }

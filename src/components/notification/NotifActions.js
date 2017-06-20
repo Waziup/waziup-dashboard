@@ -5,13 +5,9 @@ import { Link } from 'react-router';
 import Delete from 'material-ui/svg-icons/action/delete';
 import Update from 'material-ui/svg-icons/content/create';
 import View from 'material-ui/svg-icons/image/remove-red-eye';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
+import {blue500, red500} from 'material-ui/styles/colors';
 
 class NotifActions extends Component {
-
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     let {rowData, deleteAction, updateAction} = this.props;
