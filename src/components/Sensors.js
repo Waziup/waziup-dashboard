@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorForm from './sensors/sensorForm/sensorFormContainer.js'
 import VectorForm from './sensors/VectorMap/VectorMapFormContainer.js'
-import SensorOwner from './sensors/SensorOwner.js'
 import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
@@ -33,7 +32,6 @@ class Sensors extends Component {
 
   componentWillReceiveProps(nextProps){
     console.log("sensor props" + JSON.stringify(nextProps))
-
     if (nextProps.sensors) { // !== this.props.sensors) {
        this.setState({sensors:nextProps.sensors})
     }
@@ -45,7 +43,6 @@ class Sensors extends Component {
 
   componentDidMount(){
   }
-
 
   handleSensorDelete = (data) => {
       deleteSensor(data);
@@ -64,7 +61,8 @@ class Sensors extends Component {
     this.setState({modalVectorOpen: true});
   }
   handleVectorSubmit = (values) => {
-    createVector(values.sensorId, values.lonLats, values.boundaries);
+      console.log(values);
+      createVector(values.FieldId, values.LayerField);
     //loadSensors(this.state.isAllSensors);
   }
 
@@ -80,6 +78,9 @@ class Sensors extends Component {
   handleClose = () => {
     this.setState({formData:{}});
     this.setState({modalOpen: false});
+  }
+  handleCloseVector = () => {
+    this.setState({modalVectorOpen: false});
   }
 
   handleSubmitUpdate = (values) => {
@@ -126,7 +127,7 @@ class Sensors extends Component {
             <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData: {}}); this.handleOpen();}} />
             <RaisedButton label="Add Crop or Pond" primary={true} onTouchTap={()=>{ this.handleVectorOpen();}} />
 
-            <Checkbox label="All sensor" checked = {this.state.isAllSensors} onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}} />
+            <Checkbox label="All sensor" checked={this.state.isAllSensors} onCheck={(evt)=>{this.handleChangeAllSensors(evt)}} />
             <div>
                 <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
                     <RowDefinition>
@@ -138,8 +139,7 @@ class Sensors extends Component {
                 </Griddle>
             </div>
             <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
-
-            <VectorForm ref={'vForm'} modalOpen={this.state.modalVectorOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleVectorUpdate : this.handleVectorSubmit} />
+            <VectorForm ref={'vForm'} modalOpen={this.state.modalVectorOpen} handleClose={this.handleCloseVector} onSubmit={ this.state.update ? this.handleVectorUpdate : this.handleVectorSubmit} />
           </Container>
       </div>
     );

@@ -6,7 +6,7 @@ import * as actions from '../../../actions/actions';
 import Utils from '../../../utils';
 
 class UserList extends Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -15,7 +15,7 @@ class UserList extends Component {
     };
     actions.getUsers();
   }
-  
+
   componentWillReceiveProps(nextProps){
     if (nextProps.users) {
       this.setState({users:nextProps.users})
@@ -25,7 +25,6 @@ class UserList extends Component {
   }
 
   render() {
-    let {user} = this.props;
     return (
           <div>
             <h1 className="page-title">Users</h1>
@@ -37,8 +36,8 @@ class UserList extends Component {
                     <ColumnDefinition id="id"        title="ID"/>
                     <ColumnDefinition id="username"  title="Username"/>
                     <ColumnDefinition id="firstName" title="First name"/>
-                    <ColumnDefinition id="lastName"  title="Last name"/> 
-                    <ColumnDefinition id="email"     title="Email"/> 
+                    <ColumnDefinition id="lastName"  title="Last name"/>
+                    <ColumnDefinition id="email"     title="Email"/>
                   </RowDefinition>
                 </Griddle>
               </div>

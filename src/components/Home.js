@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
+import { Container} from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
 import { fetchSensors} from '../actions/actions'
-import Page from '../App'
 import {loadSensors} from "../index.js"
 import UTILS from '../utils.js';
 
@@ -24,7 +21,7 @@ class Home extends Component {
       position: [12.238, -1.561],
       isAllSensors: true,
     };
-  
+
     loadSensors(true);
   }
 
@@ -74,17 +71,17 @@ class Home extends Component {
         this.setState({markers:markers})
     }
   }
-  
+
   componentWillMount(){
     if (this.props.user) {
         this.setState({user:this.props.user});
     }
   }
-  
+
   componentDidMount(prevProps, prevState) {
      this.addAlert();
   }
-  
+
   handleChangeAllSensors = (event) => {
      loadSensors(event.target.checked);
      this.setState({isAllSensors: event.target.checked});
@@ -107,8 +104,8 @@ class Home extends Component {
         <Container fluid={true}>
           <Checkbox
               label="All sensor"
-              checked = {this.state.isAllSensors}
-              onCheck = {(evt)=>{this.handleChangeAllSensors(evt)}}
+              checked={this.state.isAllSensors}
+              onCheck={(evt)=>{this.handleChangeAllSensors(evt)}}
           />
 
            <Map ref="map" center={this.state.position} zoom={5}>

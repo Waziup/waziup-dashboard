@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
 import { reduxForm, Field,FieldArray } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import UTIL from '../../../utils.js';
 import MenuItem from 'material-ui/MenuItem'
-import { RadioButton } from 'material-ui/RadioButton'
-import IconButton from 'material-ui/IconButton';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
-import Delete from 'material-ui/svg-icons/action/delete';
 import {
   SelectField,
   TextField,
 } from 'redux-form-material-ui'
-import {  Row, Col, Visible} from 'react-grid-system'
-import { initialize } from 'redux-form'
+import {  Row, Col} from 'react-grid-system'
 
 
 class notifForm extends Component {
@@ -37,7 +31,7 @@ class notifForm extends Component {
   }
 
   render() {
-    const {pristine, reset, submitting, modalShowing, modalOpen, handleClose, onSubmit, formData, sensors} = this.props;
+    const { reset,modalOpen, handleClose, onSubmit, sensors} = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -57,13 +51,13 @@ class notifForm extends Component {
         }}
       />,
     ];
-    
-    const renderHeaders = ({ fields, meta: { touched, error, submitFailed } }) => (  
-        <ul>    
+
+    const renderHeaders = ({ fields, meta: { touched, error, submitFailed } }) => (
+        <ul>
           <RaisedButton label="Add header" name="addheader"  primary={true} onClick={() => fields.push({})}/>
           {(touched || submitFailed) && error && <span>{error}</span>}
         {fields.map((member, index) =>
-          <li key={index}> 
+          <li key={index}>
           <table>
            <tr>
             <td>
@@ -71,22 +65,22 @@ class notifForm extends Component {
               name={`${member}.key`}
               component={TextField}
               label={`header value ${index}`}>
-            </Field>  
-            </td>   
+            </Field>
+            </td>
             <td>
             <Field
                name={`${member}.value`}
               type="text"
               component={TextField}
-              label="Header"/>  
+              label="Header"/>
            </td>
-           <td>     
+           <td>
             <RaisedButton
               label="Remove"
               name="removesensor"
               secondary={true}
-              onClick={() => fields.remove(index)}/>      
-            </td>   
+              onClick={() => fields.remove(index)}/>
+            </td>
             </tr>
            </table>
           </li>
@@ -94,7 +88,7 @@ class notifForm extends Component {
       </ul>
     );
 
-    let sensorList = sensors.map((s) =>  <MenuItem value={s.id} primaryText={s.id} />) 
+    let sensorList = sensors.map((s) =>  <MenuItem value={s.id} primaryText={s.id} />)
     let attrsList = () => {
        var attrsList = []
        for(let s of this.props.sensors) {
@@ -108,7 +102,7 @@ class notifForm extends Component {
 
     function uniq(a) {
     return a.sort().filter(function(item, pos, array) {
-        return !pos || item != array[pos - 1];
+        return !pos || item !== array[pos - 1];
     })
 }
     return (
@@ -206,7 +200,7 @@ class notifForm extends Component {
 // Decorate with redux-form
 notifForm = reduxForm({
   form: 'notifForm',
-  enableReinitialize : true, 
+  enableReinitialize : true,
 })(notifForm)
 
 notifForm = connect(
@@ -214,14 +208,14 @@ notifForm = connect(
     initialValues:{
         desc: "Send XXX when YYY",
         sensors: [],
-        attrs: [], 
-        expr: "SM1>400", 
-        url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/", 
-        headers: [{ key: "Content-type",  value: "application/json"}, 
+        attrs: [],
+        expr: "SM1>400",
+        url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/",
+        headers: [{ key: "Content-type",  value: "application/json"},
                   { key: "Authorization", value: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
-        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
-        expires: new Date("2040-05-24T20:00:00.00Z"), 
-        throttling: 1, 
+        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}",
+        expires: new Date("2040-05-24T20:00:00.00Z"),
+        throttling: 1,
     }
   })
 )(notifForm)

@@ -39,18 +39,16 @@ class VectorMapForm extends Component {
   componentWillReceiveProps(nextProps){
   }
 
-  choosePosition = (event) => {
-    this.setState({position:[event.latlng.lat,event.latlng.lng]})
-    this.props.change('sensorLon', event.latlng.lng);
-    this.props.change('sensorLat', event.latlng.lat);
-  }
  _onEditPath(e) {
    console.log('Path edited !');
  }
-  _onCreate(e) {
+ _onCreate = (e) => {
     var polyline = e.layer;
     // To edit this polyline call : polyline.handler.enable()
-   console.log(polyline);
+     console.log(polyline)
+    var bounds = UTIL.convertVectorBounds(polyline._latlngs[0]);
+      console.log(bounds);
+     this.props.change('LayerField',bounds);
  }
  _onDeleted(e) {
    console.log('Path deleted !');
@@ -91,8 +89,9 @@ class VectorMapForm extends Component {
         label="Submit"
         primary={true}
         onTouchTap={()=>{
-          this.props.submit();
-          handleClose();
+            console.log("ici");
+            this.props.submit();
+            handleClose();
         }}
       />,
     ];
@@ -108,7 +107,17 @@ class VectorMapForm extends Component {
             >
           <form onSubmit={onSubmit}>
             <Row>
-                <Col md={11}>
+              <Col md={4}>
+                <Field name="FieldId"
+                  component={TextField}
+                  hintText="Field Id"
+                  floatingLabelText="Field Id"
+                  validate={required}
+                  ref="fieldId" withRef/>
+              </Col>
+          </Row>
+          <Row>
+                <Col>
                    <Map  className="VectorMapForm" ref="map" center={position} zoom={5}>
                     <TileLayer
                       url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
@@ -120,31 +129,26 @@ class VectorMapForm extends Component {
                             onEdited={this._onEditPath}
                             onCreated={this._onCreate}
                             onDeleted={this._onDeleted}
-                            draw={{  rectangle: false, circle:false, marker:false, polyline:false}}
+                            draw={{rectangle: false, circle:false, marker:false, polyline:false}}
                           />
                           <Circle center={[51.51, -0.06]} radius={200} />
                         </FeatureGroup>
                     </Map>
                 </Col>
             </Row>
-            <Row>
-              <Col md={4}>
-                <Field name="VectorId"
-                  component={TextField}
-                  hintText="Vector Id"
-                  floatingLabelText="Vector Id"
-                  ref="sensorId" withRef/>
-              </Col>
-              </Row>
           </form>
         </Dialog>
       );
   }
 }
 
+const initialValues = {
+      LayerField: '',
+};
 // Decorate with redux-form
 VectorMapForm = reduxForm({
-  form: 'VectorMapForm',
+    form: 'VectorMapForm',
+    initialValues,
 })(VectorMapForm)
 
 export default VectorMapForm;

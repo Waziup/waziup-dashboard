@@ -37,7 +37,7 @@ class sensorForm extends Component {
 
   componentWillReceiveProps(nextProps){
   }
-  
+
   choosePosition = (event) => {
     this.setState({position:[event.latlng.lat,event.latlng.lng]})
     this.props.change('sensorLon', event.latlng.lng);

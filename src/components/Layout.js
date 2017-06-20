@@ -10,7 +10,6 @@ import MenuItem from 'material-ui/MenuItem';
 import Avatar from 'material-ui/Avatar';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
-import FontIcon from 'material-ui/FontIcon';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import {Container,  Col, Visible, Hidden} from 'react-grid-system'
@@ -61,16 +60,16 @@ class Layout extends Component {
       muiTheme : this.state.muiTheme
     };
   }
-  
+
   componentWillReceiveProps(nextProps){
-  
+
     if (nextProps.keycloak !== this.props.keycloak){
       loadSensors(true);
     }
   }
-  
+
   componentWillMount() {
-  
+
     if (this.props.user) {
       this.setState({user:this.props.user});
     }
@@ -78,13 +77,13 @@ class Layout extends Component {
       muiTheme:getMuiTheme()
     });
   }
-      
+
   toggleNavigation() {
     this.setState({open: !this.state.open});
   }
-  
+
   render() {
-    let jellyFishMenu;  
+    let jellyFishMenu;
     if (this.props.user.preferred_username === 'watersense') {
       jellyFishMenu = <MenuItem
               primaryText="Farm View"
@@ -107,78 +106,72 @@ class Layout extends Component {
                 <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
                 ]}
             />
-      } 
+      }
 
-     
-    var navTitleStyle = {
-      marginLeft: '-8px'
-    };
-  
     var Logo;
-  
+
     if(this.props.user.preferred_username === 'watersense')
       Logo = require("../images/logo-watersense-white.png");
     else
       Logo = require("../images/logo-waziup-white.png");
-  
+
     return (
       <div id="main">
         <AppBar
-          title={<img style={styles.logo} src={Logo}/>}
+          title={<img style={styles.logo} src={Logo} alt="logo"/>}
           onLeftIconButtonTouchTap={this.toggleNavigation}
           iconElementRight={this.headerMenu(this.state.user)}
           className="navbar"
-          onLeftIconButtonTouchTap={this.toggleNavigation}
         />
-      
+
         <Visible xs sm>
-      
+
           <Drawer
             open={this.state.open}
             docked={false}
             onRequestChange={(open) => this.setState({open})}
           >
-      
+
             <MenuItem
               containerElement={<Link to="/home" />}
               primaryText="Global Map"
               innerDivStyle={styles.menuLink}
             />
-  
+
             <MenuItem
               containerElement={<Link to="/profile" />}
               primaryText="Profile"
               innerDivStyle={styles.menuLink}
-            />  
-            
+            />
+
             <MenuItem
               containerElement={<Link to="/users" />}
               primaryText="Users"
               innerDivStyle={styles.menuLink}
             />
 
-  
+
             <MenuItem
               containerElement={<Link to="/sensors" />}
               innerDivStyle={styles.menuLink}
               primaryText="Sensors"
             />
 
-      
+
             <MenuItem
               containerElement={<Link to="/notifications" />}
               innerDivStyle={styles.menuLink}
               primaryText="Notifications"
             />
-            
+
            </Drawer>
-  
+
         </Visible>
-      
+
         <Hidden xs sm>
-        
+
           <Col md={2} className="page-sidebar sidebar">
-        
+
             <div className="page-sidebar-inner">
               <div className="sidebar-header">
                 <div className="sidebar-profile">
@@ -193,31 +186,31 @@ class Layout extends Component {
                 </div>
               </div>
               <div className="menu">
-        
-                <MenuItem  containerElement={<Link to="/home" />}  
+
+                <MenuItem  containerElement={<Link to="/home" />}
                 primaryText="Map"  innerDivStyle={styles.menuLink} />
-  
+
                 <MenuItem
                   containerElement={<Link to="/users" />}
                   primaryText="Users"
                   innerDivStyle={styles.menuLink}
                 />
-                
+
               {jellyFishMenu}
-          
+
                 <MenuItem
                   containerElement={<Link to="/sensors" />}
                   innerDivStyle={styles.menuLink}
                   primaryText="Sensors"
                 />
-  
- 
+
+
                 <MenuItem
                   containerElement={<Link to="/notifications" />}
                   innerDivStyle={styles.menuLink}
                   primaryText="Notifications"
                 />
-          
+
                 </div>
               </div>
             </Col>
@@ -229,7 +222,7 @@ class Layout extends Component {
             <div className="page-footer">
               <Container>
                 <Col md={6}>
-                  <img className="waziup-logo" src={Logo}/>
+                  <img className="waziup-logo" alt="waziup-logo" src={Logo}/>
                 </Col>
                 <Col md={6} className="footer-left">
                   <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2016 <a href="">Waziup.io</a></p>
@@ -247,7 +240,7 @@ Layout.childContextTypes = {
 };
 
 function mapStateToProps(state) {
-  return { 
+  return {
     user: state.keycloak.idTokenParsed,
     keycloak: state.keycloak
   };

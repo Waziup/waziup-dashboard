@@ -13,5 +13,5 @@ function mapDispatchToProps(dispatch) {
       updateSensorStart:(sensor)=>{dispatch(updateSensorStart(sensor))}
     }
 }
-const VectorMapFormContainer = connect( mapStateToProps,mapDispatchToProps)(VectorMapForm);
+const VectorMapFormContainer = connect(mapStateToProps,mapDispatchToProps)(VectorMapForm);
 export default VectorMapFormContainer;

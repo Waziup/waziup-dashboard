@@ -33,7 +33,7 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store)
 
 // load all sensors in the store, using service and servicePath from the user attributes.
-// if isAllSensors == true, the sensors with the same servicePath as the user or un sub-paths are loaded. 
+// if isAllSensors == true, the sensors with the same servicePath as the user or un sub-paths are loaded.
 // if isAllSensors == false, the sensors with the strictly same servicePath as the user are loaded.
 export function loadSensors(isAllSensors) {
 
@@ -49,9 +49,7 @@ export function loadSensors(isAllSensors) {
 // Create a sensor with the given parameters.
 // the user's service and servicePath will be used.
 export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
-
     var userDetails = store.getState().keycloak.idTokenParsed;
-    
     if(userDetails) {
       var sensor  = {
         id: sensorId,
@@ -71,7 +69,30 @@ export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
       store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath));
     }
 }
+// Create fields 
+export function createVector(fieldId, bounds) {
+    var userDetails = store.getState().keycloak.idTokenParsed;
+    if(userDetails) {
+        var field  = {
+            id: fieldId,
+            type: 'Field',
+            location: {
+                value: {
+                  type: "Polygon",
+                  coordinates: bounds
+                },
+                type: "geo:json"
+            },
+            owner: {
+               type: "string",
+               value: userDetails.preferred_username
+            },
+        }
+        console.log(field);
+      store.dispatch(actions.createSensor(field, userDetails.Service, userDetails.ServicePath));
+    }
 
+}
 //delete a sensor.
 export function deleteSensor(sensorId) {
     console.log("deleteSensors" + JSON.stringify(sensorId));
@@ -185,7 +206,7 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
 
 // URI encode the forbidden characters of Orion
 function URIEncodeForbiddens(s) {
-   
+
   // forbidden characters: <>"\;()
   const forbiddens = ["<", ">", "\"", "\\\\", "\;", "\\(", "\\)"]
   return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)

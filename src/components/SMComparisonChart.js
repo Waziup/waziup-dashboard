@@ -6,12 +6,8 @@ import moment from 'moment-timezone';
 import {CardTitle} from 'material-ui/Card';
 
 class CustomTick extends Component {
-    constructor(props) {
-        super(props);
-                //console.log(props);
-    }
 
-    render() { 
+    render() {
         //'Europe/Berlin' moment.tz.guess()
         //.tz('PKT') does not exist
         //By default, moment objects are created in the local time zone. To change the default time zone, use moment.tz.setDefault with a valid time zone.
@@ -53,8 +49,8 @@ class SMComparisonChart extends Component {
     async componentWillReceiveProps(nextProps) {
         const prevFarmId = this.props.params.farmid
         const newFarmId = nextProps.params.farmid
-        
-        if(newFarmId !== prevFarmId) {  
+
+        if(newFarmId !== prevFarmId) {
             const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + newFarmId);
             const data = res.data;
             await this.setStateAsync({ data });
@@ -77,12 +73,12 @@ class SMComparisonChart extends Component {
             return Math.ceil(125 - 0.125 * parseFloat(reading))
         }
 
-        let dataPercent = this.state.data.filter(entry => !( isNaN(parseInt(entry.sm1)) || isNaN(parseInt(entry.sm2)))).map((entry) => 
+        let dataPercent = this.state.data.filter(entry => !( isNaN(parseInt(entry.sm1)) || isNaN(parseInt(entry.sm2)))).map((entry) =>
         {
             //console.log(entry.sm1, isNan (entry.sm1), entry.sm2, isNan(entry.sm2))
             return {'t': entry.t, 'sm1': readingToPercent(entry.sm1), 'sm2': readingToPercent(entry.sm2)}
         })
-        //to start let us keep 0-20% as Over dry zone, 20 - 80% as optimal moisture zone and 80 - 100% over irrigation zone 
+        //to start let us keep 0-20% as Over dry zone, 20 - 80% as optimal moisture zone and 80 - 100% over irrigation zone
         //console.log('filtered ones:', dataPercent)
 
         const farmId = this.props.params.farmid
@@ -90,7 +86,7 @@ class SMComparisonChart extends Component {
         return (
             <div>
             <CardTitle title={'Farm View: ' + farmId} />
-            <ResponsiveContainer width="100%" height={500}>  
+            <ResponsiveContainer width="100%" height={500}>
                 <LineChart data={dataPercent} margin={{top: 5, right: 60, left: 0, bottom: 15}}>
                 <XAxis interval={0} type="number" dataKey="t" domain={['dataMin', 'dataMax']} tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick/>} />
                     <YAxis domain={[0, 100]} tickFormatter={yFormatter} />

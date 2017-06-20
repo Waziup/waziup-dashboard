@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import { Container, Row, Col, Visible, Hidden, ScreenClassRender } from 'react-grid-system'
-import Page from '../App'
+import { Container } from 'react-grid-system'
 
 class MVPCattle extends Component {
   render() {

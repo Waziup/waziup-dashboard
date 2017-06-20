@@ -38,23 +38,29 @@ const UTIL = {
               throw error;
             }
      },
+    convertVectorBounds: function(bounds){
+       var n = []
+       bounds.map((latlng)=>{
+            n.push([latlng.lat,latlng.lng]);
+       })
+       return n;
+    },
 
-    
     // Get all measurements for a sensor
     // an attribute is considered as a measurement if it has a timestamp metadata
     getMeasurements: function(sensor){
         var returnValue = [];
         const attributesExcludes = ["id", "type", "location", "dateCreated", "dateModified", "owner", "servicePath"];
         for(var i in sensor){
-          if (attributesExcludes.indexOf(i) == -1 && sensor[i]) {
+          if (attributesExcludes.indexOf(i) === -1 && sensor[i]) {
             returnValue.push({"key": i, "value": sensor[i].value})
           }
         }
         return returnValue;
     },
-    
+
     //Griddle table config
-    styleConfig: function() { 
+    styleConfig: function() {
       return {
         icons: {
           TableHeadingCell: {
@@ -72,8 +78,8 @@ const UTIL = {
           Cell: { border: "1px solid #ededef ", padding: "5px", "background-color": "#FFFFFF" },
         }
       }
-    }, 
-  
+    },
+
     getSensorData: function(sensor) {
       var returnValue = [];
       var meas = UTIL.getMeasurements(sensor);
