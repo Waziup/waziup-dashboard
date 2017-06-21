@@ -268,9 +268,9 @@ export function updateUserError(json) {
 };
 
 export function getHistoData(sensorId, measurement, service, servicePath) {
-    console.log(sensorId);
+    console.log("getHistoData" + sensorId);
     return function(dispatch) {
-          var url= cometApi + '/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
+          var url= cometApi + '/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
               params: {'lastN': '24'},
               headers: {
@@ -282,7 +282,7 @@ export function getHistoData(sensorId, measurement, service, servicePath) {
             .then(function(response) {
                 console.log(response);
                 const contextResponse0 = response.data.contextResponses[0];
-                  const contextElement = contextResponse0;
+                  const { contextElement: contextElement } = contextResponse0;
                   const attribute0 = contextElement.attributes[0];
                   const values = attribute0.values;
                   const data = [];
