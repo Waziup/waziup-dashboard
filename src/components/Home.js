@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Checkbox from 'material-ui/Checkbox';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { Container} from 'react-grid-system'
+import { Container } from 'react-grid-system'
 import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
 import { fetchSensors} from '../actions/actions'

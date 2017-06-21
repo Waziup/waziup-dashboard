@@ -69,12 +69,7 @@ export default class Notifications extends Component {
   }
 
   render() {
-
-    //const actions = [
-    //    <RaisedButton label="Cancel" primary={true} onTouchTap={this.handleClose}/>,
-    //    <RaisedButton label="Submit" primary={true} disabled={true} onTouchTap={this.handleClose}/>,
-    //];
-
+  
     const rowDataSelector = (state, { griddleKey }) => {
       return state
         .get('data')
@@ -135,14 +130,15 @@ export default class Notifications extends Component {
                          <ColumnDefinition id="description" title="Description"/>
                          <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
                          <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
-                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/>
+                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/> 
+                         <ColumnDefinition id="status" title="Status"/>
                        </RowDefinition>
                     </Griddle>
                     <CardActions>
                       <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
                     </CardActions>
-                  </Card>
-                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} />
+                  </Card>                            
+                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
               </div>
           </Container>
        </div>

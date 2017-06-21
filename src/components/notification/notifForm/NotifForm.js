@@ -7,12 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
 import UTIL from '../../../utils.js';
 import MenuItem from 'material-ui/MenuItem'
-import {
-  SelectField,
-  TextField,
-} from 'redux-form-material-ui'
-import {  Row, Col} from 'react-grid-system'
-
+import { SelectField, TextField } from 'redux-form-material-ui'
+import { Row, Col } from 'react-grid-system'
 
 class notifForm extends Component {
   constructor(props){
@@ -31,7 +27,7 @@ class notifForm extends Component {
   }
 
   render() {
-    const { reset,modalOpen, handleClose, onSubmit, sensors} = this.props;
+    const {reset, modalOpen, handleClose, onSubmit, sensors} = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -213,11 +209,11 @@ notifForm = connect(
         url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/",
         headers: [{ key: "Content-type",  value: "application/json"},
                   { key: "Authorization", value: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
-        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}",
-        expires: new Date("2040-05-24T20:00:00.00Z"),
-        throttling: 1,
+        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
+        expires: new Date("2040-05-24T20:00:00.00Z"), 
+        throttling: 1, 
     }
-  })
-)(notifForm)
+  }))(notifForm)
+
 export default notifForm;
 

@@ -1,7 +1,6 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
-import querystring from 'query-string';
 
 const settings = {
   baseUrl: process.env.REACT_APP_KC_URL,
@@ -11,9 +10,6 @@ const settings = {
   client_id: 'admin-cli'
 };
 
-const defaultService = 'waziup'
-const defaultServicePath = '/'
-const defaultServicePathQuery = '/#'
 const orionApi = process.env.REACT_APP_ORION_API
 const cometApi = process.env.REACT_APP_COMET_API
 
@@ -22,20 +18,9 @@ function requestSensors() {
     return {type: types.REQ_SENSORS}
 };
 
-function requestData() {
-    return {type: types.REQ_DATA}
-};
-
 function receiveSensors(json) {
     return{
           type: types.RECV_SENSORS,
-          data: json
-        }
-};
-
-function receiveData(json) {
-    return{
-          type: types.RECV_DATA,
           data: json
         }
 };
@@ -49,12 +34,9 @@ function receiveError(json) {
 
 export function fetchSensors(service, servicePath) {
 
-    if (!servicePath) {servicePath = defaultServicePathQuery;}
-    if (!service) {service = defaultService;}
-
     return function(dispatch) {
           dispatch(requestSensors());
-          return axios.get(orionApi + '/entities',
+          return axios.get(orionApi + '/v2/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
@@ -74,7 +56,7 @@ export function fetchSensors(service, servicePath) {
 export function createSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post(orionApi + '/entities', sensor,{
+          return axios.post(orionApi + '/v2/entities', sensor,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -109,7 +91,7 @@ export function createSensorError(json) {
 
 export function updateSensorAttributes(sensorId, update, service, servicePath) {
     return function(dispatch) {
-          return axios.post(orionApi + '/entities/'+sensorId+'/attrs', update, {
+          return axios.post(orionApi + '/v2/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -151,7 +133,7 @@ export function updateSensorError(json) {
 export function deleteSensor(sensorId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete(orionApi + '/entities/' + sensorId,{
+          return axios.delete(orionApi + '/v2/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath': servicePath,
@@ -187,7 +169,7 @@ export function adminLogin(user) {
     return function(dispatch) {
         adminClient(settings)
           .then((client) => {
-            client.users.find(user.aud,{email:user.email})
+            client.users.find(user.aud,{id:user.id})
                 .then((userK) => {
                     //console.log(userK);
                     dispatch(updateUserSuccess(userK[0]));
@@ -250,7 +232,7 @@ export function updateUser(user,attrs) {
          dispatch({type: types.UPDATE_USER_START});
          adminClient(settings)
           .then((client) => {
-            client.users.find(user.aud,{email:user.email})
+            client.users.find(user.aud,{id:user.id})
                 .then((userK) => {
                     //console.log(userK);
                     if(typeof userK[0].attributes==='undefined'){
@@ -286,11 +268,9 @@ export function updateUserError(json) {
 };
 
 export function getHistoData(sensorId, measurement, service, servicePath) {
-    if (!servicePath) {servicePath = defaultServicePathQuery;}
-    if (!service)     {service     = defaultService;}
-    console.log(sensorId);
+    console.log("getHistoData" + sensorId);
     return function(dispatch) {
-          var url= cometApi + '/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
+          var url= cometApi + '/STH/v1/contextEntities/type/SensingDevice/id/' + sensorId + '/attributes/' + measurement;
           return axios.get(url,{
               params: {'lastN': '24'},
               headers: {
@@ -337,10 +317,8 @@ export function getHistoDataError(json) {
 };
 
 export function createSubscription(sub, service, servicePath) {
-    if (!servicePath) {servicePath = defaultServicePathQuery;}
-    if (!service)     {service     = defaultService;}
     return function(dispatch) {
-          var url= orionApi + '/subscriptions'
+          var url= orionApi + '/v2/subscriptions'
           return axios.post(url, sub, {
               headers: {
                 'content-type': 'application/json',
@@ -373,7 +351,7 @@ export function createSubscriptionError(json) {
 
 export function getNotifications(service, servicePath) {
     return function(dispatch) {
-          var url= orionApi + '/subscriptions'
+          var url= orionApi + '/v2/subscriptions'
           return axios.get(url, {
               headers: {
                 'fiware-servicepath': servicePath,
@@ -407,7 +385,7 @@ export function getNotificationsError(json) {
 export function deleteNotif(notifId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_NOTIF_START});
-          return axios.delete(orionApi + '/subscriptions/' + notifId,{
+          return axios.delete(orionApi + '/v2/subscriptions/' + notifId,{
                       headers: {
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,

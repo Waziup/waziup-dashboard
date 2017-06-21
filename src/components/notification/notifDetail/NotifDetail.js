@@ -5,6 +5,7 @@ import { List, ListItem } from 'material-ui/List';
 import { getNotifications } from "../../../index.js"
 
 class notifDetail extends Component {
+
   constructor(props) {
     super(props);
     this.state = {

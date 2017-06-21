@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceArea} from 'recharts';
-//import {Panel} from 'react-bootstrap'
 import axios from 'axios';
 import moment from 'moment-timezone';
 import {CardTitle} from 'material-ui/Card';
@@ -73,7 +72,7 @@ class SMComparisonChart extends Component {
             return Math.ceil(125 - 0.125 * parseFloat(reading))
         }
 
-        let dataPercent = this.state.data.filter(entry => !( isNaN(parseInt(entry.sm1)) || isNaN(parseInt(entry.sm2)))).map((entry) =>
+        let dataPercent = this.state.data.filter(entry => !( isNaN(parseInt(entry.sm1)) || isNaN(parseInt(entry.sm2)))).map((entry) => 
         {
             //console.log(entry.sm1, isNan (entry.sm1), entry.sm2, isNan(entry.sm2))
             return {'t': entry.t, 'sm1': readingToPercent(entry.sm1), 'sm2': readingToPercent(entry.sm2)}

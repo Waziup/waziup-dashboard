@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore} from 'react-router-redux'
@@ -113,7 +110,7 @@ export function getHisto(sensor) {
 
     if(userDetails) {
         var meas =  UTIL.getMeasurements(sensor);
-        meas.map((item) => {
+        meas.foreach((item) => {
            store.dispatch( actions.getHistoData(sensor.id, item.key, userDetails.Service, sensor.servicePath.value));
         });
     }
@@ -208,7 +205,7 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
 function URIEncodeForbiddens(s) {
 
   // forbidden characters: <>"\;()
-  const forbiddens = ["<", ">", "\"", "\\\\", "\;", "\\(", "\\)"]
+  const forbiddens = ["<", ">", "\"", "\\\\", ";", "\\(", "\\)"]
   return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)
 
 }
@@ -242,14 +239,6 @@ export function deleteNotif(notifId) {
 function loadUsers(){
   store.dispatch(actions.getUsers());
 };
-
-const MyApp = () =>{
-  return (
-    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
-      <Layout />
-    </MuiThemeProvider>
-  );
-}
 
 const routes = {
   path: '/',
@@ -299,18 +288,13 @@ if (checkIdentity === 'false') {
 
 } else {
 
-  keycloak.init({ onLoad: 'login-required'}).
-    success(authenticated => {
+  keycloak.init({ onLoad: 'login-required'}).success(authenticated => {
     if (!authenticated) {
       keycloak.login();
     } else {
 
-      //console.log(authenticated);
       store.getState().keycloak = keycloak;
-      setInterval(() => {
-        keycloak.updateToken(10).error(() => keycloak.logout());
-      }, 10000);
-
+      setInterval(() => { keycloak.updateToken(10).error(() => keycloak.logout());}, 10000);
       displayPage();
     }
   }).error(function (error) {

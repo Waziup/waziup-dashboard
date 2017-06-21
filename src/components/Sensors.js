@@ -131,10 +131,10 @@ class Sensors extends Component {
             <div>
                 <Griddle resultsPerPage={50} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
                     <RowDefinition>
-                       <ColumnDefinition id="id" title="ID"/>
+                       <ColumnDefinition id="id"          title="ID"/>
                        <ColumnDefinition id="owner.value" title="Owner"/>
-                       <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)}/>
-                       <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)}/>
+                       <ColumnDefinition id="values"      title="Values" customComponent={enhancedWithRowData(SensorData)}/>
+                       <ColumnDefinition id="actions"     title="Actions" customComponent={enhancedWithRowData(SensorActions)}/>
                     </RowDefinition>
                 </Griddle>
             </div>
