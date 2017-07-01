@@ -84,6 +84,7 @@ class Layout extends Component {
 
   render() {
     let jellyFishMenu;
+    
     if (this.props.user.preferred_username === 'watersense') {
       jellyFishMenu = <MenuItem
               primaryText="Farm View"
@@ -91,7 +92,7 @@ class Layout extends Component {
               menuItems={[
                 <MenuItem primaryText="Farm 1" containerElement={<Link to="/farmview/farm1" />} />,
                 <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} />,
-                <MenuItem primaryText="Farm 3" containerElement={<Link to="/farmview/farm3" />}  disabled={true}/>,
+                <MenuItem primaryText="Farm 3 (Chohan)" containerElement={<Link to="/farmview/chohan" />} />,
                 ]}
             />
       } else {
@@ -210,7 +211,12 @@ class Layout extends Component {
                   innerDivStyle={styles.menuLink}
                   primaryText="Notifications"
                 />
-
+              
+                <MenuItem
+                  containerElement={<Link to="/userpermissions" />}
+                  innerDivStyle={styles.menuLink}
+                  primaryText="User Permissions"
+                />
                 </div>
               </div>
             </Col>
