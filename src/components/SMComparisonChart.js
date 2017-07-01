@@ -62,7 +62,7 @@ class SMComparisonChart extends Component {
     }
 
     async componentWillMount() {
-        const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + this.props.params.farmid);
+        const res = await axios.get('/api/v1/sensorData/search/' + this.props.params.farmid);
         const data = res.data;
         await this.setStateAsync({ data });
         this.filterData('year');
@@ -73,7 +73,7 @@ class SMComparisonChart extends Component {
         const newFarmId = nextProps.params.farmid
 
         if(newFarmId !== prevFarmId) {
-            const res = await axios.get('http://dashboardserver.waziup.io/api/search/' + newFarmId);
+            const res = await axios.get('/api/v1/sensorData/search/' + newFarmId);
             const data = res.data;
             await this.setStateAsync({ data });
             this.filterData(this.state.activeButton);

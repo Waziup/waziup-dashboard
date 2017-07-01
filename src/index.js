@@ -275,11 +275,12 @@ function displayPage() {
 
 }
 
-var keycloak = Keycloak({
-      url: process.env.REACT_APP_KC_URL,
-      realm: 'waziup',
-      clientId: 'waziup'
-});
+var keycloak = Keycloak();
+// {
+//       url: process.env.REACT_APP_KC_URL,
+//       realm: 'waziup',
+//       clientId: 'waziup'
+// }
 
 const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
 
