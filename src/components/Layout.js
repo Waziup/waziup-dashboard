@@ -211,12 +211,7 @@ class Layout extends Component {
                   innerDivStyle={styles.menuLink}
                   primaryText="Notifications"
                 />
-              
-                <MenuItem
-                  containerElement={<Link to="/userpermissions" />}
-                  innerDivStyle={styles.menuLink}
-                  primaryText="User Permissions"
-                />
+
                 </div>
               </div>
             </Col>

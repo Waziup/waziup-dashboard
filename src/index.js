@@ -19,7 +19,6 @@ import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import Notifications from './components/notification/NotificationsContainer.js';
 import NotifDetail from './components/notification/notifDetail/NotifDetailContainer.js';
-import UserPermissions from './components/UserPermissions.js'
 import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as actions from './actions/actions';
@@ -259,9 +258,7 @@ const routes = {
     { path: 'farmview/:farmid', component:SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
-    { path: 'users', component:  UserList, onEnter: loadUsers},
-    { path: 'userpermissions', component:  UserPermissions},
-  ]
+    { path: 'users', component:  UserList, onEnter: loadUsers}  ]
 }
 
 function displayPage() {
