@@ -16,7 +16,13 @@ const {AccessLevel, protectByAuthentication, protectByServicePath, extractPermis
 */
 
 const routerAuthz = express.Router();
+var cors = require('cors')
+//routerAuthz.options('/permissions', cors());
 routerAuthz.get('/permissions', protectByAuthentication(), function (req, res) {
+    //console.log(req.headers, res.headers);
+/*    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", 0);*/
     res.json({
         permissions: extractPermissions(req)
     });

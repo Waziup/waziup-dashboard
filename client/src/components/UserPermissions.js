@@ -8,7 +8,7 @@ class UserPermissions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            permissions:{}
+            permissions: {}
         };
     }
 
@@ -19,19 +19,17 @@ class UserPermissions extends Component {
     }
 
     async componentWillMount() {
-        //may add authorization headers?
-        console.log('accessToken', this.props.accessToken)
-        
-        const res = await axios.get('/api/v1/authorization/permissions',
+        //console.log('accessToken', this.props.accessToken)
+        const res = await axios.get('/api/v1/authorization/permissions', 
                         {
                             headers: {
-                               'Authorization': 'Bearer'.concat(this.props.accessToken)
+                               'Authorization': 'Bearer '.concat(this.props.accessToken)
                             }
                         });
-        const permissions = res.permissions;
+        const permissions = res.data.permissions;
         await this.setStateAsync({ permissions });
-        console.log('state.permissions', this.state.permissions)
-        console.log('permissions', permissions)
+        console.log('this.state.permissions', this.state.permissions);
+        console.log('res ', res);
     }
 
     /*
@@ -46,16 +44,39 @@ class UserPermissions extends Component {
      isAdmin
      canManageUsers
      canDefineFarmers
-     this.state.permissions.map( 
-                permission => 
-                     (<g><p> permission.key: </p>  <p> permission.value.map(entity => entity) </p></g>)
+    this.state.permissions.map( 
+                permission => (<g><p> {permission.key}: </p>  <p> {permission.value.map(entity => entity)} </p></g>))
      */
-
+    
     render() {
-        return (            
-            <p>{JSON.stringify(this.state.permissions)}</p>
-            )
+        function isAdmin(permissions) {
+            return permissions.hasOwnProperty('admin')
+        }
+
+        function isAdvisor(permissions) {
+            return permissions.hasOwnProperty('advisor')
+        }
+
+        function isFarmer(permissions) {
+            return permissions.hasOwnProperty('farmer')
+        }
+
+        //JSON.stringify(permissions)
+        const permissions = this.state.permissions;
+
         
+        return (            
+            <p>
+            Permission: 
+            {
+            isAdmin(permissions)? <p> is admin. </p>: ''}
+            {
+            isAdvisor(permissions)? <p> is advisor of {permissions.advisor.map(f => f)} </p>: ''}
+            {
+            isFarmer(permissions)? <p> is advisor of {permissions.farmer.map(f => f)} </p>: ''
+            }            
+            </p>
+            )
     }
 }
 
