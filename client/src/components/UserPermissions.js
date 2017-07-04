@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
 //import { Container } from 'react-grid-system'
 
 class UserPermissions extends Component {
@@ -17,10 +19,18 @@ class UserPermissions extends Component {
     }
 
     async componentWillMount() {
-        const res = await axios.get('/api/v1/authorization/permissions');
+        //may add authorization headers?
+        console.log('accessToken', this.props.accessToken)
+        
+        const res = await axios.get('/api/v1/authorization/permissions',
+                        {
+                            headers: {
+                               'Authorization': 'Bearer'.concat(this.props.accessToken)
+                            }
+                        });
         const permissions = res.permissions;
         await this.setStateAsync({ permissions });
-        console.log('state', this.state.permissions)
+        console.log('state.permissions', this.state.permissions)
         console.log('permissions', permissions)
     }
 
@@ -49,4 +59,10 @@ class UserPermissions extends Component {
     }
 }
 
-export default UserPermissions;
+function mapStateToProps(state) {
+  return {
+      accessToken: state.keycloak.token,
+  };
+}
+
+export default connect(mapStateToProps)(UserPermissions);

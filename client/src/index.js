@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { syncHistoryWithStore} from 'react-router-redux'
-import Keycloak from 'keycloak-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
@@ -24,6 +23,7 @@ import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as actions from './actions/actions';
 import UTIL from './utils.js';
+import Keycloak from 'keycloak-js';
 
 injectTapEventPlugin();
 
@@ -265,43 +265,56 @@ const routes = {
 }
 
 function displayPage() {
-
   ReactDOM.render(
-     <Provider store={store}>
-          <Router history={history} routes={routes} />
-        </Provider>,
-    document.getElementById('root')
-    );
-
+    <Provider store={store}>
+      <Router history={history} routes={routes} />
+    </Provider>, document.getElementById('root'));
 }
 
-var keycloak = Keycloak();
-// {
-//       url: process.env.REACT_APP_KC_URL,
-//       realm: 'waziup',
-//       clientId: 'waziup'
-// }
+//displayPage();
 
-const checkIdentity = process.env.REACT_APP_DASHBOARD_IDENTITY;
+var keycloak = Keycloak({
+      url: 'http://aam.waziup.io/auth',
+      realm: 'waziup',
+      clientId: 'waziup'
+});
 
-if (checkIdentity === 'false') {
-
-  //console.log("test" + checkIdentity)
-  displayPage();
-
-} else {
-
-  keycloak.init({ onLoad: 'login-required'}).success(authenticated => {
+keycloak.init({ onLoad: 'login-required'}).success(authenticated => {
     if (!authenticated) {
       keycloak.login();
     } else {
-
       store.getState().keycloak = keycloak;
       setInterval(() => { keycloak.updateToken(10).error(() => keycloak.logout());}, 10000);
       displayPage();
     }
   }).error(function (error) {
-
     console.log(error);
   });
-}
+
+//Authentication
+/*ReactJS will see there is no token 
+--> NodeJS authentication api endpoint 
+--> redirect the call to keycloak login 
+--> return token to NodeJS app
+--> return this token to ReactJS
+
+save a JWT token in Redux store*/
+
+//user is not authenticated or authenticated
+//1. access token in the cookie  to make calls to the server
+  //2. or authorization headers, then we can remove server session
+//2. serve client from the server. protect the endpoint ()
+
+//<SecurityComponent ... >
+
+//if(objIsEmpty(store.getState().keycloak) === false) {
+
+
+// } else {
+//     const res = await axios.get('/authenticate');
+//     //cookie session
+//     const data = res.data;
+//     store.getState().keycloak
+//     await setStateAsync({ data });  
+// }
+
