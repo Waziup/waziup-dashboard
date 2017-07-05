@@ -1,24 +1,12 @@
 const express = require('express');
 const server = require('../lib/server');
 
-//const app = server.app;
-const {AccessLevel, protectByAuthentication, protectByServicePath, extractPermissions} = server.access;
-
-//A list of roles for a user can be obtained as follows. 
-//This function can be used to get a list of service paths to list farms and sensors in the UI.
-
-
-/*
- 	{
- 	advisor: [ '/FARM1', '/FARM2' ],
- 	farmer: [ '/FARM2' ]
- 	}
-*/
+const { AccessLevel, keycloak, servicePathProtection, extractPermissions } = server.access;
 
 const routerAuthz = express.Router();
 var cors = require('cors')
 //routerAuthz.options('/permissions', cors());
-routerAuthz.get('/permissions', protectByAuthentication(), function (req, res) {
+routerAuthz.get('/permissions', keycloak.protect, function (req, res) {
     //console.log(req.headers, res.headers);
 /*    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
     res.header("Pragma", "no-cache");
@@ -28,9 +16,7 @@ routerAuthz.get('/permissions', protectByAuthentication(), function (req, res) {
     });
 });
 
-//Securing endpoints
-// http://.../test?sp=/FARM1
-routerAuthz.get('/test', protectByServicePath(AccessLevel.VIEW, req => req.query.sp), function (req, res) {
+routerAuthz.get('/test1', servicePathProtection(AccessLevel.VIEW, req => req.query.sp), (req, res) => {
     res.json({
         result: 'OK'
     });

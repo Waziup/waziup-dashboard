@@ -5,7 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
-
+const orionProxy = require('./lib/orion-proxy');
 const server = require('./lib/server');
 //importing individual routes
 const sensorDataRoute = require('./routes/sensorData');
@@ -43,6 +43,7 @@ router.use('/sensorData', sensorDataRoute);
 //  .../permissions .../test
 router.use('/authorization', authzRoute);
 //router.options('/api/v1/authorization/permissions', cors())
+orionProxy.install('/orion/v2/entities');
 
 async function run() {
     await new Promise(resolve => app.listen(4000, () => resolve()));

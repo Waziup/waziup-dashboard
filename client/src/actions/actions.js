@@ -32,16 +32,15 @@ function receiveError(json) {
         }
 };
 
-export function fetchSensors(service, servicePath) {
-
+export function fetchSensors(service, servicePath, accessToken) {
     return function(dispatch) {
-          dispatch(requestSensors());
-          return axios.get(orionApi + '/v2/entities',
+          return axios.get('/orion/v2/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
                                'Fiware-ServicePath':servicePath,
                                'Fiware-Service':service,
+                               'Authorization': 'Bearer '.concat(accessToken)
                              }
                            })
             .then(function(response) {
@@ -53,14 +52,15 @@ export function fetchSensors(service, servicePath) {
         }
 };
 
-export function createSensor(sensor, service, servicePath) {
+export function createSensor(sensor, service, servicePath, accessToken) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post(orionApi + '/v2/entities', sensor,{
+          return axios.post('/orion/v2/entities', sensor,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
                         'fiware-service':service,
+                        'Authorization': 'Bearer '.concat(accessToken)
                       },
                   })
             .then(function(response) {
@@ -89,13 +89,14 @@ export function createSensorError(json) {
         }
 };
 
-export function updateSensorAttributes(sensorId, update, service, servicePath) {
+export function updateSensorAttributes(sensorId, update, service, servicePath, accessToken) {
     return function(dispatch) {
-          return axios.post(orionApi + '/v2/entities/'+sensorId+'/attrs', update, {
+          return axios.post('/orion/v2/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
                         'fiware-service':service,
+                        'Authorization': 'Bearer '.concat(accessToken)
                       }
                   })
             .then(function(response) {
@@ -130,14 +131,15 @@ export function updateSensorError(json) {
         }
 };
 
-export function deleteSensor(sensorId, service, servicePath) {
+export function deleteSensor(sensorId, service, servicePath, accessToken) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete(orionApi + '/v2/entities/' + sensorId,{
+          return axios.delete('/orion/v2/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,
+                        'Authorization': 'Bearer '.concat(accessToken)
                       },
                   })
             .then(function(response) {

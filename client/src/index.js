@@ -40,7 +40,8 @@ export function loadSensors(isAllSensors) {
     if(userDetails) {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
-       store.dispatch( actions.fetchSensors(service, servicePath));
+       //var servicePath = "/";
+       store.dispatch( actions.fetchSensors(service, servicePath, store.getState().keycloak.token));
     }
 };
 
@@ -64,7 +65,7 @@ export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
            value: userDetails.preferred_username
           },
       }
-      store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath));
+      store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath, store.getState().keycloak.token));
     }
 }
 // Create fields 
@@ -87,7 +88,7 @@ export function createVector(fieldId, bounds) {
             },
         }
         console.log(field);
-      store.dispatch(actions.createSensor(field, userDetails.Service, userDetails.ServicePath));
+      store.dispatch(actions.createSensor(field, userDetails.Service, userDetails.ServicePath, store.getState().keycloak.token));
     }
 
 }
@@ -99,7 +100,7 @@ export function deleteSensor(sensorId) {
     var mySensor = store.getState().sensors.sensors.find((s) => { return s.id === sensorId; });
 
     if(userDetails) {
-       store.dispatch( actions.deleteSensor(sensorId, userDetails.Service, mySensor.servicePath.value));
+       store.dispatch( actions.deleteSensor(sensorId, userDetails.Service, mySensor.servicePath.value, store.getState().keycloak.token));
     }
 };
 
@@ -137,7 +138,7 @@ export function updateSensorLocation(sensorId, sensorLon, sensorLat) {
     var sensor = store.getState().sensors.sensors.find((s) => {
         return s.id === sensorId;
     });
-    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, sensor.servicePath.value));
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, sensor.servicePath.value, store.getState().keycloak.token));
   }
 }
 
@@ -157,7 +158,7 @@ export function updateSensorOwner(sensorId) {
     var mySensor = store.getState().sensors.sensors.find((s) => {
         return s.id === sensorId;
     });
-    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, mySensor.servicePath.value));
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, mySensor.servicePath.value, store.getState().keycloak.token));
   }
 }
 

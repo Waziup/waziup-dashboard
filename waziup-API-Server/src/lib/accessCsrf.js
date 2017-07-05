@@ -1,16 +1,32 @@
 "use strict";
 
 const Keycloak = require('keycloak-connect');
+const csrf = require('csurf');
 
 const AccessLevel = {
     VIEW: 0,
     EDIT: 1
 };
 
+const csrfProtection = csrf();
 
-function setup(app) {
+/*
+  Does CSRF protection in case a user is authorized from a session. If she is authorized from the authorization header,
+  the CSRF protection is avoided.
+ */
+function csrfOrBearerProtection(req, res, next) {
+     if (req.session['keycloak-token']) {
+        // If there is a possibility that keycloak use a token from the session, then we enforce CSRF protection
+        csrfProtection(req, res, next);
+    } else {
+        next();
+    }
+}
 
-    const keycloak = new Keycloak("../keycloak.json");
+
+function setup(app, sessionStore) {
+
+    const keycloak = new Keycloak({ store: sessionStore });
 
     /*
      This extracts the "permissions" field from the access token and transforms it in the following way:
@@ -83,6 +99,39 @@ function setup(app) {
         });
     }
 
+    /*
+      Combines the CSRF protection (if user is authorized based on a session) with protectByServicePath
+     */
+    function csrfAndServicePathProtection(accessLevel, getServicePath) {
+        const auth = servicePathProtection(accessLevel, getServicePath);
+
+        return (req, res, next) => {
+            csrfOrBearerProtection(req, res, (err) => {
+                if (err) {
+                    next(err);
+                } else {
+                    auth(req, res, next);
+                }
+            });
+        };
+    }
+
+    /*
+     Combines the CSRF protection with the requirement that the user is authenticated
+     */
+    function csrfAndAuthProtection(req, res, next) {
+        const auth = keycloak.protect();
+
+        csrfProtection(req, res, (err) => {
+            if (err) {
+                next(err);
+            } else {
+                auth(req, res, next);
+            }
+        });
+    }
+
+
     app.use(keycloak.middleware({
         logout: '/logout',
         admin: '/'
@@ -93,6 +142,10 @@ function setup(app) {
         keycloak,
         extractPermissions,
         servicePathProtection,
+        csrfProtection,
+        csrfOrBearerProtection,
+        csrfAndServicePathProtection,
+        csrfAndAuthProtection
     }
 }
 

@@ -7,16 +7,17 @@ const accessSetup = require('./access');
 
 const app = express();
 
-const memoryStore = new session.MemoryStore();
 
+/**
+ * 
+ */
 app.use(session({
     secret: 'mySecret',
     resave: false,
-    saveUninitialized: true,
-    store: memoryStore
+    saveUninitialized: true
 }));
 
-const access = accessSetup(app, memoryStore);
+const access = accessSetup(app);
 
 module.exports = {
     app,
