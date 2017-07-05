@@ -40,12 +40,11 @@ const UTIL = {
      },
     convertVectorBounds: function(bounds){
        var n = [];
-       var ar = [];
        bounds.map((latlng)=>{
-            n.push([latlng.lat,latlng.lng]);
+            n.push([latlng.lng,latlng.lat]);
        })
-       ar.push(n);
-       return ar;
+       n.push([bounds[0].lng, bounds[0].lat]);
+       return [n];
     },
 
     // Get all measurements for a sensor
