@@ -8,7 +8,7 @@ const UTIL = {
 	  for(let prop in obj) {
 	    if(obj.hasOwnProperty(prop))
 	      return false;
-	  }
+	  	}
 	  return true;
 	},
 
@@ -39,11 +39,13 @@ const UTIL = {
             }
      },
     convertVectorBounds: function(bounds){
-       var n = []
+       var n = [];
+       var ar = [];
        bounds.map((latlng)=>{
             n.push([latlng.lat,latlng.lng]);
        })
-       return n;
+       ar.push(n);
+       return ar;
     },
 
     // Get all measurements for a sensor
