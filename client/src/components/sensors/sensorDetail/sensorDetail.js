@@ -76,12 +76,6 @@ class sensorDetail extends Component {
     }
   }
 
-  componentDidMount() {
-  }
-
-  componentWillMount() {
-  }
-
   render() {
     if (this.state.markers.lenght > 0) {
     }
@@ -122,7 +116,7 @@ class sensorDetail extends Component {
               </List>
             </CardText>
             <CardTitle title="Historical Data" />
-            <SensorChart sensor={this.state.sensor} service={this.state.service} servicePath={this.state.servicePath}/>
+            <SensorChart sensorid={this.props.params.sensorId} service={this.state.service} servicePath={this.state.servicePath}/>
           </Card>
         </Container>
       </div>

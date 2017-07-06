@@ -7,21 +7,18 @@ const bodyParser = require('body-parser');
 const config = require('config');
 const elasticsearch = require('elasticsearch');
 const safeHandler = require('../lib/handlers');
-//const util = require('util');
+const server = require('../lib/server');
 
-// function dump(obj) {
-//     console.log(util.inspect(obj, false, null));
-// }
+const { AccessLevel, keycloak, servicePathProtection, getServicePathFromHeader } = server.access;
 
 const es = new elasticsearch.Client({
     host: config.get('elasticsearch.host') + ':' + config.get('elasticsearch.port')
     // , log: 'trace'
 });
 
-async function search(req, res) {
+async function searchFarmData(req, res) {
     const msearch = [];
 
-   //config.get('elasticsearch.index')
     for (let sensorAttrib of ['SM1', 'SM2']) {
         msearch.push({
             index: req.params.farmid
@@ -95,11 +92,61 @@ async function search(req, res) {
     res.json(dataArray);
 }
 
+async function searchSensorData(req, res) {
+    const msearch = [];
+    const sensorid = req.params.sensorid;
+    console.log('sensorid:', sensorid);
+
+    msearch.push({
+        index: req.params.farmid
+    });
+
+    msearch.push({
+        from: 0,
+        size: 10,
+        query: {
+            bool: {
+                must: [
+                    {
+                        term: {
+                            name: sensorid
+                        }
+                    },
+                    {
+                        range: {
+                            time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * 7 }
+                        }
+                    }
+                ]
+            }
+        },
+        sort: { time: 'asc' }
+    });
+
+    const searchResults = await es.msearch({body: msearch});
+
+    console.log('searchResults', searchResults);
+    let dataMap = {};
+
+    if(!!searchResults.response && Object.values(searchResults.response).length !== 0) {
+        const hits = searchResults.response[0].hits;
+        console.log('hits', hits);
+
+        dataMap = hits.reduce((prev, curr) => {
+            const entry = curr._source;
+            prev[entry.attribute] = prev[entry.attribute] || [];
+            prev[entry.attribute] = prev[entry.attribute].concat({[entry.time]: [entry.value]});
+            return prev;
+        }, {});
+    }
+
+    res.json(dataMap);
+}
+
 const routerSearch = express.Router();
-//Once you’ve created a router object, you can add middleware and HTTP method routes 
-//(such as get, put, post, and so on) to it just like an application.
 //sensor data analysis: sensor provider
-routerSearch.get('/search/:farmid', safeHandler(search));
+routerSearch.get('/search/:farmid', servicePathProtection(AccessLevel.VIEW, getServicePathFromHeader), safeHandler(searchFarmData));
+routerSearch.get('/search/:farmid/:sensorid', servicePathProtection(AccessLevel.VIEW, getServicePathFromHeader), safeHandler(searchSensorData));
 
 //single sensor values: /FARM1/Sensor1 SM1, SM2
 //get this data from refer to docs: elasticsearch javascript API restrict the search limit

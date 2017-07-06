@@ -2,9 +2,10 @@
 
 const server = require('./server');
 const app = server.app;
-const { AccessLevel, servicePathProtection } = server.access;
+const { AccessLevel, servicePathProtection, getServicePathFromHeader } = server.access;
 const request = require('request');
 const url = require('url');
+const config = require('config');
 
 const methodAccess = {
     GET: AccessLevel.VIEW,
@@ -13,50 +14,42 @@ const methodAccess = {
     DELETE: AccessLevel.EDIT
 };
 
-function getServicePathFromHeader(req) {
-    if (req.headers['fiware-service'] !== 'watersense') {
-        return;
-    }
-
-    return req.headers['fiware-servicepath'];
-}
-
 function proxyOrion(method, path, req, res) {
     const reqUrl = url.parse(req.url);
-    const proxyUrl = `http://broker.waziup.io/v2/entities${path}${reqUrl.search || ''}`;
-    console.log('proxyUrl:', proxyUrl);
-    console.log('req.body:', req.body);
+    const orionHost = config.get('orion.host') + ':' + config.get('orion.port');
+    const proxyUrl = `${orionHost}/v2/entities${path}${reqUrl.search || ''}`; 
     console.log('method:', method);
-
+    console.log('req.body:', req.body);
+    console.log('proxyUrl:', proxyUrl);
+    
     const options = {
         method,
         url: proxyUrl,
         headers: {
-            'Fiware-Service': 'watersense',
+            'Fiware-Service': req.headers['fiware-service'],
             'Fiware-ServicePath': req.headers['fiware-servicepath']
-        },
-        json: true
+        }
     };
 
-    //GET method gives error if req has a body
-    if(method !== 'GET')
-        options.body = req.body;
-
-    request(options).pipe(res);
-    //console.log(res);
+    //GET method gives error if req has a body  || req.body !== {}
+    if(method !== 'GET' && method !== 'DELETE') {
+        if(!!req.body && Object.values(req.body).length !== 0)
+            options.body = req.body;
+        options.json = true;
+    }
+    
+    request(options).pipe(res);       
 }
 
-
-
-function install(baseUrl) {
+function install(router, baseUrl) {
     for (const method in methodAccess) {
         const accessLevel = methodAccess[method];
 
-        app[method.toLowerCase()](baseUrl, servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
+        router[method.toLowerCase()](baseUrl, servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
             proxyOrion(method, '', req, res)
         });
 
-        app[method.toLowerCase()](baseUrl + '/*', servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
+        router[method.toLowerCase()](baseUrl + '/*', servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
             proxyOrion(method, '/' + req.params[0], req, res)
         });
     }

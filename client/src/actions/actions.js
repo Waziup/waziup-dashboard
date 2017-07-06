@@ -34,7 +34,7 @@ function receiveError(json) {
 
 export function fetchSensors(service, servicePath, accessToken) {
     return function(dispatch) {
-          return axios.get('/orion/v2/entities',
+          return axios.get('/api/v1/orion/v2/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
@@ -55,7 +55,7 @@ export function fetchSensors(service, servicePath, accessToken) {
 export function createSensor(sensor, service, servicePath, accessToken) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post('/orion/v2/entities', sensor,{
+          return axios.post('/api/v1/orion/v2/entities', sensor,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -91,7 +91,7 @@ export function createSensorError(json) {
 
 export function updateSensorAttributes(sensorId, update, service, servicePath, accessToken) {
     return function(dispatch) {
-          return axios.post('/orion/v2/entities/'+sensorId+'/attrs', update, {
+          return axios.post('/api/v1/orion/v2/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -134,7 +134,7 @@ export function updateSensorError(json) {
 export function deleteSensor(sensorId, service, servicePath, accessToken) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete('/orion/v2/entities/' + sensorId,{
+          return axios.delete('/api/v1/orion/v2/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath': servicePath,

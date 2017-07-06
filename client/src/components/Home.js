@@ -43,7 +43,7 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps){
 
-    if(this.props.user.preferred_username === 'watersense'){
+    if(this.props.user.preferred_username === 'mehdi'){
       this.setState({position: [31.58, 74.32]});
     } else {
       this.setState({position: [12.238, -1.561]});

@@ -40,7 +40,6 @@ export function loadSensors(isAllSensors) {
     if(userDetails) {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
-       //var servicePath = "/";
        store.dispatch( actions.fetchSensors(service, servicePath, store.getState().keycloak.token));
     }
 };

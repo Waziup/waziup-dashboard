@@ -3,13 +3,9 @@ import SensorChart from './SensorChart.js';
 
 function mapStateToProps(state) {
   return {
-    historical:state.historical.data
+    keycloak: state.keycloak
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-  }
-}
-const SensorChartContainer = connect( mapStateToProps,mapDispatchToProps)(SensorChart);
+const SensorChartContainer = connect(mapStateToProps)(SensorChart);
 export default SensorChartContainer;

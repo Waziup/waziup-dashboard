@@ -12,10 +12,17 @@ function setup(app) {
 
     const keycloak = new Keycloak("../keycloak.json");
 
+    function getServicePathFromHeader(req) {
+        /*if (req.headers['fiware-service'] !== 'watersense') {
+            return;
+        }*/
+
+        return req.headers['fiware-servicepath'];
+    }
     /*
      This extracts the "permissions" field from the access token and transforms it in the following way:
 
-     "admin ; advisor : /FARM1;advisor:/FARM2 ; farmer : /FARM2"
+     "admin ; advisor : /FARM1;advisor:/FARM2 ; farmer : /FARM2;"
 
      =>
 
@@ -49,8 +56,9 @@ function setup(app) {
         return permissions;
     }
 
-    function _servicePathIncluded(permission, servicePath) {
-        return permission && permission.some(sp => servicePath === sp || servicePath.startsWith(sp + '/'));
+    function _servicePathIncluded(permissions, reqServicePath) {
+        console.log("permissions: ", permissions, "reqServicePath: ", reqServicePath);
+        return permissions && permissions.some(sp => reqServicePath === sp || reqServicePath.startsWith(sp));
     }
 
     /*
@@ -93,6 +101,7 @@ function setup(app) {
         keycloak,
         extractPermissions,
         servicePathProtection,
+        getServicePathFromHeader
     }
 }
 

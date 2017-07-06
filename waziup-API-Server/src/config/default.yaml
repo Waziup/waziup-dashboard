@@ -1,5 +1,9 @@
 elasticsearch:
   host: elasticsearch.waziup.io
   port: 80
+orion:
+  host: http://broker.waziup.io
+  port: 80
+
 
 timezone: "+02:00"

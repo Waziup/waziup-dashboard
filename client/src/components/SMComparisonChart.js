@@ -2,47 +2,10 @@ import React, { Component } from 'react';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceArea} from 'recharts';
 import axios from 'axios';
 import moment from 'moment-timezone';
-//import {CardTitle} from 'material-ui/Card';
+import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
-
-class CustomTick extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        //'Europe/Berlin' moment.tz.guess()
-        //.tz('PKT') does not exist
-        //By default, moment objects are created in the local time zone. To change the default time zone, use moment.tz.setDefault with a valid time zone.
-        const time = new moment(this.props.payload.value).tz(moment.tz.guess());
-        const props = this.props;
-        //15th May, 2017 moment().format('MMMM Do YYYY
-        //time.format('D.M.YYYY')
-        //year and day views
-        let tickFormat = 'H:mm MMMM Do';
-        switch(this.props.viewPeriod ) {
-            case 'year':
-                break;
-            case 'month':
-                tickFormat = 'H:mm Do';
-                break;
-            case 'week':
-                tickFormat = 'H:mm Do';
-                break;
-            case 'day':
-                break;
-            default:
-        }
-
-        return (
-            <g>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="1em">{time.format(tickFormat)}</tspan>
-                </text>
-            </g>
-        );
-    }
-}
+import CustomTick from '../lib/Visualization.js';
+//import {CardTitle} from 'material-ui/Card';
 
 class SMComparisonChart extends Component {
     constructor(props) {
@@ -62,7 +25,16 @@ class SMComparisonChart extends Component {
     }
 
     async componentWillMount() {
-        const res = await axios.get('/api/v1/sensorData/search/' + this.props.params.farmid);
+        const farmid = this.props.params.farmid;
+        const res = await axios.get('/api/v1/sensorData/search/' + farmid, 
+            {
+                headers: {
+                    'Fiware-ServicePath': '/'.concat(farmid.toUpperCase()),
+                    'Fiware-Service': this.props.keycloak.idTokenParsed.Service,
+                    'Authorization': 'Bearer '.concat(this.props.keycloak.token)
+                }
+            });
+
         const data = res.data;
         await this.setStateAsync({ data });
         this.filterData('year');
@@ -71,13 +43,19 @@ class SMComparisonChart extends Component {
     async componentWillReceiveProps(nextProps) {
         const prevFarmId = this.props.params.farmid
         const newFarmId = nextProps.params.farmid
-
-        if(newFarmId !== prevFarmId) {
-            const res = await axios.get('/api/v1/sensorData/search/' + newFarmId);
+        //this.props.idToken.servicePath
+        if (newFarmId !== prevFarmId) {
+            const res = await axios.get('/api/v1/sensorData/search/' + newFarmId, {
+                headers: {
+                    'Fiware-ServicePath': '/'.concat(newFarmId.toUpperCase()),
+                    'Fiware-Service': this.props.keycloak.idTokenParsed.Service,
+                    'Authorization': 'Bearer '.concat(this.props.keycloak.token)
+                }
+            });
             const data = res.data;
             await this.setStateAsync({ data });
             this.filterData(this.state.activeButton);
-            this.setState({activeButton: this.state.activeButton});
+            this.setState({ activeButton: this.state.activeButton });
         }
     }
 
@@ -180,4 +158,10 @@ class SMComparisonChart extends Component {
     }
 }
 
-export default SMComparisonChart;
+function mapStateToProps(state) {
+  return {
+      keycloak: state.keycloak
+  };
+}
+
+export default connect(mapStateToProps)(SMComparisonChart);

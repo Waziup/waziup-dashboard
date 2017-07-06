@@ -14,8 +14,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-    fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))},
+        fetchSensors:(service, servicePath)=>{dispatch(fetchSensors(service, servicePath))},
     }
 }
-const sensorDetailContainer = connect( mapStateToProps,mapDispatchToProps)(sensorDetail);
+const sensorDetailContainer = connect(mapStateToProps, mapDispatchToProps)(sensorDetail);
 export default sensorDetailContainer;

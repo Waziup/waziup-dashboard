@@ -1,44 +1,70 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { CardText, CardTitle } from 'material-ui/Card';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
-import UTIL from '../../../../utils'
-import { getHisto } from "../../../../index.js"
+//import UTIL from '../../../../utils'
+//import { getHisto } from "../../../../index.js"
 import moment from 'moment-timezone';
+import axios from 'axios';
 
 class CustomTick extends Component {
+  render() {
+    const time = new moment(this.props.payload.value).tz(moment.tz.guess());
+    const props = this.props;
 
-    render() { 
-        const time = new moment(this.props.payload.value).tz(moment.tz.guess());
-        const props = this.props;
-
-        return (
-            <g>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="1em">{time.format('H:mm a z')}</tspan>
-                </text>
-                <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
-                    <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
-                </text>
-            </g>
-        );
-    }
+    return (
+      <g>
+        <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
+          <tspan dy="1em">{time.format('H:mm a z')}</tspan>
+        </text>
+        <text width={props.width} height={props.height} x={props.x} y={props.y} stroke={props.stroke} fill={props.fill} textAnchor={props.textAnchor} className="recharts-text recharts-cartesian-axis-tick-value">
+          <tspan dy="2em">{time.format('MMMM Do YYYY')}</tspan>
+        </text>
+      </g>
+    );
+  }
 }
+
 class SensorChart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
 
-  defaultProps = {
-    sensor: {}
-  };
+  setStateAsync(state) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve)
+    });
+  }
 
-  componentWillReceiveProps(nextProps){
-    
-    if(!UTIL.objIsEmpty(nextProps.sensor) && (nextProps.sensor !== this.props.sensor)){
-      getHisto(nextProps.sensor);
-    }
+  async componentWillReceiveProps(nextProps) {
+    //const farmid = this.props.keycloak.idTokenParsed.ServicePath;
+    const sensorid = this.props.sensorid;
+    const farmid = 'farm1';
+    //console.log('this.props.sensor:', this.props.sensor);
+    //console.log('nextProps.sensor:', nextProps.sensor);
+    console.log('this.props.sensorid:', sensorid);
+    console.log('this.props.farmid (sp):', farmid);
+
+    //search/:farmid/:sensorid
+    //sensor={this.state.sensor} service={this.state.service} servicePath
+    const res = await axios.get('/api/v1/sensorData/search/' + farmid + "/" + sensorid,
+      {
+        headers: {
+          'Fiware-ServicePath': ''.concat(farmid.toUpperCase()),
+          'Fiware-Service': this.props.keycloak.idTokenParsed.Service,
+          'Authorization': 'Bearer '.concat(this.props.keycloak.token)
+        }
+      });
+
+    const data = res.data;
+    await this.setStateAsync({ data });
   }
 
   render() {
     var visCompAll = [];
-    
+
     function xFormatter(tick) {
       return new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
     }
@@ -50,46 +76,46 @@ class SensorChart extends Component {
     for (var measurementId in this.props.historical) {
       let unit = this.props.sensor[measurementId]["metadata"]["unit"]
       //unit = unit? unit["value"]: "";
-      const YAxisLabel = unit? measurementId + '(' + unit["value"] + ')': measurementId ;
+      const YAxisLabel = unit ? measurementId + '(' + unit["value"] + ')' : measurementId;
       var visComp = [<CardText> Historical data is not available for {YAxisLabel}. </CardText>]
       if (this.props.historical[measurementId].length > 0) {
         const ticks = this.props.historical[measurementId].map(entry => entry.time);
         var title = 'Historical data graph for ' + measurementId;
-        visComp = [<CardTitle title={title} /> ]
+        visComp = [<CardTitle title={title} />]
         var visComp2 = [
-        <ResponsiveContainer width="100%" height={500}>
-          <LineChart  data={this.props.historical[measurementId]} 
-            margin={{ top: 40, right: 60, bottom: 40, left: 50 }}>
-          
-          <XAxis interval='preserveStart' dataKey="time" padding={{ left: 0, right: 20 }} label="Time"
-           tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick/>}  />
-          
-          <YAxis domain={[0, 1000]} dataKey="value" padding={{ left: 20, right: 20, bottom: 0}} label={YAxisLabel} 
-            name={measurementId} tickFormatter={yFormatter}/>
-          
-          <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
-          
-          <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-      
-          <Line name={measurementId} type="monotone" dataKey="value" fill="#8884d8"  stroke="#8884d8" 
-          strokeWidth={2} 
-          dot={{ stroke: 'red', strokeWidth: 5 }} 
-          activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }}  connectNulls={true}/>
+          <ResponsiveContainer width="100%" height={500}>
+            <LineChart data={this.props.historical[measurementId]}
+              margin={{ top: 40, right: 60, bottom: 40, left: 50 }}>
 
-          (measurementId === 'SM1' || measurementId === 'SM2')? <ReferenceLine y={200} label="WET" padding={{ left: 10, right: 10 }} stroke="blue"/>
-              <ReferenceLine y={1000} label="DRY" padding={{ left: 10, right: 10 }} stroke="red"/>
+              <XAxis interval='preserveStart' dataKey="time" padding={{ left: 0, right: 20 }} label="Time"
+                tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick />} />
+
+              <YAxis domain={[0, 1000]} dataKey="value" padding={{ left: 20, right: 20, bottom: 0 }} label={YAxisLabel}
+                name={measurementId} tickFormatter={yFormatter} />
+
+              <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
+
+              <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
+
+              <Line name={measurementId} type="monotone" dataKey="value" fill="#8884d8" stroke="#8884d8"
+                strokeWidth={2}
+                dot={{ stroke: 'red', strokeWidth: 5 }}
+                activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} connectNulls={true} />
+
+              (measurementId === 'SM1' || measurementId === 'SM2')? <ReferenceLine y={200} label="WET" padding={{ left: 10, right: 10 }} stroke="blue" />
+              <ReferenceLine y={1000} label="DRY" padding={{ left: 10, right: 10 }} stroke="red" />
               : ;
           </LineChart>
-        </ResponsiveContainer>]
+          </ResponsiveContainer>]
         visComp = visComp.concat(visComp2);
       }
       visCompAll = visCompAll.concat(visComp);
 
     }
     return (
-        <div>
-            {visCompAll}
-        </div>
+      <div>
+        {visCompAll}
+      </div>
     );
   }
 }

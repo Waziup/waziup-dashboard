@@ -85,7 +85,7 @@ class Layout extends Component {
   render() {
     let jellyFishMenu;
     
-    if (this.props.user.preferred_username === 'watersense') {
+    if (this.props.user.preferred_username === 'mehdi') {
       jellyFishMenu = <MenuItem
               primaryText="Farm View"
               innerDivStyle={styles.menuLink}
@@ -111,7 +111,7 @@ class Layout extends Component {
 
     var Logo;
 
-    if(this.props.user.preferred_username === 'watersense')
+    if(this.props.user.preferred_username === 'mehdi')
       Logo = require("../images/logo-watersense-white.png");
     else
       Logo = require("../images/logo-waziup-white.png");
