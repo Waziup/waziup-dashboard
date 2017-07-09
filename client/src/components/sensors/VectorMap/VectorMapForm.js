@@ -6,7 +6,7 @@ import { EditControl } from "react-leaflet-draw";
 import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui'
 import { Row, Col } from 'react-grid-system'
-import UTIL from '../../../utils.js'
+import UTIL from '../../../lib/utils.js'
 const position = [12.238, -1.561];
 
 class VectorMapForm extends Component {

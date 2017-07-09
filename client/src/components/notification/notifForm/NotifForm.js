@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import DatePicker from 'material-ui/DatePicker';
-import UTIL from '../../../utils.js';
+import UTIL from '../../../lib/utils.js';
 import MenuItem from 'material-ui/MenuItem'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import { Row, Col } from 'react-grid-system'

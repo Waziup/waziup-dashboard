@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Container} from 'react-grid-system'
 import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
-import * as actions from '../../../actions/actions';
-import Utils from '../../../utils';
+import Utils from '../../../lib/utils';
 
 class UserList extends Component {
 
@@ -13,15 +12,12 @@ class UserList extends Component {
       users : [],
       isLoading: false
     };
-    actions.getUsers();
   }
 
   componentWillReceiveProps(nextProps){
     if (nextProps.users) {
       this.setState({users:nextProps.users})
     }
-  }
-  componentDidMount(){
   }
 
   render() {
@@ -33,7 +29,7 @@ class UserList extends Component {
               <div>
                 <Griddle resultsPerPage={10} data={this.state.users} showFilter={true} styleConfig={Utils.styleConfig()}>
                   <RowDefinition>
-                    <ColumnDefinition id="id"        title="ID"/>
+                    <ColumnDefinition id="id"        title="User ID"/>
                     <ColumnDefinition id="username"  title="Username"/>
                     <ColumnDefinition id="firstName" title="First name"/>
                     <ColumnDefinition id="lastName"  title="Last name"/>

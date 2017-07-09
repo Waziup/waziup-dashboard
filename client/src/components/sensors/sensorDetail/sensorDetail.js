@@ -4,7 +4,7 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart/SensorChartContainer';
-import UTIL from '../../../utils.js';
+import UTIL from '../../../lib/utils.js';
 import { loadSensors } from "../../../index.js"
 import moment from 'moment-timezone';
 
@@ -25,25 +25,8 @@ class sensorDetail extends Component {
 
     loadSensors(true);
   }
-
-  defaultProps = {
-    sensors: []
-  };
-
+  
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps");
-    if(this.props.user.preferred_username === 'watersense'){
-      this.setState({service: "watersense"});
-    } else {
-      this.setState({service: "waziup"});
-    }
-
-    if (nextProps.currentUser !== this.props.currentUser){
-      this.props.fetchSensors(this.state.service, this.state.servicePath);
-    }
-
-    console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
-    console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
@@ -72,13 +55,10 @@ class sensorDetail extends Component {
       }
       position = markers[0].position;
       this.setState({ markers: markers })
-
     }
   }
 
   render() {
-    if (this.state.markers.lenght > 0) {
-    }
     const listMarkers = this.state.markers.map((marker, index) =>
       <Marker key={index} position={marker.position}>
         <Popup>

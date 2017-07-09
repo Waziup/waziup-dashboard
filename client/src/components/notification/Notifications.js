@@ -7,10 +7,9 @@ import {loadSensors, createSubscription, getNotifications, deleteNotif} from "..
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
-import Utils from '../../utils';
+import Utils from '../../lib/utils';
 
 export default class Notifications extends Component {
-  // Constructor for the component
   constructor(props) {
       super(props);
       this.state = {
@@ -23,7 +22,7 @@ export default class Notifications extends Component {
       this.handleOpen   = this.handleOpen.bind(this);
       this.handleClose  = this.handleClose.bind(this);
       getNotifications();
-      loadSensors(true);
+      //FIXME WHY load sensors? loadSensors(true);
   }
 
   componentWillReceiveProps(nextProps){

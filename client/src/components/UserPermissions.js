@@ -52,11 +52,11 @@ class UserPermissions extends Component {
             <center>
                 <h1> User Roles and Permissions </h1>
                 {
-                    isAdmin(permissions) ? <p> is admin. </p> : ''}
+                    isAdmin(permissions) ? <p> You are admin. </p> : ''}
                 {
-                    isAdvisor(permissions) ? <p> is advisor of {permissions.advisor.map(f => f)} </p> : ''}
+                    isAdvisor(permissions) ? <p> You are advisor of {permissions.advisor.map(f => f)} </p> : ''}
                 {
-                    isFarmer(permissions) ? <p> is advisor of {permissions.farmer.map(f => f)} </p> : ''
+                    isFarmer(permissions) ? <p> You are farmer of {permissions.farmer.map(f => f.concat(' '))} </p> : ''
                 }
             </center>
         )

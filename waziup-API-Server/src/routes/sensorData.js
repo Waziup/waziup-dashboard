@@ -95,26 +95,23 @@ async function searchFarmData(req, res) {
 async function searchSensorData(req, res) {
     const msearch = [];
     const sensorid = req.params.sensorid;
-    console.log('sensorid:', sensorid);
+    const index = req.params.farmid;
+    //console.log('sensorid:', sensorid);
+    //console.log('index:', index);
 
     msearch.push({
-        index: req.params.farmid
+        index: index
     });
 
     msearch.push({
         from: 0,
-        size: 10,
+        size: 1000,
         query: {
             bool: {
                 must: [
                     {
                         term: {
                             name: sensorid
-                        }
-                    },
-                    {
-                        range: {
-                            time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * 7 }
                         }
                     }
                 ]
@@ -125,17 +122,17 @@ async function searchSensorData(req, res) {
 
     const searchResults = await es.msearch({body: msearch});
 
-    console.log('searchResults', searchResults);
+    //console.log('searchResults', searchResults);
     let dataMap = {};
 
-    if(!!searchResults.response && Object.values(searchResults.response).length !== 0) {
-        const hits = searchResults.response[0].hits;
-        console.log('hits', hits);
+    if(!!searchResults.responses && Object.values(searchResults.responses).length !== 0) {
+        const hits = searchResults.responses[0].hits;
+        //console.log('hits', hits);
 
-        dataMap = hits.reduce((prev, curr) => {
+        dataMap = hits.hits.reduce((prev, curr) => {
             const entry = curr._source;
             prev[entry.attribute] = prev[entry.attribute] || [];
-            prev[entry.attribute] = prev[entry.attribute].concat({[entry.time]: [entry.value]});
+            prev[entry.attribute] = prev[entry.attribute].concat({'t': entry.time, 'v':entry.value});
             return prev;
         }, {});
     }

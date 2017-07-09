@@ -7,10 +7,6 @@ import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import SMComparisonChart from './components/SMComparisonChart';
-import MVPCattle from './components/Mvpcattle';
-import MVPAgri from './components/Mvpagri';
-import MVPUrbanWaste from './components/Mvpurbanwaste';
-import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/SensorsContainer';
 import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
@@ -22,7 +18,7 @@ import UserPermissions from './components/UserPermissions.js'
 import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import * as actions from './actions/actions';
-import UTIL from './utils.js';
+import UTIL from './lib/utils.js';
 import Keycloak from 'keycloak-js';
 
 injectTapEventPlugin();
@@ -34,13 +30,12 @@ const history = syncHistoryWithStore(browserHistory, store)
 // if isAllSensors == true, the sensors with the same servicePath as the user or un sub-paths are loaded.
 // if isAllSensors == false, the sensors with the strictly same servicePath as the user are loaded.
 export function loadSensors(isAllSensors) {
-
     var userDetails = store.getState().keycloak.idTokenParsed;
-
+    const perms = store.getState().keycloak.idTokenParsed.permissions;
     if(userDetails) {
        var service     = userDetails.Service;
-       var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
-       store.dispatch( actions.fetchSensors(service, servicePath, store.getState().keycloak.token));
+       //var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
+       store.dispatch(actions.fetchSensors(perms, service, isAllSensors, store.getState().keycloak.token));
     }
 };
 
@@ -162,12 +157,11 @@ export function updateSensorOwner(sensorId) {
 }
 
 export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling) {
-
   let userDetails = store.getState().keycloak.idTokenParsed;
+  const accessToken = store.getState().keycloak.token;
   let headers2 = headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {})
 
   if(userDetails) {
-
     var entities = sensorIds.map((s) => {
             return {
               id: s,
@@ -198,13 +192,12 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
         throttling: throttling
       }
     console.log("sub: "+ JSON.stringify(sub))
-    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#"));
+    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#", accessToken));
   }
 }
 
 // URI encode the forbidden characters of Orion
 function URIEncodeForbiddens(s) {
-
   // forbidden characters: <>"\;()
   const forbiddens = ["<", ">", "\"", "\\\\", ";", "\\(", "\\)"]
   return forbiddens.reduce(function(sacc, c) { return replaceAll(sacc, c, encodeURIComponent(c))}, s)
@@ -216,29 +209,31 @@ function replaceAll(str, find, replace) {
 }
 
 export function getNotifications() {
-
     var userDetails = store.getState().keycloak.idTokenParsed;
+    const accessToken = store.getState().keycloak.token;
+    const perms = store.getState().keycloak.idTokenParsed.permissions;
 
     if(userDetails) {
        var service     = userDetails.Service;
-       var servicePath = userDetails.ServicePath + "#";
-       store.dispatch( actions.getNotifications(service, servicePath));
+       //var servicePath = userDetails.ServicePath + "#";
+       store.dispatch(actions.getNotifications(perms , service, true, accessToken));
     }
 };
 
 //delete a sensor.
 export function deleteNotif(notifId) {
     console.log("deleteNotif" + JSON.stringify(notifId));
-
+    const accessToken = store.getState().keycloak.token;
     var userDetails = store.getState().keycloak.idTokenParsed;
 
     if(userDetails) {
-       store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/"));
+       store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/", accessToken));
     }
 };
 
 function loadUsers(){
-  store.dispatch(actions.getUsers());
+  console.log(store.getState().keycloak.realm);
+  store.dispatch(actions.getUsers(store.getState().keycloak.realm));
 };
 
 const routes = {
@@ -247,13 +242,8 @@ const routes = {
   indexRoute: { component: Home },
   childRoutes: [
     { path: 'home', component:  Home },
-    { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
     { path: 'profile/settings', component:  Settings },
-    { path: 'apps/cattle', component:  MVPCattle },
-    { path: 'apps/agri', component:  MVPAgri },
-    { path: 'apps/urbanwaste', component:  MVPUrbanWaste },
-    { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notifications', component: Notifications},
     { path: 'notifications/:notifId', component: NotifDetail},
     { path: 'farmview/:farmid', component:SMComparisonChart},
