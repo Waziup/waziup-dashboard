@@ -17,7 +17,7 @@ class sensorDetail extends Component {
       dateModified: "not available",
       dateCreated: "not available",
       servicePath: "/",
-      service: "waziup",
+      service: "watersense",
       markers: [],
       id: this.props.params.sensorId,
       historicalData: {},
@@ -66,7 +66,8 @@ class sensorDetail extends Component {
         </Popup>
       </Marker>
     );
-
+    const attributes = UTIL.getMeasurements(this.state.sensor).map(itemID => itemID.key);
+    console.log(attributes);
     return (
       <div className="sensor">
         <h1 className="page-title">Sensor: {this.state.id}</h1>
@@ -96,7 +97,7 @@ class sensorDetail extends Component {
               </List>
             </CardText>
             <CardTitle title="Historical Data" />
-            <SensorChart sensorid={this.props.params.sensorId} service={this.state.service} servicePath={this.state.servicePath}/>
+            <SensorChart attributes={attributes} sensorid={this.props.params.sensorId} service={this.state.service} servicePath={this.state.servicePath}/>
           </Card>
         </Container>
       </div>

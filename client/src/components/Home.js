@@ -31,7 +31,7 @@ class Home extends Component {
           <h3>Welcome {this.state.user.name} !</h3>
           <p>{now}</p>
         </div>,
-        `WAZIUP`, {
+        `WATERSENSE`, {
           closeButton: true,
         });
   }

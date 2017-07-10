@@ -3,21 +3,22 @@ import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
 import util from '../lib/utils.js';
 
-/*const settings = {
+const settings = {
   baseUrl: process.env.REACT_APP_KC_URL,
   username: process.env.REACT_APP_ADMIN_USER,
   password: process.env.REACT_APP_ADMIN_PASS,
   grant_type: 'password',
   client_id: 'admin-cli'
 };
-*/
+
+/*
 const settings = {
   baseUrl: '/api/v1/keycloak',
   username: 'admin',
   password: 'KCadminW',
   grant_type: 'password',
   client_id: 'admin-cli'
-};
+};*/
 const cometApi = process.env.REACT_APP_COMET_API
 
 function receiveSensors(sensors) {

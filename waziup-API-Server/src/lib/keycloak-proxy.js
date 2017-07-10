@@ -5,18 +5,21 @@ const app = server.app;
 const { AccessLevel, keycloak } = server.access;
 const request = require('request');
 const url = require('url');
-const config = require('config');
+const config = require('../lib/config.js');
+const defaultConfig = require('config');
 
 const methodAccess = {
     GET: AccessLevel.VIEW,
     POST: AccessLevel.EDIT,
     PUT: AccessLevel.EDIT,
-    DELETE: AccessLevel.EDIT
+    DELETE: AccessLevel.EDIT,
+    OPTIONS: AccessLevel.EDIT
 };
 
 function proxyKeycloak(method, path, req, res) {
     const reqUrl = url.parse(req.url);
-    const keycloakHost = config.get('keycloak.host') + ':' + config.get('keycloak.port');
+    const keycloakConfig = config.mergeWith(defaultConfig.keycloak, 'keycloak');
+    const keycloakHost = keycloakConfig.host + ':' + keycloakConfig.port;
     const proxyUrl = `${keycloakHost}${path}${reqUrl.search || ''}`; 
     console.log('path:', path);
     console.log('method:', method);
