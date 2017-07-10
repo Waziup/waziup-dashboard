@@ -18,7 +18,7 @@ const es = new elasticsearch.Client({
 
 async function searchFarmData(req, res) {
     const msearch = [];
-
+    const days = 356;
     for (let sensorAttrib of ['SM1', 'SM2']) {
         msearch.push({
             index: req.params.farmid
@@ -37,7 +37,7 @@ async function searchFarmData(req, res) {
                         },
                         {
                             range: {
-                                time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * 7 }
+                                time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * days }
                             }
                         }
                     ]
@@ -59,7 +59,6 @@ async function searchFarmData(req, res) {
                     }
                 }
             },
-
             sort: {time: 'asc'}
         });
     }
@@ -71,6 +70,7 @@ async function searchFarmData(req, res) {
     const dataMap={};
 
     function addAggregations(index, fieldName) {
+        console.log(searchResults.responses[index].aggregations.buckets.buckets);
         for (let agg of searchResults.responses[index].aggregations.buckets.buckets) {
             const entry = dataMap[agg.key] || { t: agg.key };
             entry[fieldName] = agg.value_avg.value;
@@ -96,6 +96,7 @@ async function searchSensorData(req, res) {
     const msearch = [];
     const sensorid = req.params.sensorid;
     const index = req.params.farmid;
+    const days = 356;
     //console.log('sensorid:', sensorid);
     //console.log('index:', index);
 
@@ -105,7 +106,7 @@ async function searchSensorData(req, res) {
 
     msearch.push({
         from: 0,
-        size: 1000,
+        size: 0,
         query: {
             bool: {
                 must: [
@@ -113,28 +114,79 @@ async function searchSensorData(req, res) {
                         term: {
                             name: sensorid
                         }
+                    },
+                    {
+                        range: {
+                            time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * days }
+                        }
                     }
                 ]
             }
+        },    
+        aggs: {
+            buckets: {
+                date_histogram: {
+                    field: 'time',
+                    interval: '6h',
+                    time_zone: config.get('timezone')
+                },
+                aggs: {
+                    value_avg: {
+                        avg: {
+                            field: 'value',
+                            attribute: 'attribute'
+                        }
+                    }
+                }
+            },
         },
         sort: { time: 'asc' }
     });
 
     const searchResults = await es.msearch({body: msearch});
-
     //console.log('searchResults', searchResults);
     let dataMap = {};
+    /*
+    function addAggregations(index, fieldName) {
+        for (let agg of searchResults.responses[index].aggregations.buckets.buckets) {
+            const entry = dataMap[agg.key] || { t: agg.key };
+            entry[fieldName] = agg.value_avg.value;
+            dataMap[agg.key] = entry;
+        }
+    }
 
+    addAggregations(0, 'sm1');
+    addAggregations(1, 'sm2');
+
+    const dataKeys = Object.keys(dataMap);
+    dataKeys.sort();
+
+    const dataArray = [];
+    for (let key of dataKeys) {
+        dataArray.push(dataMap[key]);
+    }*/
+    //dataMap = {t:, v:}
     if(!!searchResults.responses && Object.values(searchResults.responses).length !== 0) {
-        const hits = searchResults.responses[0].hits;
-        //console.log('hits', hits);
+        console.log('buckets:', searchResults.responses[0].aggregations.buckets.buckets);
+        /*for (let agg of searchResults.responses[0].aggregations.buckets.buckets) {
+            const entry = dataMap[agg.key] || { t: agg.key };
+            entry['fieldName'] = agg.value_avg.value;
+            dataMap[agg.key] = entry;
+        }*/
 
+        /*for (let agg of searchResults.responses[0].aggregations.buckets.buckets) {
+            const entry = dataMap[agg.key] || { t: agg.key };
+            entry[fieldName] = agg.value_avg.value;
+            dataMap[agg.key] = entry;
+        }
+        //curr._source .attribute .time . value
         dataMap = hits.hits.reduce((prev, curr) => {
             const entry = curr._source;
+            console.log('_source', entry);
             prev[entry.attribute] = prev[entry.attribute] || [];
             prev[entry.attribute] = prev[entry.attribute].concat({'t': entry.time, 'v':entry.value});
             return prev;
-        }, {});
+        }, {});*/
     }
 
     res.json(dataMap);

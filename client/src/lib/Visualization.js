@@ -11,13 +11,13 @@ export default class CustomTick extends Component {
         const props = this.props;
         //15th May, 2017 moment().format('MMMM Do YYYY
         //time.format('D.M.YYYY')
-        //year and day views
         let tickFormat = 'H:mm MMMM Do';
         switch (this.props.viewPeriod) {
             case 'year':
+                tickFormat = 'MMMM';
                 break;
             case 'month':
-                tickFormat = 'H:mm Do';
+                tickFormat = 'MMMM Do';
                 break;
             case 'week':
                 tickFormat = 'H:mm Do';
