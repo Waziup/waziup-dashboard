@@ -9,7 +9,7 @@ import SensorActions from './sensors/SensorActions.js'
 import { Container} from 'react-grid-system'
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
-import Utils from '../utils';
+import Utils from '../lib/utils';
 import {createVector, loadSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor} from "../index.js"
 
 class Sensors extends Component {

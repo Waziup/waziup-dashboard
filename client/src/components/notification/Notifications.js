@@ -7,7 +7,7 @@ import {loadSensors, createSubscription, getNotifications, deleteNotif} from "..
 import Griddle, {plugins, RowDefinition, ColumnDefinition} from 'griddle-react';
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
-import Utils from '../../utils';
+import Utils from '../../lib/utils';
 
 export default class Notifications extends Component {
   // Constructor for the component

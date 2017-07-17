@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
+import util from '../lib/utils.js';
 
 /*const settings = {
   baseUrl: process.env.REACT_APP_KC_URL,
@@ -9,19 +10,14 @@ import adminClient from 'keycloak-admin-client'
   grant_type: 'password',
   client_id: 'admin-cli'
 };
-<<<<<<< HEAD
-
-const orionApi = process.env.REACT_APP_ORION_API
-=======
 */
 const settings = {
-  baseUrl: '/api/v1/keycloak',
+  baseUrl: 'http://aam.waziup.io/auth',
   username: 'admin',
   password: 'KCadminW',
   grant_type: 'password',
   client_id: 'admin-cli'
 };
->>>>>>> parent of 4cefcf1... latest updates
 const cometApi = process.env.REACT_APP_COMET_API
 
 
@@ -43,25 +39,32 @@ function receiveError(json) {
         }
 };
 
-export function fetchSensors(service, servicePath, accessToken) {
-    return function(dispatch) {
-          return axios.get('/api/v1/orion/v2/entities',
-                           {
-                             params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
-                             headers: {
-                               'Fiware-ServicePath':servicePath,
-                               'Fiware-Service':service,
-                               'Authorization': 'Bearer '.concat(accessToken)
-                             }
-                           })
-            .then(function(response) {
-              dispatch(receiveSensors(response.data));
-            })
-            .catch(function(response){
-              dispatch(receiveError(response.data));
-            })
-        }
+export const fetchSensors = (perms, service, allFlag, accessToken) => (dispatch) => {
+  //console.log(getState().keycloak.idTokenParsed.permission);
+  //console.log(accessToken);
+  const sps = Array.from(util.getViewServicePaths(perms));
+  console.log(perms);
+  console.log(sps);
+  //if admin, or if / cases
+  let a = allFlag?"/#,":","
+
+  let allSps = sps.reduce(( acc, sp ) => acc.concat(sp.concat(sp === '/'? '#' : a)), '');
+
+  console.log(allSps);
+  //var servicePath = userDetails.ServicePath + (allFlag?"#":"");
+  axios.get('/api/v1/orion/v2/entities',
+    {
+      params: { 'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*' },
+      headers: {
+        'Fiware-ServicePath': allSps,
+        'Fiware-Service': service,
+        'Authorization': 'Bearer '.concat(accessToken)
+      }
+    })
+    .then((sensors) => dispatch(receiveSensors(sensors.data)))
+    .catch((error) => dispatch(receiveError(error.data)))
 };
+
 
 export function createSensor(sensor, service, servicePath, accessToken) {
     return function(dispatch) {
@@ -331,7 +334,7 @@ export function getHistoDataError(json) {
 
 export function createSubscription(sub, service, servicePath) {
     return function(dispatch) {
-          var url= orionApi + '/v2/subscriptions'
+          var url = '/api/v1/orion/v2/subscriptions'
           return axios.post(url, sub, {
               headers: {
                 'content-type': 'application/json',
@@ -364,7 +367,7 @@ export function createSubscriptionError(json) {
 
 export function getNotifications(service, servicePath) {
     return function(dispatch) {
-          var url= orionApi + '/v2/subscriptions'
+          var url = '/api/v1/orion/v2/subscriptions'
           return axios.get(url, {
               headers: {
                 'fiware-servicepath': servicePath,
@@ -398,7 +401,8 @@ export function getNotificationsError(json) {
 export function deleteNotif(notifId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_NOTIF_START});
-          return axios.delete(orionApi + '/v2/subscriptions/' + notifId,{
+          var url = '/api/v1/orion/v2/subscriptions/'
+          return axios.delete(url + notifId,{
                       headers: {
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,

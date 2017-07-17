@@ -6,7 +6,7 @@ import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
 import { fetchSensors} from '../actions/actions'
 import {loadSensors} from "../index.js"
-import UTILS from '../utils.js';
+import UTILS from '../lib/utils.js';
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 

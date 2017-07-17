@@ -56,7 +56,7 @@ class UserPermissions extends Component {
                 {
                     isAdvisor(permissions) ? <p> is advisor of {permissions.advisor.map(f => f)} </p> : ''}
                 {
-                    isFarmer(permissions) ? <p> is advisor of {permissions.farmer.map(f => f)} </p> : ''
+                    isFarmer(permissions) ? <p> is farmer of {permissions.farmer.map(f => f)} </p> : ''
                 }
             </center>
         )

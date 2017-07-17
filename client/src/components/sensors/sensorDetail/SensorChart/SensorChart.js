@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import { CardText, CardTitle } from 'material-ui/Card';
-<<<<<<< HEAD
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
-//import UTIL from '../../../../utils'
-//import { getHisto } from "../../../../index.js"
-=======
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
->>>>>>> parent of 4cefcf1... latest updates
 import moment from 'moment-timezone';
 import axios from 'axios';
+import {filterData, FarmViewPeriod} from '../../../../lib/Visualization.js'
 
 class CustomTick extends Component {
   render() {
@@ -32,14 +27,10 @@ class SensorChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      data: []
-=======
       data: [],
       periodData: [],
       ticks: [],
       activeButton: 'year'
->>>>>>> parent of 4cefcf1... latest updates
     };
   }
 
@@ -49,17 +40,6 @@ class SensorChart extends Component {
     });
   }
 
-<<<<<<< HEAD
-  async componentWillReceiveProps(nextProps) {
-    //const farmid = this.props.keycloak.idTokenParsed.ServicePath;
-    const sensorid = this.props.sensorid;
-    const farmid = 'farm1';
-    //console.log('this.props.sensor:', this.props.sensor);
-    //console.log('nextProps.sensor:', nextProps.sensor);
-    console.log('this.props.sensorid:', sensorid);
-    console.log('this.props.farmid (sp):', farmid);
-
-=======
   //FIXME how to map sp to farmid, and elasticsearch index
   //because we currently use farmid as index
   async componentWillReceiveProps(nextProps) {
@@ -68,31 +48,12 @@ class SensorChart extends Component {
     const sensorid = nextProps.sensorid;
     //this.setState({sensor: });
     //const sp = this.props.servicePath;
->>>>>>> parent of 4cefcf1... latest updates
     //search/:farmid/:sensorid
     //sensor={this.state.sensor} service={this.state.service} servicePath
-<<<<<<< HEAD
-    const res = await axios.get('/api/v1/sensorData/search/' + farmid + "/" + sensorid,
-=======
-    const res = await axios.get('/api/v1/sensorData/search/' + farmidOrIndex + '/' + sensorid,
->>>>>>> parent of 4cefcf1... latest updates
+    const res = await axios.get('/api/v1/sensorData/search/' + sensorid + '/' + sensorid,
       {
         headers: {
-          'Fiware-ServicePath': ''.concat(farmid.toUpperCase()),
           'Fiware-Service': this.props.keycloak.idTokenParsed.Service,
-<<<<<<< HEAD
-          'Authorization': 'Bearer '.concat(this.props.keycloak.token)
-        }
-      });
-
-    const data = res.data;
-    await this.setStateAsync({ data });
-  }
-
-  render() {
-    var visCompAll = [];
-
-=======
           'Fiware-ServicePath': sp,
           'Authorization': 'Bearer '.concat(this.props.keycloak.token)
         }
@@ -128,7 +89,6 @@ class SensorChart extends Component {
   render() {
     var visCompAll = [];
     let graphFlag = false;
->>>>>>> parent of 4cefcf1... latest updates
     function xFormatter(tick) {
       return new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
     }
@@ -137,27 +97,6 @@ class SensorChart extends Component {
       return Math.round(tick);
     }
     //<Legend align='right' verticalAlign='top' layout="vertical" wrapperStyle={{ right: '35px', top: '10px', border: '2px solid beige', padding: '5px 0px 5px 5px' }} />
-<<<<<<< HEAD
-    for (var measurementId in this.props.historical) {
-      let unit = this.props.sensor[measurementId]["metadata"]["unit"]
-      //unit = unit? unit["value"]: "";
-      const YAxisLabel = unit ? measurementId + '(' + unit["value"] + ')' : measurementId;
-      var visComp = [<CardText> Historical data is not available for {YAxisLabel}. </CardText>]
-      if (this.props.historical[measurementId].length > 0) {
-        const ticks = this.props.historical[measurementId].map(entry => entry.time);
-        var title = 'Historical data graph for ' + measurementId;
-        visComp = [<CardTitle title={title} />]
-        var visComp2 = [
-          <ResponsiveContainer width="100%" height={500}>
-            <LineChart data={this.props.historical[measurementId]}
-              margin={{ top: 40, right: 60, bottom: 40, left: 50 }}>
-
-              <XAxis interval='preserveStart' dataKey="time" padding={{ left: 0, right: 20 }} label="Time"
-                tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick />} />
-
-              <YAxis domain={[0, 1000]} dataKey="value" padding={{ left: 20, right: 20, bottom: 0 }} label={YAxisLabel}
-                name={measurementId} tickFormatter={yFormatter} />
-=======
     const data = this.state.periodData;
     const ticks = this.state.ticks;
     console.log('periodData:', data);
@@ -198,37 +137,18 @@ class SensorChart extends Component {
 
               <YAxis dataKey="v" padding={{ left: 20, right: 20, bottom: 0 }} label={YAxisLabel}
                 name={attr} tickFormatter={yFormatter} />
->>>>>>> parent of 4cefcf1... latest updates
 
               <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
 
               <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
 
-<<<<<<< HEAD
-              <Line name={measurementId} type="monotone" dataKey="value" fill="#8884d8" stroke="#8884d8"
-                strokeWidth={2}
-                dot={{ stroke: 'red', strokeWidth: 5 }}
-                activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }} connectNulls={true} />
-
-              (measurementId === 'SM1' || measurementId === 'SM2')? <ReferenceLine y={200} label="WET" padding={{ left: 10, right: 10 }} stroke="blue" />
-              <ReferenceLine y={1000} label="DRY" padding={{ left: 10, right: 10 }} stroke="red" />
-              : ;
-          </LineChart>
-=======
               <Line name={attr} type="monotone" dataKey="v" stroke="#8884d8"
                 strokeWidth={2}  dot={{ stroke: '#2020f0', r: 1 }} connectNulls={false} />
             </LineChart>
->>>>>>> parent of 4cefcf1... latest updates
           </ResponsiveContainer>]
         visComp = visComp.concat(visComp2);
       }
       visCompAll = visCompAll.concat(visComp);
-<<<<<<< HEAD
-
-    }
-    return (
-      <div>
-=======
     }
     return (
       <div>
@@ -239,7 +159,6 @@ class SensorChart extends Component {
             <br /><br /><br /><br />
         </center>
         }
->>>>>>> parent of 4cefcf1... latest updates
         {visCompAll}
       </div>
     );

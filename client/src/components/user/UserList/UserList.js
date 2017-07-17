@@ -3,7 +3,7 @@ import { Container} from 'react-grid-system'
 import Griddle, {RowDefinition, ColumnDefinition} from 'griddle-react';
 import Spinner from 'react-spinkit';
 import * as actions from '../../../actions/actions';
-import Utils from '../../../utils';
+import Utils from '../../../lib/utils';
 
 class UserList extends Component {
 

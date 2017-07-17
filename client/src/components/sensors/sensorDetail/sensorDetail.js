@@ -4,7 +4,7 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart/SensorChartContainer';
-import UTIL from '../../../utils.js';
+import UTIL from '../../../lib/utils.js';
 import { loadSensors } from "../../../index.js"
 import moment from 'moment-timezone';
 
