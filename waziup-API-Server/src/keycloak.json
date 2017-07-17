@@ -1,7 +1,7 @@
 {
-  "realm": "watersense",
+  "realm": "waziup",
   "auth-server-url": "http://aam.waziup.io/auth",
   "ssl-required": "none",
-  "resource": "dashboard",
+  "resource": "waziup",
   "public-client": true
 }

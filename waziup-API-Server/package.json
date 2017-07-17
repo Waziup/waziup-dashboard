@@ -19,8 +19,12 @@
     "js-yaml": "^3.8.4",
     "keycloak-auth-utils": "^3.2.0-cr.1",
     "keycloak-connect": "^3.1.0",
+<<<<<<< HEAD
     "request": "^2.81.0",
     "webpack-hot-middleware": "^2.18.0",
     "winston": "^2.3.1"
+=======
+    "webpack-hot-middleware": "^2.18.0"
+>>>>>>> parent of 4cefcf1... latest updates
   }
 }

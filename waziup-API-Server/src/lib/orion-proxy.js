@@ -5,8 +5,7 @@ const app = server.app;
 const { AccessLevel, servicePathProtection, getServicePathFromHeader } = server.access;
 const request = require('request');
 const url = require('url');
-const config = require('../lib/config.js');
-const defaultConfig = require('config');
+const config = require('config');
 
 const methodAccess = {
     GET: AccessLevel.VIEW,
@@ -17,8 +16,7 @@ const methodAccess = {
 
 function proxyOrion(method, path, req, res) {
     const reqUrl = url.parse(req.url);
-    const orionConfig = config.mergeWith(defaultConfig.orion, 'orion');
-    const orionHost = orionConfig.host + ':' + orionConfig.port;
+    const orionHost = config.get('orion.host') + ':' + config.get('orion.port');
     //v2/entities
     const proxyUrl = `${orionHost}${path}${reqUrl.search || ''}`; 
     console.log('path:', path);

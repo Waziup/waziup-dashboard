@@ -35,7 +35,7 @@ router.use('/authorization', authzRoute);
 
 ///removed entities to support other services such as subscriptions
 orionProxy.install(router, '/orion');
-//http://aam.waziup.io
+
 keycloakProxy.install(router, '/keycloak');
 
 
