@@ -34,6 +34,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 // if isAllSensors == true, the sensors with the same servicePath as the user or un sub-paths are loaded.
 // if isAllSensors == false, the sensors with the strictly same servicePath as the user are loaded.
 export function loadSensors(isAllSensors) {
+<<<<<<< HEAD
 
     var userDetails = store.getState().keycloak.idTokenParsed;
 
@@ -41,6 +42,14 @@ export function loadSensors(isAllSensors) {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
        store.dispatch( actions.fetchSensors(service, servicePath, store.getState().keycloak.token));
+=======
+    var userDetails = store.getState().keycloak.idTokenParsed;
+    const perms = store.getState().keycloak.idTokenParsed.permissions;
+    if(userDetails) {
+       var service     = userDetails.Service;
+       //var servicePath = userDetails.ServicePath + (isAllSensors?"#":"");
+       store.dispatch(actions.fetchSensors(perms, service, isAllSensors, store.getState().keycloak.token));
+>>>>>>> parent of 4cefcf1... latest updates
     }
 };
 
@@ -164,10 +173,17 @@ export function updateSensorOwner(sensorId) {
 export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling) {
 
   let userDetails = store.getState().keycloak.idTokenParsed;
+<<<<<<< HEAD
   let headers2 = headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {})
 
   if(userDetails) {
 
+=======
+  const accessToken = store.getState().keycloak.token;
+  let headers2 = headers.reduce(function(map, obj) { map[obj.key] = obj.value; return map;}, {})
+
+  if(userDetails) {
+>>>>>>> parent of 4cefcf1... latest updates
     var entities = sensorIds.map((s) => {
             return {
               id: s,
@@ -198,7 +214,11 @@ export function createSubscription(desc, sensorIds, attrs, qExpr, url, headers, 
         throttling: throttling
       }
     console.log("sub: "+ JSON.stringify(sub))
+<<<<<<< HEAD
     store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#"));
+=======
+    store.dispatch(actions.createSubscription(sub, userDetails.Service, "/#", accessToken));
+>>>>>>> parent of 4cefcf1... latest updates
   }
 }
 
@@ -216,6 +236,7 @@ function replaceAll(str, find, replace) {
 }
 
 export function getNotifications() {
+<<<<<<< HEAD
 
     var userDetails = store.getState().keycloak.idTokenParsed;
 
@@ -223,22 +244,45 @@ export function getNotifications() {
        var service     = userDetails.Service;
        var servicePath = userDetails.ServicePath + "#";
        store.dispatch( actions.getNotifications(service, servicePath));
+=======
+    var userDetails = store.getState().keycloak.idTokenParsed;
+    const accessToken = store.getState().keycloak.token;
+    const perms = store.getState().keycloak.idTokenParsed.permissions;
+
+    if(userDetails) {
+       var service     = userDetails.Service;
+       //var servicePath = userDetails.ServicePath + "#";
+       store.dispatch(actions.getNotifications(perms , service, true, accessToken));
+>>>>>>> parent of 4cefcf1... latest updates
     }
 };
 
 //delete a sensor.
 export function deleteNotif(notifId) {
     console.log("deleteNotif" + JSON.stringify(notifId));
+<<<<<<< HEAD
 
     var userDetails = store.getState().keycloak.idTokenParsed;
 
     if(userDetails) {
        store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/"));
+=======
+    const accessToken = store.getState().keycloak.token;
+    var userDetails = store.getState().keycloak.idTokenParsed;
+
+    if(userDetails) {
+       store.dispatch( actions.deleteNotif(notifId, userDetails.Service, "/", accessToken));
+>>>>>>> parent of 4cefcf1... latest updates
     }
 };
 
 function loadUsers(){
+<<<<<<< HEAD
   store.dispatch(actions.getUsers());
+=======
+  console.log(store.getState().keycloak.realm);
+  store.dispatch(actions.getUsers(store.getState().keycloak.realm));
+>>>>>>> parent of 4cefcf1... latest updates
 };
 
 const routes = {
@@ -247,6 +291,7 @@ const routes = {
   indexRoute: { component: Home },
   childRoutes: [
     { path: 'home', component:  Home },
+<<<<<<< HEAD
     { path: 'apps', component:  Home },
     { path: 'profile', component:  Profile },
     { path: 'profile/settings', component:  Settings },
@@ -256,6 +301,13 @@ const routes = {
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notifications', component: Notifications},
     { path: 'notifications/:notifId', component: NotifDetail},
+=======
+    { path: 'profile', component:  Profile },
+    { path: 'profile/settings', component:  Settings },
+    { path: 'notifications', component: Notifications},
+    { path: 'notifications/:notifId', component: NotifDetail},
+    { path: 'farmview/:farmid', component:SMComparisonChart},
+>>>>>>> parent of 4cefcf1... latest updates
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
     { path: 'users', component:  UserList, onEnter: loadUsers},

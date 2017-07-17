@@ -11,7 +11,11 @@ import Avatar from 'material-ui/Avatar';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
+<<<<<<< HEAD
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+=======
+//import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+>>>>>>> parent of 4cefcf1... latest updates
 import {Container,  Col, Visible, Hidden} from 'react-grid-system'
 import {loadSensors} from "../index.js"
 
@@ -134,6 +138,7 @@ class Layout extends Component {
               primaryText="Notifications"
             />
 
+<<<<<<< HEAD
           <MenuItem
               primaryText="Apps"
               innerDivStyle={styles.menuLink}
@@ -145,6 +150,8 @@ class Layout extends Component {
                 <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
                 ]}
             />
+=======
+>>>>>>> parent of 4cefcf1... latest updates
            </Drawer>
 
         </Visible>
@@ -177,8 +184,21 @@ class Layout extends Component {
                   innerDivStyle={styles.menuLink}
                 />
 
+<<<<<<< HEAD
               {jellyFishMenu}
 
+=======
+            <MenuItem
+              primaryText="Farm View"
+              innerDivStyle={styles.menuLink}
+              menuItems={[
+                <MenuItem primaryText="Farm 1" containerElement={<Link to="/farmview/farm1" />} />,
+                <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} />,
+                <MenuItem primaryText="Farm 3 (Chohan)" containerElement={<Link to="/farmview/chohan" />} />,
+                ]}
+            />
+   
+>>>>>>> parent of 4cefcf1... latest updates
                 <MenuItem
                   containerElement={<Link to="/sensors" />}
                   innerDivStyle={styles.menuLink}
@@ -192,6 +212,7 @@ class Layout extends Component {
                   primaryText="Notifications"
                 />
               
+<<<<<<< HEAD
                  <MenuItem
               primaryText="Apps"
               innerDivStyle={styles.menuLink}
@@ -203,6 +224,8 @@ class Layout extends Component {
                 <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
                 ]}
             />
+=======
+>>>>>>> parent of 4cefcf1... latest updates
                 <MenuItem
                   containerElement={<Link to="/userpermissions" />}
                   innerDivStyle={styles.menuLink}

@@ -2,7 +2,7 @@
 
 const server = require('./server');
 const app = server.app;
-const { AccessLevel, servicePathProtection, getServicePathFromHeader } = server.access;
+const { AccessLevel, keycloak } = server.access;
 const request = require('request');
 const url = require('url');
 const config = require('config');
@@ -14,16 +14,11 @@ const methodAccess = {
     DELETE: AccessLevel.EDIT
 };
 
-function proxyOrion(method, path, req, res) {
+function proxyKeycloak(method, path, req, res) {
     const reqUrl = url.parse(req.url);
-    const orionHost = config.get('orion.host') + ':' + config.get('orion.port');
-<<<<<<< HEAD
-    const proxyUrl = `${orionHost}/v2/entities${path}${reqUrl.search || ''}`; 
-=======
-    //v2/entities
-    const proxyUrl = `${orionHost}${path}${reqUrl.search || ''}`; 
+    const keycloakHost = config.get('keycloak.host') + ':' + config.get('keycloak.port');
+    const proxyUrl = `${keycloakHost}${path}${reqUrl.search || ''}`; 
     console.log('path:', path);
->>>>>>> parent of 4cefcf1... latest updates
     console.log('method:', method);
     console.log('req.body:', req.body);
     console.log('proxyUrl:', proxyUrl);
@@ -31,10 +26,11 @@ function proxyOrion(method, path, req, res) {
     const options = {
         method,
         url: proxyUrl,
-        headers: {
+        headers: req.headers
+        /*headers: {
             'Fiware-Service': req.headers['fiware-service'],
             'Fiware-ServicePath': req.headers['fiware-servicepath']
-        }
+        }*/
     };
 
     //GET method gives error if req has a body  || req.body !== {}
@@ -48,15 +44,17 @@ function proxyOrion(method, path, req, res) {
 }
 
 function install(router, baseUrl) {
-    for (const method in methodAccess) {
-        const accessLevel = methodAccess[method];
+    console.log('Installing KC at:', baseUrl);
 
-        router[method.toLowerCase()](baseUrl, servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
-            proxyOrion(method, '', req, res)
+    for (const method in methodAccess) {
+        //const accessLevel = methodAccess[method];
+
+        router[method.toLowerCase()](baseUrl, keycloak.protect(), (req, res) => {
+            proxyKeycloak(method, '', req, res)
         });
 
-        router[method.toLowerCase()](baseUrl + '/*', servicePathProtection(accessLevel, getServicePathFromHeader), (req, res) => {
-            proxyOrion(method, '/' + req.params[0], req, res)
+        router[method.toLowerCase()](baseUrl + '/*', keycloak.protect(), (req, res) => {
+            proxyKeycloak(method, '/' + req.params[0], req, res)
         });
     }
 }

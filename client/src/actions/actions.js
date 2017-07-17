@@ -2,15 +2,26 @@ import * as types from './actionTypes';
 import axios from 'axios'
 import adminClient from 'keycloak-admin-client'
 
-const settings = {
+/*const settings = {
   baseUrl: process.env.REACT_APP_KC_URL,
   username: process.env.REACT_APP_ADMIN_USER,
   password: process.env.REACT_APP_ADMIN_PASS,
   grant_type: 'password',
   client_id: 'admin-cli'
 };
+<<<<<<< HEAD
 
 const orionApi = process.env.REACT_APP_ORION_API
+=======
+*/
+const settings = {
+  baseUrl: '/api/v1/keycloak',
+  username: 'admin',
+  password: 'KCadminW',
+  grant_type: 'password',
+  client_id: 'admin-cli'
+};
+>>>>>>> parent of 4cefcf1... latest updates
 const cometApi = process.env.REACT_APP_COMET_API
 
 
