@@ -10,7 +10,7 @@ const AccessLevel = {
 
 function setup(app) {
 
-    const keycloak = new Keycloak("../keycloak.json");
+    const keycloak = new Keycloak('../keycloak.json');
 
     function getServicePathFromHeader(req) {
         /*if (req.headers['fiware-service'] !== 'watersense') {
