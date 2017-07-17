@@ -83,38 +83,7 @@ class Layout extends Component {
   }
 
   render() {
-    let jellyFishMenu;
-    
-    if (this.props.user.preferred_username === 'mehdi') {
-      jellyFishMenu = <MenuItem
-              primaryText="Farm View"
-              innerDivStyle={styles.menuLink}
-              menuItems={[
-                <MenuItem primaryText="Farm 1" containerElement={<Link to="/farmview/farm1" />} />,
-                <MenuItem primaryText="Farm 2" containerElement={<Link to="/farmview/farm2" />} />,
-                <MenuItem primaryText="Farm 3 (Chohan)" containerElement={<Link to="/farmview/chohan" />} />,
-                ]}
-            />
-      } else {
-       jellyFishMenu = <MenuItem
-              primaryText="Apps"
-              innerDivStyle={styles.menuLink}
-              rightIcon={<ArrowDropRight />}
-              menuItems={[
-                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
-                <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
-                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
-                <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
-                ]}
-            />
-      }
-
-    var Logo;
-
-    if(this.props.user.preferred_username === 'mehdi')
-      Logo = require("../images/logo-watersense-white.png");
-    else
-      Logo = require("../images/logo-waziup-white.png");
+      var Logo = require("../images/logo-waziup-white.png");
 
     return (
       <div id="main">
@@ -165,6 +134,17 @@ class Layout extends Component {
               primaryText="Notifications"
             />
 
+          <MenuItem
+              primaryText="Apps"
+              innerDivStyle={styles.menuLink}
+              rightIcon={<ArrowDropRight />}
+              menuItems={[
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
+                <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+                <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
+                ]}
+            />
            </Drawer>
 
         </Visible>
@@ -212,6 +192,17 @@ class Layout extends Component {
                   primaryText="Notifications"
                 />
               
+                 <MenuItem
+              primaryText="Apps"
+              innerDivStyle={styles.menuLink}
+              rightIcon={<ArrowDropRight />}
+              menuItems={[
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />}/>,
+                <MenuItem primaryText="MVP Fish Farming" containerElement={<Link to="/apps/fishfarming" />} />,
+                <MenuItem primaryText="MVP Agriculture" containerElement={<Link to="/apps/agri" />} />,
+                <MenuItem primaryText="MVP Urban Waste" containerElement={<Link to="/apps/urbanwaste" />} />,
+                ]}
+            />
                 <MenuItem
                   containerElement={<Link to="/userpermissions" />}
                   innerDivStyle={styles.menuLink}

@@ -256,7 +256,6 @@ const routes = {
     { path: 'apps/fishfarming', component:  MVPFishFarming },
     { path: 'notifications', component: Notifications},
     { path: 'notifications/:notifId', component: NotifDetail},
-    { path: 'farmview/:farmid', component:SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
     { path: 'users', component:  UserList, onEnter: loadUsers},
