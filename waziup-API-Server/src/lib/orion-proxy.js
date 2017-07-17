@@ -17,9 +17,7 @@ const methodAccess = {
 function proxyOrion(method, path, req, res) {
     const reqUrl = url.parse(req.url);
     const orionHost = config.get('orion.host') + ':' + config.get('orion.port');
-    //v2/entities
-    const proxyUrl = `${orionHost}${path}${reqUrl.search || ''}`; 
-    console.log('path:', path);
+    const proxyUrl = `${orionHost}/v2/entities${path}${reqUrl.search || ''}`; 
     console.log('method:', method);
     console.log('req.body:', req.body);
     console.log('proxyUrl:', proxyUrl);

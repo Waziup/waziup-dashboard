@@ -95,18 +95,26 @@ async function searchFarmData(req, res) {
 async function searchSensorData(req, res) {
     const msearch = [];
     const sensorid = req.params.sensorid;
+<<<<<<< HEAD
     const index = req.params.farmid;
     const days = 356;
     //console.log('sensorid:', sensorid);
     //console.log('index:', index);
+=======
+    console.log('sensorid:', sensorid);
+>>>>>>> parent of cd34c9e... major updates to integrate with nodejs server
 
     msearch.push({
-        index: index
+        index: req.params.farmid
     });
 
     msearch.push({
         from: 0,
+<<<<<<< HEAD
         size: 0,
+=======
+        size: 10,
+>>>>>>> parent of cd34c9e... major updates to integrate with nodejs server
         query: {
             bool: {
                 must: [
@@ -117,7 +125,11 @@ async function searchSensorData(req, res) {
                     },
                     {
                         range: {
+<<<<<<< HEAD
                             time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * days }
+=======
+                            time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * 7 }
+>>>>>>> parent of cd34c9e... major updates to integrate with nodejs server
                         }
                     }
                 ]
@@ -144,7 +156,12 @@ async function searchSensorData(req, res) {
     });
 
     const searchResults = await es.msearch({body: msearch});
+<<<<<<< HEAD
     //console.log('searchResults', searchResults);
+=======
+
+    console.log('searchResults', searchResults);
+>>>>>>> parent of cd34c9e... major updates to integrate with nodejs server
     let dataMap = {};
     /*
     function addAggregations(index, fieldName) {
@@ -158,6 +175,7 @@ async function searchSensorData(req, res) {
     addAggregations(0, 'sm1');
     addAggregations(1, 'sm2');
 
+<<<<<<< HEAD
     const dataKeys = Object.keys(dataMap);
     dataKeys.sort();
 
@@ -181,10 +199,17 @@ async function searchSensorData(req, res) {
         }
         //curr._source .attribute .time . value
         dataMap = hits.hits.reduce((prev, curr) => {
+=======
+    if(!!searchResults.response && Object.values(searchResults.response).length !== 0) {
+        const hits = searchResults.response[0].hits;
+        console.log('hits', hits);
+
+        dataMap = hits.reduce((prev, curr) => {
+>>>>>>> parent of cd34c9e... major updates to integrate with nodejs server
             const entry = curr._source;
             console.log('_source', entry);
             prev[entry.attribute] = prev[entry.attribute] || [];
-            prev[entry.attribute] = prev[entry.attribute].concat({'t': entry.time, 'v':entry.value});
+            prev[entry.attribute] = prev[entry.attribute].concat({[entry.time]: [entry.value]});
             return prev;
         }, {});*/
     }

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import UserList from './UserList'
+// import {fetchUser} from 'actionCreatorPath'
 
 const mapStateToProps = (state) => {
     return {

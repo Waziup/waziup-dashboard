@@ -7,7 +7,7 @@ function sensorListReducer(state = {isLoading: false, data: [], error: false},ac
       switch(action.type) {
               case types.RECV_ERROR:
                 return Object.assign({}, state, {isLoading: false, sensors: action.data, error: true});
-              case types.RECV_SENSORS: 
+              case types.RECV_SENSORS:
                 return Object.assign({}, state, {isLoading: false, sensors: action.data, error: false });
               case types.REQ_SENSORS:
                 return Object.assign({}, state, {isLoading: true, error: false });

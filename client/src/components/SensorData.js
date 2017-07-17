@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import UTILS from '../lib/utils.js';
+import UTILS from '../utils.js';
 import shortid from 'shortid';
 
 class SensorData extends Component {

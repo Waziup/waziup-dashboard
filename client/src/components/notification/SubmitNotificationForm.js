@@ -180,4 +180,4 @@ SubmitNotificationForm  = reduxForm(
  {form : 'SubmitNotificationForm'}
 )(SubmitNotificationForm);
 
-export default SubmitNotificationForm;
+export default SubmitNotificationForm ;

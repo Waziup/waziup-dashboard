@@ -5,7 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const orionProxy = require('./lib/orion-proxy');
-const keycloakProxy = require('./lib/keycloak-proxy');
 const server = require('./lib/server');
 
 //importing individual routes
@@ -33,11 +32,7 @@ router.use('/sensorData', sensorDataRoute);
 //  .../permissions .../test
 router.use('/authorization', authzRoute);
 
-///removed entities to support other services such as subscriptions
-orionProxy.install(router, '/orion');
-
-keycloakProxy.install(router, '/keycloak');
-
+orionProxy.install(router, '/orion/v2/entities');
 
 async function run() {
     await new Promise(resolve => app.listen(4000, () => resolve()));

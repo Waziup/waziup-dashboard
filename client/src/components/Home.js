@@ -6,7 +6,7 @@ import {ToastContainer,ToastMessage} from "react-toastr"
 import { connect } from 'react-redux';
 import { fetchSensors} from '../actions/actions'
 import {loadSensors} from "../index.js"
-import UTILS from '../lib/utils.js';
+import UTILS from '../utils.js';
 
 const ToastMessageFactory = React.createFactory(ToastMessage.animation);
 
@@ -18,11 +18,16 @@ class Home extends Component {
       sensors : props.sensors,
       user:props.user,
       markers: [],
-      position: [31.58, 74.32],
+      position: [12.238, -1.561],
       isAllSensors: true,
     };
+
     loadSensors(true);
   }
+
+  defaultProps = {
+    sensors: []
+  };
 
   addAlert() {
     var now = new Date().toUTCString();
@@ -37,6 +42,13 @@ class Home extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+
+    if(this.props.user.preferred_username === 'mehdi'){
+      this.setState({position: [31.58, 74.32]});
+    } else {
+      this.setState({position: [12.238, -1.561]});
+    }
+
 
     var markers = [];
     if (nextProps.sensors) {
@@ -55,6 +67,7 @@ class Home extends Component {
           }
         }
 
+        console.log(JSON.stringify(markers));
         this.setState({markers:markers})
     }
   }
