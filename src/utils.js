@@ -47,6 +47,17 @@ const UTIL = {
        return [n];
     },
 
+    convertLonLatToLatLon: function(coordinates){
+       var n = [];
+        coordinates.map((coords)=>{
+            console.log(coords[0]);
+            coords.map((item)=>{
+                n.push([item[1],item[0]]);
+            })
+       })
+       return [n];
+    },
+
     // Get all measurements for a sensor
     // an attribute is considered as a measurement if it has a timestamp metadata
     getMeasurements: function(sensor){

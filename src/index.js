@@ -104,8 +104,7 @@ export function deleteSensor(sensorId) {
 
 //get the history of values for each attributes of the sensor.
 export function getHisto(sensor) {
-    console.log("getHisto" + JSON.stringify(sensor));
-
+    //console.log("getHisto" + JSON.stringify(sensor));
     var userDetails = store.getState().keycloak.idTokenParsed;
 
     if(userDetails) {

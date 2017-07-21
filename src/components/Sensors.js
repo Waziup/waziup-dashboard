@@ -31,11 +31,10 @@ class Sensors extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log("sensor props" + JSON.stringify(nextProps))
+      //console.log("sensor props" + JSON.stringify(nextProps))
     if (nextProps.sensors) { // !== this.props.sensors) {
        this.setState({sensors:nextProps.sensors})
     }
-
     if (nextProps.isLoading) {
       this.setState({isLoading:nextProps.isLoading})
     }
@@ -60,14 +59,17 @@ class Sensors extends Component {
     this.setState({update:false});
     this.setState({modalVectorOpen: true});
   }
+
+  handleVectorUpdate = (data) => {
+      this.props.updateSensorStart(data);   
+      //this.setState({update: true});
+      //this.setState({formData: data});
+      //this.setState({modalVectorOpen: true});
+  }
   handleVectorSubmit = (values) => {
       console.log(values);
       createVector(values.FieldId, values.LayerField);
     //loadSensors(this.state.isAllSensors);
-  }
-
-  handleVectorUpdate = (values) => {
-    //TODO
   }
 
   handleOpen = () => {
@@ -114,6 +116,7 @@ class Sensors extends Component {
         rowData: rowDataSelector(state, props),
         deleteAction: this.handleSensorDelete,
         updateAction: this.handleSensorUpdate,
+        updateVectorAction: this.handleVectorUpdate,
         vectorAction: this.handleVectorSave
       };
     });
@@ -121,8 +124,6 @@ class Sensors extends Component {
     return (
           <div>
             <h1 className="page-title">Sensors</h1>
-            { this.state.isLoading ? <Spinner spinnerName="three-bounce" /> : null }
-
             <Container fluid={true}>
             <RaisedButton label="Add Sensors" primary={true} onTouchTap={()=>{ this.setState({formData: {}}); this.handleOpen();}} />
             <RaisedButton label="Add Crop or Pond" primary={true} onTouchTap={()=>{ this.handleVectorOpen();}} />
@@ -133,13 +134,14 @@ class Sensors extends Component {
                     <RowDefinition>
                        <ColumnDefinition id="id"          title="ID"/>
                        <ColumnDefinition id="owner.value" title="Owner"/>
+                       <ColumnDefinition id="type" title="Type"/>
                        <ColumnDefinition id="values"      title="Values" customComponent={enhancedWithRowData(SensorData)}/>
                        <ColumnDefinition id="actions"     title="Actions" customComponent={enhancedWithRowData(SensorActions)}/>
                     </RowDefinition>
                 </Griddle>
             </div>
             <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={ this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
-            <VectorForm ref={'vForm'} modalOpen={this.state.modalVectorOpen} handleClose={this.handleCloseVector} onSubmit={ this.state.update ? this.handleVectorUpdate : this.handleVectorSubmit} />
+            <VectorForm ref={'vForm'} modalOpen={this.state.modalVectorOpen} handleClose={this.handleCloseVector} onSubmit={ this.state.update ? this.handleVectorSubmitUpdate : this.handleVectorSubmit} />
           </Container>
       </div>
     );

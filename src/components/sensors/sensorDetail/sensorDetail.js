@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import SensorChart from './SensorChart/SensorChartContainer';
 import UTIL from '../../../utils.js';
 import { loadSensors } from "../../../index.js"
@@ -19,6 +19,7 @@ class sensorDetail extends Component {
       servicePath: "/",
       service: "waziup",
       markers: [],
+      fields: [],
       id: this.props.params.sensorId,
       historicalData: {},
     };
@@ -31,7 +32,7 @@ class sensorDetail extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps");
+      //console.log("nextProps");
     if(this.props.user.preferred_username === 'watersense'){
       this.setState({service: "watersense"});
     } else {
@@ -42,8 +43,8 @@ class sensorDetail extends Component {
       this.props.fetchSensors(this.state.service, this.state.servicePath);
     }
 
-    console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
-    console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
+      //console.log("nextProps.sensors:" + JSON.stringify(nextProps.sensors));
+      //console.log("this.props.params.sensorId:" + JSON.stringify(this.props.params.sensorId));
     if (nextProps.sensors && this.props.params.sensorId) {
       var sensor = nextProps.sensors.find((el) => {
         return el.id === this.props.params.sensorId;
@@ -59,19 +60,28 @@ class sensorDetail extends Component {
       if (sensor.servicePath && sensor.servicePath.value) {
         this.setState({ servicePath: sensor.servicePath.value });
       }
-
       var markers = [];
-      if (sensor.location && sensor.location.coordinates) {
-        markers.push({
-          position: [
-            sensor.location.coordinates[1],
-            sensor.location.coordinates[0]
-          ],
-          defaultAnimation: 2,
-        });
+      var fields = [];
+      if (sensor.location && sensor.location.value.coordinates && sensor.type === 'SensingDevice' ) {
+             markers.push({
+              position: [
+                sensor.location.value.coordinates[1],
+                sensor.location.value.coordinates[0]
+              ],
+              defaultAnimation: 2,
+            });
+
+           position = markers[0].position;
+      }else if(sensor.type==='Field' && sensor.location ){
+              var f = UTIL.convertLonLatToLatLon(sensor.location.value.coordinates); 
+          console.log(f);
+              fields.push(f);
+
+           position = fields[0][0][0];
       }
-      position = markers[0].position;
-      this.setState({ markers: markers })
+
+        this.setState({ markers: markers })
+        this.setState({fields:fields})
 
     }
   }
@@ -83,8 +93,6 @@ class sensorDetail extends Component {
   }
 
   render() {
-    if (this.state.markers.lenght > 0) {
-    }
     const listMarkers = this.state.markers.map((marker, index) =>
       <Marker key={index} position={marker.position}>
         <Popup>
@@ -92,7 +100,9 @@ class sensorDetail extends Component {
         </Popup>
       </Marker>
     );
-
+    const listFields = this.state.fields.map((field,index) =>
+        <Polygon key={index} color="purple" positions={field} /> 
+    )
     return (
       <div className="sensor">
         <h1 className="page-title">Sensor: {this.state.id}</h1>
@@ -106,6 +116,7 @@ class sensorDetail extends Component {
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 {listMarkers}
+                {listFields}
               </Map>
             </CardMedia>
             <CardTitle title="Current Values" />

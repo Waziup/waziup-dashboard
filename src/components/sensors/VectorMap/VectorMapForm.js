@@ -6,6 +6,7 @@ import { EditControl } from "react-leaflet-draw";
 import FlatButton from 'material-ui/FlatButton';
 import { TextField } from 'redux-form-material-ui'
 import { Row, Col } from 'react-grid-system'
+import { connect } from 'react-redux'
 import UTIL from '../../../utils.js'
 const position = [12.238, -1.561];
 
@@ -61,6 +62,7 @@ class VectorMapForm extends Component {
   }
   render() {
     const {reset, modalOpen, handleClose, onSubmit} = this.props;
+      console.log(this.state);
       const actions = [
       <FlatButton
         label="Cancel"
@@ -127,14 +129,21 @@ class VectorMapForm extends Component {
   }
 }
 
-const initialValues = {
-      LayerField: '',
-};
 // Decorate with redux-form
 VectorMapForm = reduxForm({
     form: 'VectorMapForm',
-    initialValues,
+    enableReinitialize:true,
 })(VectorMapForm)
+
+VectorMapForm = connect(
+  state => ({
+    initialValues:{
+        "fieldId": state.sensor.sensor.id,
+        "LayerField" :'',
+        // "sensorMeasurement": UTIL.getMeasurement(state.sensor.sensor)[0].key?UTIL.getMeasurement(state.sensor.sensor)[0].key:"",
+    }
+  })
+)(VectorMapForm)
 
 export default VectorMapForm;
 

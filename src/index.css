@@ -297,3 +297,10 @@ li {
 ul {
       list-style-position: inside;
 }
+
+.leaflet-touch .leaflet-bar a .sr-only{
+  position: relative;
+  right: 96px;
+  width: 98px;
+  display: block;
+}
