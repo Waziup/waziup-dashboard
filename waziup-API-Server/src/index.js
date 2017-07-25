@@ -7,13 +7,14 @@ const path = require('path');
 const orionProxy = require('./lib/orion-proxy');
 const keycloakProxy = require('./lib/keycloak-proxy');
 const server = require('./lib/server');
-
+var cors = require('cors');
 //importing individual routes
 const sensorDataRoute = require('./routes/sensorData');
 const authzRoute = require('./routes/authorization');
 const adminRoute = require('./routes/keycloak/keycloak-admin');
 
 const app = server.app;
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
