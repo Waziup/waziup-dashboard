@@ -4,6 +4,9 @@ elasticsearch:
 orion:
   host: http://broker.waziup.io
   port: 80
+keycloak:
+  host: http://aam.waziup.io
+  port: 80
 
 
 timezone: "+02:00"

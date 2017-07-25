@@ -11,6 +11,7 @@ const server = require('./lib/server');
 //importing individual routes
 const sensorDataRoute = require('./routes/sensorData');
 const authzRoute = require('./routes/authorization');
+const adminRoute = require('./routes/keycloak/keycloak-admin');
 
 const app = server.app;
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,8 +21,8 @@ const router = express.Router();
 
 //FIXME 
 router.use(function(req, res, next) {
-  console.log('%s URI: %s PATH: %s', req.method, req.url, req.path);
-  next();
+    console.log('%s URI: %s PATH: %s', req.method, req.url, req.path);
+    next();
 });
 
 //serve the client
@@ -38,6 +39,7 @@ orionProxy.install(router, '/orion');
 
 keycloakProxy.install(router, '/keycloak');
 
+router.use('/admin', adminRoute);
 
 async function run() {
     await new Promise(resolve => app.listen(4000, () => resolve()));
