@@ -1,10 +1,6 @@
 {
     "realm": "waziup",
-    "auth-server-url": "http://localhost:8080/auth",
+    "auth-server-url": "http://aam.waziup.io/auth",
     "ssl-required": "none",
-    "resource": "admin-cli",
-    "credentials": {
-        "secret": "e5bcffcc-429b-4a97-9fa2-6060e6afa5d1"
-    },
-    "policy-enforcer": {}
+    "resource": "waziup"
 }
