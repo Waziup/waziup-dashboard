@@ -25,6 +25,8 @@ spec:
           value: KCadminW
         - name: REACT_APP_KC_URL
           value: http://aam.waziup.io/auth
+        - name: REACT_APP_ORION_API
+          value: http://orion.waziup.io/v1/data
 
 
 ---

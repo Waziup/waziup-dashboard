@@ -23,11 +23,14 @@ $ npm start
 Deploy
 ------
 
-Dashboard Dockerfile build & deployment:
+Dashboard Dockerfile build, tagging and deployment:
 
 ```
 docker build -t waziup/dashboard .
-docker push waziup/dashboard
+docker tag waziup/dashboard waziup/dashboard:YOUR_TAG
+docker push waziup/dashboard:YOUR_TAG
+
+git tag YOUR_TAG
 
 kubectl delete -f dashboard.yaml
 kubectl apply -f dashboard.yaml
