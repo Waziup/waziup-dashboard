@@ -56,7 +56,7 @@ class Home extends Component {
     if (nextProps.sensors) {
         for (let sensor of nextProps.sensors) {
 
-          if(sensor.type!=='Field' && sensor.location && sensor.location.value && sensor.location.value.coordinates){
+          if(sensor.location && sensor.location.value && sensor.location.value.coordinates){
             markers.push({
               position:[
                 sensor.location.value.coordinates[1],

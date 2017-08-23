@@ -36,7 +36,7 @@ export function fetchSensors(service, servicePath) {
 
     return function(dispatch) {
           dispatch(requestSensors());
-          return axios.get(orionApi + '/v2/entities',
+          return axios.get(orionApi + '/entities',
                            {
                              params: {'limit': '100', 'attrs': 'dateModified,dateCreated,servicePath,*'},
                              headers: {
@@ -48,7 +48,7 @@ export function fetchSensors(service, servicePath) {
               dispatch(receiveSensors(response.data));
             })
             .catch(function(response){
-              dispatch(receiveError(response.data));
+              //dispatch(receiveError(response.data));
             })
         }
 };
@@ -56,7 +56,7 @@ export function fetchSensors(service, servicePath) {
 export function createSensor(sensor, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.CREATE_SENSORS_START});
-          return axios.post(orionApi + '/v2/entities', sensor,{
+          return axios.post(orionApi + '/entities', sensor,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -91,7 +91,7 @@ export function createSensorError(json) {
 
 export function updateSensorAttributes(sensorId, update, service, servicePath) {
     return function(dispatch) {
-          return axios.post(orionApi + '/v2/entities/'+sensorId+'/attrs', update, {
+          return axios.post(orionApi + '/entities/'+sensorId+'/attrs', update, {
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath':servicePath,
@@ -133,7 +133,7 @@ export function updateSensorError(json) {
 export function deleteSensor(sensorId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_SENSORS_START});
-          return axios.delete(orionApi + '/v2/entities/' + sensorId,{
+          return axios.delete(orionApi + '/entities/' + sensorId,{
                       headers: {
                         'content-type':'application/json',
                         'fiware-servicepath': servicePath,
@@ -318,7 +318,7 @@ export function getHistoDataError(json) {
 
 export function createSubscription(sub, service, servicePath) {
     return function(dispatch) {
-          var url= orionApi + '/v2/subscriptions'
+          var url= orionApi + '/subscriptions'
           return axios.post(url, sub, {
               headers: {
                 'content-type': 'application/json',
@@ -351,7 +351,7 @@ export function createSubscriptionError(json) {
 
 export function getNotifications(service, servicePath) {
     return function(dispatch) {
-          var url= orionApi + '/v2/subscriptions'
+          var url= orionApi + '/subscriptions'
           return axios.get(url, {
               headers: {
                 'fiware-servicepath': servicePath,
@@ -385,7 +385,7 @@ export function getNotificationsError(json) {
 export function deleteNotif(notifId, service, servicePath) {
     return function(dispatch) {
           dispatch({type: types.DELETE_NOTIF_START});
-          return axios.delete(orionApi + '/v2/subscriptions/' + notifId,{
+          return axios.delete(orionApi + '/subscriptions/' + notifId,{
                       headers: {
                         'fiware-servicepath': servicePath,
                         'fiware-service': service,
@@ -415,4 +415,4 @@ export function deleteNotifError(json) {
           type: types.DELETE_NOTIF_ERROR,
           data: json
         }
-};
+};2

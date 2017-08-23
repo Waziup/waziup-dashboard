@@ -15,14 +15,14 @@ spec:
     spec:
       containers:
       - name: dashboard
-        image: waziup/dashboard:latest
+        image: waziup/dashboard:PROXY_FIX
         ports:
         - containerPort: 3000
         env:
         - name: REACT_APP_ADMIN_USER
           value: admin
         - name: REACT_APP_ADMIN_PASS
-          value: <password>
+          value: KCadminW
         - name: REACT_APP_KC_URL
           value: http://aam.waziup.io/auth
 
