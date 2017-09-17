@@ -30,6 +30,20 @@ function sensorsReducer(state = {isLoading: false, sensor: {}, error: false},act
                 return state;
             }
   };
+function recordReducer(state = {isLoading: false, record: {}, error: false},action = null) {
+      switch(action.type) {
+              case types.CREATE_RECORD_START:
+                return Object.assign({}, state, {isLoading: true});
+              case types.CREATE_RECORD_SUCCESS:
+                return Object.assign({}, state, {isLoading: false, record: action.data, error: false });
+              case types.UPDATE_RECORD_START:
+                return Object.assign({}, state, {isLoading: false, record: action.data, error: false });
+              case types.CREATE_RECORD_ERROR:
+                return Object.assign({}, state, {isLoading: false, record:{error:action.data}, error: false });
+              default:
+                return state;
+            }
+  };
 
 function historicalReducer(state = {isLoading: false, data: {}, error: false},action = null) {
       switch(action.type) {
@@ -112,6 +126,7 @@ const rootReducer = combineReducers({
     routing: routerReducer,
     sensors: sensorListReducer,
     sensor: sensorsReducer,
+    record: recordReducer,
     sensorEntity: sensorCRUDReducer,
     currentUser: userReducer,
     users:usersListReducer,

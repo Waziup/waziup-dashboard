@@ -13,6 +13,7 @@ import MVPAgri from './components/Mvpagri';
 import MVPUrbanWaste from './components/Mvpurbanwaste';
 import MVPFishFarming from './components/Mvpfishfarming';
 import Sensors from './components/SensorsContainer';
+import Events from './components/event/EventsContainer'
 import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
@@ -66,7 +67,7 @@ export function createSensor(sensorId, sensorType, sensorLon, sensorLat) {
       store.dispatch(actions.createSensor(sensor, userDetails.Service, userDetails.ServicePath));
     }
 }
-// Create fields 
+// Create fields
 export function createVector(fieldId, bounds) {
     var userDetails = store.getState().keycloak.idTokenParsed;
     if(userDetails) {
@@ -109,11 +110,42 @@ export function getHisto(sensor) {
 
     if(userDetails) {
         var meas =  UTIL.getMeasurements(sensor);
-        meas.foreach((item) => {
-           store.dispatch( actions.getHistoData(sensor.id, item.key, userDetails.Service, sensor.servicePath.value));
-        });
+        for (var item in meas) {
+          console.log(meas[item].key);
+            store.dispatch(actions.getHistoData(sensor.id, meas[item].key, userDetails.Service, sensor.servicePath.value));
+        }
+        // meas.foreach((item) => {
+        //   console.log(item);
+        //    //store.dispatch(actions.getHistoData(sensor.id, item.key, userDetails.Service, sensor.servicePath.value));
+        // });
     }
 };
+//update the sensor location
+export function updateSensorFarmAction(sensorId, recordType,recordQuantity,recordDescription) {
+  var userDetails = store.getState().keycloak.idTokenParsed;
+
+  if(userDetails) {
+    let attribute  = {
+      "farming-action": {
+        value:recordType,
+        metadata: {
+          description: {
+            value: recordDescription
+          },
+          quantity: {
+            value:recordQuantity
+          }
+        }
+      }
+    }
+    console.log(attribute);
+  //  console.log("update" + JSON.stringify(store.getState().sensors));
+    var sensor = store.getState().sensors.sensors.find((s) => {
+        return s.id === sensorId;
+    });
+    store.dispatch(actions.updateSensorAttributes(sensorId, attribute, userDetails.Service, sensor.servicePath.value));
+  }
+}
 
 //update the sensor location
 export function updateSensorLocation(sensorId, sensorLon, sensorLat) {
@@ -257,6 +289,7 @@ const routes = {
     { path: 'farmview/:farmid', component:SMComparisonChart},
     { path: 'sensors', component:  Sensors},
     { path: 'sensors/:sensorId', component:Sensor},
+    { path: 'events', component:Events},
     { path: 'users', component:  UserList, onEnter: loadUsers}  ]
 }
 

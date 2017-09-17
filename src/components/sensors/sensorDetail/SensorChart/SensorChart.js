@@ -7,7 +7,7 @@ import moment from 'moment-timezone';
 
 class CustomTick extends Component {
 
-    render() { 
+    render() {
         const time = new moment(this.props.payload.value).tz(moment.tz.guess());
         const props = this.props;
 
@@ -30,15 +30,16 @@ class SensorChart extends Component {
   };
 
   componentWillReceiveProps(nextProps){
-    
     if(!UTIL.objIsEmpty(nextProps.sensor) && (nextProps.sensor !== this.props.sensor)){
+
+      console.log(nextProps);
       getHisto(nextProps.sensor);
     }
   }
 
   render() {
     var visCompAll = [];
-    
+
     function xFormatter(tick) {
       return new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
     }
@@ -58,22 +59,22 @@ class SensorChart extends Component {
         visComp = [<CardTitle title={title} /> ]
         var visComp2 = [
         <ResponsiveContainer width="100%" height={500}>
-          <LineChart  data={this.props.historical[measurementId]} 
+          <LineChart  data={this.props.historical[measurementId]}
             margin={{ top: 40, right: 60, bottom: 40, left: 50 }}>
-          
+
           <XAxis interval='preserveStart' dataKey="time" padding={{ left: 0, right: 20 }} label="Time"
            tickFormatter={xFormatter} ticks={ticks} tick={<CustomTick/>}  />
-          
-          <YAxis domain={[0, 1000]} dataKey="value" padding={{ left: 20, right: 20, bottom: 0}} label={YAxisLabel} 
+
+          <YAxis domain={[0, 1000]} dataKey="value" padding={{ left: 20, right: 20, bottom: 0}} label={YAxisLabel}
             name={measurementId} tickFormatter={yFormatter}/>
-          
+
           <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
-          
+
           <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
-      
-          <Line name={measurementId} type="monotone" dataKey="value" fill="#8884d8"  stroke="#8884d8" 
-          strokeWidth={2} 
-          dot={{ stroke: 'red', strokeWidth: 5 }} 
+
+          <Line name={measurementId} type="monotone" dataKey="value" fill="#8884d8"  stroke="#8884d8"
+          strokeWidth={2}
+          dot={{ stroke: 'red', strokeWidth: 5 }}
           activeDot={{ stroke: 'yellow', strokeWidth: 8, r: 10 }} label={{ fill: 'red', fontSize: 20 }}  connectNulls={true}/>
 
           (measurementId === 'SM1' || measurementId === 'SM2')? <ReferenceLine y={200} label="WET" padding={{ left: 10, right: 10 }} stroke="blue"/>

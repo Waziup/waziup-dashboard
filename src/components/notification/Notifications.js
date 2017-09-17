@@ -28,7 +28,7 @@ export default class Notifications extends Component {
 
   componentWillReceiveProps(nextProps){
 
-    console.log("props:" + JSON.stringify(nextProps))
+    // console.log("props:" + JSON.stringify(nextProps))
     if (nextProps.notifications) {
        this.setState({notifications: nextProps.notifications})
     }
@@ -38,7 +38,7 @@ export default class Notifications extends Component {
   }
   //Fire when submitting the form data
   handleSubmit(event) {
-    console.log("submit:" + JSON.stringify(event))
+    // console.log("submit:" + JSON.stringify(event))
     createSubscription(event.desc,
                        event.sensors,
                        event.attrs,
@@ -69,7 +69,7 @@ export default class Notifications extends Component {
   }
 
   render() {
-  
+
     const rowDataSelector = (state, { griddleKey }) => {
       return state
         .get('data')
@@ -102,9 +102,9 @@ export default class Notifications extends Component {
 
     function SubjectComponent({value, griddleKey}) {
        var ids = ""
-       console.log("Sub" + value)
+      //  console.log("Sub" + value)
        for(var ent of value.get("entities")) {
-          console.log("Sub2" + typeof(ent))
+          // console.log("Sub2" + typeof(ent))
           if(ent.get("id"))
              ids = ids + ent.get("id") + "\n"
           if(ent.get("idPattern"))
@@ -130,19 +130,18 @@ export default class Notifications extends Component {
                          <ColumnDefinition id="description" title="Description"/>
                          <ColumnDefinition id="subject" title="Subject" customComponent={SubjectComponent}/>
                          <ColumnDefinition id="notification" title="URL" customComponent={NotificationComponent}/>
-                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/> 
+                         <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)}/>
                          <ColumnDefinition id="status" title="Status"/>
                        </RowDefinition>
                     </Griddle>
                     <CardActions>
                       <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true}  />
                     </CardActions>
-                  </Card>                            
-                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} /> 
+                  </Card>
+                  <NewNotifForm sensors={this.state.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} />
               </div>
           </Container>
        </div>
     );
   }
 }
-

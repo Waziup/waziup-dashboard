@@ -61,7 +61,7 @@ class Sensors extends Component {
   }
 
   handleVectorUpdate = (data) => {
-      this.props.updateSensorStart(data);   
+      this.props.updateSensorStart(data);
       //this.setState({update: true});
       //this.setState({formData: data});
       //this.setState({modalVectorOpen: true});
@@ -117,7 +117,8 @@ class Sensors extends Component {
         deleteAction: this.handleSensorDelete,
         updateAction: this.handleSensorUpdate,
         updateVectorAction: this.handleVectorUpdate,
-        vectorAction: this.handleVectorSave
+        vectorAction: this.handleVectorSave,
+        RecordEventAction: this.handleEventSave
       };
     });
 
@@ -149,4 +150,3 @@ class Sensors extends Component {
 }
 
 export default Sensors;
-

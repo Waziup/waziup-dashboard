@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import IconButton from 'material-ui/IconButton';
 import { Link } from 'react-router';
 import Delete from 'material-ui/svg-icons/action/delete';
+import Event from 'material-ui/svg-icons/action/event';
 import Update from 'material-ui/svg-icons/content/create';
 import VectorUpdate from 'material-ui/svg-icons/maps/layers';
 import View from 'material-ui/svg-icons/image/remove-red-eye';
@@ -10,7 +11,7 @@ import {blue500, red500} from 'material-ui/styles/colors';
 class SensorActions extends Component {
 
   render() {
-    let {rowData, deleteAction, updateAction, updateVectorAction} = this.props;
+    let {rowData, deleteAction, updateAction, updateVectorAction,RecordEventAction} = this.props;
     return (
         <div>
            <IconButton tooltip="View" tooltipPosition="top-center" containerElement={<Link to={"/sensors/"+rowData.id} />} >
@@ -26,6 +27,12 @@ class SensorActions extends Component {
                (rowData.type === 'Field') &&
                 <IconButton tooltip="Update" tooltipPosition="top-center" onTouchTap={()=>{console.log('cuuu'); updateVectorAction(rowData);}}>
                   <VectorUpdate />
+                </IconButton>
+           }
+           {
+                (rowData.type === 'Field') &&
+                <IconButton tooltip="Record Event" tooltipPosition="top-center" onTouchTap={()=>{console.log('cuuu'); RecordEventAction(rowData);}}>
+                  <Event color={blue500} />
                 </IconButton>
            }
 

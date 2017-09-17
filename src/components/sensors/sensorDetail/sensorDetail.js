@@ -4,8 +4,11 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import SensorChart from './SensorChart/SensorChartContainer';
+import {Timeline, TimelineEvent} from 'react-event-timeline';
 import UTIL from '../../../utils.js';
 import { loadSensors } from "../../../index.js"
+import FontIcon from 'material-ui/FontIcon';
+import FieldTimeline from './FieldTimeline.js'
 import moment from 'moment-timezone';
 
 var position = [12.238, -1.561];
@@ -73,7 +76,7 @@ class sensorDetail extends Component {
 
            position = markers[0].position;
       }else if(sensor.type==='Field' && sensor.location ){
-              var f = UTIL.convertLonLatToLatLon(sensor.location.value.coordinates); 
+              var f = UTIL.convertLonLatToLatLon(sensor.location.value.coordinates);
           console.log(f);
               fields.push(f);
 
@@ -100,8 +103,9 @@ class sensorDetail extends Component {
         </Popup>
       </Marker>
     );
+    const timeline = !UTIL.objIsEmpty(this.state.sensor)? <FieldTimeline sensor={this.state.sensor} />:"";
     const listFields = this.state.fields.map((field,index) =>
-        <Polygon key={index} color="purple" positions={field} /> 
+        <Polygon key={index} color="purple" positions={field} />
     )
     return (
       <div className="sensor">
@@ -124,7 +128,7 @@ class sensorDetail extends Component {
               <List>
                 {UTIL.getMeasurements(this.state.sensor).map((itemID) => {
                   return (
-                    <ListItem primaryText={itemID.key + ": " + itemID.value} />
+                    <ListItem key={itemID.key} primaryText={itemID.key + ": " + itemID.value} />
                   )
                 })}
                 <ListItem primaryText={"Creation Date: " + moment(this.state.dateCreated).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z')} />
@@ -134,6 +138,7 @@ class sensorDetail extends Component {
             </CardText>
             <CardTitle title="Historical Data" />
             <SensorChart sensor={this.state.sensor} service={this.state.service} servicePath={this.state.servicePath}/>
+            {timeline}
           </Card>
         </Container>
       </div>

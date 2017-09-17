@@ -23,7 +23,7 @@ class notifForm extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log("notif form props " + JSON.stringify(nextProps));
+    // console.log("notif form props " + JSON.stringify(nextProps));
   }
 
   render() {
@@ -84,7 +84,7 @@ class notifForm extends Component {
       </ul>
     );
 
-    let sensorList = sensors.map((s) =>  <MenuItem value={s.id} primaryText={s.id} />)
+    let sensorList = sensors.map((s) =>  <MenuItem key={s.id} value={s.id} primaryText={s.id} />)
     let attrsList = () => {
        var attrsList = []
        for(let s of this.props.sensors) {
@@ -92,7 +92,7 @@ class notifForm extends Component {
           attrsList.push(attrs)
        }
       let attrsList2 = uniq([].concat.apply([], attrsList))
-      return attrsList2.map((a) => <MenuItem value={a} primaryText={a}/>)
+      return attrsList2.map((a) => <MenuItem key={a} value={a} primaryText={a}/>)
     }
 
 
@@ -209,11 +209,10 @@ notifForm = connect(
         url: "https://api.plivo.com/v1/Account/MAMDA5ZDJIMDM1NZVMZD/Message/",
         headers: [{ key: "Content-type",  value: "application/json"},
                   { key: "Authorization", value: "Basic TUFNREE1WkRKSU1ETTFOWlZNWkQ6TnpSbE5XSmlObVUyTW1GallXSmxPRGhsTlRrM01Ua3laR0V6TnpJeQ=="}],
-        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}", 
-        expires: new Date("2040-05-24T20:00:00.00Z"), 
-        throttling: 1, 
+        payload: "{ \"src\": \"00393806412092\", \"dst\": \"00393806412093\", \"text\": \"WaterSense: Field is too dry. ${id} humidity value is ${SM1} \"}",
+        expires: new Date("2040-05-24T20:00:00.00Z"),
+        throttling: 1,
     }
   }))(notifForm)
 
 export default notifForm;
-
