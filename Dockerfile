@@ -1,15 +1,19 @@
-FROM node:6.10
+FROM node:7.9.0-alpine
 
-RUN mkdir /usr/src/app
-VOLUME ["/app"]
+# Set a working directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /usr/src/app
-RUN npm install
+COPY ./build/package.json .
+COPY ./build/yarn.lock .
 
-# Bundle app source
-COPY . /usr/src/app
+# Install Node.js dependencies
+RUN yarn install --production --no-progress
 
-EXPOSE 3000
-CMD [ "npm", "start" ]
+COPY ./src/keycloak.json .
+#COPY ./src/server/config .
+#COPY ./src/server/config/default.yaml ./config
+
+# Copy application files
+ADD ./build .
+
+CMD [ "node", "server.js" ]

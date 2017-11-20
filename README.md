@@ -1,51 +1,51 @@
 
-Waziup dashboard
-================
+WATERSENSE 
+==========
 
-The Waziup dashboard allows visualize your sensors and applications.
-
+Watersense is an application for monitoring humidity in crops.
+It is based on [Waziup](www.waziup.io) platform.
 
 Install
 -------
 
-To test the dashboard locally, first rename and change the content of exports.sh:
+Watersense can be launched using docker-compose:
 ```
-$ cp exports-template.sh exports.sh
-$ vi exports.sh
+docker-compose up
 ```
+Then open the following address on your browser: http://localhost:3000
 
-Install and start:
-```
-$ npm install
-$ npm start
-```
+Watersense uses Waziup backend. You can either use the online instance of Waziup, or launch a local instance.
 
-Deploy
-------
-
-Dashboard Dockerfile build & deployment:
-
-```
-docker build -t waziup/dashboard .
-docker push waziup/dashboard
-
-kubectl delete -f dashboard.yaml
-kubectl apply -f dashboard.yaml
-```
 
 Debug
 -----
 
-after re-deploying dashboard, we need to restart apache (identity proxy)
-kubectl exec -ti identityproxy-y5h7q --namespace=waziup --  /usr/sbin/httpd -k restart
+Watersense is composed of two components: the back-end and the front-end (in `server` and `client` folders respectively).
 
-kubectl exec -ti dashboard-no0lu --namespace=waziup --  bash
+In order to test the back-end, you need to retrieve an access token from keycloak.
+Make sure that the realm "watersense" exists in Keycloak, as well as a client "watersense".
+A user "watersense" should also exist and have the attributes "Service", "ServicePath" and "permissions" correctly set. Each attribute should have a mapper.
+Retrieve the token:
+```
+sudo echo "127.0.0.1 keycloak" >> /etc/hosts
+TOKEN=`curl --data "grant_type=password&client_id=watersense&username=watersense&password=watersense" http://keycloak:8080/auth/realms/watersense/protocol/openid-connect/token | jq ".access_token" -r`
+```
 
-Development
------------
+***Get sensors***
 
-The following environment variables can be used:
 
-- REACT_APP_DASHBOARD_IDENTITY: set to false to avoid queries to identity server
+Then, you can test each access point using curl commands:
+```
+curl localhost:4000/api/v1/orion/v2/entities -H 'Fiware-Service:watersense' -H 'Fiware-ServicePath:/#' -H "Authorization: Bearer $TOKEN" | jq ".[].id"
+```
+The command above should yeld a list of watersense sensors.
 
+
+***Get sensor data***
+
+Sensor data is accessed through Elasticsearch.
+To list all the indices:
+```
+curl localhost:80/api/v1/elasticsearch/_cat/indices -H 'Fiware-Service:watersense' -H 'Fiware-ServicePath:/#' -H "Authorization: Bearer $TOKEN"
+```
 

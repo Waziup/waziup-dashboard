@@ -1,45 +1,91 @@
 apiVersion: v1
-kind: ReplicationController
+kind: ConfigMap
 metadata:
-  name: dashboard
+  name: watersense-config
+  namespace: waziup
+data:
+  default.yaml: |
+    elasticsearch:
+      host: elasticsearch
+      port: 9200
+
+    orion:
+      host: http://orion
+      port: 1026
+
+    keycloak:
+      host: http://aam:8080/auth
+      port: 8080
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-watersense
   namespace: waziup
   labels:
-    name: dashboard
+    name: dashboard-watersense
 spec:
   replicas: 1 
   template:
     metadata:
-      name: dashboard
+      name: dashboard-watersense
       labels:
-        app: dashboard
+        app: dashboard-watersense
     spec:
       containers:
-      - name: dashboard
-        image: waziup/dashboard:latest
+      - name: dashboard-watersense
+        image: waziup/watersense-dashboard:V1_REL_elsQuery
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
+        - name: API_SERVER_EXTRA_CONFIG_DIR
+          value: /etc/app
         - name: REACT_APP_ADMIN_USER
           value: admin
         - name: REACT_APP_ADMIN_PASS
-          value: <password>
+          value: KCadminW
         - name: REACT_APP_KC_URL
           value: http://aam.waziup.io/auth
-
+        volumeMounts:
+        - mountPath: /etc/app/
+          name: watersense-config
+      volumes:
+      - name: watersense-config
+        configMap:
+          name: watersense-config
+          items:
+          - key: default.yaml
+            path: default.yaml
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: dashboard
-  name: dashboard
+    name: dashboard-watersense
+  name: dashboard-watersense
   namespace: waziup
 spec:
   type: NodePort
   ports:
     - port: 3000
-      nodePort: 32005
   selector:
-    app: dashboard
+    app: dashboard-watersense
 
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-watersense
+  namespace: waziup
+spec:
+  rules:
+  - host: watersense.waziup.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dashboard-watersense
+          servicePort: 3000
