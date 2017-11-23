@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ws-config
+  namespace: waziup
+data:
+  default.yaml: |
+    elasticsearch:
+      host: elasticsearch
+      port: 9200
+
+    orion:
+      host: http://orion
+      port: 1026
+
+    keycloak:
+      host: http://aam:8080/auth
+      port: 8080
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dashboard-ws
+  namespace: waziup
+  labels:
+    name: dashboard-ws
+spec:
+  replicas: 1 
+  template:
+    metadata:
+      name: dashboard-ws
+      labels:
+        app: dashboard-ws
+    spec:
+      containers:
+      - name: dashboard-watersense
+        image: waziup/watersense-dashboard:V6_PREREL
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+        - name: API_SERVER_EXTRA_CONFIG_DIR
+          value: /etc/app
+        - name: REACT_APP_ADMIN_USER
+          value: admin
+        - name: REACT_APP_ADMIN_PASS
+          value: KCadminW
+        - name: REACT_APP_KC_URL
+          value: http://aam.waziup.io/auth
+        volumeMounts:
+        - mountPath: /etc/app/
+          name: ws-config
+      volumes:
+      - name: ws-config
+        configMap:
+          name: ws-config
+          items:
+          - key: default.yaml
+            path: default.yaml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: dashboard-ws
+  name: dashboard-ws
+  namespace: waziup
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+  selector:
+    app: dashboard-ws
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dashboard-ws
+  namespace: waziup
+spec:
+  rules:
+  - host: ws.waziup.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dashboard-ws
+          servicePort: 3000
