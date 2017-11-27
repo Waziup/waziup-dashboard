@@ -3,7 +3,7 @@ version=V2_PREREL
 git tag ${version}
 git commit -a
 git push
-yarn run build -- --release
+#yarn run build -- --release
 sleep 3
 docker build -t waziup/waziup-dashboard .
 sleep 3
