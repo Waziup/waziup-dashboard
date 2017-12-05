@@ -30,7 +30,7 @@ async function searchSensorData(req, res) {
 
         msearch.push({
             from: 0,
-            size: 1000,
+            size: 1500,
             explain: false,
             query: {
                 bool: {
@@ -47,13 +47,14 @@ async function searchSensorData(req, res) {
                         },
                         {
                             range: {
-                                time: { gte: new Date().getTime() - 1000 * 60 * 60 * 24 * days }
+                                time: { lte: "now"
+                                }
                             }
                         }
                     ]
                 }
             },
-            sort: { time: 'asc' }
+            sort: { time: 'desc' }
         });
     }
 
@@ -72,9 +73,13 @@ async function searchSensorData(req, res) {
             const entry = { time: hit._source.time, value: hit._source.value };
             dataMap[sensorAttrib].push(entry);
         }
+
+        if(dataMap[sensorAttrib].length >0 )
+            dataMap[sensorAttrib].reverse();
         index++;
     }
-    console.log('dataMap:', JSON.stringify(dataMap));
+
+    //console.log('dataMap:', JSON.stringify(dataMap));
     res.json(dataMap);
 }
 

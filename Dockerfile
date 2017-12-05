@@ -7,6 +7,7 @@ COPY ./build/package.json .
 COPY ./build/yarn.lock .
 
 # Install Node.js dependencies
+#RUN yarn run build -- --release
 RUN yarn install --production --no-progress
 
 COPY ./src/keycloak.json .

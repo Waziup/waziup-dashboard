@@ -35,9 +35,9 @@ class User extends Component {
             this.setState({ firstname: user.firstName });
             this.setState({ lastname: user.lastName });
             this.setState({ email: user.email });
-            this.setState({ cell: user.attributes.Cell });
-            this.setState({ permissions: user.attributes.permissions });
-            this.setState({ address: user.attributes.Address });
+            this.setState({ cell: !!user.attributes.Cell?user.attributes.Cell: '' });
+            this.setState({ permissions: !!user.attributes.permissions?user.attributes.permissions: '' });
+            this.setState({ address: !!user.attributes.Address?user.attributes.Address:'' });
             this.setState({ userRep: user })
             this.setState({ isLoading: true })
         }

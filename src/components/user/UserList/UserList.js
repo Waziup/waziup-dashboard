@@ -8,7 +8,7 @@ import { loadUsers, deleteUser } from "../../../index.js"
 import { connect } from 'react-redux';
 
 class UserList extends Component {
-  constructor(props) {
+  constructor(props) {s
     super(props);
   }
   componentDidMount() {
@@ -20,7 +20,7 @@ class UserList extends Component {
       this.setState({users:nextProps.users})
     }
   }*/
-//                    <ColumnDefinition id="id"        title="User ID"/>
+  //                    <ColumnDefinition id="id"        title="User ID"/>
 
   render() {
     const rowDataSelector = (state, { griddleKey }) => {
@@ -60,8 +60,8 @@ class UserList extends Component {
                   </RowDefinition>
                 </Griddle> :
                 <h2> Some error happened during loading the list of users. </h2>
-            :
-            <h2> The list of users is being loaded. </h2>
+              :
+              <h2> The list of users is being loaded. </h2>
             }
           </div>
         </Container>
