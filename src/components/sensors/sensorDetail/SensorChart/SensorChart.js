@@ -50,12 +50,12 @@ class SensorChart extends Component {
           graphElements.push(
           <ResponsiveContainer width="100%" height={500}>
             <LineChart data={data2} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
-              <XAxis interval='preserveStartEnd' dataKey="time" tickFormatter={this.xFormatter} />
+              <XAxis interval={0} domain={['dataMin', 'dataMax']} type="number" dataKey="time" tickFormatter={this.xFormatter} />
               <YAxis />
               <Tooltip formatter={this.yFormatter} labelFormatter={this.xFormatter} />
               <CartesianGrid strokeDasharray="3 3" />
               <Legend align='right' verticalAlign='top' layout="vertical" wrapperStyle={{ right: '35px', top: '10px', border: '2px solid beige', padding: '5px 0px 5px 5px' }} />
-              <Line name={attribute} type="basis" dataKey="value" stroke="#2020f0"/>     
+              <Line name={attribute} type="monotone" stroke="#2020f0" strokeWidth={2} dot={{ stroke: '#2020f0', r: 1 }} isAnimationActive={false} dataKey="value" />     
             </LineChart>
           </ResponsiveContainer>
           );
