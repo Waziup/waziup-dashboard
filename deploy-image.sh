@@ -1,5 +1,5 @@
 
-version=V4_PREREL
+version=V2
 echo "Commit the code with the tag ${version}"
 git tag ${version}
 git commit -a
