@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: watersense-config
+  name: waziup-config
   namespace: waziup
 data:
   default.yaml: |
@@ -21,40 +21,31 @@ data:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: dashboard-watersense
+  name: dashboard-waziup
   namespace: waziup
   labels:
-    name: dashboard-watersense
+    name: dashboard-waziup
 spec:
   replicas: 1 
   template:
     metadata:
-      name: dashboard-watersense
+      name: dashboard-waziup
       labels:
-        app: dashboard-watersense
+        app: dashboard-waziup
     spec:
       containers:
-      - name: dashboard-watersense
-        image: waziup/watersense-dashboard:V1_REL_elsQuery
+      - name: waziup-dashboard 
+        image: waziup/waziup-dashboard:V2
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
-        env:
-        - name: API_SERVER_EXTRA_CONFIG_DIR
-          value: /etc/app
-        - name: REACT_APP_ADMIN_USER
-          value: admin
-        - name: REACT_APP_ADMIN_PASS
-          value: KCadminW
-        - name: REACT_APP_KC_URL
-          value: http://aam.waziup.io/auth
         volumeMounts:
         - mountPath: /etc/app/
-          name: watersense-config
+          name: waziup-config
       volumes:
-      - name: watersense-config
+      - name: waziup-config
         configMap:
-          name: watersense-config
+          name: waziup-config
           items:
           - key: default.yaml
             path: default.yaml
@@ -64,28 +55,28 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: dashboard-watersense
-  name: dashboard-watersense
+    name: dashboard-waziup
+  name: dashboard-waziup
   namespace: waziup
 spec:
   type: NodePort
   ports:
     - port: 3000
   selector:
-    app: dashboard-watersense
+    app: dashboard-waziup
 
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: dashboard-watersense
+  name: dashboard-waziup
   namespace: waziup
 spec:
   rules:
-  - host: watersense.waziup.io
+  - host: dashboard.waziup.io
     http:
       paths:
       - path: /
         backend:
-          serviceName: dashboard-watersense
+          serviceName: dashboard-waziup
           servicePort: 3000
