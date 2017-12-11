@@ -14,9 +14,9 @@ const { adminProtection } = access;
 }*/
 
 var settings = {
-    baseUrl: 'http://aam.waziup.io/auth',
+    baseUrl: 'http://localhost:8080/auth',
     username: 'admin',
-    password: 'KCadminW',
+    password: 'admin',
     grant_type: 'password',
     client_id: 'admin-cli'
 }

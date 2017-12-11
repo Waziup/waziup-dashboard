@@ -37,7 +37,7 @@ module.exports = {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
   },
   //process.env.REACT_APP_KC_URL || 
-  keycloakUrl: 'http://aam.waziup.io/auth',
+  keycloakUrl: 'http://dev.waziup.io:8080/auth',
   realm: 'waziup',
   clientId: 'dashboard',
   orionUrl: 'http://broker.waziup.io:80',

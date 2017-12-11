@@ -75,7 +75,7 @@ app.get('*', keycloak.protect(), async (req, res, next) => {
     const data = { };
     data.title = 'WAZIUP';
     data.styles = [{ id: 'css', cssText: [...css].join('') }];
-    data.scripts = [assets.vendor.js, assets.client.js, 'http://aam.waziup.io/auth/js/keycloak.js'];
+    data.scripts = [assets.vendor.js, assets.client.js, 'http://dev.waziup.io:8080/auth/js/keycloak.js'];
     data.app = {
       apiUrl: config.api.clientUrl,
     };

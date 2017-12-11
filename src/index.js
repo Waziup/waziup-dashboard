@@ -89,8 +89,8 @@ function keycloakLogin() {
 
       displayPage();
     }
-  }).error(function (error) {
-    console.log(error);
+  }).error(function () {
+    console.log("Failed to initialize");
   });
 }
 
