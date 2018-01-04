@@ -3,18 +3,17 @@ FROM node:7.9.0-alpine
 # Set a working directory
 WORKDIR /usr/src/app
 
-COPY ./build/package.json .
-COPY ./build/yarn.lock .
-
-# Install Node.js dependencies
-#RUN yarn run build -- --release
-RUN yarn install --production --no-progress
-
+COPY ./package.json .
+COPY ./yarn.lock .
 COPY ./src/keycloak.json .
-#COPY ./src/server/config .
-#COPY ./src/server/config/default.yaml ./config
 
-# Copy application files
-ADD ./build .
+RUN yarn install 
+#--production --no-progress
 
-CMD [ "node", "server.js" ]
+COPY . /usr/src/app
+
+RUN yarn run build
+
+EXPOSE 3000
+
+CMD [ "node", "build/server.js" ]
