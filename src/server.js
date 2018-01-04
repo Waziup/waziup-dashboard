@@ -44,20 +44,19 @@ app.use(session({
   store: memoryStore
 }));
 
+console.log("KC:", config.realm);
 
 //Add keycloak middleware to handle request authentication
-const keycloak = new Keycloak({
-      url: config.keycloakUrl,
-      realm: config.realm,
-      clientId: config.clientId,
-      publicClient : true,
-      store: memoryStore
-    });
+const keycloak = new Keycloak({store: memoryStore},
+                              {serverUrl: config.keycloakUrl,
+                               realm: config.realm,
+                               clientId: config.clientId,
+                               publicClient : true});
 
+console.log("KC:", JSON.stringify(keycloak));
 app.use(keycloak.middleware({
-        logout: '/logout',
-        admin: '/'
-    }));
+          logout: '/logout',
+          admin: '/'}));
 
 
 // Install route handlers
@@ -75,7 +74,7 @@ app.get('*', keycloak.protect(), async (req, res, next) => {
     const data = { };
     data.title = 'WAZIUP';
     data.styles = [{ id: 'css', cssText: [...css].join('') }];
-    data.scripts = [assets.vendor.js, assets.client.js, 'http://aam.waziup.io/auth/js/keycloak.js'];
+    data.scripts = [assets.vendor.js, assets.client.js, config.keycloakUrl + '/js/keycloak.js'];
     data.app = {
       apiUrl: config.api.clientUrl,
     };

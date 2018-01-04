@@ -1,7 +1,6 @@
 "use strict";
 
 const config = require('../../config');
-const Keycloak = require('keycloak-connect');
 const CircularJSON = require('circular-json');
 
 const AccessLevel = {
