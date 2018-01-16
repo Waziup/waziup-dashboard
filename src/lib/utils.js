@@ -92,11 +92,11 @@ const UTIL = {
     return returnValue;
   },
   getSensorData: function (sensor) {
+    console.log("getSensorData:" + JSON.stringify(sensor))
     var returnValue = [];
-    var meas = UTIL.getMeasurements(sensor);
-    for (var i in meas) {
+    for (let meas of sensor.measurements) {
       returnValue.push(
-        <li key={meas[i].key}> {meas[i].key + ": " + meas[i].value} </li>
+        <li key={meas.name}> {meas.name + ": " + meas.values[0].value} </li>
       )
     }
     return returnValue;

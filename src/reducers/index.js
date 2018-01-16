@@ -9,11 +9,7 @@ function sensorListReducer(state = { isLoading: false, sensors: [], allSps: [], 
     case types.RECV_ERROR:
       return Object.assign({}, state, { isLoading: false, errMsg: action.data, error: true });
     case types.RECV_SENSORS:
-      const allSps = new Set();
-      for (const entry of action.data)
-        allSps.add(entry.servicePath.value);
-
-      return Object.assign({}, state, { isLoading: false, sensors: action.data, allSps: allSps, error: false });
+      return Object.assign({}, state, { isLoading: false, sensors: action.data, error: false });
     case types.REQ_SENSORS:
       return Object.assign({}, state, { isLoading: true, error: false });
     default:

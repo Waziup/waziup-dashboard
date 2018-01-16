@@ -1,29 +1,22 @@
 import path from 'path';
 import express from 'express';
 import request from 'request';
-import bodyParser from 'body-parser';
-import fetch from 'node-fetch';
+//import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
-import createFetch from './createFetch';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
-const orionProxy = require('./server/lib/orion-proxy');
-const sensorDataRoute = require('./server/routes/sensorData');
-const kcProxy = require('./server/routes/keycloak/keycloak-admin');
-const session = require('express-session');
-const Keycloak = require('keycloak-connect');
 const cors = require('cors');
 
 //Create app and router
 const app = express();
 
 //use body parser (to decode the body in the request)
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 //Include cors headers responses 
 app.use(cors());
 
