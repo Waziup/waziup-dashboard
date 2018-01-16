@@ -1,7 +1,7 @@
 
 module.exports = {
   // Node.js app
-  port: process.env.PORT || 3000,
+  serverPort: process.env.SERVER_PORT || 3000,
 
   // API Gateway
   api: {
@@ -9,7 +9,7 @@ module.exports = {
     clientUrl: process.env.API_CLIENT_URL || '',
     // API URL to be used in the server-side code
     serverUrl:
-      process.env.API_SERVER_URL || `http://localhost:${process.env.PORT || 3000}`,
+      process.env.API_SERVER_URL || `http://localhost:${process.env.SERVER_PORT || 3000}`,
   },
 
   // Web analytics
@@ -17,9 +17,10 @@ module.exports = {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
   },
 
-  keycloakUrl: 'http://aam.waziup.io/auth',
+  keycloakUrl: 'http://localhost:8080/auth',
   realm: 'waziup',
   clientId: 'dashboard',
-  orionUrl: 'http://broker.waziup.io:80',
-  elasticsearchUrl: 'http://elasticsearch.waziup.io'
+  orionUrl: process.env.ORION_URL   || process.env.REACT_APP_ORION_API || 'http://broker.waziup.io:80',
+  elasticsearchUrl: process.env.ELASTICSEARCH_URL    || 'http://elasticsearch.waziup.io',
+  APIServerUrl: process.env.REACT_APP_APISERVER_URL || 'http://localhost/api'
 };
