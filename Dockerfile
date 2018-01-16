@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 
 COPY ./package.json .
 COPY ./yarn.lock .
-COPY ./src/keycloak.json .
 
 RUN yarn install 
 #--production --no-progress
