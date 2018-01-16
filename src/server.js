@@ -21,7 +21,6 @@ const cors = require('cors');
 
 //Create app and router
 const app = express();
-const router = express.Router();
 
 //use body parser (to decode the body in the request)
 app.use(bodyParser.json());
@@ -35,46 +34,14 @@ global.navigator.userAgent = global.navigator.userAgent || 'all';
 // Serve public folder 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-//Create memory store and session to store user credentials server side
-var memoryStore = new session.MemoryStore();
-app.use(session({
-  secret: 'mySecret',
-  resave: false,
-  saveUninitialized: true,
-  store: memoryStore
-}));
-
-console.log("KC:", config.realm);
-
-//Add keycloak middleware to handle request authentication
-const keycloak = new Keycloak({store: memoryStore},
-                              {serverUrl: config.keycloakUrl,
-                               realm: config.realm,
-                               clientId: config.clientId,
-                               publicClient : true});
-
-console.log("KC:", JSON.stringify(keycloak));
-app.use(keycloak.middleware({
-          logout: '/logout',
-          admin: '/'}));
-
-
-// Install route handlers
-sensorDataRoute.install(router, '/sensorData', keycloak);
-orionProxy     .install(router, '/orion',      keycloak);
-kcProxy        .install(router, '/kcadmin',    keycloak);
-app.use('/api/v1', router);
-
-// Register server-side rendering
-// keycloak protect will redirect to login page if the user is not logged in 
-app.get('*', keycloak.protect(), async (req, res, next) => {
+app.get('*', async (req, res, next) => {
   try {
     const css = new Set();
 
     const data = { };
     data.title = 'WAZIUP';
     data.styles = [{ id: 'css', cssText: [...css].join('') }];
-    data.scripts = [assets.vendor.js, assets.client.js, config.keycloakUrl + '/js/keycloak.js'];
+    data.scripts = [assets.vendor.js, assets.client.js];//, config.keycloakUrl + '/js/keycloak.js'];
     data.app = {
       apiUrl: config.api.clientUrl,
     };
@@ -110,8 +77,8 @@ app.use((err, req, res, next) => {
 
 // Launch the server
 if (!module.hot) {
-  app.listen(config.port, () => {
-    console.info(`The server is running at http://localhost:${config.port}/`);
+  app.listen(config.serverPort, () => {
+    console.info(`The server is running at http://localhost:${config.serverPort}/`);
   });
 }
 
