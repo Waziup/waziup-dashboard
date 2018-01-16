@@ -1,12 +1,8 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import util from '../lib/utils.js';
-
-
-/*process.env.API_SERVER_EXTRA_CONFIG_DIR
-process.env.REACT_APP_KC_URL
-process.env.REACT_APP_ADMIN_USER
-process.env.REACT_APP_ADMIN_PASS*/
+import WaziupApi from 'waziup_api'
+import config from '../config.js'
 
 const settings = {
   baseUrl: 'http://aam.waziup.io/auth',
@@ -15,15 +11,6 @@ const settings = {
   grant_type: 'password',
   client_id: 'admin-cli'
 };
-
-/*
-const settings = {
-  baseUrl: '/api/v1/keycloak',
-  username: 'admin',
-  password: 'KCadminW',
-  grant_type: 'password',
-  client_id: 'admin-cli'
-};*/
 
 function receiveSensors(sensors) {
   return {
@@ -40,24 +27,34 @@ function receiveError(json) {
 };
 
 export const fetchSensors = (perms, service, allFlag) => (dispatch) => {
-  const sps = Array.from(util.getViewServicePaths(perms));
-  //if admin, or if / cases
-  let a = allFlag ? "/#," : ","
 
-  let allSps = sps.reduce((acc, sp) => acc.concat(sp.concat(sp === '/' ? '#' : a)), '');
+  console.log('fetch sensors.');
+  var defaultClient = WaziupApi.ApiClient.instance;
+  defaultClient.basePath = config.APIServerUrl + '/v1'
+  
+  // Configure API key authorization: Bearer
+  var Bearer = defaultClient.authentications['Bearer'];
+  Bearer.apiKey = "YOUR API KEY"
+  // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+  //Bearer.apiKeyPrefix['Authorization'] = "Token"
+  
+  var api = new WaziupApi.SensorsApi()
+  
+  var domain = "waziup"; 
+  
+  
+  var callback = function(error, data, response) {
+    if (error) {
+      console.error(error);
+      dispatch(receiveError(error));
+    } else {
+      console.log('API called successfully.');
+      console.log('data:' + JSON.stringify(data));
+      dispatch(receiveSensors(data));
+    }
+  };
+  api.SensorsGet(domain, null, callback);
 
-  console.log(allSps);
-  //var servicePath = userDetails.ServicePath + (allFlag?"#":"");
-  axios.get('/api/v1/orion/v2/entities',
-    {
-      params: { 'limit': '1000', 'attrs': 'dateModified,dateCreated,servicePath,*' },
-      headers: {
-        'Fiware-ServicePath': allSps,
-        'Fiware-Service': service
-      }
-    })
-    .then((sensors) => dispatch(receiveSensors(sensors.data)))
-    .catch((error) => dispatch(receiveError(error)))
 };
 
 export function selectFarm(farm) {

@@ -9,15 +9,8 @@ class SensorStatus extends Component {
   render() {
     let { rowData } = this.props;
     let now = moment();
-    const dateModified = rowData.dateModified.value;
+    const dateModified = rowData.dateModified;
     const minutes = now.diff(dateModified, 'minutes')
-    /*const diff = <div>
-      DAYS: {now.diff(dateModified, 'days')}
-      <br />
-      HOURS: {now.diff(dateModified, 'hours')}
-      <br />
-      MINUTES: {minutes} </div>*/
-    //<p> {diff}</p>
     return (
       <div>
         {(minutes > 120) ? <p style={{ color: red900 }}><b>INACTIVE</b></p> :

@@ -38,6 +38,7 @@ class Sensors extends Component {
 
   componentDidMount() {
     this.findSetSensors(this.props)
+    console.log('Sensors:' + JSON.stringify(this.props.sensors));
   }
 
   /*componentWillReceiveProps(newProps) {
@@ -89,6 +90,7 @@ class Sensors extends Component {
   }
 
   render() {
+    console.log('Sensors in render:' + JSON.stringify(this.props.sensors));
     const rowDataSelector = (state, { griddleKey }) => {
       return state
         .get('data')
@@ -115,13 +117,13 @@ class Sensors extends Component {
         <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
         {this.props.isLoading === true ?
           <div> Sensors are being loaded ... </div> :
-          <Griddle resultsPerPage={10} data={this.state.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
+          <Griddle resultsPerPage={10} data={this.props.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
             <RowDefinition>
               <ColumnDefinition id="id" title="ID" />
-              <ColumnDefinition id="owner.value" title="Owner" />
+              <ColumnDefinition id="owner" title="Owner" />
               <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)} />
               <ColumnDefinition id="status" title="Status" customComponent={enhancedWithRowData(SensorStatus)} />
-              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)} />
+              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)} /> 
             </RowDefinition>
           </Griddle>
         }
