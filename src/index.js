@@ -91,6 +91,7 @@ function keycloakLogin() {
     }
   }).error(function (error) {
     console.log(error);
+    console.log("Authentication error. Check Keycloak params and cors issues.");
   });
 }
 
