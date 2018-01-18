@@ -48,44 +48,42 @@ class Home extends Component {
 
     if (nextProps.sensors) {
       for (let sensor of nextProps.sensors) {
-        if (!!sensor.location && !!sensor.location.value &&
-          !!sensor.location.value.coordinates) {
-          if (sensor.type === 'Farm') {
-            const c = sensor.location.value.coordinates[0][0]
-            //console.log('getCenter', sensor.location.value.coordinates.getBounds().getCenter());
-            farmsPolygon.push(UTILS.convertLonLatToLatLon(sensor.location.value.coordinates));
-            /*markers.push({
-              position: [c[1], c[0]],
-              name: sensor.name.value,
-              values: UTILS.getFarmData(sensor),
-              defaultAnimation: 2,
-            });
-            
-             <a href={"/farmview/" + sensor.id} >
-             <Link to={"/sensors/" + sensor.id}> {sensor.id} </Link>
-            */
+        if (sensor.location) {
+          //if (sensor.type === 'Farm') {
+          //  const c = sensor.location.value.coordinates[0][0]
+          //  //console.log('getCenter', sensor.location.value.coordinates.getBounds().getCenter());
+          //  farmsPolygon.push(UTILS.convertLonLatToLatLon(sensor.location.value.coordinates));
+          //  /*markers.push({
+          //    position: [c[1], c[0]],
+          //    name: sensor.name.value,
+          //    values: UTILS.getFarmData(sensor),
+          //    defaultAnimation: 2,
+          //  });
+          //  
+          //   <a href={"/farmview/" + sensor.id} >
+          //   <Link to={"/sensors/" + sensor.id}> {sensor.id} </Link>
+          //  */
 
-            /*          var greenIcon = icon({
-                        iconUrl: '../images/leaf-green.png',
-                        shadowUrl: '../images/leaf-shadow.png',
-                        iconSize: [38, 95], // size of the icon
-                        shadowSize: [50, 64], // size of the shadow
-                        iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-                        shadowAnchor: [4, 62],  // the same for the shadow
-                        popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-                      });icon={greenIcon}
-          */
-            markers.push(<Marker key={sensor.id} position={[c[1], c[0]]}>
-              <Popup>
-                <span>
-                  <a onClick={() => this.goTo("/farmview/" + sensor.id)} > {sensor.name.value} </a>
-                  {UTILS.getFarmData(sensor)}
-                </span>
-              </Popup>
-            </Marker>);
-          } else {
-            const c = sensor.location.value.coordinates
-            markers.push(<Marker key={sensor.id} position={[c[1], c[0]]}>
+          //  /*          var greenIcon = icon({
+          //              iconUrl: '../images/leaf-green.png',
+          //              shadowUrl: '../images/leaf-shadow.png',
+          //              iconSize: [38, 95], // size of the icon
+          //              shadowSize: [50, 64], // size of the shadow
+          //              iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
+          //              shadowAnchor: [4, 62],  // the same for the shadow
+          //              popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+          //            });icon={greenIcon}
+          //*/
+          //  markers.push(<Marker key={sensor.id} position={[c[1], c[0]]}>
+          //    <Popup>
+          //      <span>
+          //        <a onClick={() => this.goTo("/farmview/" + sensor.id)} > {sensor.name.value} </a>
+          //        {UTILS.getFarmData(sensor)}
+          //      </span>
+          //    </Popup>
+          //  </Marker>);
+          //} else {
+          markers.push(<Marker key={sensor.id} position={[sensor.location.latitude, sensor.location.longitude]}>
               <Popup>
                 <span>
                   <a onClick={() => this.goTo("/sensors/" + sensor.id)} > {sensor.id}</a>
@@ -94,10 +92,10 @@ class Home extends Component {
               </Popup>
             </Marker>);
           }
-        }
+        
 
         this.setState({ markers: markers })
-        this.setState({ farmsPolygon: farmsPolygon })
+        //this.setState({ farmsPolygon: farmsPolygon })
       }
     }
   }
