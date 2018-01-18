@@ -30,15 +30,14 @@ class sensorDetail extends Component {
 
   findSensorSetMarkers(props) {
     var sensor = props.sensors.find((el) => (el.id === props.params.sensorId));
+    console.log("details:" + JSON.stringify(sensor))
     this.setState({ sensor: sensor });
     var markers = [];
-    if (!!sensor &&
-      !!sensor.location &&
-      !!sensor.location.value.coordinates) {
+    if (sensor && sensor.location) {
       markers.push({
         position: [
-          sensor.location.value.coordinates[1],
-          sensor.location.value.coordinates[0]
+          sensor.location.latitude,
+          sensor.location.longitude
         ],
         defaultAnimation: 2,
       });
@@ -82,12 +81,9 @@ class sensorDetail extends Component {
       }
 
       const attributes = UTIL.getMeasurements(this.state.sensor).map(itemID => itemID.key);
-      const dateCreated = !!this.state.sensor.dateCreated ? fd(this.state.sensor.dateCreated.value) :
-        'NA';
-      const dateModified = !!this.state.sensor.dateModified ? fd(this.state.sensor.dateModified.value) :
-        'NA';
-      const sp = !!this.state.sensor.servicePath ? this.state.sensor.servicePath.value :
-        'NA';
+      const dateCreated = this.state.sensor.dateCreated ? fd(this.state.sensor.dateCreated.value) : 'NA';
+      const dateModified = this.state.sensor.dateModified ? fd(this.state.sensor.dateModified.value) : 'NA';
+      const domain = this.state.sensor.domain ? this.state.sensor.domain : 'NA';
 
       const service = this.props.user.Service;
       //
@@ -97,20 +93,19 @@ class sensorDetail extends Component {
           <h1 className="page-title">Sensor: {this.state.sensor.id}</h1>
           <Card>
             <CardTitle title="Historical Graph" />
-            <SensorChart attributes={attributes} sensorid={this.state.sensor.id} service={this.props.user.service} servicePath={sp} />
+            {/*<SensorChart attributes={attributes} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />*/}
             <CardTitle title="Sensor Details" />
             <CardText>
               <List>
                 <h3> Last sensor reading was at {dateModified} with the following attributes:</h3>
-                {UTIL.getMeasurements(this.state.sensor).map((itemID) => {
-                  return (
-                    <ListItem key={itemID.key} primaryText={itemID.key + ": " +
-                    itemID.value} />
-                  )
-                })}
+                { 
+                  this.state.sensor.measurements.map(meas => {
+                    return ( <ListItem key={meas.id} primaryText={meas.name + ": " + meas.values[0].value + " " + meas.unit} /> )
+                  })
+                }
                 <br />
                 <ListItem primaryText={"Creation Date: " + dateCreated} />
-                <ListItem primaryText={"Service Path: " + sp} />
+                <ListItem primaryText={"Domain: " + domain} />
               </List>
             </CardText>
             {sensorMap}
