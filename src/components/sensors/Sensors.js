@@ -37,13 +37,14 @@ class Sensors extends Component {
   }
 
   componentDidMount() {
+    this.props.loadSensors(this.state.isAllSensors, this.props.user);
     this.findSetSensors(this.props)
     console.log('Sensors:' + JSON.stringify(this.props.sensors));
   }
 
-  /*componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps) {
     this.findSetSensors(newProps)
-  }*/
+  }
 
   handleSensorDelete = (sensor) => {
     console.log("delete:" + JSON.stringify(sensor));
@@ -90,7 +91,6 @@ class Sensors extends Component {
   }
 
   render() {
-    console.log('Sensors in render:' + JSON.stringify(this.props.sensors));
     const rowDataSelector = (state, { griddleKey }) => {
       return state
         .get('data')
@@ -109,6 +109,7 @@ class Sensors extends Component {
       };
     });
     //FIXME: checkbox should be set according to initial state as well
+    console.log('Sensors in render:' + JSON.stringify(this.props.sensors));
     return (
       <Container fluid={true}>
         <h1 className="page-title">Sensors</h1>
@@ -123,7 +124,7 @@ class Sensors extends Component {
               <ColumnDefinition id="owner" title="Owner" />
               <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)} />
               <ColumnDefinition id="status" title="Status" customComponent={enhancedWithRowData(SensorStatus)} />
-              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)} /> 
+              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)} />
             </RowDefinition>
           </Griddle>
         }
