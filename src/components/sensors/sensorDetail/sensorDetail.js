@@ -93,7 +93,7 @@ class sensorDetail extends Component {
           <h1 className="page-title">Sensor: {this.state.sensor.id}</h1>
           <Card>
             <CardTitle title="Historical Graph" />
-            {/*<SensorChart attributes={attributes} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />*/}
+            <SensorChart measurements={this.state.sensor.measurements} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />
             <CardTitle title="Sensor Details" />
             <CardText>
               <List>
