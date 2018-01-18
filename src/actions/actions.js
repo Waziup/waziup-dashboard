@@ -12,6 +12,17 @@ const settings = {
   client_id: 'admin-cli'
 };
 
+var defaultClient = WaziupApi.ApiClient.instance;
+defaultClient.basePath = config.APIServerUrl + '/v1'
+
+// Configure API key authorization: Bearer
+var Bearer = defaultClient.authentications['Bearer'];
+Bearer.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//Bearer.apiKeyPrefix['Authorization'] = "Token"
+
+var api = new WaziupApi.SensorsApi()
+
 function receiveSensors(sensors) {
   return {
     type: types.RECV_SENSORS,
@@ -28,32 +39,16 @@ function receiveError(json) {
 
 export const fetchSensors = (perms, service, allFlag) => (dispatch) => {
 
-  console.log('fetch sensors.');
-  var defaultClient = WaziupApi.ApiClient.instance;
-  defaultClient.basePath = config.APIServerUrl + '/v1'
-  
-  // Configure API key authorization: Bearer
-  var Bearer = defaultClient.authentications['Bearer'];
-  Bearer.apiKey = "YOUR API KEY"
-  // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-  //Bearer.apiKeyPrefix['Authorization'] = "Token"
-  
-  var api = new WaziupApi.SensorsApi()
-  
   var domain = "waziup"; 
-  
   
   var callback = function(error, data, response) {
     if (error) {
-      console.error(error);
       dispatch(receiveError(error));
     } else {
-      console.log('API called successfully.');
-      console.log('data:' + JSON.stringify(data));
       dispatch(receiveSensors(data));
     }
   };
-  api.SensorsGet(domain, null, callback);
+  api.getSensors(domain, null, callback);
 
 };
 
@@ -64,25 +59,18 @@ export function selectFarm(farm) {
   }
 };
 
-
-export function createSensor(sensor, service, servicePath) {
+export function createSensor(sensor) {
   return function (dispatch) {
-    dispatch({ type: types.CREATE_SENSOR_START });
-    return axios.post('/api/v1/orion/v2/entities', sensor, {
-      headers: {
-        'content-type': 'application/json',
-        'fiware-servicepath': servicePath,
-        'fiware-service': service,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        dispatch(createSensorSuccess(response.data));
-      })
-      .catch(function (response) {
-        console.log(response);
-        dispatch(createSensorError(response.data));
-      })
+  var domain = "waziup"; 
+  
+  var callback = function(error, data, response) {
+    if (error) {
+      dispatch(createSensorError(error));
+    } else {
+      dispatch(createSensorSuccess(data));
+    }
+  };
+  api.addSensor(sensor, domain, callback);
   }
 };
 

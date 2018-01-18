@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import Sensors from './Sensors.js';
 import { updateSensorSuccess } from '../../actions/actions';
-import { createSensor, loadSensors, deleteSensor, updateSensorLocation, updateSensorOwner } from '../../api-adapter';
+import { loadSensors, deleteSensor, updateSensorLocation, updateSensorOwner } from '../../api-adapter';
+import { createSensor } from '../../actions/actions.js';
 
 function mapStateToProps(state) {
   return {
@@ -14,7 +15,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     updateSensorSuccess: (sensor) => { dispatch(updateSensorSuccess(sensor)) },
-    createSensor: (sensorId, sensorType, sensorLon, sensorLat, user) => {dispatch(createSensor(sensorId, sensorType, sensorLon, sensorLat, user)) }, 
+    createSensor: (sensor) => {dispatch(createSensor(sensor)) }, 
     loadSensors: (isAllSensors, user) => {dispatch(loadSensors(isAllSensors, user)) },
     deleteSensor: (sensorId, servicePath, user) => {dispatch(deleteSensor(sensorId, servicePath, user)) },
     updateSensorLocation: (sensorId, sensorLon, sensorLat, servicePath, user) => {dispatch(updateSensorLocation(sensorId, sensorLon, sensorLat, servicePath, user)) },

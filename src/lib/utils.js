@@ -92,7 +92,6 @@ const UTIL = {
     return returnValue;
   },
   getSensorData: function (sensor) {
-    console.log("getSensorData:" + JSON.stringify(sensor))
     var returnValue = [];
     for (let meas of sensor.measurements) {
       returnValue.push(

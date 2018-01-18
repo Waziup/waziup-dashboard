@@ -95,27 +95,11 @@ export const updateFarm = (field, farmId, service) => (dispatch) => {
 
 // Create a sensor with the given parameters.
 // the user's service and servicePath will be used.
-export const createSensor = (values, user) => (dispatch) => {
+export const createSensor = (sensor, user) => (dispatch) => {
   //console.log("create sensor");
   //console.log("user", JSON.stringify(user));
   
-  var sensor = {
-    id: values.sensorId,
-    type: values.sensorType,
-    location: {
-      value: {
-        type: "Point",
-        coordinates: [values.sensorLon, values.sensorLat]
-      },
-      type: "geo:json"
-    },
-    owner: {
-      type: "string",
-      value: user.preferred_username
-    },
-  };
-
-  dispatch(actions.createSensor(sensor, user.Service, values.servicePath));
+  dispatch(actions.createSensor(sensor));
 }
 
 // selectFarm 

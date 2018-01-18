@@ -10,40 +10,22 @@ import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
 import { createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../api-adapter.js"
+import Waziup from 'waziup_api'
+
 
 class Sensors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sensors: [],
-      formData: {},
       update: false,
       modalOpen: false,
-      isLoading: false,
       loadAll: false,
       isAllSensors: true
     };
   }
 
-  findSetSensors(props) {
-    const sensors = props.sensors.filter(el => (el.type === 'SensingDevice'));
-
-    if (!!sensors)
-      this.setState({ sensors: sensors });
-    else
-      this.setState({ sensors: [] });
-
-    this.setState({ isLoading: props.isLoading })
-  }
-
   componentDidMount() {
     this.props.loadSensors(this.state.isAllSensors, this.props.user);
-    this.findSetSensors(this.props)
-    console.log('Sensors:' + JSON.stringify(this.props.sensors));
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.findSetSensors(newProps)
   }
 
   handleSensorDelete = (sensor) => {
@@ -55,7 +37,6 @@ class Sensors extends Component {
   handleSensorUpdate = (data) => {
     this.props.updateSensorSuccess(data);
     this.setState({ update: true });
-    this.setState({ formData: data });
     this.setState({ modalOpen: true });
   }
 
@@ -65,8 +46,8 @@ class Sensors extends Component {
   }
 
   handleClose = () => {
-    this.setState({ formData: {} });
     this.setState({ modalOpen: false });
+    this.props.loadSensors(this.state.isAllSensors, this.props.user);
   }
 
   handleSubmitUpdate = (sensor) => {
@@ -76,18 +57,13 @@ class Sensors extends Component {
     this.props.loadSensors(this.state.isAllSensors, this.props.user);
   }
 
-  //console.log("idTokenParsed", JSON.stringify(this.props.user));
-  handleSubmit = (sensor) => {
-    //console.log("handle submit", JSON.stringify(sensor));
-
-    this.props.createSensor(sensor, this.props.user);
+  handleSubmit = (formData) => {
+   
+    var sensor = new Waziup.Sensor(formData.sensorId);
+    sensor.location = {latitude: formData.sensorLat, longitude: formData.sensorLon}
+    sensor.owner = this.props.user.preferred_username;
+    this.props.createSensor(sensor);
     this.props.loadSensors(this.state.isAllSensors, this.props.user);
-  }
-
-  handleChangeAllSensors = (event) => {
-    console.log("change");
-    this.props.loadSensors(event.target.checked, this.props.user);
-    this.setState({ isAllSensors: event.target.checked });
   }
 
   render() {
@@ -108,16 +84,13 @@ class Sensors extends Component {
         vectorAction: this.handleVectorSave
       };
     });
-    //FIXME: checkbox should be set according to initial state as well
-    console.log('Sensors in render:' + JSON.stringify(this.props.sensors));
     return (
       <Container fluid={true}>
         <h1 className="page-title">Sensors</h1>
-        <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => { this.setState({ formData: {} }); this.handleOpen(); }} />
-        <Checkbox label="All Sensors" onCheck={(evt) => { this.handleChangeAllSensors(evt) }} />
+        <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => { this.handleOpen(); }} />
         <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
-        {this.props.isLoading === true ?
-          <div> Sensors are being loaded ... </div> :
+        {//this.props.isLoading === true ?
+         // <div> Sensors are being loaded ... </div> :
           <Griddle resultsPerPage={10} data={this.props.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
             <RowDefinition>
               <ColumnDefinition id="id" title="ID" />
