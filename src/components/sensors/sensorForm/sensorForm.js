@@ -94,23 +94,7 @@ class sensorForm extends Component {
                   floatingLabelText="Sensor Id"
                   ref="sensorId" withRef/>
               </Col>
-              <Col md={4} offset={{md:2}}>
-                <Field
-                  name="sensorType"
-                  component={SelectField}
-                  hintText="Sensor Type"
-                  floatingLabelText="Sensor Type">
-                  <MenuItem value="SensingDevice" primaryText="Sensing Device"/>
-                  <MenuItem value="Device" primaryText="Device"/>
-                </Field>
-                <Field
-                  name="servicePath"
-                  component={TextField}
-                  hintText="Sensor path (optional)"
-                  floatingLabelText="Service Path (optional)"
-                  ref="servicePath" withRef/>
-              </Col>
-              </Row>
+            </Row>
           </form>
         </Dialog>
       );
@@ -126,11 +110,9 @@ sensorForm = reduxForm({
 export default connect(
   state => ({
     initialValues: {
-        "sensorLon": state.sensor.sensor.location? state.sensor.sensor.location.value.coordinates[0]:position[0],
-        "sensorLat": state.sensor.sensor.location? state.sensor.sensor.location.value.coordinates[1]:position[1],
-        "sensorId": state.sensor.sensor.id,
-        "sensorType": state.sensor.sensor.type,
-        "servicePath": state.sensor.sensor.servicePath? state.sensor.sensor.servicePath.value: '/' 
+        "sensorLon": state.sensor.location? state.sensor.location.value.coordinates[0]:position[0],
+        "sensorLat": state.sensor.location? state.sensor.location.value.coordinates[1]:position[1],
+        "sensorId": state.sensor.id
     }
   })
 )(sensorForm);

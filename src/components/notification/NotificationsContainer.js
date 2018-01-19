@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import notification from './Notifications.js';
-import { loadNotifs, deleteNotif, loadSensors, createNotif } from '../../api-adapter';
+import { loadNotifs, deleteNotif, createNotif } from '../../api-adapter';
+import { fetchSensors } from '../../actions/actions.js';
 
 
 function mapStateToProps(state) {
@@ -14,7 +15,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
    return {
       loadNotifs: (user) => {dispatch(loadNotifs(user)) }, 
-      loadSensors: (isAllSensors, user) => {dispatch(loadSensors(isAllSensors, user)) },
+      fetchSensors: () => {dispatch(fetchSensors()) },
       deleteNotif: (id, user) => {dispatch(deleteNotif(id, user)) },
       createNotif: (desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling, user) => {dispatch(createNotif(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling, user)) }, 
    }

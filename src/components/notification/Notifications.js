@@ -21,7 +21,7 @@ export default class Notifications extends Component {
   }
 
   componentWillMount() {
-    this.props.loadSensors(true, this.props.user);
+    this.props.fetchSensors();
     this.props.loadNotifs(this.props.user);
   }
 

@@ -19,20 +19,19 @@ class Sensors extends Component {
     this.state = {
       update: false,
       modalOpen: false,
-      loadAll: false,
-      isAllSensors: true
+      loadAll: false
     };
   }
 
   componentDidMount() {
-    this.props.loadSensors(this.state.isAllSensors, this.props.user);
+    this.props.fetchSensors();
   }
 
   handleSensorDelete = (sensor) => {
-    console.log("delete:" + JSON.stringify(sensor));
-    this.props.deleteSensor(sensor.id, sensor.servicePath.value, this.props.user);
-    this.props.loadSensors(this.state.isAllSensors, this.props.user);
-  }
+    console.info("delete:" + JSON.stringify(sensor));
+    this.props.deleteSensor(sensor.id);
+    this.props.fetchSensors();
+  } 
 
   handleSensorUpdate = (data) => {
     this.props.updateSensorSuccess(data);
@@ -47,23 +46,22 @@ class Sensors extends Component {
 
   handleClose = () => {
     this.setState({ modalOpen: false });
-    this.props.loadSensors(this.state.isAllSensors, this.props.user);
+    this.props.fetchSensors();
   }
 
-  handleSubmitUpdate = (sensor) => {
-    console.log("update:", sensor);
-    this.props.updateSensorLocation(sensor, this.props.user);
-    this.props.updateSensorOwner(sensor.sensorId, sensor.servicePath, this.props.user);
-    this.props.loadSensors(this.state.isAllSensors, this.props.user);
+  handleSubmitUpdate = (formData) => {
+    console.log("sensor update:", formData);
+    this.props.updateSensorLocation(formData.sensorId, new Waziup.Location(formData.sensorLat, formData.sensorLon));
+    this.props.updateSensorOwner(sensor.sensorId, this.props.user.preferred_username);
+    this.props.fetchSensors();
   }
 
   handleSubmit = (formData) => {
-   
     var sensor = new Waziup.Sensor(formData.sensorId);
     sensor.location = {latitude: formData.sensorLat, longitude: formData.sensorLon}
     sensor.owner = this.props.user.preferred_username;
     this.props.createSensor(sensor);
-    this.props.loadSensors(this.state.isAllSensors, this.props.user);
+    this.props.fetchSensors();
   }
 
   render() {

@@ -1,5 +1,5 @@
 import deepForceUpdate from 'react-deep-force-update';
-import keycloakLogin from './index';
+import { keycloakLogin } from './index';
 import history from './history';
 
 /* eslint-disable global-require */

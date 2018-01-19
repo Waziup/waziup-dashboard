@@ -1,18 +1,13 @@
 import { connect } from 'react-redux';
 import sensorDetail from './sensorDetail.js';
-import { loadSensors } from "../../../api-adapter.js"
+import { fetchSensors } from "../../../actions/actions.js"
 
 function mapStateToProps(state) {
     return {
-      sensors: state.sensors.sensors,
+      sensors: state.sensors,
       user: state.keycloak.idTokenParsed
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        loadSensors: (isAllSensors, user) => {dispatch(loadSensors(isAllSensors, user)) },
-    }
-}
-const sensorDetailContainer = connect(mapStateToProps, mapDispatchToProps)(sensorDetail);
+const sensorDetailContainer = connect(mapStateToProps)(sensorDetail);
 export default sensorDetailContainer;

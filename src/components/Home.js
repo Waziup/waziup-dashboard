@@ -5,7 +5,7 @@ import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import { Container } from 'react-grid-system'
 import { ToastContainer, ToastMessage } from "react-toastr"
 import { connect } from 'react-redux';
-import { loadSensors } from "../api-adapter.js"
+import { fetchSensors } from "../actions/actions.js"
 import UTILS from '../lib/utils.js';
 import { icon } from 'leaflet';
 import { browserHistory } from 'react-router';
@@ -104,7 +104,7 @@ class Home extends Component {
     if (this.props.user) {
       this.setState({ user: this.props.user });
     }
-    this.props.loadSensors(this.state.isAllSensors, this.state.user);
+    this.props.fetchSensors();
   }
 
   /*componentDidMount(prevProps, prevState) {
@@ -112,7 +112,7 @@ class Home extends Component {
   }*/
 
   handleChangeAllSensors(event) {
-    this.props.loadSensors(event.target.checked, this.state.user);
+    this.props.fetchSensors(event.target.checked, this.state.user);
     this.setState({ isAllSensors: event.target.checked });
   }
 
@@ -159,7 +159,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadSensors: (isAllSensors, user) => { dispatch(loadSensors(isAllSensors, user)) }
+    fetchSensors: () => { dispatch(fetchSensors()) }
   };
 }
 

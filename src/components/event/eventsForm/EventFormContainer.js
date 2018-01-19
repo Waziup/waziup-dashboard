@@ -3,8 +3,7 @@ import EventForm from './EventForm.js';
 
 function mapStateToProps(state) {
     return {
-        sensor: state.sensor.sensor,
-        farm: state.farm.farm
+        sensor: state.sensor
     }
 }
 

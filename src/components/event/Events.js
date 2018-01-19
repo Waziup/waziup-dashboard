@@ -9,6 +9,7 @@ import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
 import { loadSensors, updateSensorFarmAction } from "../../api-adapter.js"
+import { fetchSensors } from "../../actions/actions.js"
 import SensorActions from '../sensors/SensorActions.js'
 
 class Events extends Component {
@@ -64,7 +65,7 @@ class Events extends Component {
   handleSubmit = (values) => {
     console.log(values);
     updateSensorFarmAction(values.recordId, values.recordType, values.recordQuantity, values.recordDescription);
-    loadSensors(this.state.isAllSensors);
+    fetchSensors();
   }
 
   render() {

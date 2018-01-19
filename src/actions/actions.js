@@ -3,6 +3,7 @@ import axios from 'axios'
 import util from '../lib/utils.js';
 import WaziupApi from 'waziup_api'
 import config from '../config.js'
+import {store} from '../index.js'
 
 const settings = {
   baseUrl: 'http://aam.waziup.io/auth',
@@ -16,151 +17,60 @@ var defaultClient = WaziupApi.ApiClient.instance;
 defaultClient.basePath = config.APIServerUrl + '/v1'
 
 // Configure API key authorization: Bearer
-var Bearer = defaultClient.authentications['Bearer'];
-Bearer.apiKey = "YOUR API KEY"
+//var Bearer = defaultClient.authentications['Bearer'];
+//Bearer.apiKey = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJVU3dXNUFOeTk4ZU5WdzltaXVlUnc4YUFsZktnV1lfTnNndmJxU05ualJJIn0.eyJqdGkiOiJmMDY2MTk4Ni0wYzhiLTQ4ZDItODAwNi00NjExYTRkNDMzN2EiLCJleHAiOjE1MTYzODIxMzgsIm5iZiI6MCwiaWF0IjoxNTE2MzY0MTM4LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA4MC9hdXRoL3JlYWxtcy93YXppdXAiLCJhdWQiOiJhcGktc2VydmVyIiwic3ViIjoiMmVjZmFlMjQtZjM0MC00YWQwLWExMmUtMDJjZGM2MGNkOGJhIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYXBpLXNlcnZlciIsImF1dGhfdGltZSI6MCwic2Vzc2lvbl9zdGF0ZSI6ImE2NjE2ZDc1LTkyMGItNDQxZi1iNTk3LTA2ZWE5OGQxYTAzYyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsicmVnaXN0ZXJlZF91c2VyIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJmYWNlYm9vayI6InRzdCIsIm5hbWUiOiJ0ZXN0IHRlc3QiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjZHVwb250IiwiZ2l2ZW5fbmFtZSI6InRlc3QiLCJmYW1pbHlfbmFtZSI6InRlc3QiLCJlbWFpbCI6ImNkdXBvbnRAZmJrLmV1In0.LMdM9AUcrCJ50lUtLdGltF66Tv60cunx6UbwTt7MxNnXHepXIYBenJ8k869vEstn90lb75Lbqh2JK6t17B6uvaCPDZzJdUtjto6RlWYBfDq5PkQ97ms96RX_Eq8nqaqZuxM6Fd5jrJkGgf1k8mhtqdSg7P26T-YLtFh4dQD81AAkaZ7JLUsnQXqtapAhVm1yBTrrpJJ80dyYaTRY5thcsgC88W3wbuBqKfGndj0nYd4dnULMP4I-jDeLFMmjRpyNV3o01ZgIJc3D40TyZc3Cjll0Ioiam0hbKFRAt2BxKgnxqbZWnPMIo0YF0yJzffkfwEkvf_oW5LA9LNyk5pfOZA"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//Bearer.apiKeyPrefix['Authorization'] = "Token"
+//Bearer.apiKeyPrefix['Authorization'] = "Bearer"
 
 var api = new WaziupApi.SensorsApi()
 
-function receiveSensors(sensors) {
-  return {
-    type: types.RECV_SENSORS,
-    data: sensors
-  }
-};
 
-function receiveError(json) {
-  return {
-    type: types.RECV_ERROR,
-    data: json
-  }
-};
-
-export const fetchSensors = (perms, service, allFlag) => (dispatch) => {
-
-  var domain = "waziup"; 
-  
+function myCallback(success, error, dispatch) {
   var callback = function(error, data, response) {
     if (error) {
-      dispatch(receiveError(error));
+      dispatch({type: error, data: error});
     } else {
-      dispatch(receiveSensors(data));
+      dispatch({type: success, data: data});
     }
   };
-  api.getSensors(domain, null, callback);
+  return callback;
+}
 
-};
-
-export function selectFarm(farm) {
-  return {
-    type: types.SELECT_FARM,
-    farm: farm
-  }
+export function fetchSensors() {
+  return function (dispatch) {
+    var domain = "waziup"; 
+    api.getSensors(domain, null, myCallback(types.RECV_SENSORS, types.RECV_ERROR, dispatch));
+    }
 };
 
 export function createSensor(sensor) {
   return function (dispatch) {
-  var domain = "waziup"; 
-  
-  var callback = function(error, data, response) {
-    if (error) {
-      dispatch(createSensorError(error));
-    } else {
-      dispatch(createSensorSuccess(data));
-    }
-  };
-  api.addSensor(sensor, domain, callback);
+    var domain = "waziup"; 
+    api.addSensor(sensor, domain, myCallback(types.CREATE_SENSOR_SUCCESS, types.CREATE_SENSOR_ERROR, dispatch));
   }
 };
 
-export function createSensorSuccess(json) {
-  return {
-    type: types.CREATE_SENSOR_SUCCESS,
-    data: json
-  }
-};
-
-export function createSensorError(json) {
-  return {
-    type: types.CREATE_SENSOR_ERROR,
-    data: json
-  }
-};
-export function updateSensorAttributes(sensorId, update, service, servicePath) {
+export function updateSensorLocation(sensorId, location) {
   return function (dispatch) {
-    return axios.post('/api/v1/orion/v2/entities/' + sensorId + '/attrs', update, {
-      headers: {
-        'content-type': 'application/json',
-        'fiware-servicepath': servicePath,
-        'fiware-service': service,
-      }
-    })
-      .then(function (response) {
-        console.log(response);
-        //status 204 means OK
-        dispatch(updateSensorSuccess(response.data));
-      })
-      .catch(function (response) {
-        console.log(response);
-        dispatch(updateSensorError(response.data));
-      })
+    var domain = "waziup"; 
+    api.putSensorLocation(domain, sensorId, location, myCallback(types.UPDATE_SENSOR_SUCCESS, types.UPDATE_SENSOR_ERROR, dispatch));
   }
 };
 
-export function updateSensorStart(json) {
-  return {
-    type: types.UPDATE_SENSOR_START,
-    data: json
-  }
-};
-
-export function updateSensorSuccess(json) {
-  return {
-    type: types.UPDATE_SENSOR_SUCCESS,
-    data: json
-  }
-};
-
-export function updateSensorError(json) {
-  return {
-    type: types.UPDATE_SENSOR_ERROR,
-    data: json
-  }
-};
-
-export function deleteSensor(sensorId, service, servicePath) {
+export function updateSensorOwner(sensorId, owner) {
   return function (dispatch) {
-    dispatch({ type: types.DELETE_SENSOR_START });
-    return axios.delete('/api/v1/orion/v2/entities/' + sensorId, {
-      headers: {
-        'content-type': 'application/json',
-        'fiware-servicepath': servicePath,
-        'fiware-service': service,
-      },
-    })
-      .then(function (response) {
-        console.log(response);
-        dispatch(deleteSensorSuccess(response.data));
-      })
-      .catch(function (response) {
-        console.log(response);
-        dispatch(deleteSensorError(response.data));
-      })
-  }
-
-};
-export function deleteSensorSuccess(json) {
-  return {
-    type: types.DELETE_SENSOR_SUCCESS,
-    data: json
+    var domain = "waziup"; 
+    api.putSensorOwner(domain, sensorId, owner, myCallback(types.UPDATE_SENSOR_SUCCESS, types.UPDATE_SENSOR_ERROR, dispatch));
   }
 };
 
-export function deleteSensorError(json) {
-  return {
-    type: types.DELETE_SENSOR_ERROR,
-    data: json
+export function deleteSensor(sensorId) {
+  return function (dispatch) {
+    console.log("store:" +Object.getOwnPropertyNames(store)) 
+    console.log("store:" + JSON.stringify(store.getState().keycloak.token))
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    api.deleteSensor(domain, sensorId, myCallback(types.DELETE_SENSOR_SUCCESS, types.DELETE_SENSOR_ERROR, dispatch));
   }
 };
 

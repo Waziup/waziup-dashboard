@@ -19,11 +19,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { loadSensors } from "./api-adapter.js"
+import { fetchSensors } from "./actions/actions.js"
 
 injectTapEventPlugin();
 
-const store = configureStore();
+export const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 //Define app routes
@@ -62,7 +62,7 @@ function displayPage() {
 
 //Perform the keycloak authentication 
 //to get user infos on client side
-function keycloakLogin() {
+export function keycloakLogin() {
 
   var keycloak = Keycloak({
     url: config.keycloakUrl,
@@ -79,7 +79,7 @@ function keycloakLogin() {
         success(function (refreshed) {
           //if (refreshed) { alert('Token was successfully refreshed'); }
           //else { alert('Token is still valid'); }
-          loadSensors(true, keycloak.userInfo);
+          fetchSensors();
         }).
         error(function () {
           alert('Failed to refresh the token, or the session has expired');
@@ -95,4 +95,3 @@ function keycloakLogin() {
   });
 }
 
-export default keycloakLogin;

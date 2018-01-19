@@ -2,7 +2,6 @@ import * as types from '../actions/actionTypes';
 import { combineReducers } from 'redux'; //might need to remove
 import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
-//import { REHYDRATE } from 'redux-persist/constants'
 
 function sensorListReducer(state = { isLoading: false, sensors: [], allSps: [], error: false, errMsg:'' }, action = null) {
   switch (action.type) {
@@ -114,22 +113,6 @@ function farmReducer(state = { farm: {} }, action = null) {
       return state;
   }
 };
-
-
-
-/*
-function myReducer(state = {}, action = null) {
-  switch (action) {
-    case REHYDRATE:
-      var incoming = action.payload.myReducer
-      if (incoming) 
-        return { ...state, ...incoming, specialKey: processSpecial(incoming.specialKey) }
-      return state
-    default:
-      return state;
-  }
-}  myReducer: myReducer,
-*/
 
 const rootReducer = combineReducers({
   routing: routerReducer,
