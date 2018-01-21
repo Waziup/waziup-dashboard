@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'; //might need to remove
 import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
 
-function sensorListReducer(state = { isLoading: false, sensors: [], allSps: [], error: false, errMsg:'' }, action = null) {
+function sensorListReducer(state = { isLoading: false, sensors: [], error: false, errMsg:'' }, action = null) {
   switch (action.type) {
     case types.RECV_ERROR:
       return Object.assign({}, state, { isLoading: false, errMsg: action.data, error: true });
