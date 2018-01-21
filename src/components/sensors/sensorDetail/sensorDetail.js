@@ -13,25 +13,24 @@ class sensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sensor: {},
-      markers: [],
+      sensor: null,
       isLoading: true,
     };
   }
 
   componentDidMount() {
-    this.findSensorSetMarkers(this.props);
+    this.props.fetchSensors();
+    var sensor = this.props.sensors.find((el) => (el.id === this.props.params.sensorId));
+    this.setState({sensor: sensor});
     this.setState({ isLoading: false });
   }
 
   componentWillReceiveProps(nextProps) {
-    this.findSensorSetMarkers(nextProps);
+    var sensor = this.props.sensors.find((el) => (el.id === this.props.params.sensorId));
+    this.setState({sensor: sensor});
   }
 
-  findSensorSetMarkers(props) {
-    var sensor = props.sensors.find((el) => (el.id === props.params.sensorId));
-    console.log("details:" + JSON.stringify(sensor))
-    this.setState({ sensor: sensor });
+  getMarkers(sensor) {
     var markers = [];
     if (sensor && sensor.location) {
       markers.push({
@@ -44,20 +43,21 @@ class sensorDetail extends Component {
       position = markers[0].position;
     }
 
-    this.setState({ markers: markers })
+    return markers
+  }
+  
+  formatDate(d) {
+    return new moment(d).tz(moment.tz.guess()).format('H:mm a z MMMM Do YYYY')
   }
 
   render() {
-    function fd(d) {
-      return new moment(d).tz(moment.tz.guess()).format('H:mm a z MMMM Do YYYY')
-      //return new moment(tick).tz(moment.tz.guess()).format('');MMMM Do YYYY H:mm a z
-    }
     let renderElement = <h1> Sensor View is being loaded... </h1>;
-
-    if (this.state.isLoading === false) {
+    console.log("sens:" + JSON.stringify(this.state.sensor))
+    if (this.state.sensor) {
+      let markers = this.getMarkers(this.state.sensor);
       let sensorMap;
-      if (this.state.markers.length > 0) {
-        const listMarkers = this.state.markers.map((marker, index) =>
+      if (markers.length > 0) {
+        const listMarkers = markers.map((marker, index) =>
           <Marker key={index} position={marker.position}>
             <Popup>
               <span>Sensor Position <br /> {marker.position} </span>
@@ -81,19 +81,26 @@ class sensorDetail extends Component {
       }
 
       const attributes = UTIL.getMeasurements(this.state.sensor).map(itemID => itemID.key);
-      const dateCreated = this.state.sensor.dateCreated ? fd(this.state.sensor.dateCreated.value) : 'NA';
-      const dateModified = this.state.sensor.dateModified ? fd(this.state.sensor.dateModified.value) : 'NA';
+      const dateCreated = this.state.sensor.dateCreated ? this.formatDate(this.state.sensor.dateCreated.value) : 'NA';
+      const dateModified = this.state.sensor.dateModified ? this.formatDate(this.state.sensor.dateModified.value) : 'NA';
       const domain = this.state.sensor.domain ? this.state.sensor.domain : 'NA';
 
       const service = this.props.user.Service;
-      //
+
+      let historyGraph = null
+      if (this.state.sensor.measurements && this.state.sensor.measurements.length > 0) {
+        historyGraph = <SensorChart measurements={this.state.sensor.measurements} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />
+      } else {
+        historyGraph = <CardText> <h3> No history.</h3> </CardText>
+      }
+      
 
       renderElement =
         <Container fluid={true}>
           <h1 className="page-title">Sensor: {this.state.sensor.id}</h1>
           <Card>
             <CardTitle title="Historical Graph" />
-            <SensorChart measurements={this.state.sensor.measurements} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />
+            { historyGraph }
             <CardTitle title="Sensor Details" />
             <CardText>
               <List>

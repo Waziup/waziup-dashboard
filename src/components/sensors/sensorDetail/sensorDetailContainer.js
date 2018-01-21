@@ -9,5 +9,11 @@ function mapStateToProps(state) {
     }
 }
 
-const sensorDetailContainer = connect(mapStateToProps)(sensorDetail);
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchSensors: () => {dispatch(fetchSensors()) }
+  };
+}
+
+const sensorDetailContainer = connect(mapStateToProps, mapDispatchToProps)(sensorDetail);
 export default sensorDetailContainer;
