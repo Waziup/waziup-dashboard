@@ -4,7 +4,7 @@ import { fetchSensors } from "../../../actions/actions.js"
 
 function mapStateToProps(state) {
     return {
-      sensors: state.sensors,
+      sensors: state.sensors.sensors,
       user: state.keycloak.idTokenParsed
     }
 }
