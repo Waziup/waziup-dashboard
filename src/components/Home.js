@@ -5,7 +5,7 @@ import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import { Container } from 'react-grid-system'
 import { ToastContainer, ToastMessage } from "react-toastr"
 import { connect } from 'react-redux';
-import { fetchSensors } from "../actions/actions.js"
+import { getSensors } from "../actions/actions.js"
 import UTILS from '../lib/utils.js';
 import { icon } from 'leaflet';
 import { browserHistory } from 'react-router';
@@ -17,12 +17,8 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      sensors: props.sensors,
-      user: props.user,
       markers: [],
-      farmsPolygon: [],
       position: [14.4974, 14.4524],
-      isAllSensors: true
     };
   }
 
@@ -44,45 +40,10 @@ class Home extends Component {
 
   componentWillReceiveProps(nextProps) {
     var markers = [];
-    let farmsPolygon = [];
 
     if (nextProps.sensors) {
       for (let sensor of nextProps.sensors) {
         if (sensor.location) {
-          //if (sensor.type === 'Farm') {
-          //  const c = sensor.location.value.coordinates[0][0]
-          //  //console.log('getCenter', sensor.location.value.coordinates.getBounds().getCenter());
-          //  farmsPolygon.push(UTILS.convertLonLatToLatLon(sensor.location.value.coordinates));
-          //  /*markers.push({
-          //    position: [c[1], c[0]],
-          //    name: sensor.name.value,
-          //    values: UTILS.getFarmData(sensor),
-          //    defaultAnimation: 2,
-          //  });
-          //  
-          //   <a href={"/farmview/" + sensor.id} >
-          //   <Link to={"/sensors/" + sensor.id}> {sensor.id} </Link>
-          //  */
-
-          //  /*          var greenIcon = icon({
-          //              iconUrl: '../images/leaf-green.png',
-          //              shadowUrl: '../images/leaf-shadow.png',
-          //              iconSize: [38, 95], // size of the icon
-          //              shadowSize: [50, 64], // size of the shadow
-          //              iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-          //              shadowAnchor: [4, 62],  // the same for the shadow
-          //              popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
-          //            });icon={greenIcon}
-          //*/
-          //  markers.push(<Marker key={sensor.id} position={[c[1], c[0]]}>
-          //    <Popup>
-          //      <span>
-          //        <a onClick={() => this.goTo("/farmview/" + sensor.id)} > {sensor.name.value} </a>
-          //        {UTILS.getFarmData(sensor)}
-          //      </span>
-          //    </Popup>
-          //  </Marker>);
-          //} else {
           markers.push(<Marker key={sensor.id} position={[sensor.location.latitude, sensor.location.longitude]}>
               <Popup>
                 <span>
@@ -90,53 +51,29 @@ class Home extends Component {
                   {UTILS.getSensorData(sensor)}
                 </span>
               </Popup>
-            </Marker>);
-          }
-        
-
+            </Marker>
+          );
+        }
         this.setState({ markers: markers })
-        //this.setState({ farmsPolygon: farmsPolygon })
       }
     }
   }
 
   componentDidMount() {
-    if (this.props.user) {
-      this.setState({ user: this.props.user });
-    }
-    this.props.fetchSensors();
-  }
-
-  /*componentDidMount(prevProps, prevState) {
-    this.addAlert();
-  }*/
-
-  handleChangeAllSensors(event) {
-    this.props.fetchSensors(event.target.checked, this.state.user);
-    this.setState({ isAllSensors: event.target.checked });
+    this.props.getSensors();
   }
 
   render() {
-    const farmsPolygon = this.state.farmsPolygon.map((fp, index) =>
-      <Polygon key={index} color="purple" positions={fp} />);
-
     return (
       <div>
         <h1 className="page-title">Dashboard</h1>
         <Container fluid={true}>
-          <Checkbox
-            label="All sensor"
-            checked={this.state.isAllSensors}
-            onCheck={(evt) => { this.handleChangeAllSensors(evt) }}
-          />
-
           <Map ref="map" center={this.state.position} zoom={5}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {this.state.markers}
-            {farmsPolygon}
           </Map>
         </Container>
         <ToastContainer
@@ -159,7 +96,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchSensors: () => { dispatch(fetchSensors()) }
+    getSensors: () => { dispatch(getSensors()) }
   };
 }
 

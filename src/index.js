@@ -19,7 +19,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { fetchSensors } from "./actions/actions.js"
+import { getSensors } from "./actions/actions.js"
 
 injectTapEventPlugin();
 
@@ -79,7 +79,7 @@ export function keycloakLogin() {
         success(function (refreshed) {
           //if (refreshed) { alert('Token was successfully refreshed'); }
           //else { alert('Token is still valid'); }
-          fetchSensors();
+          getSensors();
         }).
         error(function () {
           alert('Failed to refresh the token, or the session has expired');

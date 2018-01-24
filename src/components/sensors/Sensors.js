@@ -9,7 +9,7 @@ import SensorActions from './SensorActions.js'
 import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
-import { createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../api-adapter.js"
+import { createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
 import Waziup from 'waziup_api'
 
 
@@ -24,17 +24,16 @@ class Sensors extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchSensors();
+    this.props.getSensors();
   }
 
   handleSensorDelete = (sensor) => {
     console.info("delete:" + JSON.stringify(sensor));
     this.props.deleteSensor(sensor.id);
-    this.props.fetchSensors();
+    this.props.getSensors();
   } 
 
   handleSensorUpdate = (data) => {
-    this.props.updateSensorSuccess(data);
     this.setState({ update: true });
     this.setState({ modalOpen: true });
   }
@@ -46,14 +45,15 @@ class Sensors extends Component {
 
   handleClose = () => {
     this.setState({ modalOpen: false });
-    this.props.fetchSensors();
+    this.props.getSensors();
   }
 
   handleSubmitUpdate = (formData) => {
     console.log("sensor update:", formData);
-    this.props.updateSensorLocation(formData.sensorId, new Waziup.Location(formData.sensorLat, formData.sensorLon));
+    var loc = new Waziup.Location(formData.sensorLat, formData.sensorLon)
+    this.props.updateSensorLocation(formData.sensorId, loc);
     this.props.updateSensorOwner(sensor.sensorId, this.props.user.preferred_username);
-    this.props.fetchSensors();
+    this.props.getSensors();
   }
 
   handleSubmit = (formData) => {
@@ -61,7 +61,7 @@ class Sensors extends Component {
     sensor.location = {latitude: formData.sensorLat, longitude: formData.sensorLon}
     sensor.owner = this.props.user.preferred_username;
     this.props.createSensor(sensor);
-    this.props.fetchSensors();
+    this.props.getSensors();
   }
 
   render() {

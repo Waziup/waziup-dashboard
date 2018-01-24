@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Sensors from './Sensors.js';
-import { createSensor, fetchSensors, deleteSensor, updateSensorLocation, updateSensorOwner } from '../../actions/actions.js';
+import { createSensor, getSensors, deleteSensor, updateSensorLocation, updateSensorOwner } from '../../actions/actions.js';
 
 function mapStateToProps(state) {
   return {
@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
   return {
     updateSensorSuccess: (sensor) => { dispatch(updateSensorSuccess(sensor)) },
     createSensor: (sensor) => {dispatch(createSensor(sensor)) }, 
-    fetchSensors: () => {dispatch(fetchSensors()) },
+    getSensors: () => {dispatch(getSensors()) },
     deleteSensor: (sensorId) => {dispatch(deleteSensor(sensorId)) },
     updateSensorLocation: (sensorId, location) => {dispatch(updateSensorLocation(sensorId, location)) },
     updateSensorOwner: (sensorId, owner) => {dispatch(updateSensorOwner(sensorId, owner)) }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import sensorDetail from './sensorDetail.js';
-import { fetchSensors } from "../../../actions/actions.js"
+import { getSensors } from "../../../actions/actions.js"
 
 function mapStateToProps(state) {
     return {
@@ -11,7 +11,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchSensors: () => {dispatch(fetchSensors()) }
+    getSensors: () => {dispatch(getSensors()) }
   };
 }
 

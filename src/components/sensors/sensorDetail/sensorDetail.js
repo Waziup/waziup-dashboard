@@ -19,7 +19,7 @@ class sensorDetail extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchSensors();
+    this.props.getSensors();
     var sensor = this.props.sensors.find((el) => (el.id === this.props.params.sensorId));
     this.setState({sensor: sensor});
     this.setState({ isLoading: false });

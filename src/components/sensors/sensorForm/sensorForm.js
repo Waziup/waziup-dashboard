@@ -110,10 +110,11 @@ sensorForm = reduxForm({
 export default connect(
   state => ({
     initialValues: {
-        "sensorLon": state.sensor.location? state.sensor.location.value.coordinates[0]:position[0],
-        "sensorLat": state.sensor.location? state.sensor.location.value.coordinates[1]:position[1],
-        "sensorId": state.sensor.id
+        "sensorLon": position[0], //state.sensor.location? state.sensor.location.value.coordinates[0]:position[0],
+        "sensorLat": position[1], //state.sensor.location? state.sensor.location.value.coordinates[1]:position[1],
+        "sensorId": "test" //state.sensor.id
     }
   })
 )(sensorForm);
 
+//export default sensorForm
