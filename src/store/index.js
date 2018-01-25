@@ -1,6 +1,6 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist'
-import {rootReducer, routerReducer} from '../reducers';
+import {rootReducer, routerReducer} from '../reducers/reducers.js';
 import thunkMiddleware from 'redux-thunk';
 
 //import createHistory from 'history/lib/createBrowserHistory';
