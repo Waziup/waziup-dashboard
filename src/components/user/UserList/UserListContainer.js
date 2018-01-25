@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import UserList from './UserList'
-import { loadUsers } from '../../../api-adapter';
+import { getUsers } from '../../../actions/actions';
 
 const mapStateToProps = (state) => {
     return {
@@ -11,8 +11,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-       loadUsers: (realm) => {dispatch(loadUsers(realm)) },
-       deleteUser: (id, realm) => {dispatch(deleteUser(id, realm)) }
+       getUsers: () => {dispatch(getUsers()) },
+       deleteUser: (id) => {dispatch(deleteUser(id)) }
     }
 }
 
