@@ -7,6 +7,7 @@ import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 import Utils from '../../lib/utils';
+import Waziup from 'waziup_api'
 
 export default class Notifications extends Component {
   constructor(props) {
@@ -21,34 +22,19 @@ export default class Notifications extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchSensors();
-    this.props.loadNotifs(this.props.user);
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-    //console.log("props:" + JSON.stringify(nextProps))
-    if (nextProps.notifications) {
-      this.setState({ notifications: nextProps.notifications })
-    }
-    if (nextProps.sensors) {
-      this.setState({ sensors: nextProps.sensors })
-    }
+    this.props.getSensors();
+    this.props.getNotifs();
   }
 
   //Fire when submitting the form data
-  handleSubmit(event) {
-    //console.log("submit:" + JSON.stringify(event))
-    this.props.createNotif(event.desc,
-      event.sensors,
-      event.attrs,
-      event.expr,
-      event.phone,
-      event.message,
-      event.expires,
-      event.throttling,
-      this.props.user);
-    this.props.loadNotifs(this.props.user);
+  handleSubmit(formData) {
+    var condition = new Waziup.NotificationCondition(formData.attrs, formData.expr);
+    var subject = new Waziup.NotificationSubject(formData.sensors, condition);
+    var socialBatch = new Waziup.SocialBatch(formData.channels, formData.message, formData.usernames);
+    var notif = new Waziup.Notif(subject, formData.desc, socialBatch, formData.throttling);
+    
+    this.props.createNotif(notif);
+    this.props.getNotifs();
   }
 
   //Fire the modal window when click on the button
@@ -61,8 +47,8 @@ export default class Notifications extends Component {
   }
 
   handleNotifDelete = (notif) => {
-    this.props.deleteNotif(notif.id, this.props.user);
-    this.props.loadNotifs(this.props.user);
+    this.props.deleteNotif(notif.id);
+    this.props.getNotifs();
   }
 
   render() {
@@ -140,7 +126,8 @@ export default class Notifications extends Component {
 
     //filtering notifications that have httpCustom (to include only Plivo notifications)
     //TODO: generalize
-    let data = this.props.notifications.filter(n => n.notification.httpCustom)
+    console.log("notifs:" + JSON.stringify(this.props.notifications));
+    let data = this.props.notifications//.filter(n => n.notification.httpCustom)
 
     return (
       <div>
@@ -151,10 +138,10 @@ export default class Notifications extends Component {
               <Griddle resultsPerPage={50} data={data} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()}>
                 <RowDefinition>
                   <ColumnDefinition id="description" title="Description" />
-                  <ColumnDefinition id="phone" title="Phone" customComponent={enhancedWithRowData(PhoneComponent)} />
+                 {/* <ColumnDefinition id="phone" title="Phone" customComponent={enhancedWithRowData(PhoneComponent)} />
                   <ColumnDefinition id="msg" title="Msg" customComponent={enhancedWithRowData(MsgComponent)} />
                   <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(NotifActions)} />
-                  <ColumnDefinition id="status" title="Status" />
+                  <ColumnDefinition id="status" title="Status" />*/}
                 </RowDefinition>
               </Griddle>
               <CardActions>

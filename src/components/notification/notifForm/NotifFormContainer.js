@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import NotifForm from './NotifForm.js';
-import { createNotif } from '../../../api-adapter';
 
 
 function mapStateToProps(state) {

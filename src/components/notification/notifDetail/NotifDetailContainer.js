@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import notifDetail from './NotifDetail.js';
-import { loadNotifs } from '../../../api-adapter';
+import { getNotifs } from '../../../actions/actions';
 
 function mapStateToProps(state) {
    return {
@@ -11,7 +11,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
    return {
-      loadNotifs: (user) => {dispatch(loadNotifs(user)) }, 
+      getNotifs: (user) => {dispatch(getNotifs(user)) }, 
    }
 }
 const notifDetailContainer = connect(mapStateToProps, mapDispatchToProps)(notifDetail);

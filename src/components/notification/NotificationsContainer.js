@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import notification from './Notifications.js';
-import { loadNotifs, deleteNotif, createNotif } from '../../api-adapter';
-import { fetchSensors } from '../../actions/actions.js';
-
+import { getSensors, getNotifs, createNotif, deleteNotifs } from '../../actions/actions.js';
 
 function mapStateToProps(state) {
+     console.log("state:" + JSON.stringify(state.notifications))
    return {
       user: state.keycloak.idTokenParsed,
       notifications: state.notifications.notifications,
@@ -14,10 +13,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
    return {
-      loadNotifs: (user) => {dispatch(loadNotifs(user)) }, 
-      fetchSensors: () => {dispatch(fetchSensors()) },
-      deleteNotif: (id, user) => {dispatch(deleteNotif(id, user)) },
-      createNotif: (desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling, user) => {dispatch(createNotif(desc, sensorIds, attrs, qExpr, url, headers, payload, expires, throttling, user)) }, 
+      getNotifs: (user) => {dispatch(getNotifs()) }, 
+      getSensors: () => {dispatch(getSensors()) },
+      deleteNotif: (notifId) => {dispatch(deleteNotif(notifId)) },
+      createNotif: (notif) => {dispatch(createNotif(notif)) }, 
    }
 }
 const NotificationFormContainer = connect(mapStateToProps, mapDispatchToProps)(notification);

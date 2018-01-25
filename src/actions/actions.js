@@ -17,20 +17,17 @@ const settings = {
 var defaultClient = WaziupApi.ApiClient.instance;
 defaultClient.basePath = config.APIServerUrl + '/v1'
 
-console.log("Sensors: " + typeof(WaziupApi.SensorsApi));
-console.log("Users: " + typeof(UsersApi));
-
-var domainsApi   = new WaziupApi.DomainsApi();
-var usersApi   = new UsersApi();
 var sensorsApi = new WaziupApi.SensorsApi();
+var usersApi   = new UsersApi();
+var notifsApi   = new WaziupApi.NotificationsApi();
 
 
-function myCallback(success, error, dispatch) {
+function myCallback(actionSuccess, actionError, dispatch) {
   var callback = function(error, data, response) {
     if (error) {
-      dispatch({type: error, data: error});
+      dispatch({type: actionError, data: data});
     } else {
-      dispatch({type: success, data: data});
+      dispatch({type: actionSuccess, data: data});
     }
   };
   return callback;
@@ -99,7 +96,7 @@ export function createNotif(notif) {
   return function (dispatch) {
     dispatch({type: types.CREATE_NOTIF_START});
     var domain = "waziup"; 
-    api.createNotification(notif, myCallback(types.CREATE_NOTIF_SUCCESS, types.CREATE_NOTIF_ERROR, dispatch));
+    notifsApi.createNotification(domain, notif, myCallback(types.CREATE_NOTIF_SUCCESS, types.CREATE_NOTIF_ERROR, dispatch));
   }
 };
 
@@ -107,14 +104,14 @@ export function getNotifs() {
   return function (dispatch) {
     dispatch({type: types.GET_NOTIFS_START});
     var domain = "waziup"; 
-    api.getNotifications(myCallback(types.GET_NOTIFS_SUCCESS, types.GET_NOTIFS_ERROR, dispatch));
+    notifsApi.getNotifications(domain, myCallback(types.GET_NOTIFS_SUCCESS, types.GET_NOTIFS_ERROR, dispatch));
   }
 };
 
-export function deleteNotif(notifId, service, servicePath) {
+export function deleteNotif(notifId) {
   return function (dispatch) {
     dispatch({type: types.DELETE_NOTIF_START});
     var domain = "waziup"; 
-    api.deleteNotification(myCallback(types.DELETE_NOTIF_SUCCESS, types.DELETE_NOTIF_ERROR, dispatch));
+    notifsApi.deleteNotification(domain, notifId, myCallback(types.DELETE_NOTIF_SUCCESS, types.DELETE_NOTIF_ERROR, dispatch));
   }
 };
