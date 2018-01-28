@@ -1,8 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import util from '../lib/utils.js';
-import WaziupApi from 'waziup_api'
-import {UsersApi} from 'waziup_api'
+import * as WaziupApi from 'waziup_api'
 import config from '../config.js'
 import {store} from '../index.js'
 
@@ -18,13 +17,14 @@ var defaultClient = WaziupApi.ApiClient.instance;
 defaultClient.basePath = config.APIServerUrl + '/v1'
 
 var sensorsApi = new WaziupApi.SensorsApi();
-var usersApi   = new UsersApi();
-var notifsApi   = new WaziupApi.NotificationsApi();
+var usersApi   = new WaziupApi.UsersApi();
+var notifsApi  = new WaziupApi.NotificationsApi();
 
 
 function myCallback(actionSuccess, actionError, dispatch) {
   var callback = function(error, data, response) {
     if (error) {
+      console.log("Action error: " + data)
       dispatch({type: actionError, data: data});
     } else {
       dispatch({type: actionSuccess, data: data});

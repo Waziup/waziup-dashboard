@@ -7,7 +7,7 @@ import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 import Utils from '../../lib/utils';
-import Waziup from 'waziup_api'
+import * as Waziup from 'waziup_api'
 
 export default class Notifications extends Component {
   constructor(props) {
@@ -30,8 +30,8 @@ export default class Notifications extends Component {
   handleSubmit(formData) {
     var condition = new Waziup.NotificationCondition(formData.attrs, formData.expr);
     var subject = new Waziup.NotificationSubject(formData.sensors, condition);
-    var socialBatch = new Waziup.SocialBatch(formData.channels, formData.message, formData.usernames);
-    var notif = new Waziup.Notif(subject, formData.desc, socialBatch, formData.throttling);
+    var socialBatch = new Waziup.SocialMessageBatch(formData.channels, formData.message, formData.usernames);
+    var notif = new Waziup.Notification(subject, formData.desc, socialBatch, formData.throttling);
     
     this.props.createNotif(notif);
     this.props.getNotifs();
