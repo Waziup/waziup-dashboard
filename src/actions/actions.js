@@ -21,97 +21,135 @@ var usersApi   = new WaziupApi.UsersApi();
 var notifsApi  = new WaziupApi.NotificationsApi();
 
 
-function myCallback(actionSuccess, actionError, dispatch) {
-  var callback = function(error, data, response) {
-    if (error) {
-      console.log("Action error: " + data)
-      dispatch({type: actionError, data: data});
-    } else {
-      dispatch({type: actionSuccess, data: data});
-    }
-  };
-  return callback;
-}
-
 export function getSensors() {
-  return function (dispatch) {
+  return async function (dispatch) {
     var domain = "waziup";
     dispatch({type: types.GET_SENSORS_START});
-    sensorsApi.getSensors(domain, null, myCallback(types.GET_SENSORS_SUCCESS, types.GET_SENSORS_ERROR, dispatch));
+    try {
+      let data = await sensorsApi.getSensors(domain, null)
+      dispatch({type: types.GET_SENSORS_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_SENSORS_ERROR,   data: error});
     }
+  }
 };
 
 export function createSensor(sensor) {
-  return function (dispatch) {
+  return async function (dispatch) {
     var domain = "waziup"; 
     dispatch({type: types.CREATE_SENSOR_START});
-    sensorsApi.addSensor(sensor, domain, myCallback(types.CREATE_SENSOR_SUCCESS, types.CREATE_SENSOR_ERROR, dispatch));
+    try {
+      let data = await sensorsApi.createSensor(sensor, domain);
+      dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.CREATE_SENSOR_ERROR,   data: error});
+    }
   }
 };
 
 export function updateSensorLocation(sensorId, location) {
-  return function (dispatch) {
+  return async function (dispatch) {
     var domain = "waziup"; 
     dispatch({type: types.UPDATE_SENSOR_START});
-    sensorsApi.putSensorLocation(domain, sensorId, location, myCallback(types.UPDATE_SENSOR_SUCCESS, types.UPDATE_SENSOR_ERROR, dispatch));
+    try {
+      let data = await sensorsApi.putSensorLocation(domain, sensorId, location)
+      dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+    }
   }
 };
 
 export function updateSensorOwner(sensorId, owner) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.UPDATE_SENSOR_START});
     var domain = "waziup"; 
-    sensorsApi.putSensorOwner(domain, sensorId, owner, myCallback(types.UPDATE_SENSOR_SUCCESS, types.UPDATE_SENSOR_ERROR, dispatch));
+    try {
+      let data = await sensorsApi.putSensorOwner(domain, sensorId, owner)
+      dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+    }
   }
 };
 
 export function deleteSensor(sensorId) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.DELETE_SENSOR_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
-    sensorsApi.deleteSensor(domain, sensorId, myCallback(types.DELETE_SENSOR_SUCCESS, types.DELETE_SENSOR_ERROR, dispatch));
+    try {
+      let data = await sensorsApi.deleteSensor(domain, sensorId)
+      dispatch({type: types.DELETE_SENSOR_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
+    }
   }
 };
 
 export function getUsers() {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.GET_USERS_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
-    usersApi.getUsers(domain, myCallback(types.GET_USERS_SUCCESS, types.GET_USERS_ERROR, dispatch));
+    try {
+      let data = await usersApi.getUsers(domain)
+      dispatch({type: types.GET_USERS_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_USERS_ERROR,   data: error});
+    }
   }
 };
 
 export function deleteUser(userid) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.DELETE_USER_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
-    usersApi.deleteUser(domain, userid, myCallback(types.DELETE_USER_SUCCESS, types.DELETE_USER_ERROR, dispatch));
+    try {
+      let data = await usersApi.deleteUsers(domain, userid)
+      dispatch({type: types.DELETE_USER_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.DELETE_USER_ERROR,   data: error});
+    }
   }
 };
 
 export function createNotif(notif) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.CREATE_NOTIF_START});
     var domain = "waziup"; 
-    notifsApi.createNotification(domain, notif, myCallback(types.CREATE_NOTIF_SUCCESS, types.CREATE_NOTIF_ERROR, dispatch));
+    try {
+      let data = await notifsApi.createNotification(domain, notif)
+      dispatch({type: types.CREATE_NOTIF_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.CREATE_NOTIF_ERROR,   data: error});
+    }
   }
 };
 
 export function getNotifs() {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.GET_NOTIFS_START});
     var domain = "waziup"; 
-    notifsApi.getNotifications(domain, myCallback(types.GET_NOTIFS_SUCCESS, types.GET_NOTIFS_ERROR, dispatch));
+    try {
+      let data = await notifsApi.getNotifications(domain)
+      dispatch({type: types.GET_NOTIFS_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_NOTIFS_ERROR,   data: error});
+    }
   }
 };
 
 export function deleteNotif(notifId) {
-  return function (dispatch) {
+  return async function (dispatch) {
     dispatch({type: types.DELETE_NOTIF_START});
     var domain = "waziup"; 
-    notifsApi.deleteNotification(domain, notifId, myCallback(types.DELETE_NOTIF_SUCCESS, types.DELETE_NOTIF_ERROR, dispatch));
+    try {
+      let data = await notifsApi.deleteNotification(domain, notifId)
+      dispatch({type: types.DELETE_NOTIF_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.DELETE_NOTIF_ERROR,   data: error});
+    }
   }
 };

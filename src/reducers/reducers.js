@@ -24,7 +24,7 @@ function sensorReducer(state = { isLoading: false, msg:{}, error: false }, actio
     case types.UPDATE_SENSOR_ERROR:    return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
     case types.DELETE_SENSOR_START:    return Object.assign({}, state, { isLoading: true });
     case types.DELETE_SENSOR_SUCCESS:  return Object.assign({}, state, { isLoading: false, msg: action.data, error: false });
-    case types.CREATE_SENSOR_ERROR:    return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
+    case types.DELETE_SENSOR_ERROR:    return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
     default: return state;
   }
 };
