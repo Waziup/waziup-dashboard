@@ -43,7 +43,7 @@ class sensorForm extends Component {
         label="Cancel"
         primary={true}
         onTouchTap={()=>{
-            reset();
+            //reset();
             handleClose();
         }}
       />,
