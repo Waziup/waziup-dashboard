@@ -50,7 +50,6 @@ function userReducer(state = { isLoading: false, msg: {}, error: false }, action
 };
 
 function notificationsReducer(state = { isLoading: false, notifications: {}, error: false }, action = null) {
-  console.log("red:" + JSON.stringify(action))
   switch (action.type) {
     case types.GET_NOTIFS_START:   return Object.assign({}, state, { isLoading: true });
     case types.GET_NOTIFS_SUCCESS: return Object.assign({}, state, { isLoading: false, notifications: action.data, error: false });
