@@ -7,7 +7,7 @@ import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 import Utils from '../../lib/utils';
-import * as Waziup from 'waziup_api'
+import * as Waziup from 'waziup-js'
 
 export default class Notifications extends Component {
   constructor(props) {

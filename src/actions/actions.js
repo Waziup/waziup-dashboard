@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios'
 import util from '../lib/utils.js';
-import * as WaziupApi from 'waziup_api'
+import * as WaziupApi from 'waziup-js'
 import config from '../config.js'
 import {store} from '../index.js'
 

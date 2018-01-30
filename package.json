@@ -88,7 +88,7 @@
     "svgo": "^1.0.3",
     "universal-router": "^3.2.0",
     "util": "^0.10.3",
-    "waziup-js": "^0.0.2",
+    "waziup-js": "^0.0.3",
     "webpack-hot-middleware": "^2.18.0",
     "winston": "^2.3.1"
   },

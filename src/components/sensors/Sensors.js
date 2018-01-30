@@ -10,7 +10,7 @@ import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
 import { createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
-import * as Waziup from 'waziup_api'
+import * as Waziup from 'waziup-js'
 
 
 class Sensors extends Component {
