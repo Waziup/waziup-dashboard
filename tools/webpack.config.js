@@ -294,7 +294,9 @@ const clientConfig = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
       'process.env.BROWSER': true,
-      __DEV__: isDebug,
+      'process.env.API_SERVER_URL': JSON.stringify(process.env.API_SERVER_URL),
+      'process.env.KEYCLOAK_URL': JSON.stringify(process.env.KEYCLOAK_URL),
+      __DEV__: isDebug
     }),
 
     // Emit a file with assets paths

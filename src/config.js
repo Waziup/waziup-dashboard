@@ -5,7 +5,7 @@ module.exports = {
   keycloakUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080/auth',
   realm: 'waziup',
   clientId: 'dashboard',
-  APIServerUrl: process.env.REACT_APP_APISERVER_URL || 'http://localhost/api',
+  APIServerUrl: process.env.API_SERVER_URL || 'http://localhost/api',
   
   // Web analytics
   analytics: {
