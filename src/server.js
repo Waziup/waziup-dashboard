@@ -34,10 +34,7 @@ app.get('*', async (req, res, next) => {
     const data = { };
     data.title = 'WAZIUP';
     data.styles = [{ id: 'css', cssText: [...css].join('') }];
-    data.scripts = [assets.vendor.js, assets.client.js];//, config.keycloakUrl + '/js/keycloak.js'];
-    data.app = {
-      apiUrl: config.api.clientUrl,
-    };
+    data.scripts = [assets.vendor.js, assets.client.js];
 
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
     res.status(200);
