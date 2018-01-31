@@ -31,6 +31,7 @@
     "moment-timezone": "^0.5.13",
     "node-fetch": "^1.7.3",
     "normalize.css": "^5.0.0",
+    "null-loader": "^0.1.1",
     "postcss-color-function": "^4.0.1",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^6.2.0",
