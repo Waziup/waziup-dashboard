@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField'
 import { Row, Col } from 'react-grid-system'
-import axios from 'axios'
 
 class User extends Component {
     constructor(props) {
@@ -53,21 +52,21 @@ class User extends Component {
         userRep.attributes.Address = this.state.address
         userRep.attributes.Cell = this.state.cell
         userRep.attributes.permissions = this.state.permissions
-        await axios.put('/api/v1/kcadmin/user/update/'.concat(this.props.keycloak.realm), userRep,
-            {
-                headers: {
-                    'content-type': 'application/json'
-                }
-            }).then((status) => {
-                console.log('Then: ', JSON.stringify(status));
-                //if (status.status == 200)
-                this.setState({ success: 2 });
-                //else
-                  //  this.setState({ success: 3 });
-            }).catch((err) => {
-                console.log('Catched error: ', JSON.stringify(err));
-                this.setState({ success: 3 });
-            });
+       // await axios.put('/api/v1/kcadmin/user/update/'.concat(this.props.keycloak.realm), userRep,
+       //     {
+       //         headers: {
+       //             'content-type': 'application/json'
+       //         }
+       //     }).then((status) => {
+       //         console.log('Then: ', JSON.stringify(status));
+       //         //if (status.status == 200)
+       //         this.setState({ success: 2 });
+       //         //else
+       //           //  this.setState({ success: 3 });
+       //     }).catch((err) => {
+       //         console.log('Catched error: ', JSON.stringify(err));
+       //         this.setState({ success: 3 });
+       //     });
     }
 
     handleInputChange(event) {

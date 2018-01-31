@@ -1,7 +1,6 @@
 import path from 'path';
 import express from 'express';
 import request from 'request';
-//import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
@@ -10,13 +9,11 @@ import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
-const cors = require('cors');
+import cors from 'cors';
 
 //Create app and router
 const app = express();
 
-//use body parser (to decode the body in the request)
-//app.use(bodyParser.json());
 //Include cors headers responses 
 app.use(cors());
 
