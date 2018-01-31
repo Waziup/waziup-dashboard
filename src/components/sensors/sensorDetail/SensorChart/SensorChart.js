@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Legend, ReferenceArea, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import moment from 'moment';
-import axios from 'axios';
 import UTIL from '../../../../lib/utils.js';
 import { CustomTick, indexSelection } from '../../../../lib/Visualization.js'
 
