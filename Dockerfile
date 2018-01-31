@@ -11,8 +11,6 @@ RUN yarn install
 
 COPY . /usr/src/app
 
-RUN yarn run build
-
 EXPOSE 3000
 
-CMD [ "node", "build/server.js" ]
+CMD yarn run build -- --release; node build/server.js
