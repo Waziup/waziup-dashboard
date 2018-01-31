@@ -4,14 +4,6 @@ import * as WaziupApi from 'waziup-js'
 import config from '../config.js'
 import {store} from '../index.js'
 
-const settings = {
-  baseUrl: 'http://aam.waziup.io/auth',
-  username: 'admin',
-  password: 'KCadminW',
-  grant_type: 'password',
-  client_id: 'admin-cli'
-};
-
 var defaultClient = WaziupApi.ApiClient.instance;
 defaultClient.basePath = config.APIServerUrl + '/v1'
 
