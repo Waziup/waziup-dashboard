@@ -13,10 +13,6 @@ const createAppStore = composeEnhancers(
 export default function configureStore(initialState) {
       const store = createAppStore(rootReducer,
             initialState);
-      // begin periodically persisting the store
-      /*config object
-      blacklist array keys (read: reducers) to ignore rootReducer.routing
-      whitelist array keys (read: reducers) to persist, if set all other keys will be ignored.*/
       const configPersist = { blacklist: [routerReducer, 'routing', 'form'] }; 
       persistStore(store, configPersist);
       return store;

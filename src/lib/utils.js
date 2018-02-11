@@ -49,19 +49,6 @@ const UTIL = {
     return [n];
   },
 
-  // Get all measurements for a sensor
-  // an attribute is considered as a measurement if it has a timestamp metadata
-  getMeasurements: function (sensor) {
-    var returnValue = [];
-    const attributesExcludes = ["id", "type", "location", "dateCreated", "dateModified", "owner", "servicePath"];
-    for (var i in sensor) {
-      if (attributesExcludes.indexOf(i) === -1 && sensor[i]) {
-        returnValue.push({ "key": i, "value": sensor[i].value })
-      }
-    }
-    return returnValue;
-  },
-
   //Griddle table config
   styleConfig: function () {
     return {
@@ -94,9 +81,9 @@ const UTIL = {
   getSensorData: function (sensor) {
     var returnValue = [];
     for (let meas of sensor.measurements) {
-      returnValue.push(
-        <li key={meas.name}> {meas.name + ": " + meas.values[0].value} </li>
-      )
+      if(meas.values && meas.values[0]) {
+         returnValue.push( <li key={meas.name}> {meas.name + ": " + meas.values[0].value} </li>)
+      }
     }
     return returnValue;
   },

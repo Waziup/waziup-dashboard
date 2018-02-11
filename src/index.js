@@ -45,12 +45,6 @@ const routes = {
   ]
 }
 
-/*
-{ path: 'farmview', component: FarmList },
-{ path: 'farmview/:index', component: FarmView },
-{ path: 'advisor', component: AdvisorInfo },
-{ path: 'farmers', component: Farmers },
-*/
 //Render the page with the layout and routes
 function displayPage() {
   ReactDOM.render(
@@ -77,8 +71,6 @@ export function keycloakLogin() {
       setInterval(() => {
         keycloak.updateToken(3600).
         success(function (refreshed) {
-          //if (refreshed) { alert('Token was successfully refreshed'); }
-          //else { alert('Token is still valid'); }
           getSensors();
         }).
         error(function () {
