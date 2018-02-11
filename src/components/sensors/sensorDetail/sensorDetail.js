@@ -80,7 +80,6 @@ class sensorDetail extends Component {
         }
       }
 
-      const attributes = UTIL.getMeasurements(this.state.sensor).map(itemID => itemID.key);
       const dateCreated = this.state.sensor.dateCreated ? this.formatDate(this.state.sensor.dateCreated.value) : 'NA';
       const dateModified = this.state.sensor.dateModified ? this.formatDate(this.state.sensor.dateModified.value) : 'NA';
       const domain = this.state.sensor.domain ? this.state.sensor.domain : 'NA';
@@ -88,7 +87,7 @@ class sensorDetail extends Component {
       const service = this.props.user.Service;
 
       let historyGraph = null
-      if (this.state.sensor.measurements && this.state.sensor.measurements.length > 0) {
+      if (this.state.sensor.measurements && this.state.sensor.measurements[0] && this.state.sensor.measurements[0].values && this.state.sensor.measurements[0].values[0]) {
         historyGraph = <SensorChart measurements={this.state.sensor.measurements} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />
       } else {
         historyGraph = <CardText> <h3> No history.</h3> </CardText>
@@ -107,7 +106,7 @@ class sensorDetail extends Component {
                 <h3> Last sensor reading was at {dateModified} with the following attributes:</h3>
                 { 
                   this.state.sensor.measurements.map(meas => {
-                    return ( <ListItem key={meas.id} primaryText={meas.name + ": " + meas.values[0].value + " " + meas.unit} /> )
+                    return ( <ListItem key={meas.id} primaryText={(meas.name? meas.name: meas.id) + ": " + (meas.values && meas.values[0] ? meas.values[0].value : "no value") + " " + (meas.unit? meas.unit : "")} /> )
                   })
                 }
                 <br />

@@ -3,7 +3,6 @@ import { reduxForm, Field } from 'redux-form'
 import Dialog from 'material-ui/Dialog';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
-import { connect } from 'react-redux';
 import MenuItem from 'material-ui/MenuItem'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import { Row, Col} from 'react-grid-system'
@@ -43,7 +42,6 @@ class sensorForm extends Component {
         label="Cancel"
         primary={true}
         onTouchTap={()=>{
-            //reset();
             handleClose();
         }}
       />,
