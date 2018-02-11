@@ -16,6 +16,7 @@ export function getSensors() {
   return async function (dispatch) {
     var domain = "waziup";
     dispatch({type: types.GET_SENSORS_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
       let data = await sensorsApi.getSensors(domain, null)
       dispatch({type: types.GET_SENSORS_SUCCESS, data: data})
@@ -29,6 +30,7 @@ export function createSensor(sensor) {
   return async function (dispatch) {
     var domain = "waziup"; 
     dispatch({type: types.CREATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
       let data = await sensorsApi.createSensor(sensor, domain);
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
@@ -42,6 +44,7 @@ export function updateSensorLocation(sensorId, location) {
   return async function (dispatch) {
     var domain = "waziup"; 
     dispatch({type: types.UPDATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
       let data = await sensorsApi.putSensorLocation(domain, sensorId, location)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
@@ -54,6 +57,7 @@ export function updateSensorLocation(sensorId, location) {
 export function updateSensorOwner(sensorId, owner) {
   return async function (dispatch) {
     dispatch({type: types.UPDATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await sensorsApi.putSensorOwner(domain, sensorId, owner)
@@ -81,7 +85,6 @@ export function deleteSensor(sensorId) {
 export function getUsers() {
   return async function (dispatch) {
     dispatch({type: types.GET_USERS_START});
-    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await usersApi.getUsers(domain)
@@ -109,6 +112,7 @@ export function deleteUser(userid) {
 export function createNotif(notif) {
   return async function (dispatch) {
     dispatch({type: types.CREATE_NOTIF_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await notifsApi.createNotification(domain, notif)
@@ -122,6 +126,7 @@ export function createNotif(notif) {
 export function getNotifs() {
   return async function (dispatch) {
     dispatch({type: types.GET_NOTIFS_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await notifsApi.getNotifications(domain)
@@ -135,6 +140,7 @@ export function getNotifs() {
 export function deleteNotif(notifId) {
   return async function (dispatch) {
     dispatch({type: types.DELETE_NOTIF_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await notifsApi.deleteNotification(domain, notifId)
