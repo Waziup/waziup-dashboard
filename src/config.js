@@ -6,7 +6,7 @@ module.exports = {
   realm: 'waziup',
   clientId: 'dashboard',
   APIServerUrl: process.env.API_SERVER_URL || 'http://localhost/api',
-  
+  logLevel: process.env.LOG_LEVEL || 'INFO',  
   // Web analytics
   analytics: {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
