@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'react-grid-system'
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardActions } from 'material-ui/Card';
-import NotifForm from './notifForm/NotifFormContainer.js';
+import NotifForm from './notifForm/notifForm.js';
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
@@ -24,15 +24,18 @@ export default class Notifications extends Component {
   componentWillMount() {
     this.props.getSensors();
     this.props.getNotifs();
+    this.props.getUsers();
   }
 
   //Fire when submitting the form data
   handleSubmit(formData) {
+    console.log("submit: "+JSON.stringify(formData))
     var condition = new Waziup.NotificationCondition(formData.attrs, formData.expr);
     var subject = new Waziup.NotificationSubject(formData.sensors, condition);
     var socialBatch = new Waziup.SocialMessageBatch(formData.channels, formData.message, formData.usernames);
     var notif = new Waziup.Notification(subject, formData.desc, socialBatch, formData.throttling);
     
+    console.log("Notif: "+JSON.stringify(notif))
     this.props.createNotif(notif);
     this.props.getNotifs();
   }
@@ -124,10 +127,8 @@ export default class Notifications extends Component {
       );
     }
 
-    //filtering notifications that have httpCustom (to include only Plivo notifications)
-    //TODO: generalize
     console.log("notifs:" + JSON.stringify(this.props.notifications));
-    let data = this.props.notifications//.filter(n => n.notification.httpCustom)
+    let data = this.props.notifications
 
     return (
       <div>
@@ -148,7 +149,7 @@ export default class Notifications extends Component {
                 <RaisedButton label="Add" onTouchTap={this.handleOpen} primary={true} />
               </CardActions>
             </Card>
-            <NotifForm sensors={this.props.sensors} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} />
+            <NotifForm ref={'sForm'} sensors={this.props.sensors} users={this.props.users} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.handleSubmit} />
           </div>
         </Container>
       </div>
