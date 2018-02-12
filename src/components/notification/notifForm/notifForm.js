@@ -21,7 +21,7 @@ class NotifForm extends Component {
         attrs: [],
         expr: "SM1>400",
         usernames: [],
-        channels: [],
+        channels: ["Facebook"],
         message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}",
         expires: new Date("2040-05-24T20:00:00.00Z"), 
         throttling: 1
@@ -55,7 +55,18 @@ class NotifForm extends Component {
     this.setState({notif: notif});
   }
 
-  usernames = ["cdupont","arahim"]
+  handleChangeUsers = (event, index, value) => {
+    var notif = this.state.notif
+    notif.usernames = value;
+    this.setState({notif: notif});
+  }
+
+  handleChangeChannels = (event, index, value) => {
+    var notif = this.state.notif
+    notif.channels = value;
+    this.setState({notif: notif});
+  }
+
   channels = ["facebook","twitter"]
 
   render() {
@@ -111,13 +122,13 @@ class NotifForm extends Component {
               <TextField name="message" fullWidth={true} hintText="message" floatingLabelText="Message" value={this.state.notif.message} onChange={this.handleChange}/>
             </Row> 
             <Row>
-              <DropDownMenu name="usernames" fullWidth={true} hintText="Users" floatingLabelText="Users" value={this.state.notif.usernames} onChange={this.handleChange}>
-                {this.props.users.map(u =>  <MenuItem value={u.username} primaryText={username} />)}
+              <DropDownMenu name="usernames" multiple={true} hintText="Users" floatingLabelText="Users" value={this.state.notif.usernames} onChange={this.handleChangeUsers}>
+                {this.props.users && this.props.users.length!=0 ? this.props.users.map(u => <MenuItem value={u.username} primaryText={u.username} />): <br/>}
               </DropDownMenu>
             </Row>
             <Row>
-              <DropDownMenu name="channels" fullWidth={true} hintText="Users" floatingLabelText="Channels" value={this.state.notif.channels} onChange={this.handleChange}>
-                {this.channels.map(c =>  <MenuItem value={c} primaryText={c} />)}
+              <DropDownMenu name="channels" multiple={true} hintText="Users" floatingLabelText="Channels" value={this.state.notif.channels} onChange={this.handleChangeChannels}>
+                {this.channels.map(c => <MenuItem value={c} primaryText={c} />)}
               </DropDownMenu>
             </Row>
             <Row>
