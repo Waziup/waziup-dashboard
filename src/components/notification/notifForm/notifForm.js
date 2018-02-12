@@ -10,6 +10,7 @@ import MenuItem from 'material-ui/MenuItem'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import { Row, Col } from 'react-grid-system'
+import sensorImage from '../../../images/gauge.png';
 
 class NotifForm extends Component {
   constructor(props){
@@ -104,40 +105,47 @@ class NotifForm extends Component {
               autoScrollBodyContent={true}
               ref={'notifFormDialog'}>
         <form onSubmit={onSubmit}>
-          <Col>
-            <Row>
-              <DropDownMenu name="sensors" multiple={true} value={this.state.notif.sensors} onChange={this.handleChangeSensors}>
-                {sensors.map(s =>  <MenuItem value={s.id} primaryText={s.id} />)}
-              </DropDownMenu>
-            </Row>
-            <Row>
-              <DropDownMenu name="attrs" multiple={true} hintText="attributes" floatingLabelText="Attributes" value={this.state.notif.attrs} onChange={this.handleChangeAttrs}>
-                {sensors.filter(s => this.state.notif.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem value={m.id} primaryText={m.id} />))}
-              </DropDownMenu>
-            </Row>
-            <Row>
-              <TextField name="expr" fullWidth={true} hintText="expression" floatingLabelText="Expression" value={this.state.notif.expr} onChange={this.handleChange}/>
-            </Row>
-            <Row>
+          <div className="notif">
+            <div className="notifSubject" >
+              <div className="notifSensorIcon">
+                <img src={sensorImage} width="100" height="100"/>
+              </div>
+              <div className="notifExpr">
+                <TextField name="expr" value={this.state.notif.expr} onChange={this.handleChange}/>
+              </div>
+            </div>
+            <div className="notifSensorAttrs">
+              <div className="notifSensors">
+                <DropDownMenu name="sensors" multiple={true} value={this.state.notif.sensors} onChange={this.handleChangeSensors}>
+                  {sensors.map(s =>  <MenuItem value={s.id} primaryText={s.id} />)}
+                </DropDownMenu>
+              </div>
+              <div className="notifAttrs">
+                <DropDownMenu name="attrs" multiple={true} hintText="attributes" floatingLabelText="Attributes" value={this.state.notif.attrs} onChange={this.handleChangeAttrs}>
+                  {sensors.filter(s => this.state.notif.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem value={m.id} primaryText={m.id} />))}
+                </DropDownMenu>
+              </div>
+            </div>
+            <div className="notifMsg">
               <TextField name="message" fullWidth={true} hintText="message" floatingLabelText="Message" value={this.state.notif.message} onChange={this.handleChange}/>
-            </Row> 
-            <Row>
+            </div> 
+            <div className="notifUsernames">
               <DropDownMenu name="usernames" multiple={true} hintText="Users" floatingLabelText="Users" value={this.state.notif.usernames} onChange={this.handleChangeUsers}>
-                {this.props.users && this.props.users.length!=0 ? this.props.users.map(u => <MenuItem value={u.username} primaryText={u.username} />): <br/>}
+                {this.props.users && Array.isArray(this.props.users.length) ? this.props.users.map(u => <MenuItem value={u.username} primaryText={u.username} />): <br/>}
               </DropDownMenu>
-            </Row>
-            <Row>
+            </div>
+            <div className="notifChannels">
               <DropDownMenu name="channels" multiple={true} hintText="Users" floatingLabelText="Channels" value={this.state.notif.channels} onChange={this.handleChangeChannels}>
                 {this.channels.map(c => <MenuItem value={c} primaryText={c} />)}
               </DropDownMenu>
-            </Row>
-            <Row>
+            </div>
+            <div className="notifExpires">
               <DatePicker name="expires" hintText="Expires" floatingLabelText="Expires" value={this.state.notif.expires} onChange={this.handleChangeDate}/>
-            </Row>
-            <Row>
+            </div>
+            <div className="notifDesc">
               <TextField name="desc" fullWidth={true} floatingLabelText="Description" value={this.state.notif.desc} onChange={this.handleChange}/>
-            </Row>
-          </Col>
+            </div>
+          </div>
         </form>
       </Dialog>
     );

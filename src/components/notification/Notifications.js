@@ -8,8 +8,9 @@ import NotifActions from './NotifActions.js';
 import { connect } from 'react-redux';
 import Utils from '../../lib/utils';
 import * as Waziup from 'waziup-js'
+import { getSensors, getNotifs, createNotif, deleteNotifs, getUsers } from '../../actions/actions.js';
 
-export default class Notifications extends Component {
+class Notifications extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -156,4 +157,26 @@ export default class Notifications extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+     console.log("state:" + JSON.stringify(state.notifications))
+   return {
+      user: state.keycloak.idTokenParsed,
+      notifications: state.notifications.notifications,
+      sensors: state.sensors.sensors,
+      users: state.users.users
+   }
+}
+
+function mapDispatchToProps(dispatch) {
+   return {
+      getNotifs: (user) => {dispatch(getNotifs()) }, 
+      deleteNotif: (notifId) => {dispatch(deleteNotif(notifId)) },
+      createNotif: (notif) => {dispatch(createNotif(notif)) }, 
+      getSensors: () => {dispatch(getSensors()) },
+      getUsers: () => {dispatch(getUsers()) }
+   }
+}
+const NotificationFormContainer = connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default NotificationFormContainer;
 

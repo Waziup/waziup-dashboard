@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
+import { getNotifs } from '../../../actions/actions.js';
+import { connect } from 'react-redux';
 
-class notifDetail extends Component {
+class NotifDetail extends Component {
 
   constructor(props) {
     super(props);
@@ -87,4 +89,17 @@ class notifDetail extends Component {
   }
 }
 
-export default notifDetail;
+function mapStateToProps(state) {
+   return {
+      user: state.keycloak.idTokenParsed,
+      notifications: state.notifications.notifications,
+   }
+}
+
+function mapDispatchToProps(dispatch) {
+   return {
+      getNotifs: (user) => {dispatch(getNotifs(user)) }, 
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotifDetail);

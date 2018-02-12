@@ -3,13 +3,15 @@ import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import SensorChart from './SensorChart/SensorChartContainer';
+import SensorChart from './SensorChart';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
+import { connect } from 'react-redux';
+import { getSensors } from "../../../actions/actions.js"
 
 var position;
 
-class sensorDetail extends Component {
+class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -127,4 +129,17 @@ class sensorDetail extends Component {
   }
 }
 
-export default sensorDetail;
+function mapStateToProps(state) {
+    return {
+      sensors: state.sensors.sensors,
+      user: state.keycloak.idTokenParsed
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getSensors: () => {dispatch(getSensors()) }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);

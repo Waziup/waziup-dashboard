@@ -6,20 +6,20 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Sensors from './components/sensors/SensorsContainer';
-import Sensor from './components/sensors/sensorDetail/sensorDetailContainer';
+import Sensors from './components/sensors/Sensors';
+import Sensor from './components/sensors/sensorDetail/sensorDetail';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import User from './components/user/UserList/User';
-import Notifications from './components/notification/NotificationsContainer.js';
-import NotifDetail from './components/notification/notifDetail/NotifDetailContainer.js';
+import Notifications from './components/notification/Notifications.js';
+import NotifDetail from './components/notification/notifDetail/NotifDetail.js';
 import UserPermissions from './components/user/UserPermissions.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { getSensors } from "./actions/actions.js"
+import { getSensors, getUsers } from "./actions/actions.js"
 
 injectTapEventPlugin();
 
@@ -72,6 +72,7 @@ export function keycloakLogin() {
         keycloak.updateToken(3600).
         success(function (refreshed) {
           getSensors();
+          getUsers();
         }).
         error(function () {
           alert('Failed to refresh the token, or the session has expired');

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Legend, ReferenceArea, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import moment from 'moment';
-import UTIL from '../../../../lib/utils.js';
-import { CustomTick, indexSelection } from '../../../../lib/Visualization.js'
+import UTIL from '../../../lib/utils.js';
+import { CustomTick, indexSelection } from '../../../lib/Visualization.js'
 
 class SensorChart extends Component {
   constructor(props) {

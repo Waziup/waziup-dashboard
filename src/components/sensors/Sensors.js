@@ -9,7 +9,7 @@ import SensorActions from './SensorActions.js'
 import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
-import { createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
+import { getSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
 import * as Waziup from 'waziup-js'
 
 
@@ -104,4 +104,23 @@ class Sensors extends Component {
   }
 }
 
-export default Sensors;
+function mapStateToProps(state) {
+  return {
+    sensors: state.sensors.sensors,
+    isLoading: state.sensors.isLoading,
+    user: state.keycloak.idTokenParsed
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    updateSensorSuccess: (sensor) => { dispatch(updateSensorSuccess(sensor)) },
+    createSensor: (sensor) => {dispatch(createSensor(sensor)) }, 
+    getSensors: () => {dispatch(getSensors()) },
+    deleteSensor: (sensorId) => {dispatch(deleteSensor(sensorId)) },
+    updateSensorLocation: (sensorId, location) => {dispatch(updateSensorLocation(sensorId, location)) },
+    updateSensorOwner: (sensorId, owner) => {dispatch(updateSensorOwner(sensorId, owner)) }
+  };
+}
+const SensorsContainer = connect(mapStateToProps, mapDispatchToProps)(Sensors);
+export default SensorsContainer;
