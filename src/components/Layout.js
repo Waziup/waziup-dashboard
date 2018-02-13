@@ -12,6 +12,7 @@ import PropTypes from 'prop-types'
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import { Container, Col, Hidden } from 'react-grid-system'
 import UTIL from '../lib/utils.js';
+import ErrorBanner from './ErrorBanner';
 
 const styles = {
   medium: {
@@ -119,6 +120,7 @@ class Layout extends Component {
         </Hidden>
         <Col md={10} className="page-inner">
           <div id="main-wrapper">
+            <ErrorBanner/>
             {this.props.children}
           </div>
           <div className="page-footer">
@@ -133,11 +135,7 @@ class Layout extends Component {
     );
   }
 }
-/*
-              <Col md={6}>
-                <img className="waziup-logo" alt="waziup-logo" src={Logo} />
-              </Col>
-              */
+
 Layout.childContextTypes = {
   muiTheme: PropTypes.object.isRequired
 };

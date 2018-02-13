@@ -401,3 +401,16 @@ ul {
   top: 0px;
   left: 350px;
 }
+
+.errorBanner {
+  border-style: dashed;
+  border-width: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.errorBannerOK {
+  right: 10px;
+  position: absolute;
+  top: 5px;
+}
