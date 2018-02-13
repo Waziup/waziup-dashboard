@@ -296,3 +296,108 @@ li {
 ul {
       list-style-position: inside;
 }
+
+.notif {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  top: 0px;
+  height: 100%;
+}
+
+.notifSubject {
+  position: relative;
+  height: 100px;
+}
+
+
+.notifSensorIcon {
+  text-align: right;
+  width: 300px;
+  position: absolute;
+}
+
+.notifExpr {
+  padding: 5px;
+  vertical-align: middle;
+  width: 200px;
+  position: absolute;
+  left: 300px;
+  top: 10px;
+}
+
+.notifSensorAttrs {
+  position: relative;
+  height: 90px;
+  
+}
+
+.notifSensors {
+  text-align: right;
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.notifArrow {
+  width: 30px;
+  position: relative;
+  top: 10px;
+  left: 270px;
+}
+
+.notifAttrs {
+  text-align: left;
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 310px;
+}
+
+.notifMsgRow {
+  position: relative
+}
+
+.notifMsg {
+  width: 500px;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.notifUsersChannels {
+  position: relative;
+  height: 300px;
+}
+
+.notifUsernames {
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.notifChannels {
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 350px;
+}
+
+.notifMisc {
+  position: relative;
+}
+
+.notifExpires {
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.notifDesc {
+  width: 250px;
+  position: absolute;
+  top: 0px;
+  left: 350px;
+}
