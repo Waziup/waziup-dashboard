@@ -8,14 +8,12 @@ class Sensors extends Component {
     super(props);
     this.state = {
       visible: true,
-      previousError: undefined
     }
   }
 
   componentWillReceiveProps(nextProps) {
     
-    this.setState({previousProps: this.props});
-    if(nextProps.sensorActionResult.error &&  nextProps != this.props) {
+    if(nextProps.errors != [] && nextProps != this.props) {
       this.setState({visible: true});
     }
   }
@@ -27,12 +25,12 @@ class Sensors extends Component {
 
   render() {
     if(this.state.visible) {
-    return (
-      <Container fluid={true} className="errorBanner">
-      {this.props.sensorActionResult.error? <h5>Error: Status {JSON.stringify(this.props.sensorActionResult.msg.status) + " " + this.props.sensorActionResult.msg.response.statusText }</h5> : <br/>}
-      <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
-      </Container>
-      );
+      return (
+        <Container fluid={true} className="errorBanner">
+        {this.props.errors.map(e => <h5>Error: Status {JSON.stringify(e.status) + " " + e.response.statusText }</h5>)}
+        <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
+        </Container>
+        );
     } else {
       return null;
     }
@@ -40,9 +38,15 @@ class Sensors extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    sensorActionResult: state.sensorActionResult,
-  };
+
+  var errors = [];
+  if(state.sensorActionResult.error) {
+    errors.push(state.sensorActionResult.msg);
+  }
+  if(state.sensors.error) {
+    errors.push(state.sensors.msg);
+  }
+  return {errors: errors};
 }
 
 export default connect(mapStateToProps)(Sensors);
