@@ -77,15 +77,15 @@ function notifActionReducer(state = { isLoading: false, msg:{}, error: false }, 
 function messagesReducer(state = [], action = null) {
   console.log("message action" + JSON.stringify(action))
   switch (action.type) {
-    case types.CLEAR_MESSAGES:       return []
-    case types.GET_SENSORS_ERROR:    return [ ...state, {msg:"Fetch sensors error: ",    error:true}]
-    case types.CREATE_SENSOR_ERROR: return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error:true}]
+    case types.CLEAR_MESSAGES:        return []
+    case types.GET_SENSORS_ERROR:     return [ ...state, {msg:"Fetch sensors error: ",    error: true}]
+    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
     case types.CREATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor created",  error: false}]
-    case types.CREATE_NOTIF_SUCCESS: return [ ...state, {msg:"Notification created", error:false}] 
-    case types.UPDATE_SENSOR_SUCCESS:  return [ ...state, {msg:"Sensor updated", error: false}]
-    case types.UPDATE_SENSOR_ERROR:    return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error:true}] 
-    case types.DELETE_SENSOR_SUCCESS:  return [ ...state, {msg:"Sensor deleted"}]
-    case types.DELETE_SENSOR_ERROR:    return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error:true}] 
+    case types.CREATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification created", error: false}] 
+    case types.UPDATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor updated", error: false}]
+    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
+    case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
+    case types.DELETE_SENSOR_ERROR:   return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
 
     default: return state;
   }

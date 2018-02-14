@@ -14,13 +14,21 @@ class Sensors extends Component {
   handleOK = () => {
     this.props.clearMessages(); 
   }
-
+  
   render() {
+
+    function getLine(e) {
+      if(e.error) {
+        return <h4 style={{"color": "red"}}> {e.msg} </h4>
+      } else {
+        return <h4 style={{"color": "green"}}> {e.msg} </h4>
+      }
+    }
     console.log("props: " + JSON.stringify(this.props))
     if(this.props.messages.length !=0) {
       return (
         <Container fluid={true} className="errorBanner" >
-          {Array.isArray(this.props.messages) ? this.props.messages.map(e => <h5> {e.msg}</h5>): null}
+          {this.props.messages.map(e => getLine(e))}
           <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
         </Container>
         );

@@ -83,8 +83,7 @@ class Sensors extends Component {
         <h1 className="page-title">Sensors</h1>
         <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => { this.handleOpen(); }} />
         <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
-        {//this.props.isLoading === true ?
-         // <div> Sensors are being loaded ... </div> :
+        {
           <Griddle resultsPerPage={10} data={this.props.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
             <RowDefinition>
               <ColumnDefinition id="id" title="ID" />
