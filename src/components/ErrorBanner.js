@@ -2,33 +2,26 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'react-grid-system'
 import RaisedButton from 'material-ui/RaisedButton';
+import { clearMessages } from "../actions/actions.js"
 
 class Sensors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: true,
     }
   }
-
-  componentWillReceiveProps(nextProps) {
-    
-    if(nextProps.errors != [] && nextProps != this.props) {
-      this.setState({visible: true});
-    }
-  }
-
 
   handleOK = () => {
-    this.setState({visible: false});
+    this.props.clearMessages(); 
   }
 
   render() {
-    if(this.state.visible) {
+    console.log("props: " + JSON.stringify(this.props))
+    if(this.props.messages.length !=0) {
       return (
-        <Container fluid={true} className="errorBanner">
-        {this.props.errors.map(e => <h5>Error: Status {JSON.stringify(e.status) + " " + e.response.statusText }</h5>)}
-        <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
+        <Container fluid={true} className="errorBanner" >
+          {Array.isArray(this.props.messages) ? this.props.messages.map(e => <h5> {e.msg}</h5>): null}
+          <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
         </Container>
         );
     } else {
@@ -38,15 +31,13 @@ class Sensors extends Component {
 }
 
 function mapStateToProps(state) {
-
-  var errors = [];
-  if(state.sensorActionResult.error) {
-    errors.push(state.sensorActionResult.msg);
-  }
-  if(state.sensors.error) {
-    errors.push(state.sensors.msg);
-  }
-  return {errors: errors};
+  return {messages: state.messages};
 }
 
-export default connect(mapStateToProps)(Sensors);
+function mapDispatchToProps(dispatch) {
+  return {
+    clearMessages: () => { dispatch(clearMessages()) },
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sensors);

@@ -22,7 +22,7 @@ class Sensors extends Component {
       loadAll: false
     };
   }
-
+  
   componentDidMount() {
     this.props.getSensors();
   }
@@ -30,7 +30,6 @@ class Sensors extends Component {
   handleSensorDelete = (sensor) => {
     console.info("delete:" + JSON.stringify(sensor));
     this.props.deleteSensor(sensor.id);
-    this.props.getSensors();
   } 
 
   handleSensorUpdate = (data) => {
@@ -45,7 +44,6 @@ class Sensors extends Component {
 
   handleClose = () => {
     this.setState({ modalOpen: false });
-    this.props.getSensors();
   }
 
   handleSubmitUpdate = (formData) => {
@@ -53,7 +51,6 @@ class Sensors extends Component {
     var loc = new Waziup.Location(formData.sensorLat, formData.sensorLon)
     this.props.updateSensorLocation(formData.sensorId, loc);
     this.props.updateSensorOwner(sensor.sensorId, this.props.user.preferred_username);
-    this.props.getSensors();
   }
 
   handleSubmit = (formData) => {
@@ -61,7 +58,6 @@ class Sensors extends Component {
     sensor.location = {latitude: formData.sensorLat, longitude: formData.sensorLon}
     sensor.owner = this.props.user.preferred_username;
     this.props.createSensor(sensor);
-    this.props.getSensors();
   }
 
   render() {

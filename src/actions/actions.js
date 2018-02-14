@@ -34,7 +34,9 @@ export function createSensor(sensor) {
     try {
       let data = await sensorsApi.createSensor(sensor, domain);
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
     } catch (error) {
+      console.log("create sensor error")
       dispatch({type: types.CREATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -48,6 +50,7 @@ export function updateSensorLocation(sensorId, location) {
     try {
       let data = await sensorsApi.putSensorLocation(domain, sensorId, location)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
     } catch (error) {
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
@@ -62,6 +65,7 @@ export function updateSensorOwner(sensorId, owner) {
     try {
       let data = await sensorsApi.putSensorOwner(domain, sensorId, owner)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
     } catch (error) {
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
@@ -76,6 +80,7 @@ export function deleteSensor(sensorId) {
     try {
       let data = await sensorsApi.deleteSensor(domain, sensorId)
       dispatch({type: types.DELETE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
     } catch (error) {
       dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
     }
@@ -148,5 +153,11 @@ export function deleteNotif(notifId) {
     } catch (error) {
       dispatch({type: types.DELETE_NOTIF_ERROR,   data: error});
     }
+  }
+};
+
+export function clearMessages() {
+  return async function (dispatch) {
+    dispatch({type: types.CLEAR_MESSAGES});
   }
 };
