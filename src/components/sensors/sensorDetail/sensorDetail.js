@@ -9,6 +9,7 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { getSensors } from "../../../actions/actions.js"
 import Measurement from "../Measurement.js"
+import RaisedButton from 'material-ui/RaisedButton';
 
 var position;
 
@@ -91,7 +92,9 @@ class SensorDetail extends Component {
             {measurements}
           </Card>
           <Card className="sensorMap">
-            <CardTitle title="Sensor location" />
+            <CardTitle title="Sensor location">
+              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.notif); handleClose();}}/>
+            </CardTitle>
             {sensorMap}
           </Card>
         </Container>

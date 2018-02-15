@@ -304,6 +304,12 @@ ul {
   width: 500px;
 }
 
+.changeLocationButton {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
 /* Measurement */
 
 .measurement {

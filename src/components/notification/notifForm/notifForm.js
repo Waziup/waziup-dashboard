@@ -82,23 +82,9 @@ class NotifForm extends Component {
   render() {
     const {reset, modalOpen, handleClose, onSubmit, sensors} = this.props;
     const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={()=>{
-            handleClose();
-        }}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        onTouchTap={()=>{
-          this.props.onSubmit(this.state.notif);
-          handleClose();
-        }}
-      />,
+      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{handleClose(); }}/>,
+      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.notif); handleClose();}}/>,
     ];
-
 
     function uniq(a) {
       return a.sort().filter(function(item, pos, array) {
