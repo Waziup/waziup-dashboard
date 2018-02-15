@@ -52,7 +52,6 @@ class Notifications extends Component {
 
   handleNotifDelete = (notif) => {
     this.props.deleteNotif(notif.id);
-    this.props.getNotifs();
   }
 
   render() {

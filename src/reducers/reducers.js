@@ -30,7 +30,7 @@ function sensorActionReducer(state = { isLoading: false, msg:{}, error: false },
 };
 
 // Get all users
-function usersReducer(state = { isLoading: false, users: {}, error: false }, action = null) {
+function usersReducer(state = { isLoading: false, users: [], error: false }, action = null) {
   switch (action.type) {
     case types.GET_USERS_START:   return Object.assign({}, state, { isLoading: true });
     case types.GET_USERS_SUCCESS: return Object.assign({}, state, { isLoading: false, users: action.data, error: false });
@@ -80,8 +80,8 @@ function messagesReducer(state = [], action = null) {
     case types.CLEAR_MESSAGES:        return []
     //Sensor messages
     case types.GET_SENSORS_ERROR:     return [ ...state, {msg:"Error when fetching sensors: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
-    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
     case types.CREATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor created",  error: false}]
+    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
     case types.UPDATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor updated", error: false}]
     case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
     case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
