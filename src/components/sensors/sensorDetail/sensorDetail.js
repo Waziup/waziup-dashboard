@@ -8,6 +8,7 @@ import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { getSensors } from "../../../actions/actions.js"
+import Measurement from "../Measurement.js"
 
 var position;
 
@@ -15,21 +16,11 @@ class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sensor: null,
-      isLoading: true,
     };
   }
 
   componentDidMount() {
     this.props.getSensors();
-    var sensor = this.props.sensors.find((el) => (el.id === this.props.params.sensorId));
-    this.setState({sensor: sensor});
-    this.setState({ isLoading: false });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    var sensor = this.props.sensors.find((el) => (el.id === this.props.params.sensorId));
-    this.setState({sensor: sensor});
   }
 
   getMarkers(sensor) {
@@ -44,7 +35,6 @@ class SensorDetail extends Component {
       });
       position = markers[0].position;
     }
-
     return markers
   }
   
@@ -54,9 +44,9 @@ class SensorDetail extends Component {
 
   render() {
     let renderElement = <h1> Sensor View is being loaded... </h1>;
-    console.log("sens:" + JSON.stringify(this.state.sensor))
-    if (this.state.sensor) {
-      let markers = this.getMarkers(this.state.sensor);
+    console.log("sens:" + JSON.stringify(this.props.sensor))
+    if (this.props.sensor) {
+      let markers = this.getMarkers(this.props.sensor);
       let sensorMap;
       if (markers.length > 0) {
         const listMarkers = markers.map((marker, index) =>
@@ -68,9 +58,9 @@ class SensorDetail extends Component {
         );
 
         if (listMarkers.length > 0) {
-          sensorMap = <g><CardTitle title="Sensor Location" />
+          sensorMap = <g>
             <CardMedia>
-              <Map ref="map" center={position} zoom={8}>
+              <Map ref="map" center={position} zoom={5}>
                 <TileLayer
                   url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -81,41 +71,27 @@ class SensorDetail extends Component {
           </g>
         }
       }
-
-      const dateCreated = this.state.sensor.dateCreated ? this.formatDate(this.state.sensor.dateCreated.value) : 'NA';
-      const dateModified = this.state.sensor.dateModified ? this.formatDate(this.state.sensor.dateModified.value) : 'NA';
-      const domain = this.state.sensor.domain ? this.state.sensor.domain : 'NA';
-
-      const service = this.props.user.Service;
-
-      let historyGraph = null
-      if (this.state.sensor.measurements && this.state.sensor.measurements[0] && this.state.sensor.measurements[0].values && this.state.sensor.measurements[0].values[0]) {
-        historyGraph = <SensorChart measurements={this.state.sensor.measurements} sensorid={this.state.sensor.id} service={this.props.user.service} domain={domain} />
-      } else {
-        historyGraph = <CardText> <h3> No history.</h3> </CardText>
+     
+      var measurements = [];
+      for(var m of this.props.sensor.measurements) {
+        measurements.push(
+          <Card className="measCard">
+            <Measurement measurement={m}/>
+          </Card>
+        );
+        
       }
-      
 
       renderElement =
         <Container fluid={true}>
-          <h1 className="page-title">Sensor: {this.state.sensor.id}</h1>
+          <h1 className="page-title">Sensor: {this.props.sensor.id}</h1>
           <Card>
-            <CardTitle title="Historical Graph" />
-            { historyGraph }
-            <CardTitle title="Sensor Details" />
-            <CardText>
-              <List>
-                <h3> Last sensor reading was at {dateModified} with the following attributes:</h3>
-                { 
-                  this.state.sensor.measurements.map(meas => {
-                    return ( <ListItem key={meas.id} primaryText={(meas.name? meas.name: meas.id) + ": " + (meas.values && meas.values[0] ? meas.values[0].value : "no value") + " " + (meas.unit? meas.unit : "")} /> )
-                  })
-                }
-                <br />
-                <ListItem primaryText={"Creation Date: " + dateCreated} />
-                <ListItem primaryText={"Domain: " + domain} />
-              </List>
-            </CardText>
+            <CardTitle title="Current values" />
+            {measurements}
+            {measurements}
+          </Card>
+          <Card className="sensorMap">
+            <CardTitle title="Sensor location" />
             {sensorMap}
           </Card>
         </Container>
@@ -129,9 +105,9 @@ class SensorDetail extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
     return {
-      sensors: state.sensors.sensors,
+      sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId)),
       user: state.keycloak.idTokenParsed
     }
 }
