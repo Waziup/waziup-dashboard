@@ -60,14 +60,7 @@ LocationForm.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  initialLocation: function(props, propName, componentName) {
-    if (props[propName]) {
-      let value = props[propName];
-      if (typeof value != 'Location') {
-        return new Error('Invalid prop `' + propName + '` supplied to' + ' `' + componentName + '`. Validation failed.');
-      }
-    }
-  }
+  initialLocation: PropTypes.object.isRequired //Should be a Waziup.Location
 }
 
 export default reduxForm({
