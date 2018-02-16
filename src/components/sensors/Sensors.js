@@ -4,7 +4,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorStatus from './SensorStatus.js'
-import SensorForm from './sensorForm/sensorFormContainer.js'
+import SensorForm from './SensorForm.js'
 import SensorActions from './SensorActions.js'
 import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
@@ -17,9 +17,7 @@ class Sensors extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      update: false,
-      modalOpen: false,
-      loadAll: false
+      modalAddSensor: false,
     };
   }
   
@@ -28,23 +26,8 @@ class Sensors extends Component {
   }
 
   handleSensorDelete = (sensor) => {
-    console.info("delete:" + JSON.stringify(sensor));
     this.props.deleteSensor(sensor.id);
   } 
-
-  handleSensorUpdate = (data) => {
-    this.setState({ update: true });
-    this.setState({ modalOpen: true });
-  }
-
-  handleOpen = () => {
-    this.setState({ update: false });
-    this.setState({ modalOpen: true });
-  }
-
-  handleClose = () => {
-    this.setState({ modalOpen: false });
-  }
 
   handleSubmitUpdate = (formData) => {
     console.log("sensor update:", formData);
@@ -81,8 +64,8 @@ class Sensors extends Component {
     return (
       <Container fluid={true}>
         <h1 className="page-title">Sensors</h1>
-        <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => { this.handleOpen(); }} />
-        <SensorForm ref={'sForm'} modalOpen={this.state.modalOpen} handleClose={this.handleClose} onSubmit={this.state.update ? this.handleSubmitUpdate : this.handleSubmit} />
+        <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />
+        <SensorForm ref={'sForm'} modalOpen={this.state.modalAddSensor} handleClose={() => this.setState({ modalAddSensor: false })} onSubmit={this.handleSubmit} />
         {
           <Griddle resultsPerPage={10} data={this.props.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
             <RowDefinition>
@@ -102,7 +85,6 @@ class Sensors extends Component {
 function mapStateToProps(state) {
   return {
     sensors: state.sensors.sensors,
-    isLoading: state.sensors.isLoading,
     user: state.keycloak.idTokenParsed
   };
 }

@@ -9,7 +9,7 @@ import { Row, Col} from 'react-grid-system'
 
 const position = [12.238, -1.561];
 
-class sensorForm extends Component {
+class SensorForm extends Component {
 
   constructor(props){
     super(props);
@@ -114,4 +114,6 @@ class sensorForm extends Component {
   }
 }
 
-export default sensorForm
+export default reduxForm({
+    form: 'simple'
+})(SensorForm)
