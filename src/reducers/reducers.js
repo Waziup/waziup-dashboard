@@ -81,9 +81,9 @@ function messagesReducer(state = [], action = null) {
     //Sensor messages
     case types.GET_SENSORS_ERROR:     return [ ...state, {msg:"Error when fetching sensors: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
     case types.CREATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor created",  error: false}]
-    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
+    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
     case types.UPDATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor updated", error: false}]
-    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
+    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.statusText, error: true}] 
     case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
     case types.DELETE_SENSOR_ERROR:   return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
     //Notif messages

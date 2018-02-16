@@ -27,7 +27,7 @@ class LocationForm extends Component {
   
   handleChange = (formData) => {
     var location = this.state.location
-    location[formData.target.name] = formData.target.value;
+    location[formData.target.name] = parseFloat(formData.target.value);
     this.setState({location: location})
   }
 
