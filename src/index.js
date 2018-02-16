@@ -7,7 +7,7 @@ import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import Sensors from './components/sensors/Sensors';
-import Sensor from './components/sensors/sensor/sensorDetail';
+import Sensor from './components/sensors/sensor/SensorDetail';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';

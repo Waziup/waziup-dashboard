@@ -9,7 +9,7 @@ import LocationForm from './LocationForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, updateSensorLocation, updateSensorName, updateMeasurementName } from "../../../actions/actions.js"
+import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import sensorImage from '../../../images/gauge.png';
@@ -42,12 +42,13 @@ class SensorDetail extends Component {
         <Container fluid={true}>
           <h1 className="page-title">Sensor: {sensor.id}</h1>
           <Card className="sensorNode">
-            <CardTitle title="Sensor node" />
+            <CardTitle title="Sensor node">
+              <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
+            </CardTitle>
             <div>
               <SensorCard name={sensor.name} changeName={n => this.props.updateSensorName(sensor.id, n)} image={sensorNodeImage} lastUpdate={sensor.dateUpdated}/>
             </div>
             <div>
-              {measurements}
               {measurements}
             </div>
           </Card>
@@ -89,6 +90,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => {dispatch(getSensors()) },
+    deleteSensor: (id) => {dispatch(deleteSensor(id)) },
     updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) },
     updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) },
     updateMeasurementName: (sensorId, measId, n) => {dispatch(updateMeasurementName(sensorId, measId, n)) }
