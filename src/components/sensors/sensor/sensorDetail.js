@@ -9,9 +9,10 @@ import LocationForm from './LocationForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, updateSensorLocation, updateSensorName } from "../../../actions/actions.js"
-import MeasurementCard from "./measurement/MeasurementCard.js"
+import { getSensors, updateSensorLocation, updateSensorName, updateMeasurementName } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
+import sensorNodeImage from '../../../images/sensorNode.png';
+import sensorImage from '../../../images/gauge.png';
 
 var position;
 
@@ -31,8 +32,10 @@ class SensorDetail extends Component {
     let renderElement = <h1> Sensor View is being loaded... </h1>;
     console.log("sens:" + JSON.stringify(this.props.sensor))
     let sensor = this.props.sensor;
-    if (this.props.sensor) {
-      var measurements = sensor.measurements.map(m => <MeasurementCard measurement={m}/>);
+    if (sensor) {
+      var measurements = sensor.measurements.map(m => <SensorCard name={m.name} changeName={n => this.props.updateMeasurementName(sensor.id, m.id, n)} value={m.last_value + " " + (m.unit? m.unit: null)} 
+                                                                  image={sensorImage} lastUpdate={m.timestamp}/>);
+
       var position = [sensor.location.latitude, sensor.location.longitude]
       console.log("pos:" + JSON.stringify(position))
       renderElement =
@@ -41,7 +44,7 @@ class SensorDetail extends Component {
           <Card className="sensorNode">
             <CardTitle title="Sensor node" />
             <div>
-              <SensorCard sensor={sensor} changeName={n => this.props.updateSensorName(sensor.id, n)}/>
+              <SensorCard name={sensor.name} changeName={n => this.props.updateSensorName(sensor.id, n)} image={sensorNodeImage} lastUpdate={sensor.dateUpdated}/>
             </div>
             <div>
               {measurements}
@@ -87,7 +90,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => {dispatch(getSensors()) },
     updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) },
-    updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) }
+    updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) },
+    updateMeasurementName: (sensorId, measId, n) => {dispatch(updateMeasurementName(sensorId, measId, n)) }
   };
 }
 

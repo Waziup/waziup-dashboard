@@ -345,6 +345,11 @@ ul {
   float: left
 }
 
+.measIcon {
+  display: inline-block;
+  float: left;
+}
+
 .measName {
   padding: 5px;
   text-align: center;

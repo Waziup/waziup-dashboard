@@ -80,11 +80,10 @@ export function updateSensorName(sensorId, name) {
     try {
       console.log("error id:" + sensorId + " " + name)
       let data = await sensorsApi.putSensorName(domain, sensorId, name)
-      console.log("error data:" + JSON.stringify(data))
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      console.log("error:" + JSON.stringify(error))
+      log.warn("error:" + JSON.stringify(error))
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -101,6 +100,23 @@ export function deleteSensor(sensorId) {
       dispatch(getSensors());
     } catch (error) {
       dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
+    }
+  }
+};
+
+export function updateMeasurementName(sensorId, measId, name) {
+  return async function (dispatch) {
+    dispatch({type: types.UPDATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      console.log("error id:" + sensorId + " " + name)
+      let data = await sensorsApi.putMeasurementName(domain, sensorId, measId, name)
+      dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
+    } catch (error) {
+      log.warn("error:" + JSON.stringify(error))
+      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
 };
