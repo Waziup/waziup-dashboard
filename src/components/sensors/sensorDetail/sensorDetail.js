@@ -4,10 +4,11 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart';
+import LocationForm from '../LocationForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors } from "../../../actions/actions.js"
+import { getSensors, updateSensorLocation } from "../../../actions/actions.js"
 import Measurement from "../Measurement.js"
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -17,62 +18,19 @@ class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalLocation: false
     };
   }
 
   componentDidMount() {
     this.props.getSensors();
   }
-
-  getMarkers(sensor) {
-    var markers = [];
-    if (sensor && sensor.location) {
-      markers.push({
-        position: [
-          sensor.location.latitude,
-          sensor.location.longitude
-        ],
-        defaultAnimation: 2,
-      });
-      position = markers[0].position;
-    }
-    return markers
-  }
   
-  formatDate(d) {
-    return new moment(d).tz(moment.tz.guess()).format('H:mm a z MMMM Do YYYY')
-  }
-
   render() {
     let renderElement = <h1> Sensor View is being loaded... </h1>;
     console.log("sens:" + JSON.stringify(this.props.sensor))
-    if (this.props.sensor) {
-      let markers = this.getMarkers(this.props.sensor);
-      let sensorMap;
-      if (markers.length > 0) {
-        const listMarkers = markers.map((marker, index) =>
-          <Marker key={index} position={marker.position}>
-            <Popup>
-              <span>Sensor Position <br /> {marker.position} </span>
-            </Popup>
-          </Marker>
-        );
 
-        if (listMarkers.length > 0) {
-          sensorMap = <g>
-            <CardMedia>
-              <Map ref="map" center={position} zoom={5}>
-                <TileLayer
-                  url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
-                {listMarkers}
-              </Map>
-            </CardMedia>
-          </g>
-        }
-      }
-     
+    if (this.props.sensor) {
       var measurements = [];
       for(var m of this.props.sensor.measurements) {
         measurements.push(
@@ -80,22 +38,33 @@ class SensorDetail extends Component {
             <Measurement measurement={m}/>
           </Card>
         );
-        
       }
-
+      var position = [this.props.sensor.location.latitude, this.props.sensor.location.longitude]
+      console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
           <h1 className="page-title">Sensor: {this.props.sensor.id}</h1>
           <Card>
-            <CardTitle title="Current values" />
+            <CardTitle title="Measurements" />
             {measurements}
             {measurements}
           </Card>
           <Card className="sensorMap">
-            <CardTitle title="Sensor location">
-              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.notif); handleClose();}}/>
+            <CardTitle title="Location">
+              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
+              <LocationForm initialLocation={this.props.sensor.location} modalOpen={this.state.modalLocation} 
+                            onSubmit={(l) => this.props.updateSensorLocation(this.props.sensor.id)} handleClose={() => this.setState({modalLocation: false})}/>
             </CardTitle>
-            {sensorMap}
+            <CardMedia>
+              <Map ref="map" center={position} zoom={5}>
+                <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+                <Marker position={position}>
+                  <Popup>
+                    <span>Sensor Position <br /> {position} </span>
+                  </Popup>
+                </Marker>
+              </Map>
+            </CardMedia>
           </Card>
         </Container>
     }
@@ -107,7 +76,7 @@ class SensorDetail extends Component {
     );
   }
 }
-
+//
 function mapStateToProps(state, ownProps) {
     return {
       sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId)),
@@ -117,7 +86,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => {dispatch(getSensors()) }
+    getSensors: () => {dispatch(getSensors()) },
+    updateSensorLocation: () => {dispatch(updateSensorLocation()) }
   };
 }
 
