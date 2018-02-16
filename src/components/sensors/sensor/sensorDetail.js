@@ -4,12 +4,13 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart';
-import LocationForm from '../LocationForm';
+import SensorCard from './SensorCard';
+import LocationForm from './LocationForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, updateSensorLocation } from "../../../actions/actions.js"
-import Measurement from "../Measurement.js"
+import { getSensors, updateSensorLocation, updateSensorName } from "../../../actions/actions.js"
+import MeasurementCard from "./measurement/MeasurementCard.js"
 import RaisedButton from 'material-ui/RaisedButton';
 
 var position;
@@ -29,31 +30,29 @@ class SensorDetail extends Component {
   render() {
     let renderElement = <h1> Sensor View is being loaded... </h1>;
     console.log("sens:" + JSON.stringify(this.props.sensor))
-
+    let sensor = this.props.sensor;
     if (this.props.sensor) {
-      var measurements = [];
-      for(var m of this.props.sensor.measurements) {
-        measurements.push(
-          <Card className="measCard">
-            <Measurement measurement={m}/>
-          </Card>
-        );
-      }
-      var position = [this.props.sensor.location.latitude, this.props.sensor.location.longitude]
+      var measurements = sensor.measurements.map(m => <MeasurementCard measurement={m}/>);
+      var position = [sensor.location.latitude, sensor.location.longitude]
       console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
-          <h1 className="page-title">Sensor: {this.props.sensor.id}</h1>
-          <Card>
-            <CardTitle title="Measurements" />
-            {measurements}
-            {measurements}
+          <h1 className="page-title">Sensor: {sensor.id}</h1>
+          <Card className="sensorNode">
+            <CardTitle title="Sensor node" />
+            <div>
+              <SensorCard sensor={sensor} changeName={n => this.props.updateSensorName(sensor.id, n)}/>
+            </div>
+            <div>
+              {measurements}
+              {measurements}
+            </div>
           </Card>
           <Card className="sensorMap">
             <CardTitle title="Location">
               <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
-              <LocationForm initialLocation={this.props.sensor.location} modalOpen={this.state.modalLocation} 
-                            onSubmit={(l) => this.props.updateSensorLocation(this.props.sensor.id, l)} handleClose={() => this.setState({modalLocation: false})}/>
+              <LocationForm initialLocation={sensor.location} modalOpen={this.state.modalLocation} 
+                            onSubmit={(l) => this.props.updateSensorLocation(sensor.id, l)} handleClose={() => this.setState({modalLocation: false})}/>
             </CardTitle>
             <CardMedia>
               <Map ref="map" center={position} zoom={5}>
@@ -87,7 +86,8 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => {dispatch(getSensors()) },
-    updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) }
+    updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) },
+    updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) }
   };
 }
 

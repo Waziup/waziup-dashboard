@@ -72,6 +72,24 @@ export function updateSensorOwner(sensorId, owner) {
   }
 };
 
+export function updateSensorName(sensorId, name) {
+  return async function (dispatch) {
+    dispatch({type: types.UPDATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      console.log("error id:" + sensorId + " " + name)
+      let data = await sensorsApi.putSensorName(domain, sensorId, name)
+      console.log("error data:" + JSON.stringify(data))
+      dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
+    } catch (error) {
+      console.log("error:" + JSON.stringify(error))
+      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+    }
+  }
+};
+
 export function deleteSensor(sensorId) {
   return async function (dispatch) {
     dispatch({type: types.DELETE_SENSOR_START});
