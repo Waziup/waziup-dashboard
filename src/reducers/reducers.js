@@ -83,17 +83,25 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor created",  error: false}]
     case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
     case types.UPDATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor updated", error: false}]
-    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.statusText, error: true}] 
+    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
     case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
     case types.DELETE_SENSOR_ERROR:   return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
     //Notif messages
-    case types.GET_NOTIFS_ERROR:      return [ ...state, {msg:"Error when fetching notifications: ",    error: true}]
+    case types.GET_NOTIFS_ERROR:      return [ ...state, {msg:"Error when fetching notifications: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
     case types.CREATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification created", error: false}] 
-    case types.CREATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when creating notification:" + action.data.response.status + " " + action.data.response.body.description, error: false}] 
+    case types.CREATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when creating notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
     case types.UPDATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification updated", error: false}] 
-    case types.UPDATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when updating notification:" + action.data.response.status + " " + action.data.response.body.description, error: false}] 
+    case types.UPDATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when updating notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
     case types.DELETE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification deleted", error: false}] 
-    case types.DELETE_NOTIF_ERROR:    return [ ...state, {msg:"Error when deleting notification:" + action.data.response.status + " " + action.data.response.body.description, error: false}] 
+    case types.DELETE_NOTIF_ERROR:    return [ ...state, {msg:"Error when deleting notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    //User messages
+    case types.GET_USERS_ERROR:       return [ ...state, {msg:"Error when fetching users: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
+    case types.CREATE_USER_SUCCESS:  return [ ...state, {msg:"New user created", error: false}] 
+    case types.CREATE_USER_ERROR:    return [ ...state, {msg:"Error when creating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    case types.UPDATE_USER_SUCCESS:  return [ ...state, {msg:"User updated", error: false}] 
+    case types.UPDATE_USER_ERROR:    return [ ...state, {msg:"Error when updating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    case types.DELETE_USER_SUCCESS:  return [ ...state, {msg:"User deleted", error: false}] 
+    case types.DELETE_USER_ERROR:    return [ ...state, {msg:"Error when deleting user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
 
     default: return state;
   }
