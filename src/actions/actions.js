@@ -32,7 +32,7 @@ export function createSensor(sensor) {
     dispatch({type: types.CREATE_SENSOR_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
-      let data = await sensorsApi.createSensor(sensor, domain);
+      let data = await sensorsApi.createSensor(domain, sensor);
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
