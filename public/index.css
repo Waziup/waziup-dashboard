@@ -297,6 +297,14 @@ ul {
       list-style-position: inside;
 }
 
+/* Sensors */
+
+.tableSwitch {
+  color: blue;
+  font-family: Roboto, sans-serif;
+  text-decoration: underline;
+}
+
 /* Sensor details */
 
 .sensorMap {
@@ -306,9 +314,9 @@ ul {
 }
 
 .changeLocationButton {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+  float: right;
+  margin: 3px;
+
 }
 
 .cardEditIcon {
@@ -326,6 +334,23 @@ ul {
 .sensorNode {
   overflow:hidden;
   padding-bottom:15px;
+}
+
+.sensorNode {
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.sensorNodeTitle {
+  display: inline-block;
+  font-size: 24px;
+  font-family: Roboto, sans-serif;
+  margin: 5px;
+}
+
+.sensorNodeCards {
+  clear:left;
 }
 
 /* Measurement */
