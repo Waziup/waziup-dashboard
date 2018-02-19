@@ -17,17 +17,29 @@ export default class SensorCard extends Component {
 
   render() {
     var title={};
-    if(this.state.edit) {
-      title = <TextField className="cardTitle" value={this.state.name} onChange={a => this.setState({name: a.target.value})} onBlur={a => {this.props.changeName(a.target.value); this.setState({edit: false})}}/>
+    if(this.props.changeName) {
+      if(this.state.edit) {
+        title = 
+          <div className="cardTitle">
+            <TextField className="cardTitle" value={this.state.name} onChange={a => this.setState({name: a.target.value})} onBlur={a => {this.props.changeName(a.target.value); this.setState({edit: false})}}/>
+            <EditIcon className="cardEditIcon" />
+          </div>
+      } else {
+        title =
+          <div className="cardTitle" onClick={() => this.setState({edit: true})}>
+            <pre className="cardTitle"> {this.props.name} </pre>
+            <EditIcon className="cardEditIcon" />
+          </div>
+      }
     } else {
-      title = <pre className="cardTitle" onClick={() => this.setState({edit: true})}> {this.props.name} </pre>
+      title =
+        <div>
+          <pre className="cardTitle"> {this.props.name} </pre>
+        </div>
     }
     return (
       <Card className="measCard">
-        <div className="cardTitle">
-          {title}
-          <EditIcon className="cardEditIcon" />
-        </div>
+        {title}
         <div className="cardContent">
           <div className="measIcon">
             <img src={this.props.image} height="100" title={"Last update at " + this.props.lastUpdate}/>
@@ -42,8 +54,8 @@ export default class SensorCard extends Component {
   
   propTypes = {
     name: PropTypes.object.isRequired, //Should be a Waziup.Sensor
-    changeName: PropTypes.func.isRequired,
     image: PropTypes.string.isRequired,
+    changeName: PropTypes.func,
     lastUpdate: PropTypes.string,
     value: PropTypes.string 
   }

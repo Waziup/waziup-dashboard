@@ -4,12 +4,14 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart';
+import SensorNodeCard from './SensorNodeCard';
 import SensorCard from './SensorCard';
 import LocationForm from './LocationForm';
+import MeasurementForm from './MeasurementForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName } from "../../../actions/actions.js"
+import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import sensorImage from '../../../images/gauge.png';
@@ -20,7 +22,8 @@ class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalLocation: false
+      modalLocation: false,
+      modalMeas: false
     };
   }
 
@@ -40,20 +43,12 @@ class SensorDetail extends Component {
       console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
-          <h1 className="page-title">Sensor: {sensor.id}</h1>
-          <Card className="sensorNode">
-            <CardTitle title="Sensor node">
-              <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
-            </CardTitle>
-            <div>
-              <SensorCard name={sensor.name} changeName={n => this.props.updateSensorName(sensor.id, n)} image={sensorNodeImage} lastUpdate={sensor.dateUpdated}/>
-            </div>
-            <div>
-              {measurements}
-            </div>
-          </Card>
+          <h1 className="page-title">Sensor node: {sensor.id}</h1>
+          <SensorNodeCard className="sensorNode" sensor={sensor} updateSensorName={this.props.updateSensorName} updateMeasurementName={this.props.updateMeasurementName} 
+                          deleteSensor={this.props.deleteSensor} addMeasurement={this.props.addMeasurement}/>
           <Card className="sensorMap">
-            <CardTitle title="Location">
+            <CardTitle>
+              <h2 className="sensorNodeTitle"> Location </h2>
               <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
               <LocationForm initialLocation={sensor.location} modalOpen={this.state.modalLocation} 
                             onSubmit={(l) => this.props.updateSensorLocation(sensor.id, l)} handleClose={() => this.setState({modalLocation: false})}/>
@@ -90,6 +85,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => {dispatch(getSensors()) },
+    addMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteSensor: (id) => {dispatch(deleteSensor(id)) },
     updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) },
     updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) },

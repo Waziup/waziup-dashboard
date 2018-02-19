@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 import SensorData from './SensorData.js'
 import SensorStatus from './SensorStatus.js'
 import SensorForm from './SensorForm.js'
+import SensorNodeCard from './sensor/SensorNodeCard.js'
 import SensorActions from './SensorActions.js'
+import SensorsTable from './SensorsTable.js'
 import { Container } from 'react-grid-system'
 import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
 import { getSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
 import * as Waziup from 'waziup-js'
+import { Link } from 'react-router';
 
 
 class Sensors extends Component {
@@ -18,6 +21,7 @@ class Sensors extends Component {
     super(props);
     this.state = {
       modalAddSensor: false,
+      isCardsView: true 
     };
   }
   
@@ -44,44 +48,28 @@ class Sensors extends Component {
   }
 
   render() {
-    const rowDataSelector = (state, { griddleKey }) => {
-      return state
-        .get('data')
-        .find(rowMap => rowMap.get('griddleKey') === griddleKey)
-        .delete('griddleKey')
-        .toJSON();
-    };
 
-    const enhancedWithRowData = connect((state, props) => {
-      return {
-        // rowData will be available into RowActions
-        rowData: rowDataSelector(state, props),
-        deleteAction: this.handleSensorDelete,
-        updateAction: this.handleSensorUpdate,
-        vectorAction: this.handleVectorSave
-      };
-    });
+    var sensorNodes = []
+    for(var sensor of this.props.sensors) {
+       const card = 
+         <Link to={"/sensors/"+sensor.id} > 
+           <SensorNodeCard className="sensorNode" sensor={sensor} updateSensorName={null} updateMeasurementName={null} 
+                           deleteSensor={this.props.deleteSensor} addMeasurement={null}  />
+         </Link>
+       sensorNodes.push(card)
+    }
     return (
       <Container fluid={true}>
-        <h1 className="page-title">Sensors</h1>
-        <RaisedButton label="Add Sensors" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />
+        <h1 className="page-title">Sensor nodes</h1>
         <SensorForm ref={'sForm'} modalOpen={this.state.modalAddSensor} handleClose={() => this.setState({ modalAddSensor: false })} onSubmit={this.handleSubmit} />
-        {
-          <Griddle resultsPerPage={10} data={this.props.sensors} plugins={[plugins.LocalPlugin]} showFilter={true} styleConfig={Utils.styleConfig()} >
-            <RowDefinition>
-              <ColumnDefinition id="id" title="ID" />
-              <ColumnDefinition id="owner" title="Owner" />
-              <ColumnDefinition id="values" title="Values" customComponent={enhancedWithRowData(SensorData)} />
-              <ColumnDefinition id="status" title="Status" customComponent={enhancedWithRowData(SensorStatus)} />
-              <ColumnDefinition id="actions" title="Actions" customComponent={enhancedWithRowData(SensorActions)} />
-            </RowDefinition>
-          </Griddle>
-        }
+        <pre className="tableSwitch" onClick={() => this.setState({isCardsView: !this.state.isCardsView})}> {this.state.isCardsView? "Switch to table view": "Switch to cards view"} </pre>
+        {this.state.isCardsView? sensorNodes: <SensorsTable sensors={this.props.sensors} />}
+        <RaisedButton label="Add sensor node" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />
       </Container>
     );
   }
 }
-
+//this.setState({isCardsView: !this.state.isCardsView})
 function mapStateToProps(state) {
   return {
     sensors: state.sensors.sensors,
