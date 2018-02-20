@@ -7,6 +7,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {grey} from 'material-ui/styles/colors';
 import { TextField } from 'redux-form-material-ui'
 import sensorNodeImage from '../../../images/sensorNode.png';
+import SensorForm from '../SensorForm.js'
 
 export default class SensorBoardCard extends Component {
   constructor(props) {
@@ -20,10 +21,11 @@ export default class SensorBoardCard extends Component {
     let sensor = this.props.sensor
     return (
       <Card className="measCard">
+        <SensorForm sensor={sensor} isEdit={this.props.isEditable} modalOpen={this.state.modalEdit} handleClose={() => this.setState({ modalEdit: false })} onSubmit={s => this.props.updateSensor(s)} />
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {sensor.name} </pre>
           <div className="cardTitleIcons"> 
-            {this.props.edit? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
+            {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
           </div>
         </div>
         <div className="cardContent">
@@ -37,7 +39,7 @@ export default class SensorBoardCard extends Component {
   
   propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
-    edit: PropTypes.func.isRequired,
+    isEditable: PropTypes.func,
   }
 }
 

@@ -14,9 +14,10 @@ class LocationForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-      location: Object.assign({}, props.initialLocation)
+      location: Object.assign({}, this.initialLocation)
     };
   }
+  initialLocation = this.props.initialLocation? this.props.initialLocation: {latitude: 12.238, longitude: -1.561};
 
   choosePosition = (formData) => {
     var location = this.state.location
@@ -38,7 +39,7 @@ class LocationForm extends Component {
     ];
     return (
       <Dialog title="Location" actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
-        <Map className="map" center={[this.props.initialLocation.latitude, this.props.initialLocation.longitude]} zoom={5}>
+        <Map className="map" center={[this.initialLocation.latitude, this.initialLocation.longitude]} zoom={5}>
           <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
           <Marker onDrag={(e)=>{this.choosePosition(e)}} position={[this.state.location.latitude, this.state.location.longitude]} draggable={true}>
             <Popup>
@@ -60,7 +61,7 @@ LocationForm.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  initialLocation: PropTypes.object.isRequired //Should be a Waziup.Location
+  initialLocation: PropTypes.object //Should be a Waziup.Location
 }
 
 export default reduxForm({

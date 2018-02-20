@@ -5,28 +5,21 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem'
 import { SelectField, TextField } from 'redux-form-material-ui'
-import { Row, Col} from 'react-grid-system'
+import PropTypes from 'prop-types';
+import * as Waziup from 'waziup-js'
 
-const position = [12.238, -1.561];
 
 class SensorForm extends Component {
 
   constructor(props){
     super(props);
+    const defaultSensor = new Waziup.Sensor("MySensor")
+    defaultSensor.name = "My sensor"
+    defaultSensor.owner = "cdupont"
+    defaultSensor.domain = "waziup"
     this.state = {
-      sensor: {
-        sensorLat: 12.238000,
-        sensorLon: -1.561111,
-        sensorId: 'MySensor'
-      }
+      sensor: (this.props.sensor? this.props.sensor: defaultSensor)
     };
-  }
-
-  choosePosition = (formData) => {
-    var sensor = this.state.sensor
-    sensor.sensorLon = formData.latlng.lng
-    sensor.sensorLat = formData.latlng.lat
-    this.setState({sensor: sensor})
   }
   
   handleChange = (formData) => {
@@ -37,80 +30,25 @@ class SensorForm extends Component {
 
   render() {
     const {reset, modalOpen, handleClose, onSubmit} = this.props;
-      const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={()=>{
-            handleClose();
-        }}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        onTouchTap={()=>{
-          console.log("onSubmit")
-          this.props.onSubmit(this.state.sensor);
-          handleClose();
-        }}
-      />,
+    const actions = [ 
+      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
+      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
     ];
 
     return (
-        <Dialog
-              title="Add New Sensor"
-              actions={actions}
-              modal={true}
-              open={modalOpen}
-              autoScrollBodyContent={true}
-              ref={'sensorFormDialog'}
-            >
-          <form onSubmit={onSubmit}>
-            <Row>
-                <Col md={8}>
-                   <Map  className="sensorform" ref="map" center={position} zoom={5}>
-                    <TileLayer
-                      url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
-                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <Marker onDrag={(e)=>{this.choosePosition(e)}} position={[this.state.sensor.sensorLat, this.state.sensor.sensorLon]} draggable={true}>
-                      <Popup>
-                        <span>Your sensor position !</span>
-                      </Popup>
-                    </Marker>
-                    </Map>
-                </Col>
-                <Col md={4}>
-                    <div>Sensor Location:</div>
-                    <TextField name="sensorLon"
-                      hintText="Longitude"
-                      floatingLabelText="Longitude"
-                      value={this.state.sensor.sensorLon}
-                      onChange={this.handleChange}
-                      />
-                    <TextField
-                      name="sensorLat"
-                      hintText="Latitude"
-                      floatingLabelText="Latitude"
-                      value={this.state.sensor.sensorLat}
-                      onChange={this.handleChange}
-                      />
-              </Col>
-            </Row>
-            <Row>
-              <Col md={4}>
-                <TextField name="sensorId"
-                  id='sensorId'
-                  hintText="Sensor id"
-                  floatingLabelText="Sensor Id"
-                  value={this.state.sensor.sensorId}
-                  onChange={this.handleChange}
-                  />
-              </Col>
-            </Row>
-          </form>
+        <Dialog title={this.props.isEdit? "Update Sensor Node": "Add Sensor Node"} actions={actions} modal={true} open={modalOpen}>
+             <TextField name="id" disabled={this.props.isEdit} floatingLabelText="Sensor ID" value={this.state.sensor.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
+             <TextField name="name"  floatingLabelText="Sensor name" value={this.state.sensor.name} onChange={this.handleChange} title="Name of the sensor"/>
+             <TextField name="domain"  floatingLabelText="Domain" value={this.state.sensor.domain} onChange={this.handleChange} title="Domain this sensor belongs to"/>
         </Dialog>
       );
+  }
+
+  propTypes = {
+    modalOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    isEdit: PropTypes.bool
   }
 }
 

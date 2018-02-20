@@ -29,37 +29,19 @@ class Sensors extends Component {
     this.props.getSensors();
   }
 
-  handleSensorDelete = (sensor) => {
-    this.props.deleteSensor(sensor.id);
-  } 
-
-  handleSubmitUpdate = (formData) => {
-    console.log("sensor update:", formData);
-    var loc = new Waziup.Location(formData.sensorLat, formData.sensorLon)
-    this.props.updateSensorLocation(formData.sensorId, loc);
-    this.props.updateSensorOwner(sensor.sensorId, this.props.user.preferred_username);
-  }
-
-  handleSubmit = (formData) => {
-    var sensor = new Waziup.Sensor(formData.sensorId);
-    sensor.location = {latitude: formData.sensorLat, longitude: formData.sensorLon}
-    sensor.owner = this.props.user.preferred_username;
-    this.props.createSensor(sensor);
-  }
-
   render() {
     var sensorNodes = []
     for(var sensor of this.props.sensors) {
        const card = 
          <Link to={"/sensors/"+sensor.id} > 
-           <SensorNodeCard className="sensorNode" sensor={sensor}/>
+           <SensorNodeCard className="sensorNode" sensor={sensor} isEditable={false}/>
          </Link>
        sensorNodes.push(card)
     }
     return (
       <Container fluid={true}>
         <h1 className="page-title">Sensor nodes</h1>
-        <SensorForm ref={'sForm'} modalOpen={this.state.modalAddSensor} handleClose={() => this.setState({ modalAddSensor: false })} onSubmit={this.handleSubmit} />
+        <SensorForm modalOpen={this.state.modalAddSensor} handleClose={() => this.setState({ modalAddSensor: false })} onSubmit={s => this.props.createSensor(s)} />
         <pre className="tableSwitch" onClick={() => this.setState({isCardsView: !this.state.isCardsView})}> {this.state.isCardsView? "Switch to table view": "Switch to cards view"} </pre>
         {this.state.isCardsView? sensorNodes: <SensorsTable sensors={this.props.sensors} />}
         <RaisedButton label="Add sensor node" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />

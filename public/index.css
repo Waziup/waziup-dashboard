@@ -341,12 +341,9 @@ ul {
 .sensorNode {
   overflow:hidden;
   padding-bottom:15px;
-}
-
-.sensorNode {
   width: 100%;
   margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .sensorNodeTitle {
