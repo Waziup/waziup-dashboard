@@ -48,13 +48,11 @@ class Sensors extends Component {
   }
 
   render() {
-
     var sensorNodes = []
     for(var sensor of this.props.sensors) {
        const card = 
          <Link to={"/sensors/"+sensor.id} > 
-           <SensorNodeCard className="sensorNode" sensor={sensor} updateSensorName={null} updateMeasurementName={null} 
-                           deleteSensor={this.props.deleteSensor} addMeasurement={null}  />
+           <SensorNodeCard className="sensorNode" sensor={sensor}/>
          </Link>
        sensorNodes.push(card)
     }
@@ -69,7 +67,7 @@ class Sensors extends Component {
     );
   }
 }
-//this.setState({isCardsView: !this.state.isCardsView})
+
 function mapStateToProps(state) {
   return {
     sensors: state.sensors.sensors,
