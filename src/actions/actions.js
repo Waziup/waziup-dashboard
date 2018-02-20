@@ -83,7 +83,7 @@ export function updateSensorName(sensorId, name) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      log.warn("error:" + JSON.stringify(error))
+      //log.warn("error:" + JSON.stringify(error))
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -95,12 +95,25 @@ export function addMeasurement(sensorId, meas) {
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
-      console.log("error id:" + sensorId + " " + name)
       let data = await sensorsApi.addMeasurement(domain, sensorId, meas)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      log.warn("error:" + JSON.stringify(error))
+      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+    }
+  }
+};
+
+export function deleteMeasurement(sensorId, measId) {
+  return async function (dispatch) {
+    dispatch({type: types.UPDATE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      let data = await sensorsApi.deleteMeasurement(domain, sensorId, measId)
+      dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
+    } catch (error) {
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -132,7 +145,7 @@ export function updateMeasurementName(sensorId, measId, name) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      log.warn("error:" + JSON.stringify(error))
+      //log.warn("error:" + JSON.stringify(error))
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }

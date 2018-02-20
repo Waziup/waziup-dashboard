@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import SensorCard from './SensorCard';
+import SensorBoardCard from './SensorBoardCard';
 import MeasurementForm from './MeasurementForm';
+import MeasurementCard from './MeasurementCard';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
-import sensorNodeImage from '../../../images/sensorNode.png';
 import sensorImage from '../../../images/gauge.png';
 
 export default class SensorNodeCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalMeas: false,
+      modalAdd: false
     };
   }
 
@@ -19,21 +21,22 @@ export default class SensorNodeCard extends Component {
     let sensor = this.props.sensor;
     var measurements = [];
     for (let m of sensor.measurements) {
-      let changeMeasName = this.props.updateMeasurementName? n => this.props.updateMeasurementName(sensor.id, m.id, n): null;
-      measurements.push(<SensorCard name={m.name} changeName={changeMeasName} value={m.last_value + " " + (m.unit? m.unit: null)} image={sensorImage} lastUpdate={m.timestamp}/>);
+      measurements.push(<MeasurementCard measurement={m} isEditable={true} changeMeasurement={m => this.props.addMeasurement(m)} deleteMeasurement={mid => this.props.deleteMeasurement(mid)}/>);
     }
     let changeSensorName = this.props.updateSensorName? n => this.props.updateSensorName(sensor.id, n): null;
 
     return ( 
       <Card className="sensorNode">
+        <MeasurementForm modalOpen={this.state.modalAdd} handleClose={()=>{this.setState({modalAdd: false})}}
+                         onSubmit={(m) => {this.props.addMeasurement(m); this.setState({modalAdd: false});}}
+                         isEdit={false}/>
         <CardTitle>
           <h2 className="sensorNodeTitle"> Sensor Node - {sensor.id} </h2>
           {this.props.deleteSensor? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>: null}
-          {this.props.addMeasurement? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalMeas: true})}}/>: null}
-          {this.props.addMeasurement? <MeasurementForm modalOpen={this.state.modalMeas} handleClose={()=>{this.setState({modalMeas: false})}} onSubmit={m => this.props.addMeasurement(sensor.id, m)}/>: null}
+          {this.props.addMeasurement? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
         </CardTitle>
         <div className="sensorNodeCards">
-          <SensorCard name={sensor.name} changeName={changeSensorName} image={sensorNodeImage} lastUpdate={sensor.dateUpdated}/>
+          <SensorBoardCard sensor={sensor}/>
           {measurements}
         </div>
       </Card>
@@ -46,5 +49,6 @@ export default class SensorNodeCard extends Component {
     updateMeasurementName: PropTypes.func,
     deleteSensor: PropTypes.func,
     addMeasurement: PropTypes.func,
+    deleteMeasurement: PropTypes.func
   }
 }

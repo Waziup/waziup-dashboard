@@ -75,7 +75,7 @@ export function keycloakLogin() {
           getUsers();
         }).
         error(function () {
-          alert('Failed to refresh the token, or the session has expired');
+          alert('Your session has expired, please log in again');
           keycloak.logout();
         })
       }, 10000);

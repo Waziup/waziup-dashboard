@@ -329,6 +329,13 @@ ul {
   font-family: Roboto, sans-serif;
 }
 
+.cardTitleIcons {
+  display: inline-block;
+  float: right;
+  margin: 5px;
+}
+
+
 /* Sensor */
 
 .sensorNode {

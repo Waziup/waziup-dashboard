@@ -21,7 +21,7 @@ class MeasurementForm extends Component {
     defaultMeas.unit = "DegreeCelsius"
     defaultMeas.sensor_kind = "Thermometer"
     this.state = {
-      meas: defaultMeas 
+      meas: (this.props.measurement? this.props.measurement: defaultMeas)
     };
   }
   
@@ -44,10 +44,10 @@ class MeasurementForm extends Component {
       <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.meas); this.props.handleClose();}}/>,
     ];
     return (
-      <Dialog title="New measurement" actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
+      <Dialog title={this.props.isEdit? "Edit Measurement": "New measurement"} actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
          <img src={sensorImage} height="100"/>
          <div className="locationCoords">
-           <TextField name="id" floatingLabelText="ID" value={this.state.meas.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the measure"/>
+           <TextField name="id" disabled={this.props.isEdit} floatingLabelText="ID" value={this.state.meas.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the measure"/>
            <TextField name="name" floatingLabelText="Name" value={this.state.meas.name} onChange={this.handleChange} title="A name for this sensor measurement"/>
            <SelectField name="sensor_kind" floatingLabelText="Sensor"  value={this.state.meas.sensor_kind} onChange={this.handleSelect("sensor_kind")} title="The kind of sensor used for this measurement">
              {Waziup.SensingDevices.map(s => <MenuItem value={s} primaryText={s} />)}
@@ -64,9 +64,11 @@ class MeasurementForm extends Component {
   }
 
   propTypes = {
+    measurement: PropTypes.object, //Waziup.Measurement
     modalOpen: PropTypes.bool.isRequired,
+    isEdit: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 }
 

@@ -5,16 +5,13 @@ import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart';
 import SensorNodeCard from './SensorNodeCard';
-import SensorCard from './SensorCard';
 import LocationForm from './LocationForm';
 import MeasurementForm from './MeasurementForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement } from "../../../actions/actions.js"
+import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
-import sensorNodeImage from '../../../images/sensorNode.png';
-import sensorImage from '../../../images/gauge.png';
 
 var position;
 
@@ -23,7 +20,6 @@ class SensorDetail extends Component {
     super(props);
     this.state = {
       modalLocation: false,
-      modalMeas: false
     };
   }
 
@@ -36,16 +32,13 @@ class SensorDetail extends Component {
     console.log("sens:" + JSON.stringify(this.props.sensor))
     let sensor = this.props.sensor;
     if (sensor) {
-      var measurements = sensor.measurements.map(m => <SensorCard name={m.name} changeName={n => this.props.updateMeasurementName(sensor.id, m.id, n)} value={m.last_value + " " + (m.unit? m.unit: null)} 
-                                                                  image={sensorImage} lastUpdate={m.timestamp}/>);
-
       var position = [sensor.location.latitude, sensor.location.longitude]
       console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
           <h1 className="page-title">Sensor node: {sensor.id}</h1>
           <SensorNodeCard className="sensorNode" sensor={sensor} updateSensorName={this.props.updateSensorName} updateMeasurementName={this.props.updateMeasurementName} 
-                          deleteSensor={this.props.deleteSensor} addMeasurement={this.props.addMeasurement}/>
+                          deleteSensor={this.props.deleteSensor} addMeasurement={m => this.props.addMeasurement(sensor.id, m)} deleteMeasurement={id => this.props.deleteMeasurement(sensor.id, id)}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Location </h2>
@@ -74,7 +67,7 @@ class SensorDetail extends Component {
     );
   }
 }
-//
+
 function mapStateToProps(state, ownProps) {
     return {
       sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId)),
@@ -86,6 +79,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => {dispatch(getSensors()) },
     addMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
+    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
     deleteSensor: (id) => {dispatch(deleteSensor(id)) },
     updateSensorLocation: (id, l) => {dispatch(updateSensorLocation(id, l)) },
     updateSensorName: (id, n) => {dispatch(updateSensorName(id, n)) },
