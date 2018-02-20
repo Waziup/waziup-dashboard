@@ -21,7 +21,7 @@ export default class MeasurementCard extends Component {
     return (
       <Card className="measCard">
         <MeasurementForm modalOpen={this.state.modalEdit} handleClose={()=>{this.setState({modalEdit: false})}}
-                         onSubmit={(m) => {this.props.changeMeasurement(m); this.setState({modalEdit: false});}}
+                         onSubmit={(m) => {this.props.updateMeasurement(m); this.setState({modalEdit: false});}}
                          isEdit={true} measurement={meas}/>
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {meas.name} </pre>
@@ -45,7 +45,7 @@ export default class MeasurementCard extends Component {
   propTypes = {
     meas: PropTypes.object.isRequired, //Should be a Waziup.Measurement
     isEditable: PropTypes.bool,
-    changeMeasurement: PropTypes.func,
+    updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func
   }
 }

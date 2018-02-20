@@ -44,7 +44,7 @@ class MeasurementForm extends Component {
       <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.meas); this.props.handleClose();}}/>,
     ];
     return (
-      <Dialog title={this.props.isEdit? "Edit Measurement": "New measurement"} actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
+      <Dialog title={this.props.isEdit? "Edit Measurement": "Add measurement"} actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
          <img src={sensorImage} height="100"/>
          <div className="locationCoords">
            <TextField name="id" disabled={this.props.isEdit} floatingLabelText="ID" value={this.state.meas.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the measure"/>

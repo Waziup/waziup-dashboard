@@ -32,13 +32,18 @@ class SensorDetail extends Component {
     console.log("sens:" + JSON.stringify(this.props.sensor))
     let sensor = this.props.sensor;
     if (sensor) {
-      var position = [sensor.location.latitude, sensor.location.longitude]
+      var position = (sensor.location? [sensor.location.latitude, sensor.location.longitude]: [12.238, -1.561]);
       console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
           <h1 className="page-title">Sensor node: {sensor.id}</h1>
-          <SensorNodeCard className="sensorNode" sensor={sensor} updateSensorName={this.props.updateSensorName} updateMeasurementName={this.props.updateMeasurementName} 
-                          deleteSensor={this.props.deleteSensor} addMeasurement={m => this.props.addMeasurement(sensor.id, m)} deleteMeasurement={id => this.props.deleteMeasurement(sensor.id, id)}/>
+          <SensorNodeCard className="sensorNode"
+                          sensor={sensor}
+                          updateSensor={s => this.props.updateSensorName(s.id, s.name)}
+                          deleteSensor={this.props.deleteSensor}
+                          updateMeasurement={m => this.props.addMeasurement(sensor.id, m)}
+                          deleteMeasurement={id => this.props.deleteMeasurement(sensor.id, id)}
+                          isEditable={true}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Location </h2>
