@@ -12,6 +12,8 @@ var usersApi   = new WaziupApi.UsersApi();
 var notifsApi  = new WaziupApi.NotificationsApi();
 
 
+/* Sensor Actions */
+
 export function getSensors() {
   return async function (dispatch) {
     var domain = "waziup";
@@ -89,6 +91,23 @@ export function updateSensorName(sensorId, name) {
   }
 };
 
+export function deleteSensor(sensorId) {
+  return async function (dispatch) {
+    dispatch({type: types.DELETE_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      let data = await sensorsApi.deleteSensor(domain, sensorId)
+      dispatch({type: types.DELETE_SENSOR_SUCCESS, data: data})
+      dispatch(getSensors());
+    } catch (error) {
+      dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
+    }
+  }
+};
+
+/* Measurement actions */
+
 export function addMeasurement(sensorId, meas) {
   return async function (dispatch) {
     dispatch({type: types.UPDATE_SENSOR_START});
@@ -119,21 +138,6 @@ export function deleteMeasurement(sensorId, measId) {
   }
 };
 
-export function deleteSensor(sensorId) {
-  return async function (dispatch) {
-    dispatch({type: types.DELETE_SENSOR_START});
-    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
-    var domain = "waziup"; 
-    try {
-      let data = await sensorsApi.deleteSensor(domain, sensorId)
-      dispatch({type: types.DELETE_SENSOR_SUCCESS, data: data})
-      dispatch(getSensors());
-    } catch (error) {
-      dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
-    }
-  }
-};
-
 export function updateMeasurementName(sensorId, measId, name) {
   return async function (dispatch) {
     dispatch({type: types.UPDATE_SENSOR_START});
@@ -150,6 +154,29 @@ export function updateMeasurementName(sensorId, measId, name) {
     }
   }
 };
+
+/* sensor values action */
+
+export function getValues(sensorId, measId) {
+  return async function (dispatch) {
+    var domain = "waziup";
+    dispatch({type: types.GET_VALUES_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    try {
+      console.log("get Values : " + domain, sensorId, measId)
+      let data = await sensorsApi.getMeasurementValues(domain, sensorId, measId)
+      console.log("error2: " + JSON.stringify(data))
+      dispatch({type: types.GET_VALUES_SUCCESS, data: data})
+    } catch (error) {
+      console.log("error3: " + JSON.stringify(error))
+      dispatch({type: types.GET_VALUES_ERROR, data: error});
+    }
+  }
+};
+
+
+
+/* User actions */
 
 export function getUsers() {
   return async function (dispatch) {
@@ -177,6 +204,9 @@ export function deleteUser(userid) {
     }
   }
 };
+
+
+/* Notification actions */
 
 export function createNotif(notif) {
   return async function (dispatch) {

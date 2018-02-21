@@ -507,3 +507,9 @@ ul {
   position: absolute;
   top: 5px;
 }
+
+/* Chart */
+
+.sensorChart {
+  margin: 10px
+}

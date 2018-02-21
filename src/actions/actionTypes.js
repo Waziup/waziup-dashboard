@@ -13,6 +13,11 @@ export const UPDATE_SENSOR_START   = 'UPDATE_SENSOR_START';
 export const UPDATE_SENSOR_SUCCESS = 'UPDATE_SENSOR_SUCCESS';
 export const UPDATE_SENSOR_ERROR   = 'UPDATE_SENSOR_ERROR';
 
+//Sensor actions
+export const GET_VALUES_START     = 'GET_VALUES_START';
+export const GET_VALUES_SUCCESS   = 'GET_VALUES_SUCCESS';
+export const GET_VALUES_ERROR     = 'GET_VALUES_ERROR';
+
 //Users actions
 export const GET_USERS_START     = 'GET_USERS_START';
 export const GET_USERS_SUCCESS   = 'GET_USERS_SUCCESS';
