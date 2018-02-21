@@ -7,7 +7,8 @@ import configureStore from './store';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import Sensors from './components/sensors/Sensors';
-import Sensor from './components/sensors/sensor/SensorDetail';
+import SensorDetail from './components/sensors/sensor/SensorDetail';
+import MeasurementDetail from './components/sensors/sensor/MeasurementDetail';
 import Profile from './components/profile/ProfileContainer.js';
 import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
@@ -38,7 +39,8 @@ const routes = {
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
     { path: 'sensors', component: Sensors },
-    { path: 'sensors/:sensorId', component: Sensor },
+    { path: 'sensors/:sensorId', component: SensorDetail },
+    { path: 'sensors/:sensorId/:measId', component: MeasurementDetail },
     { path: 'users', component: UserList },
     { path: 'users/:uid', component: User },
     { path: 'userpermissions', component: UserPermissions },

@@ -5,6 +5,7 @@ import { reducer as formReducer } from 'redux-form'
 
 //Get all sensors
 function sensorsReducer(state = { isLoading: false, sensors: [], error: false, errMsg:'' }, action = null) {
+  console.log("sensor reducer: " + JSON.stringify(action))
   switch (action.type) {
     case types.GET_SENSORS_START:   return Object.assign({}, state, { isLoading: true, error: false });
     case types.GET_SENSORS_SUCCESS: return Object.assign({}, state, { isLoading: false, sensors: action.data, error: false });
@@ -28,6 +29,17 @@ function sensorActionReducer(state = { isLoading: false, msg:{}, error: false },
     default: return state;
   }
 };
+
+//Get sensors values
+function valuesReducer(state = { isLoading: false, values: [], error: false, errMsg:'' }, action = null) {
+  switch (action.type) {
+    case types.GET_VALUES_START:   return Object.assign({}, state, { isLoading: true, error: false });
+    case types.GET_VALUES_SUCCESS: return Object.assign({}, state, { isLoading: false, values: action.data, error: false });
+    case types.GET_VALUES_ERROR:   return Object.assign({}, state, { isLoading: false, msg: action.data,     error: true });
+    default: return state;
+  }
+};
+
 
 // Get all users
 function usersReducer(state = { isLoading: false, users: [], error: false }, action = null) {
@@ -86,6 +98,8 @@ function messagesReducer(state = [], action = null) {
     case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
     case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
     case types.DELETE_SENSOR_ERROR:   return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
+    //Values errors
+    case types.GET_VALUES_ERROR:      return [ ...state, {msg:"Error when fetching sensor values: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
     //Notif messages
     case types.GET_NOTIFS_ERROR:      return [ ...state, {msg:"Error when fetching notifications: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
     case types.CREATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification created", error: false}] 
@@ -96,12 +110,12 @@ function messagesReducer(state = [], action = null) {
     case types.DELETE_NOTIF_ERROR:    return [ ...state, {msg:"Error when deleting notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
     //User messages
     case types.GET_USERS_ERROR:       return [ ...state, {msg:"Error when fetching users: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
-    case types.CREATE_USER_SUCCESS:  return [ ...state, {msg:"New user created", error: false}] 
-    case types.CREATE_USER_ERROR:    return [ ...state, {msg:"Error when creating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.UPDATE_USER_SUCCESS:  return [ ...state, {msg:"User updated", error: false}] 
-    case types.UPDATE_USER_ERROR:    return [ ...state, {msg:"Error when updating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.DELETE_USER_SUCCESS:  return [ ...state, {msg:"User deleted", error: false}] 
-    case types.DELETE_USER_ERROR:    return [ ...state, {msg:"Error when deleting user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    case types.CREATE_USER_SUCCESS:   return [ ...state, {msg:"New user created", error: false}] 
+    case types.CREATE_USER_ERROR:     return [ ...state, {msg:"Error when creating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    case types.UPDATE_USER_SUCCESS:   return [ ...state, {msg:"User updated", error: false}] 
+    case types.UPDATE_USER_ERROR:     return [ ...state, {msg:"Error when updating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    case types.DELETE_USER_SUCCESS:   return [ ...state, {msg:"User deleted", error: false}] 
+    case types.DELETE_USER_ERROR:     return [ ...state, {msg:"Error when deleting user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
 
     default: return state;
   }
@@ -114,6 +128,8 @@ export default function rootReducer(state = {}, action) {
   sensors: sensorsReducer(state.sensors, action),
   //Sensor CRUD operations
   sensorAction: sensorActionReducer(state.sensorAction, action),
+
+  values: valuesReducer(state.values, action),
   //list of users
   users: usersReducer(state.users, action),
   //list of notifications

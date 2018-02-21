@@ -7,6 +7,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {grey} from 'material-ui/styles/colors';
 import { TextField } from 'redux-form-material-ui'
 import MeasurementForm from './MeasurementForm';
+import { Link } from 'react-router';
 
 export default class MeasurementCard extends Component {
   constructor(props) {
@@ -31,12 +32,14 @@ export default class MeasurementCard extends Component {
           </div>
         </div>
         <div className="cardContent">
-          <div className="measIcon">
-            <img src={sensorImage} height="100" title={"Last update at " + meas.timestamp}/>
-          </div>
-          <div className="measValue"> 
-            <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? meas.unit: "")} </h3>
-          </div>
+          <Link to={this.props.isEditable? "/sensors/" + this.props.sensorId + "/" + meas.id: ""} > 
+            <div className="measIcon">
+              <img src={sensorImage} height="100" title={"Last update at " + meas.timestamp}/>
+            </div>
+            <div className="measValue"> 
+              <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? meas.unit: "")} </h3>
+            </div>
+          </Link>
         </div>
       </Card>
     );
@@ -46,7 +49,8 @@ export default class MeasurementCard extends Component {
     meas: PropTypes.object.isRequired, //Should be a Waziup.Measurement
     isEditable: PropTypes.bool,
     updateMeasurement: PropTypes.func,
-    deleteMeasurement: PropTypes.func
+    deleteMeasurement: PropTypes.func,
+    sensorId: PropTypes.string.isRequired
   }
 }
 
