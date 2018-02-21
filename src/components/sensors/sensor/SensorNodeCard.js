@@ -22,7 +22,7 @@ export default class SensorNodeCard extends Component {
     var measurements = [];
     for (let m of sensor.measurements) {
       measurements.push(<MeasurementCard measurement={m} isEditable={this.props.isEditable} updateMeasurement={m => this.props.updateMeasurement(m)} 
-                                         deleteMeasurement={mid => this.props.deleteMeasurement(mid)}/>);
+                                         deleteMeasurement={mid => this.props.deleteMeasurement(mid)} sensorId={sensor.id}/>);
     }
     let changeSensorName = this.props.updateSensorName? n => this.props.updateSensorName(sensor.id, n): null;
 
@@ -32,7 +32,7 @@ export default class SensorNodeCard extends Component {
                          onSubmit={(m) => {this.props.updateMeasurement(m); this.setState({modalAdd: false});}}
                          isEdit={false}/>
         <CardTitle>
-          <h2 className="sensorNodeTitle"> Sensor Node - {sensor.id} </h2>
+          <h2 className="sensorNodeTitle"> Sensor Node </h2>
           {this.props.isEditable? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>: null}
           {this.props.isEditable? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
         </CardTitle>
