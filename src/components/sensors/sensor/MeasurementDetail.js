@@ -25,13 +25,17 @@ class MeasurementDetail extends Component {
   }
   
   componentDidMount() {
-    this.interval = setInterval(() => {this.props.getValues(this.props.params.sensorId, this.props.params.measId)}, 10000);
+    this.interval = setInterval(() => {this.fetchValues()}, 10000);
   }
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
   componentWillMount() {
+    this.fetchValues()
+  }
+
+  fetchValues = () => {
     this.props.getValues(this.props.params.sensorId, this.props.params.measId)
     this.props.getSensors();
   }
