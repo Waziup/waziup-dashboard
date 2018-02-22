@@ -21,15 +21,14 @@ export default class SensorNodeCard extends Component {
     let sensor = this.props.sensor;
     var measurements = [];
     for (let m of sensor.measurements) {
-      measurements.push(<MeasurementCard measurement={m} isEditable={this.props.isEditable} updateMeasurement={m => this.props.updateMeasurement(m)} 
-                                         deleteMeasurement={mid => this.props.deleteMeasurement(mid)} sensorId={sensor.id}/>);
+      measurements.push(<MeasurementCard measurement={m} isEditable={this.props.isEditable} updateMeasurement={this.props.updateMeasurement} 
+                                         deleteMeasurement={this.props.deleteMeasurement} sensorId={sensor.id}/>);
     }
-    let changeSensorName = this.props.updateSensorName? n => this.props.updateSensorName(sensor.id, n): null;
 
     return ( 
       <Card className="sensorNode">
         <MeasurementForm modalOpen={this.state.modalAdd} handleClose={()=>{this.setState({modalAdd: false})}}
-                         onSubmit={(m) => {this.props.updateMeasurement(m); this.setState({modalAdd: false});}}
+                         onSubmit={(m) => {this.props.updateMeasurement(sensor.id, m); this.setState({modalAdd: false});}}
                          isEdit={false}/>
         <CardTitle>
           <h2 className="sensorNodeTitle"> Sensor Node </h2>

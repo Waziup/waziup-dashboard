@@ -22,13 +22,13 @@ export default class MeasurementCard extends Component {
     return (
       <Card className="measCard">
         <MeasurementForm modalOpen={this.state.modalEdit} handleClose={()=>{this.setState({modalEdit: false})}}
-                         onSubmit={(m) => {this.props.updateMeasurement(m); this.setState({modalEdit: false});}}
+                         onSubmit={(m) => {this.props.updateMeasurement(this.props.sensorId, m); this.setState({modalEdit: false});}}
                          isEdit={true} measurement={meas}/>
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {meas.name} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteMeasurement(meas.id)}/>: null }
+            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteMeasurement(this.props.sensorId, meas.id)}/>: null }
           </div>
         </div>
         <div className="cardContent">

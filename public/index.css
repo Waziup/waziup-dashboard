@@ -513,3 +513,7 @@ ul {
 .sensorChart {
   margin: 10px
 }
+
+.graphCard {
+  clear: both
+}

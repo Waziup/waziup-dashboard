@@ -7,10 +7,11 @@ import SensorChart from './SensorChart';
 import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
 import MeasurementForm from './MeasurementForm';
+import MeasurementCard from './MeasurementCard';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getValues, getSensors } from "../../../actions/actions.js"
+import { getValues, getSensors, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 
@@ -38,33 +39,37 @@ class MeasurementDetail extends Component {
   render() {
     console.log("meas:" + JSON.stringify(this.props.meas))
     console.log("values:" + JSON.stringify(this.props.values))
-    return (
-      <Container fluid={true}>
-        <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
-        <Card>
-          <CardTitle>
-            <h2 className="sensorNodeTitle"> Graphic </h2>
-          </CardTitle>
-          <CardMedia>
-            <SensorChart meas={this.props.meas} values={this.props.values}/>
-          </CardMedia>
-        </Card>
-      </Container>
-    );
+    if (this.props.meas) {
+
+      return (
+        <Container fluid={true}>
+          <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
+          <MeasurementCard measurement={this.props.meas} isEditable={true} updateMeasurement={this.props.updateMeasurement} 
+                           deleteMeasurement={this.props.deleteMeasurement} sensorId={this.props.sensorId}/>
+          <Card className="graphCard">
+            <CardTitle>
+              <h2 className="sensorNodeTitle"> Historical chart </h2>
+            </CardTitle>
+            <CardMedia>
+              <SensorChart meas={this.props.meas} values={this.props.values}/>
+            </CardMedia>
+          </Card>
+        </Container>
+      );
+    } else {
+      return(<h1> Measurement view is being loaded... </h1>)
+    }
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  try {
   var sensor = state.sensors.sensors.find(s => s.id === ownProps.params.sensorId)
   var meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
   return {
+    sensorId: sensor? sensor.id: null,
     meas: meas, 
     user: state.keycloak.idTokenParsed,
     values: state.values.values 
-  }
-  } catch(error) {
-    console.log(JSON.stringify(error))
   }
 }
 
@@ -72,6 +77,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getValues: (sid, mid) => {dispatch(getValues(sid, mid)) },
     getSensors: () => {dispatch(getSensors()) },
+    updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
+    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) }
   };
 }
 

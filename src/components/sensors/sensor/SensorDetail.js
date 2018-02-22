@@ -28,7 +28,7 @@ class SensorDetail extends Component {
   }
   
   render() {
-    let renderElement = <h1> Sensor View is being loaded... </h1>;
+    let renderElement = <h1> Sensor view is being loaded... </h1>;
     console.log("sens:" + JSON.stringify(this.props.sensor))
     let sensor = this.props.sensor;
     if (sensor) {
@@ -39,10 +39,10 @@ class SensorDetail extends Component {
           <h1 className="page-title">Sensor node: {sensor.id}</h1>
           <SensorNodeCard className="sensorNode"
                           sensor={sensor}
-                          updateSensor={s => this.props.updateSensorName(s.id, s.name)}
+                          updateSensor={this.props.updateSensorName}
                           deleteSensor={this.props.deleteSensor}
-                          updateMeasurement={m => this.props.addMeasurement(sensor.id, m)}
-                          deleteMeasurement={id => this.props.deleteMeasurement(sensor.id, id)}
+                          updateMeasurement={this.props.addMeasurement}
+                          deleteMeasurement={this.props.deleteMeasurement}
                           isEditable={true}/>
           <Card className="sensorMap">
             <CardTitle>
