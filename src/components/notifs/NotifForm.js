@@ -22,7 +22,7 @@ import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 
 class NotifForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     console.log("notif before:" + JSON.stringify(props.notif))
     const defaultNotif = Waziup.Notification.constructFromObject({
@@ -59,11 +59,6 @@ class NotifForm extends Component {
       <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}/>,
     ];
 
-    function uniq(a) {
-      return a.sort().filter(function(item, pos, array) {
-        return !pos || item !== array[pos - 1];
-      })
-    }
     console.log("open form" + JSON.stringify(this.state.notif))  
     
     return (
@@ -77,7 +72,7 @@ class NotifForm extends Component {
                 <img src={sensorImage} width="100" height="100"/>
               </div>
               <div className="notifExpr">
-                <TextField name="expr" value={this.state.notif.subject.condition.expr} onChange={(_1, e) => this.handleChange("expr", e)}/>
+                <TextField name="expr" value={this.state.notif.subject.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
               </div>
             </div>
             <div className="notifSensorAttrs">
