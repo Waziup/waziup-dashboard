@@ -55,7 +55,6 @@ class MeasurementForm extends Component {
       <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.meas); this.props.handleClose();}}/>,
     ];
 
-
     return (
       <Dialog title={this.props.isEdit? "Edit Measurement": "Add measurement"} actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
          <img src={sensorImage} height="100"/>

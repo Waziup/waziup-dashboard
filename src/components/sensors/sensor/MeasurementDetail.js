@@ -14,13 +14,12 @@ import { connect } from 'react-redux';
 import { getValues, getSensors, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
-
+import NotifForm from '../../notifs/NotifForm.js'
 
 class MeasurementDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalLocation: false,
     };
   }
   
@@ -50,6 +49,15 @@ class MeasurementDetail extends Component {
           <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
           <MeasurementCard measurement={this.props.meas} isEditable={true} updateMeasurement={this.props.updateMeasurement} 
                            deleteMeasurement={this.props.deleteMeasurement} sensorId={this.props.sensorId}/>
+          <NotifForm notif={{desc: "My notification", 
+                          sensors: this.props.sensorId,
+                          attrs: this.meas.id,
+                          expr: "SM1>20",
+                          usernames: [this.props.user.preferred_username],
+                          channnels: [],
+                          expires: new Date("2040-05-24T20:00:00.00Z"),
+                          throttling: 1}}/>
+                          
           <Card className="graphCard">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Historical chart </h2>

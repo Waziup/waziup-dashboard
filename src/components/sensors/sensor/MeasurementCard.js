@@ -21,9 +21,11 @@ export default class MeasurementCard extends Component {
     let meas = this.props.measurement
     return (
       <Card className="measCard">
-        <MeasurementForm modalOpen={this.state.modalEdit} handleClose={()=>{this.setState({modalEdit: false})}}
+        <MeasurementForm modalOpen={this.state.modalEdit}
+                         handleClose={()=>{this.setState({modalEdit: false})}}
                          onSubmit={(m) => {this.props.updateMeasurement(this.props.sensorId, m); this.setState({modalEdit: false});}}
-                         isEdit={true} measurement={meas}/>
+                         isEdit={true}
+                         measurement={meas}/>
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {meas.name} </pre>
           <div className="cardTitleIcons"> 
