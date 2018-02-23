@@ -45,7 +45,9 @@ class Sensors extends Component {
                     handleClose={() => this.setState({ modalAddSensor: false })}
                     onSubmit={s => this.props.createSensor(s)}/>
         <pre className="tableSwitch" onClick={() => this.setState({isCardsView: !this.state.isCardsView})}> {this.state.isCardsView? "Switch to table view": "Switch to cards view"} </pre>
-        {this.state.isCardsView? sensorNodes: <SensorsTable sensors={this.props.sensors} />}
+        {this.state.isCardsView? 
+          sensorNodes : 
+          <SensorsTable sensors={this.props.sensors} />}
         <RaisedButton label="Add sensor node" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />
       </Container>
     );

@@ -48,14 +48,13 @@ class Notifications extends Component {
                      users={this.props.users}
                      handleClose={() => this.setState({ modalOpen: false })}
                      onSubmit={this.props.createNotif} />
-          
           <Card className="sensorNode">
-          <CardTitle title="Notifications" />
+            <CardTitle title="Notifications" />
             <div className="sensorNodeCards">
             {this.state.isCardsView? notifications: null}
-            <RaisedButton label="Add" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />
             </div>
           </Card>
+          <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />
         </Container>
       );
     } else {
