@@ -208,20 +208,6 @@ export function deleteUser(userid) {
 
 /* Notification actions */
 
-export function createNotif(notif) {
-  return async function (dispatch) {
-    dispatch({type: types.CREATE_NOTIF_START});
-    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
-    var domain = "waziup"; 
-    try {
-      let data = await notifsApi.createNotification(domain, notif)
-      dispatch({type: types.CREATE_NOTIF_SUCCESS, data: data})
-    } catch (error) {
-      dispatch({type: types.CREATE_NOTIF_ERROR,   data: error});
-    }
-  }
-};
-
 export function getNotifs() {
   return async function (dispatch) {
     dispatch({type: types.GET_NOTIFS_START});
@@ -236,6 +222,21 @@ export function getNotifs() {
   }
 };
 
+export function createNotif(notif) {
+  return async function (dispatch) {
+    dispatch({type: types.CREATE_NOTIF_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      let data = await notifsApi.createNotification(domain, notif)
+      dispatch({type: types.CREATE_NOTIF_SUCCESS, data: data})
+      dispatch(getNotifs());
+    } catch (error) {
+      dispatch({type: types.CREATE_NOTIF_ERROR,   data: error});
+    }
+  }
+};
+
 export function deleteNotif(notifId) {
   return async function (dispatch) {
     dispatch({type: types.DELETE_NOTIF_START});
@@ -244,6 +245,7 @@ export function deleteNotif(notifId) {
     try {
       let data = await notifsApi.deleteNotification(domain, notifId)
       dispatch({type: types.DELETE_NOTIF_SUCCESS, data: data})
+      dispatch(getNotifs());
     } catch (error) {
       dispatch({type: types.DELETE_NOTIF_ERROR,   data: error});
     }
