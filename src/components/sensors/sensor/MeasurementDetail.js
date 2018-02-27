@@ -15,23 +15,25 @@ import { getValues, getSensors, addMeasurement, deleteMeasurement } from "../../
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import NotifForm from '../../notifs/NotifForm.js'
+import NotifCard from '../../notifs/NotifCard.js'
+import * as Waziup from 'waziup-js'
+import { Link } from 'react-router';
 
 class MeasurementDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalOpen: false
     };
-  }
-  
-  componentDidMount() {
-    this.interval = setInterval(() => {this.fetchValues()}, 10000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.interval);
   }
 
   componentWillMount() {
     this.fetchValues()
+    this.interval = setInterval(() => {this.fetchValues()}, 10000);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   fetchValues = () => {
@@ -43,21 +45,40 @@ class MeasurementDetail extends Component {
     console.log("meas:" + JSON.stringify(this.props.meas))
     console.log("values:" + JSON.stringify(this.props.values))
     if (this.props.meas) {
+      const defaultNotif = Waziup.Notification.constructFromObject({
+        subject: { entityNames: [this.props.sensorId], condition: {attrs: [this.props.meas.id], expression: "SM1>40"}},
+        notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: [this.props.user.preferred_username]},
+        description: "Send message",
+        throttling: 1})
+      var notifications = []
+      if(this.props.notifs) {
+        for(var notif of this.props.notifs) {
+           const card =  
+             <Link to={"/notifs/" + notif.id} > 
+               <NotifCard className="sensorNode" notif={notif} isEditable={false}/>
+             </Link>
+           notifications.push(card)
+        }
+      }
 
       return (
         <Container fluid={true}>
           <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
-          <MeasurementCard measurement={this.props.meas} isEditable={true} updateMeasurement={this.props.updateMeasurement} 
-                           deleteMeasurement={this.props.deleteMeasurement} sensorId={this.props.sensorId}/>
-          <NotifForm notif={{desc: "My notification", 
-                          sensors: this.props.sensorId,
-                          attrs: this.meas.id,
-                          expr: "SM1>20",
-                          usernames: [this.props.user.preferred_username],
-                          channnels: [],
-                          expires: new Date("2040-05-24T20:00:00.00Z"),
-                          throttling: 1}}/>
-                          
+          <Card className="sensorNode">
+            <CardTitle title="Details"/>
+            <MeasurementCard measurement={this.props.meas}
+                             isEditable={true}
+                             updateMeasurement={this.props.updateMeasurement} 
+                             deleteMeasurement={this.props.deleteMeasurement}
+                             sensorId={this.props.sensorId}/>
+            {notifications}
+            <NotifForm modalOpen={this.state.modalOpen}
+                       notif={defaultNotif}
+                       sensors={this.props.sensors}
+                       users={this.props.users} 
+                       onSubmit={this.props.createNotif} />
+            <RaisedButton label="Add" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />
+          </Card>                
           <Card className="graphCard">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Historical chart </h2>
@@ -75,13 +96,17 @@ class MeasurementDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  var sensor = state.sensors.sensors.find(s => s.id === ownProps.params.sensorId)
-  var meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
+  const sensor = state.sensors.sensors.find(s => s.id === ownProps.params.sensorId)
+  const meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
+  const notifs = meas && sensor? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)): null
   return {
     sensorId: sensor? sensor.id: null,
     meas: meas, 
     user: state.keycloak.idTokenParsed,
-    values: state.values.values 
+    values: state.values.values,
+    sensors: state.sensors.sensors,
+    users: state.users.users,
+    notifs: notifs,
   }
 }
 
@@ -90,7 +115,8 @@ function mapDispatchToProps(dispatch) {
     getValues: (sid, mid) => {dispatch(getValues(sid, mid)) },
     getSensors: () => {dispatch(getSensors()) },
     updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
-    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) }
+    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
+    createNotif: (notif) => {dispatch(createNotif(notif)) }
   };
 }
 
