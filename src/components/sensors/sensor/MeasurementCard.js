@@ -8,6 +8,7 @@ import {grey} from 'material-ui/styles/colors';
 import { TextField } from 'redux-form-material-ui'
 import MeasurementForm from './MeasurementForm';
 import { Link } from 'react-router';
+import * as Waziup from 'waziup-js'
 
 export default class MeasurementCard extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class MeasurementCard extends Component {
               <img src={sensorImage} height="100" title={"Last update at " + meas.timestamp}/>
             </div>
             <div className="measValue"> 
-              <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? meas.unit: "")} </h3>
+              <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
             </div>
           </Link>
         </div>

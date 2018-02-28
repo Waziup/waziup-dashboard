@@ -38,16 +38,6 @@ class MeasurementForm extends Component {
       this.setState({meas: meas});
     }
   }
-  
-  getQuantityKinds = () => {
-    const currentSD = Waziup.SensingDevices.find(s => s.id == this.state.meas.sensing_device)
-    return currentSD? currentSD.QK.map(qkid => Waziup.QuantityKinds.find(qk => qk.id == qkid)): []
-  }
-  
-  getUnits = () => {
-    const currentQK = Waziup.QuantityKinds.find(qk => qk.id == this.state.meas.quantity_kind)
-    return currentQK? currentQK.units.map(uid => Waziup.Units.find(u => u.id == uid)): []
-  }
 
   render() {
     const actions = [
@@ -62,13 +52,13 @@ class MeasurementForm extends Component {
            <TextField name="id" disabled={this.props.isEdit} floatingLabelText="ID" value={this.state.meas.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the measure"/>
            <TextField name="name" floatingLabelText="Name" value={this.state.meas.name} onChange={this.handleChange} title="A name for this sensor measurement"/>
            <SelectField name="sensor_kind" floatingLabelText="Sensor"  value={this.state.meas.sensing_device} onChange={this.handleSelect("sensing_device")} title="The kind of sensor used for this measurement">
-             {Waziup.SensingDevices.map(s => <MenuItem value={s.id} primaryText={s.label} />)}
+             {Waziup.SensingDevices.getAll().map(s => <MenuItem value={s.id} primaryText={s.label} />)}
            </SelectField>
            <SelectField name="dimension" floatingLabelText="Quantity kind"  value={this.state.meas.quantity_kind} onChange={this.handleSelect("quantity_kind")} title="What does it measures?">
-             {this.getQuantityKinds().map(qk => <MenuItem value={qk.id} primaryText={qk.label} />)}
+             {Waziup.SensingDevices.getQKs(this.state.meas.sensing_device).map(qk => <MenuItem value={qk.id} primaryText={qk.label} />)}
            </SelectField>
            <SelectField name="unit" floatingLabelText="Unit"  value={this.state.meas.unit} onChange={this.handleSelect("unit")} title="The measurement unit">
-             {this.getUnits().map(u => <MenuItem value={u.id} primaryText={u.label} />)}
+             {Waziup.QuantityKinds.getUnits(this.state.meas.quantity_kind).map(u => <MenuItem value={u.id} primaryText={u.label} />)}
            </SelectField>
         </div>
       </Dialog>
