@@ -51,7 +51,9 @@ class Notifications extends Component {
           <Card className="sensorNode">
             <CardTitle title="Notifications" />
             <div className="sensorNodeCards">
-            {this.state.isCardsView? notifications: null}
+            {this.state.isCardsView? 
+              notifications: 
+              null}
             </div>
           </Card>
           <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />

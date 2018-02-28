@@ -397,24 +397,21 @@ ul {
 }
 
 .notifSubject {
-  position: relative;
   height: 100px;
+  clear: both;
 }
 
-
-.notifSensorIcon {
-  text-align: right;
+.notifIcon {
+  float: left;
   width: 300px;
-  position: absolute;
+  display: inline-block;
 }
 
 .notifExpr {
   padding: 5px;
   vertical-align: middle;
-  width: 200px;
-  position: absolute;
-  left: 300px;
-  top: 10px;
+  float: left;
+  display: inline-block;
 }
 
 .notifSensorAttrs {
@@ -446,33 +443,27 @@ ul {
   left: 310px;
 }
 
-.notifMsgRow {
-  position: relative
-}
-
 .notifMsg {
+  clear: left;
   width: 500px;
   border-style: solid;
   border-width: 1px;
 }
 
 .notifUsersChannels {
-  position: relative;
-  height: 300px;
+  clear: both;
 }
 
-.notifUsernames {
+.notifUsers {
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  float: left;
+  display: inline-block;
 }
 
 .notifChannels {
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 350px;
+  float: right;
+  display: inline-block;
 }
 
 .notifMisc {
@@ -491,6 +482,10 @@ ul {
   position: absolute;
   top: 0px;
   left: 350px;
+}
+
+.notifIcon {
+  vertical-align: top;
 }
 
 /* Message banner */
