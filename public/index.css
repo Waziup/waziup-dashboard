@@ -403,7 +403,6 @@ ul {
 
 .notifIcon {
   float: left;
-  width: 300px;
   display: inline-block;
 }
 
@@ -415,32 +414,27 @@ ul {
 }
 
 .notifSensorAttrs {
-  position: relative;
-  height: 90px;
-  
+  clear: both; 
 }
 
 .notifSensors {
   text-align: right;
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  float: left;
+  display: inline-block;
 }
 
 .notifArrow {
   width: 30px;
-  position: relative;
-  top: 10px;
-  left: 270px;
+  float: left;
+  display: inline-block;
 }
 
 .notifAttrs {
   text-align: left;
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 310px;
+  float: left;
+  display: inline-block;
 }
 
 .notifMsg {
@@ -462,26 +456,25 @@ ul {
 
 .notifChannels {
   width: 250px;
-  float: right;
+  float: left;
   display: inline-block;
+  margin-left: 30px;
 }
 
 .notifMisc {
-  position: relative;
+  clear: both;
 }
 
 .notifExpires {
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  float: left;
+  display: inline-block;
 }
 
 .notifDesc {
   width: 250px;
-  position: absolute;
-  top: 0px;
-  left: 350px;
+  float: left;
+  display: inline-block;
 }
 
 .notifIcon {

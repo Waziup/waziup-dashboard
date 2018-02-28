@@ -34,8 +34,8 @@ class Notifications extends Component {
     if(this.props.notifications) {
       for(var notif of this.props.notifications) {
          const card = 
-           <Link to={"/notifs/" + notif.id} > 
-             <NotifCard className="sensorNode" notif={notif} isEditable={false}/>
+           <Link to={"/notifications/" + notif.id} > 
+             <NotifCard className="sensorNode" notif={notif} isEditable={true}/>
            </Link>
          notifications.push(card)
       }
@@ -49,14 +49,16 @@ class Notifications extends Component {
                      handleClose={() => this.setState({ modalOpen: false })}
                      onSubmit={this.props.createNotif} />
           <Card className="sensorNode">
-            <CardTitle title="Notifications" />
+            <CardTitle>
+              <h2 className="sensorNodeTitle"> Notifications </h2>
+              <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton"/>
+            </CardTitle>
             <div className="sensorNodeCards">
             {this.state.isCardsView? 
               notifications: 
               null}
             </div>
           </Card>
-          <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />
         </Container>
       );
     } else {

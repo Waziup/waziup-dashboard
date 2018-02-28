@@ -14,7 +14,7 @@ import Settings from './components/profile/SettingsContainer.js';
 import UserList from './components/user/UserList/UserListContainer';
 import User from './components/user/UserList/User';
 import Notifications from './components/notifs/Notifications.js';
-import NotifDetail from './components/notifs/notifDetail/NotifDetail.js';
+import NotifDetail from './components/notifs/NotifDetail.js';
 import UserPermissions from './components/user/UserPermissions.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';

@@ -53,7 +53,6 @@ export default class NotifCard extends Component {
                   {notif.notification.channels.map(c => <ListItem primaryText={c} leftIcon={<Share/>} />)}
               </List>
             </div>
-
           </Link>
         </div>
       </Card>

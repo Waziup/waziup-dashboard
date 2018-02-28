@@ -14,6 +14,7 @@ import {List, ListItem} from 'material-ui/List';
 import { Row, Col } from 'react-grid-system'
 import sensorImage from '../../images/gauge.png';
 import sensorArrow from '../../images/sensorArrow.png';
+import bellImage from '../../images/bell-icon.png';
 import Paper from 'material-ui/Paper';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Socials from 'material-ui/svg-icons/social/share';
@@ -28,7 +29,7 @@ class NotifForm extends Component {
     const defaultNotif = Waziup.Notification.constructFromObject({
       subject: { entityNames: [], condition: {attrs: [], expression: "SM1>40"}},
       notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
-      description: "Send text message",
+      description: "Waziup notification",
       throttling: 1})
     this.state = {
       notif: props.notif? props.notif: defaultNotif
@@ -67,14 +68,6 @@ class NotifForm extends Component {
               modal={true}
               open={this.props.modalOpen}>
           <div className="notif">
-            <div className="notifSubject" >
-              <div className="notifSensorIcon">
-                <img src={sensorImage} width="100" height="100"/>
-              </div>
-              <div className="notifExpr">
-                <TextField name="expr" value={this.state.notif.subject.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
-              </div>
-            </div>
             <div className="notifSensorAttrs">
               <div className="notifSensors">
                 <SelectField name="sensors" multiple={true} value={this.state.notif.subject.entityNames} onChange={(_1, _2, s) => this.handleChange("entityNames", s)} hintText='My Sensor'>
@@ -90,13 +83,22 @@ class NotifForm extends Component {
                 </SelectField>
               </div>
             </div>
+            <div className="notifSubject" >
+              <div className="notifIcon">
+                <img src={sensorImage} height="100"/>
+                <img src={bellImage} height="24"/>
+              </div>
+              <div className="notifExpr">
+                <TextField name="expr" value={this.state.notif.subject.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
+              </div>
+            </div>
             <div className="notifMsgRow">
               <div className="notifMsg">
                 <TextField name="message" fullWidth={true} hintText="message" floatingLabelText="Message to send:" value={this.state.notif.notification.message} onChange={(_1, m) => this.handleChange("message", m)}/>
               </div> 
             </div>
             <div className="notifUsersChannels">
-              <div className="notifUsernames">
+              <div className="notifUsers">
                 <SelectField name="usernames" multiple={true} value={this.state.notif.notification.usernames} onChange={(_1, _2, u) => this.handleChange("usernames", u)} hintText="Users">
                   {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
                      <MenuItem key={u.username} value={u.username} primaryText={u.username} insetChildren={true} checked={this.state.notif.notification.usernames.includes(u.username)} leftIcon={<PersonAdd/>} />): <br/>}
@@ -111,10 +113,6 @@ class NotifForm extends Component {
             <div className="notifMisc">
               <div className="notifExpires">
                 <DatePicker name="expires" hintText="Expires" floatingLabelText="Expires" value={this.state.notif.expires} onChange={e => this.handleChange("expires", e)}/>
-              </div>
-              <div className="notifDesc">
-                <TextField name="desc" fullWidth={true} floatingLabelText="Description" value={this.state.notif.description} onChange={(_1, d) => this.handleChange("description", d)}/>
-
               </div>
             </div>
           </div>
