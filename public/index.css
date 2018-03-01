@@ -387,6 +387,13 @@ ul {
   clear: left;
 }
 
+.measActive {
+  background-color: darkseagreen;
+}
+
+.measInactive {
+  background-color: #ff4d4d;
+}
 
 /* Notifications */
 

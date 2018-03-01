@@ -20,8 +20,17 @@ export default class MeasurementCard extends Component {
 
   render() {
     let meas = this.props.measurement
+    let now = new Date()
+    let delayMin = (now - Date.parse(meas.timestamp)) / (1000 * 60)
+    let activeStyle = null 
+    if(delayMin < 60) {
+      activeStyle = {"background-color": "#32bf32", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"}
+    } else {
+      activeStyle = {"background-color": "#ff4141", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"}
+    }
+
     return (
-      <Card className="measCard">
+      <Card className="measCard" style={activeStyle}>
         <MeasurementForm modalOpen={this.state.modalEdit}
                          handleClose={()=>{this.setState({modalEdit: false})}}
                          onSubmit={(m) => {this.props.updateMeasurement(this.props.sensorId, m); this.setState({modalEdit: false});}}
@@ -37,7 +46,7 @@ export default class MeasurementCard extends Component {
         <div className="cardContent">
           <Link to={this.props.isEditable? "/sensors/" + this.props.sensorId + "/" + meas.id: ""} > 
             <div className="measIcon">
-              <img src={sensorImage} height="100" title={"Last update at " + meas.timestamp}/>
+              <img src={sensorImage} height="100" title={"Last timestamp: " + meas.timestamp}/>
             </div>
             <div className="measValue"> 
               <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
