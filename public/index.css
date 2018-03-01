@@ -420,6 +420,8 @@ ul {
   vertical-align: middle;
   float: left;
   display: inline-block;
+  font-size: 14pt;
+  margin-left: 10px;
 }
 
 .notifSensorAttrs {
@@ -451,6 +453,7 @@ ul {
   width: 500px;
   border-style: solid;
   border-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
 .notifUsersChannels {

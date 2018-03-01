@@ -87,7 +87,6 @@ class MeasurementDetail extends Component {
                            users={this.props.users} 
                            onSubmit={this.props.createNotif}
                            handleClose={() => this.setState({modalOpen: false})}
-                           onSubmit={this.props.createNotif}
                            isEditable={true}/>
               </CardTitle>
             {notifications}

@@ -30,7 +30,8 @@ class NotifForm extends Component {
       subject: { entityNames: [], condition: {attrs: [], expression: "SM1>40"}},
       notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
       description: "Waziup notification",
-      throttling: 1})
+      throttling: 1,
+      expires: ""})
     this.state = {
       notif: props.notif? props.notif: defaultNotif
     };
@@ -48,6 +49,7 @@ class NotifForm extends Component {
       case "usernames"   : notif.notification.usernames = value; break;
       case "description" : notif.description = value; break;
       case "throttling"  : notif.throttling = value; break;
+      case "expires"     : notif.expires = value; break;
     }
     this.setState({notif: notif})
   }
@@ -112,7 +114,7 @@ class NotifForm extends Component {
             </div>
             <div className="notifMisc">
               <div className="notifExpires">
-                <DatePicker name="expires" hintText="Expires" floatingLabelText="Expires" value={this.state.notif.expires} onChange={e => this.handleChange("expires", e)}/>
+                <DatePicker name="expires" hintText="Expires" floatingLabelText="Expires" value={this.state.notif.expires} onChange={(_1, e) => this.handleChange("expires", e)}/>
               </div>
             </div>
           </div>
