@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardText } from 'material-ui/Card';
 import UTIL from '../../lib/utils.js';
 import { Container } from 'react-grid-system'
-import SettingsForm from './settingsForm/SettingsFormContainer'
 
 class Settings extends Component {
     constructor(props) {
