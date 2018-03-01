@@ -28,15 +28,15 @@ export default class NotifCard extends Component {
           <pre className="cardTitle"> {notif.subject.entityNames} -> {notif.subject.condition.attrs} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteNotification(notif.id)}/>: null }
+            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteNotif(notif.id)}/>: null }
           </div>
         </div>
         <div className="cardContent">
           <Link to={this.props.isEditable? "/notifications/" + notif.id: ""} >
             <div className="notifSubject">
               <div className="notifIcon">
-                <img src={sensorImage} height="100"/>
-                <img src={bellImage} height="24"/>
+                <img src={bellImage} height="80"/>
+                <img src={sensorImage} height="32"/>
               </div>
               <div className="notifExpr"> 
                 <h3> {(notif.subject.condition.expression? notif.subject.condition.expression: "")} </h3>
@@ -61,7 +61,8 @@ export default class NotifCard extends Component {
   
   propTypes = {
     notif: PropTypes.object.isRequired, //Should be a Waziup.Notification
-    isEditable: PropTypes.bool
+    isEditable: PropTypes.bool,
+    deleteNotif: PropTypes.func.isRequired
   }
 }
 

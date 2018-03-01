@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
-import { getNotifs } from '../../actions/actions.js';
+import { getNotifs, deleteNotif } from '../../actions/actions.js';
 import { connect } from 'react-redux';
 import NotifCard from './NotifCard.js';
 
@@ -19,15 +19,24 @@ class NotifDetail extends Component {
   }
 
   render() {
-    return (
-      <div className="sensor">
+    
+    let renderElement = <h1> loading notification view... </h1>;
+    if (this.props.notif) {
+      renderElement = 
         <Container fluid={true}>
-        <h1 className="page-title">Notification: {this.state.id}</h1>
+        <h1 className="page-title">Notification: {this.props.params.notifId}</h1>
           <Card className="sensorMap">
             <CardTitle title="Notification" />
-              <NotifCard className="sensorNode" notif={this.props.notif} isEditable={true}/>
+              <NotifCard className="sensorNode" 
+                         notif={this.props.notif}
+                         isEditable={true}
+                         deleteNotif={this.props.deleteNotif}/>
           </Card>
         </Container>
+    }
+    return (
+      <div className="sensor">
+        {renderElement}
       </div>
     );
   }
@@ -44,6 +53,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
    return {
       getNotifs: (user) => {dispatch(getNotifs(user)) }, 
+      deleteNotif: (notifId) => {dispatch(deleteNotif(notifId)) },
    }
 }
 

@@ -42,7 +42,7 @@ class NotifForm extends Component {
     switch (field) {
       case "entityNames" : notif.subject.entityNames = value; break;
       case "attrs"       : notif.subject.condition.attrs = value; break;
-      case "expr"        : notif.subject.condition.expr = value; break;
+      case "expr"        : notif.subject.condition.expression = value; break;
       case "channels"    : notif.notification.channels = value; break;
       case "message"     : notif.notification.message = value; break;
       case "usernames"   : notif.notification.usernames = value; break;
@@ -124,7 +124,9 @@ class NotifForm extends Component {
     notif: PropTypes.object.isRequired,  //Should be a Waziup.Notif
     modalOpen: PropTypes.bool,
     sensors: PropTypes.array,
-    users: PropTypes.array
+    users: PropTypes.array,
+    handleClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
 }
 

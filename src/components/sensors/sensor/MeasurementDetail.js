@@ -11,7 +11,7 @@ import MeasurementCard from './MeasurementCard';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getValues, getSensors, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
+import { getValues, getSensors, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import NotifForm from '../../notifs/NotifForm.js'
@@ -54,8 +54,10 @@ class MeasurementDetail extends Component {
       if(this.props.notifs) {
         for(var notif of this.props.notifs) {
            const card =  
-             <Link to={"/notifs/" + notif.id} > 
-               <NotifCard className="sensorNode" notif={notif} isEditable={false}/>
+             <Link to={"/notifications/" + notif.id} > 
+               <NotifCard className="sensorNode"
+                          notif={notif}
+                          isEditable={false}/>
              </Link>
            notifications.push(card)
         }
@@ -65,20 +67,31 @@ class MeasurementDetail extends Component {
         <Container fluid={true}>
           <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
           <Card className="sensorNode">
-            <CardTitle title="Details"/>
+            <CardTitle>
+              <h2 className="sensorNodeTitle"> Last value </h2>
+              <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton" />
+            </CardTitle>
             <MeasurementCard measurement={this.props.meas}
                              isEditable={true}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
                              sensorId={this.props.sensorId}/>
+          </Card> 
+          {notifications.length>0? 
+            <Card className="sensorNode">
+              <CardTitle>
+                <h2 className="sensorNodeTitle"> Notifications </h2>
+                <NotifForm modalOpen={this.state.modalOpen}
+                           notif={defaultNotif}
+                           sensors={this.props.sensors}
+                           users={this.props.users} 
+                           onSubmit={this.props.createNotif}
+                           handleClose={() => this.setState({modalOpen: false})}
+                           onSubmit={this.props.createNotif}
+                           isEditable={true}/>
+              </CardTitle>
             {notifications}
-            <NotifForm modalOpen={this.state.modalOpen}
-                       notif={defaultNotif}
-                       sensors={this.props.sensors}
-                       users={this.props.users} 
-                       onSubmit={this.props.createNotif} />
-            <RaisedButton label="Add" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} />
-          </Card>                
+          </Card>: null}
           <Card className="graphCard">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Historical chart </h2>

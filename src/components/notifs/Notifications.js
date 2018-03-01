@@ -35,7 +35,9 @@ class Notifications extends Component {
       for(var notif of this.props.notifications) {
          const card = 
            <Link to={"/notifications/" + notif.id} > 
-             <NotifCard className="sensorNode" notif={notif} isEditable={true}/>
+             <NotifCard className="sensorNode"
+                        notif={notif}
+                        isEditable={false}/>
            </Link>
          notifications.push(card)
       }
