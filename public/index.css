@@ -312,7 +312,6 @@ ul {
   width: 500px;
   margin-top: 10px;
   overflow: hidden;
-  width: 100%;
 }
 
 .changeLocationButton {
@@ -495,6 +494,12 @@ ul {
 
 .notifZone {
   clear: left;
+}
+
+.notifDetails {
+  padding: 10px;
+  margin-top: 10px;
+  overflow: hidden;
 }
 
 /* Message banner */

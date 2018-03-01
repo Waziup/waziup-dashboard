@@ -25,7 +25,7 @@ class NotifDetail extends Component {
       renderElement = 
         <Container fluid={true}>
         <h1 className="page-title">Notification: {this.props.params.notifId}</h1>
-          <Card className="sensorMap">
+          <Card className="notifDetails">
             <CardTitle title="Notification" />
               <NotifCard className="sensorNode" 
                          notif={this.props.notif}
