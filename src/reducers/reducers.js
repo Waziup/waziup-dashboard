@@ -88,36 +88,48 @@ function notifActionReducer(state = { isLoading: false, msg:{}, error: false }, 
 
 function messagesReducer(state = [], action = null) {
   console.log("message action" + JSON.stringify(action))
+  var msg, error = null;
   switch (action.type) {
     case types.CLEAR_MESSAGES:        return []
-    //Sensor messages
-    case types.GET_SENSORS_ERROR:     return [ ...state, {msg:"Error when fetching sensors: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
-    case types.CREATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor created",  error: false}]
-    case types.CREATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when creating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
-    case types.UPDATE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor updated", error: false}]
-    case types.UPDATE_SENSOR_ERROR:   return [ ...state, {msg:"Error when updating sensor: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.DELETE_SENSOR_SUCCESS: return [ ...state, {msg:"Sensor deleted", error: false}]
-    case types.DELETE_SENSOR_ERROR:   return [ ...state, {msg:"Error when deleting sensor: " + action.data.response.status + " " + action.data.response.body.description,  error: true}] 
-    //Values errors
-    case types.GET_VALUES_ERROR:      return [ ...state, {msg:"Error when fetching sensor values: " + action.data.response.status + " " + action.data.response.body.description, error: true}]
-    //Notif messages
-    case types.GET_NOTIFS_ERROR:      return [ ...state, {msg:"Error when fetching notifications: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
-    case types.CREATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification created", error: false}] 
-    case types.CREATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when creating notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.UPDATE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification updated", error: false}] 
-    case types.UPDATE_NOTIF_ERROR:    return [ ...state, {msg:"Error when updating notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.DELETE_NOTIF_SUCCESS:  return [ ...state, {msg:"Notification deleted", error: false}] 
-    case types.DELETE_NOTIF_ERROR:    return [ ...state, {msg:"Error when deleting notification: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    //User messages
-    case types.GET_USERS_ERROR:       return [ ...state, {msg:"Error when fetching users: " + action.data.response.status + " " + action.data.response.body.description,  error: true}]
-    case types.CREATE_USER_SUCCESS:   return [ ...state, {msg:"New user created", error: false}] 
-    case types.CREATE_USER_ERROR:     return [ ...state, {msg:"Error when creating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.UPDATE_USER_SUCCESS:   return [ ...state, {msg:"User updated", error: false}] 
-    case types.UPDATE_USER_ERROR:     return [ ...state, {msg:"Error when updating user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
-    case types.DELETE_USER_SUCCESS:   return [ ...state, {msg:"User deleted", error: false}] 
-    case types.DELETE_USER_ERROR:     return [ ...state, {msg:"Error when deleting user: " + action.data.response.status + " " + action.data.response.body.description, error: true}] 
+    //positive messages
+    case types.CREATE_SENSOR_SUCCESS: msg="Sensor created";       error= false; break;
+    case types.UPDATE_SENSOR_SUCCESS: msg="Sensor updated";       error= false; break;
+    case types.DELETE_SENSOR_SUCCESS: msg="Sensor deleted";       error= false; break;
+    case types.CREATE_NOTIF_SUCCESS:  msg="Notification created"; error= false; break;
+    case types.UPDATE_NOTIF_SUCCESS:  msg="Notification updated"; error= false; break;
+    case types.DELETE_NOTIF_SUCCESS:  msg="Notification deleted"; error= false; break;
+    case types.CREATE_USER_SUCCESS:   msg="New user created";     error= false; break;
+    case types.UPDATE_USER_SUCCESS:   msg="User updated";         error= false; break;
+    case types.DELETE_USER_SUCCESS:   msg="User deleted";         error= false; break;
+
+    //error cases
+    case types.GET_SENSORS_ERROR:     msg="Error when fetching sensors";       error= true; break; 
+    case types.CREATE_SENSOR_ERROR:   msg="Error when creating sensor";        error= true; break;
+    case types.UPDATE_SENSOR_ERROR:   msg="Error when updating sensor";        error= true; break; 
+    case types.DELETE_SENSOR_ERROR:   msg="Error when deleting sensor";        error= true; break; 
+    case types.GET_VALUES_ERROR:      msg="Error when fetching sensor values"; error= true; break;
+    case types.GET_NOTIFS_ERROR:      msg="Error when fetching notifications"; error= true; break;
+    case types.CREATE_NOTIF_ERROR:    msg="Error when creating notification";  error= true; break; 
+    case types.UPDATE_NOTIF_ERROR:    msg="Error when updating notification";  error= true; break; 
+    case types.DELETE_NOTIF_ERROR:    msg="Error when deleting notification";  error= true; break; 
+    case types.GET_USERS_ERROR:       msg="Error when fetching users";         error= true; break;
+    case types.CREATE_USER_ERROR:     msg="Error when creating user";          error= true; break; 
+    case types.UPDATE_USER_ERROR:     msg="Error when updating user";          error= true; break; 
+    case types.DELETE_USER_ERROR:     msg="Error when deleting user";          error= true; break; 
 
     default: return state;
+  }
+  if(error) {
+    var errorContext = null
+    if(action.data.response) {
+       errorContext = action.data.response.status + " " + action.data.response.body.description
+    } else {
+      errorContext = "Client error"
+      console.log("client error: " + action.data) 
+    }
+    return [ ...state, {msg: msg + ": " + errorContext, error: true}]
+  } else {
+    return [ ...state, {msg: msg, error: false}]
   }
 };
 
