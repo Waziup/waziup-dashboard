@@ -46,8 +46,8 @@ class MeasurementDetail extends Component {
     console.log("values:" + JSON.stringify(this.props.values))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
-        subject: { entityNames: [this.props.sensorId], condition: {attrs: [this.props.meas.id], expression: "SM1>40"}},
-        notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: [this.props.user.preferred_username]},
+        subject: { entityNames: [this.props.sensorId], condition: {attrs: [this.props.meas.id], expression: "TC>30"}},
+        notification: {channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.preferred_username]},
         description: "Send message",
         throttling: 1})
       var notifications = []
