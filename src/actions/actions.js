@@ -23,7 +23,7 @@ export function getSensors() {
       let data = await sensorsApi.getSensors(domain, null)
       dispatch({type: types.GET_SENSORS_SUCCESS, data: data})
     } catch (error) {
-      dispatch({type: types.GET_SENSORS_ERROR,   data: error});
+      dispatch({type: types.GET_SENSORS_ERROR, data: error});
     }
   }
 };
@@ -38,7 +38,7 @@ export function createSensor(sensor) {
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.CREATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.CREATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -53,7 +53,7 @@ export function updateSensorLocation(sensorId, location) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -68,7 +68,7 @@ export function updateSensorOwner(sensorId, owner) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -83,7 +83,7 @@ export function updateSensorName(sensorId, name) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -98,7 +98,7 @@ export function deleteSensor(sensorId) {
       dispatch({type: types.DELETE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.DELETE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.DELETE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -115,7 +115,7 @@ export function addMeasurement(sensorId, meas) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -130,7 +130,7 @@ export function deleteMeasurement(sensorId, measId) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -145,7 +145,7 @@ export function updateMeasurementName(sensorId, measId, name) {
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
+      dispatch({type: types.UPDATE_SENSOR_ERROR, data: error});
     }
   }
 };
@@ -178,7 +178,7 @@ export function getUsers() {
       let data = await usersApi.getUsers(domain)
       dispatch({type: types.GET_USERS_SUCCESS, data: data})
     } catch (error) {
-      dispatch({type: types.GET_USERS_ERROR,   data: error});
+      dispatch({type: types.GET_USERS_ERROR, data: error});
     }
   }
 };
@@ -192,7 +192,7 @@ export function deleteUser(userid) {
       let data = await usersApi.deleteUsers(domain, userid)
       dispatch({type: types.DELETE_USER_SUCCESS, data: data})
     } catch (error) {
-      dispatch({type: types.DELETE_USER_ERROR,   data: error});
+      dispatch({type: types.DELETE_USER_ERROR, data: error});
     }
   }
 };
@@ -209,7 +209,7 @@ export function getNotifs() {
       let data = await notifsApi.getNotifications(domain)
       dispatch({type: types.GET_NOTIFS_SUCCESS, data: data})
     } catch (error) {
-      dispatch({type: types.GET_NOTIFS_ERROR,   data: error});
+      dispatch({type: types.GET_NOTIFS_ERROR, data: error});
     }
   }
 };
@@ -224,7 +224,7 @@ export function createNotif(notif) {
       dispatch({type: types.CREATE_NOTIF_SUCCESS, data: data})
       dispatch(getNotifs());
     } catch (error) {
-      dispatch({type: types.CREATE_NOTIF_ERROR,   data: error});
+      dispatch({type: types.CREATE_NOTIF_ERROR, data: error});
     }
   }
 };
@@ -239,7 +239,7 @@ export function deleteNotif(notifId) {
       dispatch({type: types.DELETE_NOTIF_SUCCESS, data: data})
       dispatch(getNotifs());
     } catch (error) {
-      dispatch({type: types.DELETE_NOTIF_ERROR,   data: error});
+      dispatch({type: types.DELETE_NOTIF_ERROR, data: error});
     }
   }
 };
