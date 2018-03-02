@@ -38,7 +38,6 @@ export function createSensor(sensor) {
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      console.log("create sensor error")
       dispatch({type: types.CREATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -80,12 +79,10 @@ export function updateSensorName(sensorId, name) {
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
-      console.log("error id:" + sensorId + " " + name)
       let data = await sensorsApi.putSensorName(domain, sensorId, name)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      //log.warn("error:" + JSON.stringify(error))
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -144,12 +141,10 @@ export function updateMeasurementName(sensorId, measId, name) {
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
-      console.log("error id:" + sensorId + " " + name)
       let data = await sensorsApi.putMeasurementName(domain, sensorId, measId, name)
       dispatch({type: types.UPDATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors());
     } catch (error) {
-      //log.warn("error:" + JSON.stringify(error))
       dispatch({type: types.UPDATE_SENSOR_ERROR,   data: error});
     }
   }
@@ -163,12 +158,9 @@ export function getValues(sensorId, measId) {
     dispatch({type: types.GET_VALUES_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
-      console.log("get Values : " + domain, sensorId, measId)
       let data = await sensorsApi.getMeasurementValues(domain, sensorId, measId)
-      console.log("error2: " + JSON.stringify(data))
       dispatch({type: types.GET_VALUES_SUCCESS, data: data})
     } catch (error) {
-      console.log("error3: " + JSON.stringify(error))
       dispatch({type: types.GET_VALUES_ERROR, data: error});
     }
   }
