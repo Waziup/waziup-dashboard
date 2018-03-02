@@ -36,7 +36,9 @@ export default class SensorNodeCard extends Component {
           {this.props.isEditable? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
         </CardTitle>
         <div className="sensorNodeCards">
-          <SensorBoardCard sensor={sensor} isEditable={this.props.isEditable} updateSensor={s => this.props.updateSensor(s)}/>
+          <SensorBoardCard sensor={sensor}
+                           isEditable={this.props.isEditable}
+                           updateSensorName={this.props.updateSensorName}/>
           {measurements}
         </div>
       </Card>

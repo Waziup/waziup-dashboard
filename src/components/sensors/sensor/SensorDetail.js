@@ -39,7 +39,7 @@ class SensorDetail extends Component {
           <h1 className="page-title">Sensor node: {sensor.id}</h1>
           <SensorNodeCard className="sensorNode"
                           sensor={sensor}
-                          updateSensor={this.props.updateSensorName}
+                          updateSensorName={this.props.updateSensorName}
                           deleteSensor={this.props.deleteSensor}
                           updateMeasurement={this.props.addMeasurement}
                           deleteMeasurement={this.props.deleteMeasurement}

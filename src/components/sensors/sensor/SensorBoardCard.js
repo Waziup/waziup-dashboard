@@ -21,7 +21,11 @@ export default class SensorBoardCard extends Component {
     let sensor = this.props.sensor
     return (
       <Card className="measCard">
-        <SensorForm sensor={sensor} isEdit={this.props.isEditable} modalOpen={this.state.modalEdit} handleClose={() => this.setState({ modalEdit: false })} onSubmit={s => this.props.updateSensor(s)} />
+        <SensorForm sensor={sensor}
+                    isEdit={this.props.isEditable}
+                    modalOpen={this.state.modalEdit}
+                    handleClose={() => this.setState({ modalEdit: false })}
+                    onSubmit={s => this.props.updateSensorName(sensor.id)} />
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {sensor.name} </pre>
           <div className="cardTitleIcons"> 
@@ -40,6 +44,7 @@ export default class SensorBoardCard extends Component {
   propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
     isEditable: PropTypes.func,
+    updateSensorName: PropTypes.func
   }
 }
 
