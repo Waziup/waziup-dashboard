@@ -38,8 +38,10 @@ class MeasurementDetail extends Component {
   }
 
   fetchValues = () => {
-    this.props.getValues(this.props.params.sensorId, this.props.params.measId)
     this.props.getSensors();
+    if(this.props.sensor) {
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain)
+    }
   }
   
   render() {
@@ -66,14 +68,18 @@ class MeasurementDetail extends Component {
 
       return (
         <Container fluid={true}>
-          <h1 className="page-title">Measurement: {this.props.meas.id}</h1>
+          <h1 className="page-title">
+            <img src={chartImage} height="50"/>
+            Measurement: {this.props.meas.id}
+          </h1>
           <Card className="sensorNode">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Last value </h2>
               <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton" />
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
-                             isEditable={true}
+                             isDetailsLink={false}
+                             isEditable={false}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
                              sensorId={this.props.sensorId}/>
@@ -113,19 +119,20 @@ function mapStateToProps(state, ownProps) {
   const meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
   const notifs = meas && sensor? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)): null
   return {
-    sensorId: sensor? sensor.id: null,
+    sensor: sensor,
     meas: meas, 
     user: state.keycloak.idTokenParsed,
     values: state.values.values,
     sensors: state.sensors.sensors,
     users: state.users.users,
     notifs: notifs,
+    isDetails: ownProps.isDetails
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid) => {dispatch(getValues(sid, mid)) },
+    getValues: (sid, mid, d) => {dispatch(getValues(sid, mid, d)) },
     getSensors: () => {dispatch(getSensors()) },
     updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },

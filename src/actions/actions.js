@@ -152,9 +152,8 @@ export function updateMeasurementName(sensorId, measId, name) {
 
 /* sensor values action */
 
-export function getValues(sensorId, measId) {
+export function getValues(sensorId, measId, domain) {
   return async function (dispatch) {
-    var domain = "waziup";
     dispatch({type: types.GET_VALUES_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {

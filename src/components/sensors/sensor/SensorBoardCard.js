@@ -25,7 +25,7 @@ export default class SensorBoardCard extends Component {
                     isEdit={this.props.isEditable}
                     modalOpen={this.state.modalEdit}
                     handleClose={() => this.setState({ modalEdit: false })}
-                    onSubmit={s => this.props.updateSensorName(sensor.id)} />
+                    onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {sensor.name} </pre>
           <div className="cardTitleIcons"> 
