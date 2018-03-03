@@ -13,6 +13,7 @@ import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import { Container, Col, Hidden } from 'react-grid-system'
 import UTIL from '../lib/utils.js';
 import ErrorBanner from './ErrorBanner';
+import sensorNodesImage from '../images/sensorNodes.png';
 
 const styles = {
   medium: {
@@ -91,29 +92,23 @@ class Layout extends Component {
               </div>
               <div className="menu">
                 <MenuItem containerElement={<Link to="/home" />}
-                  primaryText="Map" innerDivStyle={styles.menuLink} />
-                {UTIL.isAdmin(this.props.user.permissions) &&
+                          primaryText="Map" innerDivStyle={styles.menuLink}/>
+                {UTIL.isAdmin(this.props.user.permissions) && 
                   <MenuItem disabled={!UTIL.isAdmin(this.props.user.permissions)}
-                    containerElement={<Link to="/users" />}
-                    primaryText="Users"
-                    innerDivStyle={styles.menuLink}
-                  />}
-                <MenuItem
-                  containerElement={<Link to="/sensors" />}
-                  innerDivStyle={styles.menuLink}
-                  primaryText="Sensors"
-                />
-
-                <MenuItem
-                  containerElement={<Link to="/notifications" />}
-                  innerDivStyle={styles.menuLink}
-                  primaryText="Notifications"
-                />
-                <MenuItem
-                  containerElement={<Link to="/userpermissions" />}
-                  innerDivStyle={styles.menuLink}
-                  primaryText="User Permissions"
-                />
+                            containerElement={<Link to="/users" />}
+                            primaryText="Users"
+                            innerDivStyle={styles.menuLink}/>}
+                <MenuItem containerElement={<Link to="/sensors" />}
+                          innerDivStyle={styles.menuLink}
+                          primaryText="Sensors">
+                  {/*<img src={sensorNodesImage} height="40"/>*/}
+                </MenuItem>
+                <MenuItem containerElement={<Link to="/notifications" />}
+                          innerDivStyle={styles.menuLink}
+                          primaryText="Notifications"/>
+                <MenuItem containerElement={<Link to="/userpermissions" />}
+                          innerDivStyle={styles.menuLink}
+                          primaryText="User Permissions"/>
               </div>
             </div>
           </Col>
