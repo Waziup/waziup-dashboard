@@ -18,6 +18,7 @@ import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
+import chartImage from '../../../images/chart-icon.png';
 
 class MeasurementDetail extends Component {
   constructor(props) {

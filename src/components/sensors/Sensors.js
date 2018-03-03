@@ -14,6 +14,7 @@ import Utils from '../../lib/utils';
 import { getSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
+import sensorNodesImage from '../../images/sensorNodes.png';
 
 
 class Sensors extends Component {
@@ -40,7 +41,10 @@ class Sensors extends Component {
     }
     return (
       <Container fluid={true}>
-        <h1 className="page-title">Sensor nodes</h1>
+        <h1 className="page-title">
+          <img src={sensorNodesImage} height="40"/>
+          Sensor nodes
+        </h1>
         <SensorForm modalOpen={this.state.modalAddSensor}
                     handleClose={() => this.setState({ modalAddSensor: false })}
                     onSubmit={s => this.props.createSensor(s)}/>

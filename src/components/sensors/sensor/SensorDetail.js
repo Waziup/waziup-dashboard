@@ -12,6 +12,7 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
+import sensorNodeImage from '../../../images/sensorNode.png';
 
 var position;
 
@@ -36,14 +37,17 @@ class SensorDetail extends Component {
       console.log("pos:" + JSON.stringify(position))
       renderElement =
         <Container fluid={true}>
-          <h1 className="page-title">Sensor node: {sensor.id}</h1>
+          <h1 className="page-title">
+            <img src={sensorNodeImage} height="40"/>
+            Sensor node: {sensor.id}
+          </h1>
           <SensorNodeCard className="sensorNode"
                           sensor={sensor}
                           updateSensorName={this.props.updateSensorName}
                           deleteSensor={this.props.deleteSensor}
                           updateMeasurement={this.props.addMeasurement}
                           deleteMeasurement={this.props.deleteMeasurement}
-                          isEditable={true}/>
+                          isDetails={true}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Location </h2>
