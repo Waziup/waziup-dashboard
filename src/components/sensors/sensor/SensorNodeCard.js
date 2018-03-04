@@ -51,7 +51,7 @@ export default class SensorNodeCard extends Component {
           {this.props.isDetails? <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
         </CardTitle>
         <div className="sensorNodeCards">
-          <div className="measIcon">
+          <div className="boardIcon">
             <img src={sensorNodeImage} height="100" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>
           {measurements}

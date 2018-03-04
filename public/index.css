@@ -358,6 +358,11 @@ ul {
   clear:left;
 }
 
+.boardIcon {
+  float: left;
+  margin: 35px;
+}
+
 /* Measurement */
 
 .measCard {
