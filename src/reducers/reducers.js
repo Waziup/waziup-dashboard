@@ -5,7 +5,6 @@ import { reducer as formReducer } from 'redux-form'
 
 //Get all sensors
 function sensorsReducer(state = { isLoading: false, sensors: [], error: false, errMsg:'' }, action = null) {
-  console.log("sensor reducer: " + JSON.stringify(action))
   switch (action.type) {
     case types.GET_SENSORS_START:   return Object.assign({}, state, { isLoading: true, error: false });
     case types.GET_SENSORS_SUCCESS: return Object.assign({}, state, { isLoading: false, sensors: action.data, error: false });
@@ -87,7 +86,6 @@ function notifActionReducer(state = { isLoading: false, msg:{}, error: false }, 
 };
 
 function messagesReducer(state = [], action = null) {
-  console.log("message action" + JSON.stringify(action))
   var msg, error = null;
   switch (action.type) {
     case types.CLEAR_MESSAGES:        return []
