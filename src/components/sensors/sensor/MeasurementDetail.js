@@ -49,7 +49,7 @@ class MeasurementDetail extends Component {
     console.log("values:" + JSON.stringify(this.props.values))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
-        subject: { entityNames: [this.props.sensorId], condition: {attrs: [this.props.meas.id], expression: "TC>30"}},
+        subject: { entityNames: [this.props.sensor.id], condition: {attrs: [this.props.meas.id], expression: "TC>30"}},
         notification: {channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.preferred_username]},
         description: "Send message",
         throttling: 1})
@@ -76,6 +76,13 @@ class MeasurementDetail extends Component {
             <CardTitle>
               <h2 className="sensorNodeTitle"> Last value </h2>
               <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton" />
+              <NotifForm modalOpen={this.state.modalOpen}
+                         notif={defaultNotif}
+                         sensors={this.props.sensors}
+                         users={this.props.users} 
+                         onSubmit={this.props.createNotif}
+                         handleClose={() => this.setState({modalOpen: false})}
+                         isEditable={true}/>
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
                              isDetailsLink={false}
@@ -88,13 +95,6 @@ class MeasurementDetail extends Component {
             <Card className="sensorNode">
               <CardTitle>
                 <h2 className="sensorNodeTitle"> Notifications </h2>
-                <NotifForm modalOpen={this.state.modalOpen}
-                           notif={defaultNotif}
-                           sensors={this.props.sensors}
-                           users={this.props.users} 
-                           onSubmit={this.props.createNotif}
-                           handleClose={() => this.setState({modalOpen: false})}
-                           isEditable={true}/>
               </CardTitle>
             {notifications}
           </Card>: null}
@@ -125,8 +125,7 @@ function mapStateToProps(state, ownProps) {
     values: state.values.values,
     sensors: state.sensors.sensors,
     users: state.users.users,
-    notifs: notifs,
-    isDetails: ownProps.isDetails
+    notifs: notifs
   }
 }
 
