@@ -131,24 +131,36 @@ function messagesReducer(state = [], action = null) {
   }
 };
 
+// Get all permissions
+function permissionsReducer(state = { isLoading: false, permissions: [], error: false }, action = null) {
+  switch (action.type) {
+    case types.GET_PERMS_START:   return Object.assign({}, state, { isLoading: true });
+    case types.GET_PERMS_SUCCESS: return Object.assign({}, state, { isLoading: false, permissions: action.data, error: false });
+    case types.GET_PERMS_ERROR:   return Object.assign({}, state, { isLoading: false, msg: action.data,   error: true });
+    default: return state;
+  }
+};
+
 export default function rootReducer(state = {}, action) {
   return {
-  routing: routerReducer(state.routing, action),
-  //list of sensors
-  sensors: sensorsReducer(state.sensors, action),
-  //Sensor CRUD operations
-  sensorAction: sensorActionReducer(state.sensorAction, action),
-
-  values: valuesReducer(state.values, action),
-  //list of users
-  users: usersReducer(state.users, action),
-  //list of notifications
-  notifications: notificationsReducer(state.notifications, action),
-  //Notif CRUD operations
-  notifAction: notifActionReducer(state.notifAction, action),
-  //global errors
-  messages: messagesReducer(state.messages, action),
-  keycloak: state.keycloak
+    routing: routerReducer(state.routing, action),
+    //list of sensors
+    sensors: sensorsReducer(state.sensors, action),
+    //Sensor CRUD operations
+    sensorAction: sensorActionReducer(state.sensorAction, action),
+    //Sensor values
+    values: valuesReducer(state.values, action),
+    //list of users
+    users: usersReducer(state.users, action),
+    //list of notifications
+    notifications: notificationsReducer(state.notifications, action),
+    //Notif CRUD operations
+    notifAction: notifActionReducer(state.notifAction, action),
+    //global messages
+    messages: messagesReducer(state.messages, action),
+    keycloak: state.keycloak,
+    //list of permissions
+    permissions: permissionsReducer(state.permissions, action)
   }
 }
 

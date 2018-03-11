@@ -10,6 +10,7 @@ defaultClient.basePath = config.APIServerUrl + '/v1'
 var sensorsApi = new WaziupApi.SensorsApi();
 var usersApi   = new WaziupApi.UsersApi();
 var notifsApi  = new WaziupApi.NotificationsApi();
+var authApi  = new WaziupApi.AuthApi();
 
 
 /* Sensor Actions */
@@ -246,5 +247,19 @@ export function deleteNotif(notifId) {
 export function clearMessages() {
   return async function (dispatch) {
     dispatch({type: types.CLEAR_MESSAGES});
+  }
+};
+
+export function getPermissions() {
+  return async function (dispatch) {
+    var domain = "waziup";
+    dispatch({type: types.GET_PERMS_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    try {
+      let data = await authApi.getPermissions(domain, null)
+      dispatch({type: types.GET_PERMS_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_PERMS_ERROR, data: error});
+    }
   }
 };

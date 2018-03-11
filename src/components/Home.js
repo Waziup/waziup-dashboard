@@ -3,15 +3,12 @@ import React, { Component } from 'react';
 import Checkbox from 'material-ui/Checkbox';
 import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import { Container } from 'react-grid-system'
-import { ToastContainer, ToastMessage } from "react-toastr"
 import { connect } from 'react-redux';
-import { getSensors } from "../actions/actions.js"
+import { getSensors, getPermissions } from "../actions/actions.js"
 import UTILS from '../lib/utils.js';
 import { icon } from 'leaflet';
 import { browserHistory } from 'react-router';
 
-const ToastMessageFactory = React.createFactory(ToastMessage.animation);
-//14.4974° N, 14.4524
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -20,22 +17,6 @@ class Home extends Component {
       markers: [],
       position: [14.4974, 14.4524],
     };
-  }
-
-  addAlert() {
-    var now = new Date().toUTCString();
-    this.refs.toastContainer.success(
-      <div>
-        <h3>Welcome {this.state.user.name} !</h3>
-        <p>{now}</p>
-      </div>,
-      `WAZIUP`, {
-        closeButton: true,
-      });
-  }
-
-  goTo(uri) {
-    browserHistory.push(uri);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,7 +28,7 @@ class Home extends Component {
           markers.push(<Marker key={sensor.id} position={[sensor.location.latitude, sensor.location.longitude]}>
               <Popup>
                 <span>
-                  <a onClick={() => this.goTo("/sensors/" + sensor.id)} > {sensor.id}</a>
+                  <a onClick={() => this.browserHistory.push("/sensors/" + sensor.id)} > {sensor.id}</a>
                   {UTILS.getSensorData(sensor)}
                 </span>
               </Popup>
@@ -61,6 +42,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.getSensors();
+    this.props.getPermissions();
   }
 
   render() {
@@ -76,11 +58,6 @@ class Home extends Component {
             {this.state.markers}
           </Map>
         </Container>
-        <ToastContainer
-          toastMessageFactory={ToastMessageFactory}
-          ref="toastContainer"
-          className="toast-top-right"
-        />
       </div>
     );
   }
@@ -89,14 +66,13 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     sensors: state.sensors.sensors,
-    user: state.keycloak.idTokenParsed,
-    keycloak: state.keycloak,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => { dispatch(getSensors()) }
+    getSensors: () => { dispatch(getSensors()) },
+    getPermissions: () => { dispatch(getPermissions()) }
   };
 }
 
