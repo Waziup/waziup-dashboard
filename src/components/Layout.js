@@ -29,9 +29,7 @@ class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
     };
-    this.toggleNavigation = this.toggleNavigation.bind(this);
   }
 
   profileButton = (user) => (
@@ -60,10 +58,6 @@ class Layout extends Component {
     });
   }
 
-  toggleNavigation() {
-    this.setState({ open: !this.state.open });
-  }
-
   render() {
     var Logo;
     Logo = require("../images/logo-waziup-white.png");
@@ -72,7 +66,6 @@ class Layout extends Component {
         <AppBar
           title={<img style={styles.logo} src={Logo} alt="logo" />}
           onLeftIconButtonTouchTap={this.toggleNavigation}
-          iconElementRight={this.headerMenu(this.props.user)}
           className="navbar"
         />
         <Hidden xs sm>
@@ -93,22 +86,13 @@ class Layout extends Component {
               <div className="menu">
                 <MenuItem containerElement={<Link to="/home" />}
                           primaryText="Map" innerDivStyle={styles.menuLink}/>
-                {UTIL.isAdmin(this.props.user.permissions) && 
-                  <MenuItem disabled={!UTIL.isAdmin(this.props.user.permissions)}
-                            containerElement={<Link to="/users" />}
-                            primaryText="Users"
-                            innerDivStyle={styles.menuLink}/>}
                 <MenuItem containerElement={<Link to="/sensors" />}
                           innerDivStyle={styles.menuLink}
                           primaryText="Sensors">
-                  {/*<img src={sensorNodesImage} height="40"/>*/}
                 </MenuItem>
                 <MenuItem containerElement={<Link to="/notifications" />}
                           innerDivStyle={styles.menuLink}
                           primaryText="Notifications"/>
-                <MenuItem containerElement={<Link to="/userpermissions" />}
-                          innerDivStyle={styles.menuLink}
-                          primaryText="User Permissions"/>
               </div>
             </div>
           </Col>

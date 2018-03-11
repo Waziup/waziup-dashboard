@@ -10,16 +10,13 @@ import Sensors from './components/sensors/Sensors';
 import SensorDetail from './components/sensors/sensor/SensorDetail';
 import MeasurementDetail from './components/sensors/sensor/MeasurementDetail';
 import Settings from './components/profile/Settings.js';
-import UserList from './components/user/UserList/UserListContainer';
-import User from './components/user/UserList/User';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
-import UserPermissions from './components/user/UserPermissions.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { getSensors, getUsers } from "./actions/actions.js"
+import { getSensors, getUsers, getPermissions } from "./actions/actions.js"
 
 injectTapEventPlugin();
 
@@ -38,9 +35,9 @@ const routes = {
     { path: 'sensors', component: Sensors },
     { path: 'sensors/:sensorId', component: SensorDetail },
     { path: 'sensors/:sensorId/:measId', component: MeasurementDetail },
-    { path: 'users', component: UserList },
+    {/* path: 'users', component: UserList },
     { path: 'users/:uid', component: User },
-    { path: 'userpermissions', component: UserPermissions },
+    { path: 'userpermissions', component: UserPermissions */},
   ]
 }
 
@@ -66,18 +63,16 @@ export function keycloakLogin() {
   keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).success(authenticated => {
     if (authenticated) {
       store.getState().keycloak = keycloak;
-      //setInterval(() => {keycloak.updateToken(10).error(() => keycloak.logout()); }, 10000);
       setInterval(() => {
-        keycloak.updateToken(3600).
-        success(function (refreshed) {
-          getSensors();
-          getUsers();
-        }).
-        error(function () {
-          alert('Your session has expired, please log in again');
-          keycloak.logout();
-        })
-      }, 10000);
+        keycloak.updateToken(3600).success(function (refreshed) {
+            getSensors();
+            getUsers();
+            getPermissions();
+          }).error(function () {
+            alert('Your session has expired, please log in again');
+            keycloak.logout();
+          })
+        }, 10000);
 
       displayPage();
     }

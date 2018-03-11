@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
 import { Container } from 'react-grid-system'
-import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
-import Spinner from 'react-spinkit';
-import Utils from '../../../lib/utils';
-import UserActions from './UserActions.js'
-import { loadUsers, deleteUser } from "../../../index.js"
 import { connect } from 'react-redux';
+import { getUsers, deleteUser } from '../../actions/actions';
 
-class UserList extends Component {
-  constructor(props) {s
+class Users extends Component {
+  constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.props.loadUsers(this.props.keycloak.realm);
-  }
 
-  /*componentWillReceiveProps(nextProps){
-    if (nextProps.users) {
-      this.setState({users:nextProps.users})
-    }
-  }*/
-  //                    <ColumnDefinition id="id"        title="User ID"/>
+  componentDidMount() {
+    this.props.getUsers();
+  }
 
   render() {
     const rowDataSelector = (state, { griddleKey }) => {
@@ -70,4 +60,19 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+const mapStateToProps = (state) => {
+    return {
+      users: state.users,
+      keycloak: state.keycloak
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+       getUsers: () => {dispatch(getUsers()) },
+       deleteUser: (id) => {dispatch(deleteUser(id)) }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

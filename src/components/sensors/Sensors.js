@@ -2,14 +2,10 @@ import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import { connect } from 'react-redux';
-import SensorData from './SensorData.js'
-import SensorStatus from './SensorStatus.js'
-import SensorForm from './SensorForm.js'
+import SensorForm from './sensor/SensorForm.js'
 import SensorNodeCard from './sensor/SensorNodeCard.js'
-import SensorActions from './SensorActions.js'
 import SensorsTable from './SensorsTable.js'
 import { Container } from 'react-grid-system'
-import Griddle, { plugins, RowDefinition, ColumnDefinition } from 'griddle-react';
 import Utils from '../../lib/utils';
 import { getSensors, createSensor, updateSensorLocation, updateSensorOwner, deleteSensor } from "../../actions/actions.js"
 import * as Waziup from 'waziup-js'
