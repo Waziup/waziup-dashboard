@@ -41,7 +41,7 @@ export default class MeasurementCard extends Component {
                          isEdit={true}
                          measurement={meas}/>
         <div className="cardTitleDiv">
-          <pre className="cardTitle"> {meas.name} </pre>
+          <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
             {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteMeasurement(this.props.sensorId, meas.id)}/>: null }
