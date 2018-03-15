@@ -10,5 +10,6 @@ module.exports = {
   // Web analytics
   analytics: {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
-  }
+  },
+  delaySensorInactive: 12 * 60 * 60 * 1000 // 12 hours (in milliseconds)
 };

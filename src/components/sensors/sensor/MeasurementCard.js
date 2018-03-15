@@ -10,9 +10,7 @@ import { TextField } from 'redux-form-material-ui'
 import MeasurementForm from './MeasurementForm';
 import { Link } from 'react-router';
 import * as Waziup from 'waziup-js'
-
-//sensors are marked as inative after 12 hours
-const delayInactiveMin = 60 * 12
+import config from '../../../config';
 
 export default class MeasurementCard extends Component {
   constructor(props) {
@@ -24,13 +22,12 @@ export default class MeasurementCard extends Component {
 
   render() {
     let meas = this.props.measurement
-    let now = new Date()
-    let delayMin = (now - Date.parse(meas.timestamp)) / (1000 * 60)
     let activeStyle = null 
-    if(delayMin < delayInactiveMin) {
-      activeStyle = {"background-color": "#32bf32", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"}
+    //Check if inactive delay expired
+    if(new Date() > Date.parse(meas.timestamp) + config.delayInactiveMin) { 
+      activeStyle = {"background-color": "#ff4141", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Red
     } else {
-      activeStyle = {"background-color": "#ff4141", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"}
+      activeStyle = {"background-color": "#32bf32", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Green
     }
 
     return (
@@ -43,8 +40,8 @@ export default class MeasurementCard extends Component {
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
           <div className="cardTitleIcons"> 
-            {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteMeasurement(this.props.sensorId, meas.id)}/>: null }
+            <EditIcon onClick={() => this.setState({modalEdit: true})}/>
+            <DeleteIcon onClick={() => this.props.deleteMeasurement(this.props.sensorId, meas.id)}/>
           </div>
         </div>
         <div className="cardContent">
@@ -54,7 +51,7 @@ export default class MeasurementCard extends Component {
           <div className="measValue"> 
             <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
           </div>
-          {this.props.isDetailsLink? 
+          {this.props.isDetails? 
             <Link to={"/sensors/" + this.props.sensorId + "/" + meas.id} > 
               <div className="measIcon">
                 <img src={chartImage} height="100" title={"Go to measurement details"}/>
@@ -69,7 +66,7 @@ export default class MeasurementCard extends Component {
   propTypes = {
     meas: PropTypes.object.isRequired, //Should be a Waziup.Measurement
     isEditable: PropTypes.bool,
-    isDetailsLink: PropTypes.bool,
+    isDetails: PropTypes.bool,
     updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func,
     sensorId: PropTypes.string.isRequired
