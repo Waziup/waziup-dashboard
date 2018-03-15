@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import { connect } from 'react-redux';
 import SensorForm from './sensor/SensorForm.js'
-import SensorNodeCard from './sensor/SensorNodeCard.js'
+import SensorLineCard from './SensorLineCard.js'
 import SensorsTable from './SensorsTable.js'
 import { Container } from 'react-grid-system'
 import Utils from '../../lib/utils';
@@ -31,7 +31,7 @@ class Sensors extends Component {
     for(var sensor of this.props.sensors) {
        const card = 
          <Link to={"/sensors/"+sensor.id} > 
-           <SensorNodeCard className="sensorNode" sensor={sensor} isEditable={false}/>
+           <SensorLineCard className="sensorNode" sensor={sensor}/>
          </Link>
        sensorNodes.push(card)
     }
