@@ -23,8 +23,7 @@ export default class SensorNodeCard extends Component {
     var measurements = [];
     for (let m of sensor.measurements) {
       const card = <MeasurementCard measurement={m}
-                                    isEditable={this.props.isDetails}
-                                    isDetailsLink={this.props.isDetails}
+                                    isDetails={false}
                                     updateMeasurement={this.props.updateMeasurement} 
                                     deleteMeasurement={this.props.deleteMeasurement}
                                     sensorId={sensor.id}/>
@@ -39,15 +38,15 @@ export default class SensorNodeCard extends Component {
                          this.setState({modalAdd: false});}}
                          isEdit={false}/>
         <SensorForm sensor={sensor}
-                    isEdit={this.props.isDetails}
+                    isEdit={true}
                     modalOpen={this.state.modalEdit}
                     handleClose={() => this.setState({ modalEdit: false })}
                     onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <CardTitle>
           <h2 className="sensorNodeTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
-          {this.props.isDetails? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>: null}
-          {this.props.isDetails? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
-          {this.props.isDetails? <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
+          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
+          <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>
+          <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>
         </CardTitle>
         <div className="sensorNodeCards">
           <div className="boardIcon">
@@ -65,6 +64,5 @@ export default class SensorNodeCard extends Component {
     deleteSensor: PropTypes.func,
     updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func,
-    isDetails: PropTypes.bool
   }
 }

@@ -45,14 +45,14 @@ class MeasurementDetail extends Component {
   }
   
   render() {
-    console.log("meas:" + JSON.stringify(this.props.meas))
-    console.log("values:" + JSON.stringify(this.props.values))
+    console.log("modal:" + JSON.stringify(this.state.modalOpen))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
         subject: { entityNames: [this.props.sensor.id], condition: {attrs: [this.props.meas.id], expression: "TC>30"}},
         notification: {channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.preferred_username]},
         description: "Send message",
         throttling: 1})
+      console.log("defaultModal:" + JSON.stringify(defaultNotif))
       var notifications = []
       if(this.props.notifs) {
         for(var notif of this.props.notifs) {
@@ -85,8 +85,7 @@ class MeasurementDetail extends Component {
                          isEditable={true}/>
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
-                             isDetailsLink={false}
-                             isEditable={false}
+                             isDetails={false}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
                              sensorId={this.props.sensorId}/>

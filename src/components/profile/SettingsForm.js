@@ -9,71 +9,63 @@ class settingsForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-        form:{}
+        user: this.props.user
     };
   }
-  componentDidMount() {
-  }
-  componentWillReceiveProps(nextProps){
+
+  handleChange = (formData) => {
+    var user = this.state.user
+    user[formData.target.name] = formData.target.value;
+    this.setState({user: user})
   }
 
   render() {
-    const { onSubmit } = this.props;
+    const {reset, modalOpen, handleClose, onSubmit} = this.props;
+    const actions = [ 
+      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
+      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
+    ];
     return (
-      <form onSubmit={onSubmit}>
-        <Row>
-          <Col md={1}>
-            <Field name="ServicePath"
-              component={TextField}
-              hintText="Fiware-ServicePath"
-              floatingLabelText="Fiware-ServicePath"
-              ref="ServicePath" withRef/>
-            <Field
-              name="Phone"
-              component={TextField}
-              hintText="Phone Number"
-              floatingLabelText="Phone Number"
-               ref="Phone" withRef />
-            <Field
-              name="Facebook"
-              component={TextField}
-              hintText="Facebook"
-              floatingLabelText="Facebook"
-               ref="Facebook" withRef />
-            <Field
-              name="Twitter"
-              component={TextField}
-              hintText="Twitter"
-              floatingLabelText="Twitter"
-               ref="Twitter" withRef />
-            <RaisedButton
-                label="Submit"
-                primary={true}
-                onTouchTap={()=>{
-                  this.props.submit();
-                }}
-              />
-           </Col>
-        </Row>
-      </form>
+      <Dialog title={"User profile"} actions={actions} modal={true} open={modalOpen}>
+        <TextField
+          name="firstName"
+          floatingLabelText="First name"
+          value={this.state.user.firstName}
+          onChange={this.handleChange}/>
+        <TextField
+          name="lastName"
+          floatingLabelText="Last name"
+          value={this.state.user.lastName}
+          onChange={this.handleChange}/>
+        <TextField
+          name="email"
+          floatingLabelText="Email"
+          value={this.state.user.email}
+          onChange={this.handleChange}/>
+        <TextField
+          name="phone"
+          floatingLabelText="Phone"
+          value={this.state.user.phone}
+          onChange={this.handleChange}/>
+        <TextField
+          name="facebook"
+          floatingLabelText="Last name"
+          value={this.state.user.facebook}
+          onChange={this.handleChange}/>
+        <TextField
+          name="twitter"
+          floatingLabelText="Twitter"
+          value={this.state.user.twitter}
+          onChange={this.handleChange}/>
+      </Dialog>
     );
   }
+
+  propTypes = {
+    modalOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
+  }
 }
-// Decorate with redux-form
-settingsForm = reduxForm({
-  form: 'settingsForm',
-  enableReinitialize : true, // this is needed!!
-})(settingsForm);
 
-settingsForm = connect(
-  state => ({
-    initialValues: {
-      'ServicePath': state.currentUser.currentUser.attributes ? (state.currentUser.currentUser.attributes.ServicePath ? state.currentUser.currentUser.attributes.ServicePath[0] : "" ) : "",
-      'Phone': state.currentUser.currentUser.attributes ? (state.currentUser.currentUser.attributes.Phone ? state.currentUser.currentUser.attributes.Phone[0]:"") : "",
-      'Facebook': state.currentUser.currentUser.attributes ? (state.currentUser.currentUser.attributes.Facebook ? state.currentUser.currentUser.attributes.Facebook[0]:"") : "",
-      'Twitter': state.currentUser.currentUser.attributes ? (state.currentUser.currentUser.attributes.Twitter ? state.currentUser.currentUser.attributes.Twitter[0]:"") : ""
-    }
-  })
-)(settingsForm)
-
-export default settingsForm;
+export default reduxForm({form: 'simple'})(SettingsForm)

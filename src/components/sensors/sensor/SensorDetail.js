@@ -46,8 +46,7 @@ class SensorDetail extends Component {
                           updateSensorName={this.props.updateSensorName}
                           deleteSensor={this.props.deleteSensor}
                           updateMeasurement={this.props.addMeasurement}
-                          deleteMeasurement={this.props.deleteMeasurement}
-                          isDetails={true}/>
+                          deleteMeasurement={this.props.deleteMeasurement}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="sensorNodeTitle"> Location </h2>
