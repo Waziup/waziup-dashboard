@@ -43,12 +43,12 @@ export default class SensorNodeCard extends Component {
                     handleClose={() => this.setState({ modalEdit: false })}
                     onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <CardTitle>
-          <h2 className="sensorNodeTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
-          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
-          <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>
-          <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>
+          <h2 className="cardTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
+          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
+          <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>
+          <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>
         </CardTitle>
-        <div className="sensorNodeCards">
+        <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="100" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>

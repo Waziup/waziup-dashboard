@@ -23,7 +23,7 @@ export default class NotifCard extends Component {
   render() {
     let notif = this.props.notif
     return (
-      <Card className="measCard">
+      <Card className="card">
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {notif.subject.entityNames} -> {notif.subject.condition.attrs} </pre>
           <div className="cardTitleIcons"> 

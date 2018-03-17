@@ -314,20 +314,16 @@ ul {
   overflow: hidden;
 }
 
-.changeLocationButton {
+.topRightButton {
   float: right;
   margin: 3px;
-
-}
-
-.cardEditIcon {
-  color: gray;
 }
 
 .cardTitle {
-  display:inline-block;
+  display: inline-block;
   font-size: 24px;
   font-family: Roboto, sans-serif;
+  margin: 5px;
 }
 
 .cardTitleIcons {
@@ -347,14 +343,7 @@ ul {
   margin-bottom: 10px;
 }
 
-.sensorNodeTitle {
-  display: inline-block;
-  font-size: 24px;
-  font-family: Roboto, sans-serif;
-  margin: 5px;
-}
-
-.sensorNodeCards {
+.contentCards {
   clear:left;
 }
 
@@ -365,7 +354,7 @@ ul {
 
 /* Measurement */
 
-.measCard {
+.card {
   display: inline-block;
   padding-left: 30px;
   padding-right: 30px;
@@ -385,19 +374,16 @@ ul {
   float: left;
 }
 
-.measName {
-  padding: 5px;
-  text-align: center;
-  clear: left;
+.cardRed {
+  background-color: #ff4141 !important;
+  box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
 }
 
-.measActive {
-  background-color: darkseagreen;
+.cardGreen {
+  background-color: #32bf32 !important;
+  box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
 }
 
-.measInactive {
-  background-color: #ff4d4d;
-}
 
 /* Notifications */
 

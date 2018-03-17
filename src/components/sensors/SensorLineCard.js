@@ -21,26 +21,19 @@ export default class SensorLineCard extends Component {
       measurements.push(card);
     }
     
-    let activeStyle = (meas) => { 
-      //Check if inactive delay expired
-      if(new Date() > Date.parse(meas.timestamp) + config.delayInactiveMin) { 
-        return {"background-color": "#ff4141", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Red
-      } else {
-        return {"background-color": "#32bf32", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Green
-      }
-    }
+    let activeStyle = (meas) => {return (meas.timestamp && new Date() < Date.parse(meas.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"}
 
     return ( 
       <Card className="sensorNode">
         <CardTitle>
-          <h2 className="sensorNodeTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
+          <h2 className="cardTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
         </CardTitle>
-        <div className="sensorNodeCards">
+        <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="100" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>
           {sensor.measurements.map(meas => {return (
-            <Card className="measCard" style={activeStyle(meas)}>
+            <Card className={"card " + activeStyle(meas)}>
               <div className="cardTitleDiv">
                 <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
               </div>

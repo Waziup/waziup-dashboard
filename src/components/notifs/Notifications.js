@@ -52,10 +52,10 @@ class Notifications extends Component {
                      onSubmit={this.props.createNotif} />
           <Card className="sensorNode">
             <CardTitle>
-              <h2 className="sensorNodeTitle"> Notifications </h2>
-              <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton"/>
+              <h2 className="cardTitle"> Notifications </h2>
+              <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton"/>
             </CardTitle>
-            <div className="sensorNodeCards">
+            <div className="contentCards">
             {this.state.isCardsView? 
               notifications: 
               null}

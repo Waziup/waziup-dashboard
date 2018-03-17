@@ -22,16 +22,11 @@ export default class MeasurementCard extends Component {
 
   render() {
     let meas = this.props.measurement
-    let activeStyle = null 
     //Check if inactive delay expired
-    if(new Date() > Date.parse(meas.timestamp) + config.delayInactiveMin) { 
-      activeStyle = {"background-color": "#ff4141", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Red
-    } else {
-      activeStyle = {"background-color": "#32bf32", "box-shadow": "rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px"} //Green
-    }
+    let activeStyle = (meas.timestamp && new Date() < Date.parse(meas.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"
 
     return (
-      <Card className="measCard" style={activeStyle}>
+      <Card className={"card " + activeStyle}>
         <MeasurementForm modalOpen={this.state.modalEdit}
                          handleClose={()=>{this.setState({modalEdit: false})}}
                          onSubmit={(m) => {this.props.updateMeasurement(this.props.sensorId, m); this.setState({modalEdit: false});}}
@@ -51,7 +46,7 @@ export default class MeasurementCard extends Component {
           <div className="measValue"> 
             <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
           </div>
-          {this.props.isDetails? 
+          {!this.props.isDetails? 
             <Link to={"/sensors/" + this.props.sensorId + "/" + meas.id} > 
               <div className="measIcon">
                 <img src={chartImage} height="100" title={"Go to measurement details"}/>

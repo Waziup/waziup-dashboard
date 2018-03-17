@@ -49,8 +49,8 @@ class SensorDetail extends Component {
                           deleteMeasurement={this.props.deleteMeasurement}/>
           <Card className="sensorMap">
             <CardTitle>
-              <h2 className="sensorNodeTitle"> Location </h2>
-              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="changeLocationButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
+              <h2 className="cardTitle"> Location </h2>
+              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
               <LocationForm initialLocation={sensor.location} modalOpen={this.state.modalLocation} 
                             onSubmit={(l) => this.props.updateSensorLocation(sensor.id, l)} handleClose={() => this.setState({modalLocation: false})}/>
             </CardTitle>

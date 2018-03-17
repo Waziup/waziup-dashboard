@@ -74,8 +74,8 @@ class MeasurementDetail extends Component {
           </h1>
           <Card className="sensorNode">
             <CardTitle>
-              <h2 className="sensorNodeTitle"> Last value </h2>
-              <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="changeLocationButton" />
+              <h2 className="cardTitle"> Last value </h2>
+              <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" />
               <NotifForm modalOpen={this.state.modalOpen}
                          notif={defaultNotif}
                          sensors={this.props.sensors}
@@ -85,7 +85,7 @@ class MeasurementDetail extends Component {
                          isEditable={true}/>
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
-                             isDetails={false}
+                             isDetails={true}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
                              sensorId={this.props.sensorId}/>
@@ -93,13 +93,13 @@ class MeasurementDetail extends Component {
           {notifications.length>0? 
             <Card className="sensorNode">
               <CardTitle>
-                <h2 className="sensorNodeTitle"> Notifications </h2>
+                <h2 className="cardTitle"> Notifications </h2>
               </CardTitle>
             {notifications}
           </Card>: null}
           <Card className="graphCard">
             <CardTitle>
-              <h2 className="sensorNodeTitle"> Historical chart </h2>
+              <h2 className="cardTitle"> Historical chart </h2>
             </CardTitle>
             <CardMedia>
               <SensorChart meas={this.props.meas} values={this.props.values}/>
