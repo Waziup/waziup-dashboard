@@ -29,7 +29,6 @@ class Home extends Component {
               <Popup>
                 <span>
                   <a onClick={() => this.browserHistory.push("/sensors/" + sensor.id)} > {sensor.id}</a>
-                  {UTILS.getSensorData(sensor)}
                 </span>
               </Popup>
             </Marker>
