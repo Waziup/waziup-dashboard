@@ -5,6 +5,7 @@ import { List, ListItem } from 'material-ui/List';
 import { getNotifs, deleteNotif } from '../../actions/actions.js';
 import { connect } from 'react-redux';
 import NotifCard from './NotifCard.js';
+import { browserHistory } from 'react-router'
 
 class NotifDetail extends Component {
 
@@ -33,6 +34,8 @@ class NotifDetail extends Component {
                          deleteNotif={this.props.deleteNotif}/>
           </Card>
         </Container>
+    } else {
+      browserHistory.push('/notifications')
     }
     return (
       <div className="sensor">

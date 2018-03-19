@@ -44,7 +44,7 @@ export default class SensorNodeCard extends Component {
                     onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <CardTitle>
           <h2 className="cardTitle"> {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
-          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>
+          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}/>
           <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>
           <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>
         </CardTitle>

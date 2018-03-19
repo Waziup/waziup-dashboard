@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
+import { browserHistory } from 'react-router'
 
 var position;
 
@@ -66,6 +67,8 @@ class SensorDetail extends Component {
             </CardMedia>
           </Card>
         </Container>
+    } else {
+      browserHistory.push('/sensors')
     }
 
     return (

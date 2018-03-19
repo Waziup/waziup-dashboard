@@ -28,7 +28,7 @@ export default class NotifCard extends Component {
           <pre className="cardTitle"> {notif.subject.entityNames} -> {notif.subject.condition.attrs} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => this.props.deleteNotif(notif.id)}/>: null }
+            {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>: null }
           </div>
         </div>
         <div className="cardContent">
