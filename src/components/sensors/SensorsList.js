@@ -19,10 +19,7 @@ export default class SensorsList extends Component {
 
     for(var domain of domainNames) {
       let sensors = this.props.sensors.filter(s => s.domain == domain)
-      var gatewayIDs = [...new Set(sensors.map(s => s.gateway_id))]
-      console.log("gateways"+ JSON.stringify(gatewayIDs))
-      var gateways = gatewayIDs.map(g => {return {gatewayID: g, sensors: sensors.filter(s => s.gateway_id == g)}})
-      domains.push({domainName: domain, gateways: gateways})
+      domains.push({domainName: domain, sensors: sensors})
     }
     console.log("domains"+ JSON.stringify(domains))
     return domains
@@ -33,18 +30,15 @@ export default class SensorsList extends Component {
     return (
       React.DOM.div(null, 
         this.getDomains().map(d => [ 
-          React.DOM.h1(null, "Domain " + d.domainName),
-          d.gateways.map(g => [
-            React.createElement(GatewayCard, {gatewayID: g.gatewayID}, 
-              g.sensors.map(s => [
-                React.createElement(Link, {to: "/sensors/" + s.id},
-                  React.createElement(SensorLineCard, {className:"sensorNode", sensor:s}))
-              ])
+          React.DOM.h1({className: "sectionTitle"}, "Domain " + d.domainName),
+          d.sensors.map(s => [
+            React.createElement(Link, {to: "/sensors/" + s.id},
+              React.createElement(SensorLineCard, {className:"sensorNode", sensor:s})
             )
           ])
         ])
       )
-    );
+    )
   }
 
   propTypes = {

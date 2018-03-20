@@ -87,8 +87,10 @@ class Layout extends Component {
                           primaryText="Map" innerDivStyle={styles.menuLink}/>
                 <MenuItem containerElement={<Link to="/sensors" />}
                           innerDivStyle={styles.menuLink}
-                          primaryText="Sensors">
-                </MenuItem>
+                          primaryText="Sensors"/>
+                <MenuItem containerElement={<Link to="/gateways" />}
+                          innerDivStyle={styles.menuLink}
+                          primaryText="Gateways"/>
                 <MenuItem containerElement={<Link to="/notifications" />}
                           innerDivStyle={styles.menuLink}
                           primaryText="Notifications"/>
