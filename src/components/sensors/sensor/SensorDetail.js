@@ -81,8 +81,7 @@ class SensorDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-      sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId)),
-      user: state.keycloak.idTokenParsed
+      sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId))
     }
 }
 

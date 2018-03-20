@@ -197,6 +197,19 @@ export function deleteUser(userid) {
   }
 };
 
+export function getUser(id) {
+  return async function (dispatch) {
+    dispatch({type: types.GET_USER_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().token
+    var domain = "waziup"; 
+    try {
+      let data = await usersApi.getUser(domain, id)
+      dispatch({type: types.GET_USER_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_USER_ERROR, data: error});
+    }
+  }
+};
 
 /* Notification actions */
 

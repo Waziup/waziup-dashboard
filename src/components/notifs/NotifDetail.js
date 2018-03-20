@@ -48,8 +48,7 @@ class NotifDetail extends Component {
 function mapStateToProps(state, ownProps) {
   const notif = state.notifications.notifications.find(n => n.id === ownProps.params.notifId)
    return {
-      user: state.keycloak.idTokenParsed,
-      notif: notif,
+      notif: notif
    }
 }
 

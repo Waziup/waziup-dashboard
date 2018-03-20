@@ -49,7 +49,7 @@ class MeasurementDetail extends Component {
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
         subject: { entityNames: [this.props.sensor.id], condition: {attrs: [this.props.meas.id], expression: "TC>30"}},
-        notification: {channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.preferred_username]},
+        notification: {channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.username]},
         description: "Send message",
         throttling: 1})
       console.log("defaultModal:" + JSON.stringify(defaultNotif))
@@ -120,7 +120,7 @@ function mapStateToProps(state, ownProps) {
   return {
     sensor: sensor,
     meas: meas, 
-    user: state.keycloak.idTokenParsed,
+    user: state.user,
     values: state.values.values,
     sensors: state.sensors.sensors,
     users: state.users.users,

@@ -72,7 +72,6 @@ class Notifications extends Component {
 function mapStateToProps(state) {
      console.log("state:" + JSON.stringify(state.notifications))
    return {
-      user: state.keycloak.idTokenParsed,
       notifications: state.notifications.notifications,
       sensors: state.sensors.sensors,
       users: state.users.users

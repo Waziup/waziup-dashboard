@@ -16,7 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { getSensors, getUsers, getPermissions } from "./actions/actions.js"
+import { getUser, getSensors, getUsers, getPermissions } from "./actions/actions.js"
 
 injectTapEventPlugin();
 
@@ -62,10 +62,12 @@ export function keycloakLogin() {
 
   keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).success(authenticated => {
     if (authenticated) {
-      store.getState().keycloak = keycloak;
+      store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
+      console.log("kc " + JSON.stringify(keycloak.idTokenParsed))
+      getUser(keycloak.idTokenParsed.sub)(store.dispatch)
       setInterval(() => {
         keycloak.updateToken(3600).success(function (refreshed) {
-            getSensors();
+            getSensors()(store.dispatch);
             getUsers();
             getPermissions();
           }).error(function () {

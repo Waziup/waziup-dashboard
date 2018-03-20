@@ -49,8 +49,7 @@ class Sensors extends Component {
 
 function mapStateToProps(state) {
   return {
-    sensors: state.sensors.sensors,
-    user: state.keycloak.idTokenParsed
+    sensors: state.sensors.sensors
   };
 }
 
