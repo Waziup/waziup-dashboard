@@ -299,6 +299,10 @@ ul {
 
 /* Sensors */
 
+.sectionTitle {
+  margin-top: 50px;
+}
+
 .tableSwitch {
   color: blue;
   font-family: Roboto, sans-serif;
