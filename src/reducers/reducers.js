@@ -51,11 +51,11 @@ function usersReducer(state = { isLoading: false, users: [], error: false }, act
 };
 
 // actions on one user
-function userReducer(state = { isLoading: false, msg: {}, error: false }, action = null) {
+function userReducer(state = { isLoading: false, user: {}, error: false }, action = null) {
   switch (action.type) {
-    case types.UPDATE_USER_START:   return Object.assign({}, state, { isLoading: true });
-    case types.UPDATE_USER_SUCCESS: return Object.assign({}, state, { isLoading: false, msg: action.data, error: false });
-    case types.UPDATE_USER_ERROR:   return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
+    case types.GET_USER_START:   return Object.assign({}, state, { isLoading: true });
+    case types.GET_USER_SUCCESS: return Object.assign({}, state, { isLoading: false, user: action.data, error: false });
+    case types.GET_USER_ERROR:   return Object.assign({}, state, { isLoading: false, user: action.data, error: true });
     default: return state;
   }
 };
@@ -144,12 +144,15 @@ function permissionsReducer(state = { isLoading: false, permissions: [], error: 
 export default function rootReducer(state = {}, action) {
   return {
     routing: routerReducer(state.routing, action),
+    keycloak: state.keycloak,
     //list of sensors
     sensors: sensorsReducer(state.sensors, action),
     //Sensor CRUD operations
     sensorAction: sensorActionReducer(state.sensorAction, action),
     //Sensor values
     values: valuesReducer(state.values, action),
+    //current user
+    user: userReducer(state.user, action),
     //list of users
     users: usersReducer(state.users, action),
     //list of notifications
@@ -158,7 +161,6 @@ export default function rootReducer(state = {}, action) {
     notifAction: notifActionReducer(state.notifAction, action),
     //global messages
     messages: messagesReducer(state.messages, action),
-    keycloak: state.keycloak,
     //list of permissions
     permissions: permissionsReducer(state.permissions, action)
   }

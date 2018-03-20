@@ -32,20 +32,6 @@ class Layout extends Component {
     };
   }
 
-  profileButton = (user) => (
-    <IconButton className="profile-menu" style={styles.medium}>
-      <span className="user-name">{user.name}</span>
-      <AccountCircle />
-    </IconButton>
-  );
-
-  headerMenu = (user) => (
-    <IconMenu iconButtonElement={this.profileButton(user)} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
-      <MenuItem primaryText="Help" />
-      <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
-    </IconMenu>
-  );
-
   getChildContext() {
     return {
       muiTheme: this.state.muiTheme
@@ -61,11 +47,24 @@ class Layout extends Component {
   render() {
     var Logo;
     Logo = require("../images/logo-waziup-white.png");
+    const profileButton = 
+      <IconButton className="profile-menu" style={styles.medium}>
+        <span className="user-name">{this.props.user.firstName}</span>
+        <AccountCircle />
+      </IconButton>
+
+    const headerMenu =
+      <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
+        <MenuItem primaryText="Help" />
+        <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
+      </IconMenu>
+
     return (
       <div id="main">
         <AppBar
           title={<img style={styles.logo} src={Logo} alt="logo" />}
           onLeftIconButtonTouchTap={this.toggleNavigation}
+          iconElementRight={headerMenu}
           className="navbar"
         />
         <Hidden xs sm>
@@ -121,7 +120,7 @@ Layout.childContextTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.keycloak.idTokenParsed,
+    user: state.user.user,
     keycloak: state.keycloak
   };
 }
