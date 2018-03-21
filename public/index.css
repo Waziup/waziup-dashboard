@@ -527,3 +527,7 @@ ul {
 .graphCard {
   clear: both
 }
+
+.gatewaySensorNodes {
+  float: left;
+}

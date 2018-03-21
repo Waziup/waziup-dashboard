@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import GatewayCard from './GatewayCard.js'
 import SensorLineCard from './SensorLineCard.js'
 
 export default class SensorsList extends Component {

@@ -24,12 +24,12 @@ export default class SensorLineCard extends Component {
     let activeStyle = (meas) => {return (meas.timestamp && new Date() < Date.parse(meas.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"}
 
     return ( 
-      <Card className="sensorNode">
+      <div className="sensorNode">
         <CardTitle>
           <h2 className="cardTitle"> Node {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
         </CardTitle>
         <div className="contentCards">
-          <div className="boardIcon">
+          <div className={"boardIcon icon" + sensor.id}>
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>
           {sensor.measurements.map(meas => {return (
@@ -48,7 +48,7 @@ export default class SensorLineCard extends Component {
             </Card>
           )})}
         </div>
-      </Card>
+      </div>
     );
   }
 
