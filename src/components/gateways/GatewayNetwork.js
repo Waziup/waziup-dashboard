@@ -6,8 +6,6 @@ import loraImage from '../../images/lora.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
 import sensorNodeImage from '../../images/sensorNode.png';
-import Line from './Line.js'
-import ReactDOM from 'react-dom'
 import GatewaySensor from './GatewaySensor.js'
 import LineTo from 'react-lineto';
 
@@ -48,7 +46,9 @@ export default class GatewayNetwork extends Component {
           <div className="gatewaySensorNodes">
             {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s}/>) }
           </div>
-          {this.props.gateway.sensors.map(s => <LineTo from={"icon" + this.props.gateway.gatewayID } to={"icon" + s.id} borderStyle='dashed' borderWidth='5px'/>)}
+          {this.props.gateway.sensors.map(s => 
+            <LineTo from={"icon" + this.props.gateway.gatewayID } to={"icon" + s.id} className='gatewayLine'/>)
+          }
         </div>
       </Card>
     );

@@ -536,3 +536,7 @@ ul {
 .icon {
   float: left;
 }
+
+.gatewayLine {
+  border-top: 5px dashed orange !important;
+}
