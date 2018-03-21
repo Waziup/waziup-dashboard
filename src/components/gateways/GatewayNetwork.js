@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import PropTypes from 'prop-types';
 import gatewayImage from '../../images/RPI.png';
+import loraImage from '../../images/lora.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
 import sensorNodeImage from '../../images/sensorNode.png';
@@ -36,8 +37,13 @@ export default class GatewayNetwork extends Component {
           <h2 className="cardTitle"> Gateway {this.props.gateway.gatewayID} </h2>
         </CardTitle>
         <div className="contentCards">
-          <div className={"boardIcon icon" + this.props.gateway.gatewayID}>
-            <img src={gatewayImage} height="120"/>
+          <div className="boardIcon">
+            <div className={"icon icon" + this.props.gateway.gatewayID}>
+              <img src={gatewayImage} height="100"/>
+            </div>
+            <div className="icon">
+              <img src={loraImage} height="40"/>
+            </div>
           </div>
           <div className="gatewaySensorNodes">
             {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s}/>) }

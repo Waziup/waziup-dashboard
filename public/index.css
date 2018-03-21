@@ -530,4 +530,9 @@ ul {
 
 .gatewaySensorNodes {
   float: left;
+  margin-left: 50px;
+}
+
+.icon {
+  float: left;
 }
