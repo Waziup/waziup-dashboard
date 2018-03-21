@@ -17,18 +17,28 @@ class Sensors extends Component {
   
   render() {
 
+    var messages = this.props.messages.reduce(function(acc, m){
+      let index = acc.findIndex(a => a.msg == m.msg)
+      if (index>=0) {
+        acc[index].count++
+      } else {
+        acc=[...acc, {...m, count: 1}];
+      }
+      return acc;
+    }, []);
+
     function getLine(e) {
       if(e.error) {
-        return <h4 style={{"color": "red"}}> {e.msg} </h4>
+        return <h4 style={{"color": "red"}}> {e.msg + " [" + e.count + "]"} </h4>
       } else {
-        return <h4 style={{"color": "green"}}> {e.msg} </h4>
+        return <h4 style={{"color": "green"}}> {e.msg + " [" + e.count + "]"} </h4>
       }
     }
     console.log("props: " + JSON.stringify(this.props))
     if(this.props.messages.length !=0) {
       return (
         <Container fluid={true} className="errorBanner" >
-          {this.props.messages.map(e => getLine(e))}
+          {messages.map(a => getLine(a))}
           <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
         </Container>
         );
