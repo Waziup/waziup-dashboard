@@ -66,11 +66,13 @@ export function keycloakLogin() {
     if (authenticated) {
       store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
       console.log("kc " + JSON.stringify(keycloak.idTokenParsed))
-      //getUser(keycloak.idTokenParsed.sub)(store.dispatch)
+      getUser(keycloak.idTokenParsed.sub)(store.dispatch)
       setInterval(() => {
         keycloak.updateToken(30).success(function (refreshed) {
-            console.log("refreshed" + refreshed)
-            store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
+            if(refreshed) {
+              store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
+              getUser(keycloak.idTokenParsed.sub)(store.dispatch)
+            }
           }).error(function () {
             alert('Your session has expired, please log in again');
             keycloak.logout();
