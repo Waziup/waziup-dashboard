@@ -14,6 +14,7 @@ import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updat
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import { browserHistory } from 'react-router'
+import config from '../../../config';
 
 var position;
 
@@ -25,8 +26,13 @@ class SensorDetail extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getSensors();
+    this.interval = setInterval(() => {this.props.getSensors()}, config.delayRefresh);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
   
   render() {
@@ -40,7 +46,7 @@ class SensorDetail extends Component {
         <Container fluid={true}>
           <h1 className="page-title">
             <img src={sensorNodeImage} height="40"/>
-            Sensor node: {sensor.id}
+            Sensor node
           </h1>
           <SensorNodeCard className="sensorNode"
                           sensor={sensor}

@@ -11,7 +11,7 @@ import { getSensors, createSensor, updateSensorLocation, updateSensorOwner, dele
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
 import sensorNodesImage from '../../images/sensorNodes.png';
-
+import config from '../../config';
 
 class Sensors extends Component {
   constructor(props) {
@@ -22,10 +22,14 @@ class Sensors extends Component {
     };
   }
   
-  componentDidMount() {
+  componentWillMount() {
     this.props.getSensors();
+    this.interval = setInterval(() => {this.props.getSensors()}, config.delayRefresh);
   }
-
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
   render() {
     return (
