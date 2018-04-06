@@ -60,8 +60,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     createSensor: (sensor) => {dispatch(createSensor(sensor)) }, 
-    getSensors: () => {dispatch(getSensors()) },
+    getSensors: () => {dispatch(getSensors()) }
   };
 }
-const SensorsContainer = connect(mapStateToProps, mapDispatchToProps)(Sensors);
-export default SensorsContainer;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sensors);

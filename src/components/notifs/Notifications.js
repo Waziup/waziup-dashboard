@@ -16,8 +16,7 @@ class Notifications extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
-      isCardsView: true
+      modalOpen: false
     };
   }
 
@@ -56,9 +55,7 @@ class Notifications extends Component {
               <RaisedButton label="Add notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton"/>
             </CardTitle>
             <div className="contentCards">
-            {this.state.isCardsView? 
-              notifications: 
-              null}
+              {notifications}
             </div>
           </Card>
         </Container>
