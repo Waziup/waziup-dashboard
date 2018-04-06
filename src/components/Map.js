@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
 import Checkbox from 'material-ui/Checkbox';
-import { Map, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
+import { Map as LeafletMap, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import { Container } from 'react-grid-system'
 import { connect } from 'react-redux';
 import { getSensors, getPermissions } from "../actions/actions.js"
@@ -9,7 +9,7 @@ import UTILS from '../lib/utils.js';
 import { icon } from 'leaflet';
 import { browserHistory } from 'react-router';
 
-class Home extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -49,13 +49,13 @@ class Home extends Component {
       <div>
         <h1 className="page-title"> Map </h1>
         <Container fluid={true}>
-          <Map ref="map" center={this.state.position} zoom={5}>
+          <LeafletMap ref="map" center={this.state.position} zoom={5}>
             <TileLayer
               url='http://{s}.tile.osm.org/{z}/{x}/{y}.png'
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             {this.state.markers}
-          </Map>
+          </LeafletMap>
         </Container>
       </div>
     );
@@ -75,4 +75,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

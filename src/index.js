@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store';
 import Layout from './components/Layout';
-import Home from './components/Home';
+import Map from './components/Map';
 import Sensors from './components/sensors/Sensors';
 import Gateways from './components/gateways/Gateways';
 import SensorDetail from './components/sensors/sensor/SensorDetail';
@@ -28,9 +28,9 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Home },
+  indexRoute: { component: Sensors },
   childRoutes: [
-    { path: 'home', component: Home },
+    { path: 'map', component: Map },
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
     { path: 'sensors', component: Sensors },
