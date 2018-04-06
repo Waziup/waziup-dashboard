@@ -122,7 +122,7 @@ function messagesReducer(state = [], action = null) {
     if(action.data.response) {
        errorContext = action.data.response.status + " " + action.data.response.body.description
     } else {
-      errorContext = "Client error"
+      errorContext = "Client error. Please check web console for details."
       console.error("client error: " + action.data) 
     }
     return [ ...state, {msg: msg + ": " + errorContext, error: true}]
