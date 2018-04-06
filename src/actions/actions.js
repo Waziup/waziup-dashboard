@@ -173,12 +173,42 @@ export function getValues(sensorId, measId, domain, options) {
 export function getUsers() {
   return async function (dispatch) {
     dispatch({type: types.GET_USERS_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     var domain = "waziup"; 
     try {
       let data = await usersApi.getUsers(domain)
       dispatch({type: types.GET_USERS_SUCCESS, data: data})
     } catch (error) {
       dispatch({type: types.GET_USERS_ERROR, data: error});
+    }
+  }
+};
+
+export function getUser(id) {
+  return async function (dispatch) {
+    dispatch({type: types.GET_USER_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      let data = await usersApi.getUser(domain, id)
+      dispatch({type: types.GET_USER_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_USER_ERROR, data: error});
+    }
+  }
+};
+
+export function updateUser(userid, user) {
+  return async function (dispatch) {
+    dispatch({type: types.UPDATE_USER_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    var domain = "waziup"; 
+    try {
+      let data = await usersApi.updateUser(domain, userid, user)
+      dispatch({type: types.UPDATE_USER_SUCCESS, data: data})
+      dispatch(getUsers());
+    } catch (error) {
+      dispatch({type: types.UPDATE_USER_ERROR, data: error});
     }
   }
 };
@@ -191,22 +221,9 @@ export function deleteUser(userid) {
     try {
       let data = await usersApi.deleteUsers(domain, userid)
       dispatch({type: types.DELETE_USER_SUCCESS, data: data})
+      dispatch(getUsers());
     } catch (error) {
       dispatch({type: types.DELETE_USER_ERROR, data: error});
-    }
-  }
-};
-
-export function getUser(id) {
-  return async function (dispatch) {
-    dispatch({type: types.GET_USER_START});
-    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().token
-    var domain = "waziup"; 
-    try {
-      let data = await usersApi.getUser(domain, id)
-      dispatch({type: types.GET_USER_SUCCESS, data: data})
-    } catch (error) {
-      dispatch({type: types.GET_USER_ERROR, data: error});
     }
   }
 };

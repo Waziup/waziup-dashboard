@@ -1,70 +1,59 @@
 import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import MeasurementForm from './MeasurementForm';
-import MeasurementCard from './MeasurementCard';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
-import sensorImage from '../../../images/gauge.png';
-import sensorNodeImage from '../../../images/sensorNode.png';
-import SensorForm from './SensorForm.js'
+import userImage from '../../images/user-icon.png';
+import facebookImage from '../../images/facebook.png';
+import twitterImage from '../../images/twitter.png';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import MailIcon from 'material-ui/svg-icons/content/mail';
+import PhoneIcon from 'material-ui/svg-icons/hardware/smartphone';
+import UserForm from './UserForm.js';
 
-export default class SensorNodeCard extends Component {
+export default class UserCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalMeas: false,
-      modalAdd: false,
       modalEdit: false
     };
   }
 
   render() {
-    let sensor = this.props.sensor;
-    var measurements = [];
-    for (let m of sensor.measurements) {
-      const card = <MeasurementCard measurement={m}
-                                    isEditable={this.props.isDetails}
-                                    isDetailsLink={this.props.isDetails}
-                                    updateMeasurement={this.props.updateMeasurement} 
-                                    deleteMeasurement={this.props.deleteMeasurement}
-                                    sensorId={sensor.id}/>
-      measurements.push(card);
-    }
+    let user = this.props.user;
 
     return ( 
-      <Card className="sensorNode">
-        <MeasurementForm modalOpen={this.state.modalAdd}
-                         handleClose={()=>{this.setState({modalAdd: false})}}
-                         onSubmit={(m) => {this.props.updateMeasurement(sensor.id, m);
-                         this.setState({modalAdd: false});}}
-                         isEdit={false}/>
-        <SensorForm sensor={sensor}
-                    isEdit={this.props.isDetails}
-                    modalOpen={this.state.modalEdit}
-                    handleClose={() => this.setState({ modalEdit: false })}
-                    onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
-        <CardTitle>
-          <h2 className="cardTitle"> {sensor.name} </h2>
-          {this.props.isDetails? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.props.deleteSensor(sensor.id)}}/>: null}
-          {this.props.isDetails? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
-          {this.props.isDetails? <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
-        </CardTitle>
+      <Card className="card">
+        <UserForm user={user}
+                  modalOpen={this.state.modalEdit}
+                  handleClose={() => this.setState({ modalEdit: false })}
+                  onSubmit={u => this.props.updateUser(user.id, u)} />
+        <div className="cardTitleDiv">
+          <pre className="cardTitle"> {user.username} </pre>
+          <div className="cardTitleIcons"> 
+            {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
+            {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteUser(user.id)}}/>: null }
+          </div>
+        </div>
         <div className="contentCards">
           <div className="boardIcon">
-            <img src={sensorNodeImage} height="100" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
+            <img src={userImage} height="100"/>
+            <pre> {user.firstName}</pre>
+            <pre> {user.lastName}</pre>
+            <pre> <MailIcon/> {user.email}</pre>
+            <pre> <PhoneIcon/> {user.phone}</pre>
+            <pre> <img src={facebookImage} height="16"/> {user.facebook}</pre>
+            <pre> <img src={twitterImage} height="16"/> {user.twitter}</pre>
           </div>
-          {measurements}
         </div>
       </Card>
     );
   }
 
   propTypes = {
-    sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
-    updateSensor: PropTypes.func,
-    deleteSensor: PropTypes.func,
-    updateMeasurement: PropTypes.func,
-    deleteMeasurement: PropTypes.func,
-    isDetails: PropTypes.bool
+    user: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+    updateUser: PropTypes.func,
+    deleteUser: PropTypes.func,
+    isEditable: PropTypes.bool
   }
 }
