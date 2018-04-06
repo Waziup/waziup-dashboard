@@ -47,7 +47,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1 className="page-title">Dashboard</h1>
+        <h1 className="page-title"> Map </h1>
         <Container fluid={true}>
           <Map ref="map" center={this.state.position} zoom={5}>
             <TileLayer

@@ -49,7 +49,7 @@ class Layout extends Component {
     Logo = require("../images/logo-waziup-white.png");
     const profileButton = 
       <IconButton className="profile-menu" style={styles.medium}>
-        <span className="user-name">{this.props.user.firstName}</span>
+        <span className="user-name">{this.props.user.firstName + " " + this.props.user.lastName}</span>
         <AccountCircle />
       </IconButton>
 
@@ -83,8 +83,6 @@ class Layout extends Component {
                 </div>
               </div>
               <div className="menu">
-                <MenuItem containerElement={<Link to="/home" />}
-                          primaryText="Map" innerDivStyle={styles.menuLink}/>
                 <MenuItem containerElement={<Link to="/sensors" />}
                           innerDivStyle={styles.menuLink}
                           primaryText="Sensors"/>
@@ -94,6 +92,8 @@ class Layout extends Component {
                 <MenuItem containerElement={<Link to="/notifications" />}
                           innerDivStyle={styles.menuLink}
                           primaryText="Notifications"/>
+                <MenuItem containerElement={<Link to="/home" />}
+                          primaryText="Map" innerDivStyle={styles.menuLink}/>
               </div>
             </div>
           </Col>
