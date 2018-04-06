@@ -29,9 +29,9 @@ class Sensors extends Component {
 
     function getLine(e) {
       if(e.error) {
-        return <h4 style={{"color": "red"}}> {e.msg + " [" + e.count + "]"} </h4>
+        return <h4 style={{"color": "red"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       } else {
-        return <h4 style={{"color": "green"}}> {e.msg + " [" + e.count + "]"} </h4>
+        return <h4 style={{"color": "green"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       }
     }
     console.log("props: " + JSON.stringify(this.props))
@@ -39,7 +39,7 @@ class Sensors extends Component {
       return (
         <Container fluid={true} className="errorBanner" >
           {messages.map(a => getLine(a))}
-          <RaisedButton className="errorBannerOK" label="OK" primary={true} onTouchTap={() => { this.handleOK(); }} />
+          <RaisedButton className="errorBannerOK" label="Clear" primary={true} onTouchTap={() => { this.handleOK(); }} />
         </Container>
         );
     } else {
