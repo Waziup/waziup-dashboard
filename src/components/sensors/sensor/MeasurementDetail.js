@@ -40,7 +40,7 @@ class MeasurementDetail extends Component {
   fetchValues = () => {
     this.props.getSensors();
     if(this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain)
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100})
     }
   }
   
@@ -130,7 +130,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid, d) => {dispatch(getValues(sid, mid, d)) },
+    getValues: (sid, mid, d, opts) => {dispatch(getValues(sid, mid, d, opts)) },
     getSensors: () => {dispatch(getSensors()) },
     updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },

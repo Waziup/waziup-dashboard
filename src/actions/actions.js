@@ -153,12 +153,12 @@ export function updateMeasurementName(sensorId, measId, name) {
 
 /* sensor values action */
 
-export function getValues(sensorId, measId, domain) {
+export function getValues(sensorId, measId, domain, options) {
   return async function (dispatch) {
     dispatch({type: types.GET_VALUES_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
-      let data = await sensorsApi.getMeasurementValues(domain, sensorId, measId)
+      let data = await sensorsApi.getMeasurementValues(domain, sensorId, measId, options)
       dispatch({type: types.GET_VALUES_SUCCESS, data: data})
     } catch (error) {
       dispatch({type: types.GET_VALUES_ERROR, data: error});
