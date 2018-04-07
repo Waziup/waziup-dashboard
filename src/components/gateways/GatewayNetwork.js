@@ -13,30 +13,20 @@ export default class GatewayNetwork extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pos: []
     };
-  }
-  pos ={}
-  getCoordinates = (ref) => {
-    if(this.refs[ref]) {
-      var dropMen = this.refs[ref].getDOMNode();
-      var specs = dropMen.getBoundingClientRect();
-      console.log("Coords:" + JSON.stringify(specs))
-      return specs
-    } else {
-      return null
-    }
   }
 
   render() {
+    var gateway = this.props.gateway
+    console.log("gateway:   " + JSON.stringify(gateway))
     return ( 
       <Card className="sensorNode">
         <CardTitle>
-          <h2 className="cardTitle"> Gateway {this.props.gateway.gatewayID} </h2>
+          <h2 className="cardTitle"> Gateway {gateway.gatewayID? gateway.gatewayID: "unknown"} </h2>
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
-            <div className={"icon icon" + this.props.gateway.gatewayID}>
+            <div className={"icon gateway" + this.props.gateway.gatewayID}>
               <img src={gatewayImage} height="100"/>
             </div>
             <div className="icon">
@@ -44,10 +34,10 @@ export default class GatewayNetwork extends Component {
             </div>
           </div>
           <div className="gatewaySensorNodes">
-            {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s}/>) }
+            {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s} updateSensorGatewayId={this.props.updateSensorGatewayId}/>) }
           </div>
           {this.props.gateway.sensors.map(s => 
-            <LineTo from={"icon" + this.props.gateway.gatewayID } to={"icon" + s.id} className='gatewayLine'/>)
+            <LineTo from={"gateway" + this.props.gateway.gatewayID} to={"sensor" + s.id} className='gatewayLine'/>)
           }
         </div>
       </Card>
@@ -55,6 +45,7 @@ export default class GatewayNetwork extends Component {
   }
 
   propTypes = {
-    gateway: PropTypes.object.isRequired
+    gateway: PropTypes.object.isRequired,
+    updateSensorGatewayId: PropTypes.func.isRequired
   }
 }

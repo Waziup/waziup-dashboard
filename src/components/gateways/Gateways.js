@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import GatewayNetwork from './GatewayNetwork.js'
 import { Container } from 'react-grid-system'
 import Utils from '../../lib/utils';
-import { getSensors} from "../../actions/actions.js"
+import { getSensors, updateSensorGatewayId} from "../../actions/actions.js"
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
 import gatewayImage from '../../images/RPIs.png';
@@ -47,7 +47,7 @@ class Gateways extends Component {
         {React.DOM.div(null, 
           this.getDomains().map(d => [ 
             React.DOM.h1({className: "sectionTitle"}, "Domain " + d.domainName),
-            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g})) 
+            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, updateSensorGatewayId: this.props.updateSensorGatewayId})) 
           ])
         )}
       </Container>
@@ -63,8 +63,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => {dispatch(getSensors()) }
+    getSensors: () => {dispatch(getSensors()) },
+    updateSensorGatewayId: (sid, gid) => {dispatch(updateSensorGatewayId(sid, gid)) }
   };
 }
-const GatewaysContainer = connect(mapStateToProps, mapDispatchToProps)(Gateways);
-export default GatewaysContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(Gateways);
