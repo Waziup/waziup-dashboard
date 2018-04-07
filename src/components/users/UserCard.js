@@ -38,8 +38,7 @@ export default class UserCard extends Component {
         <div className="contentCards">
           <div className="boardIcon">
             <img src={userImage} height="100"/>
-            <pre> {user.firstName}</pre>
-            <pre> {user.lastName}</pre>
+            <pre> {user.firstName} {user.lastName}</pre>
             <pre> <MailIcon/> {user.email}</pre>
             <pre> <PhoneIcon/> {user.phone}</pre>
             <pre> <img src={facebookImage} height="16"/> {user.facebook}</pre>

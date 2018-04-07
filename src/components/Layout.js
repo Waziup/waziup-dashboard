@@ -14,6 +14,7 @@ import { Container, Col, Hidden } from 'react-grid-system'
 import UTIL from '../lib/utils.js';
 import ErrorBanner from './ErrorBanner';
 import sensorNodesImage from '../images/sensorNodes.png';
+import { browserHistory } from 'react-router'
 
 const styles = {
   medium: {
@@ -56,6 +57,7 @@ class Layout extends Component {
     const headerMenu =
       <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
         <MenuItem primaryText="Help" />
+        <MenuItem primaryText="Profile" onClick={() => { browserHistory.push('/users/' + this.props.user.id) }} />
         <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
       </IconMenu>
 
