@@ -43,6 +43,7 @@ export default class UserCard extends Component {
             <pre> <PhoneIcon/> {user.phone}</pre>
             <pre> <img src={facebookImage} height="16"/> {user.facebook}</pre>
             <pre> <img src={twitterImage} height="16"/> {user.twitter}</pre>
+            {this.props.permissions.map(p => <pre> {JSON.stringify(p.scopes)} </pre>)}
           </div>
         </div>
       </Card>
@@ -51,6 +52,7 @@ export default class UserCard extends Component {
 
   propTypes = {
     user: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+    permissions: PropTypes.object, //Should be Waziup.Permission
     updateUser: PropTypes.func,
     deleteUser: PropTypes.func,
     isEditable: PropTypes.bool

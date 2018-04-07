@@ -112,6 +112,7 @@ function messagesReducer(state = [], action = null) {
     case types.DELETE_NOTIF_ERROR:    msg="Error when deleting notification";  error= true; break; 
     case types.GET_USERS_ERROR:       msg="Error when fetching users";         error= true; break;
     case types.GET_USER_ERROR:        msg="Error when fetching user infos";    error= true; break;
+    case types.GET_PERMS_ERROR:       msg="Error when fetching user permissions";    error= true; break;
     case types.CREATE_USER_ERROR:     msg="Error when creating user";          error= true; break; 
     case types.UPDATE_USER_ERROR:     msg="Error when updating user";          error= true; break; 
     case types.DELETE_USER_ERROR:     msg="Error when deleting user";          error= true; break; 

@@ -8,7 +8,7 @@ import userImage from '../../images/user-icon.png';
 import UserCard from './UserCard.js';
 import UserForm from './UserForm.js';
 import { browserHistory } from 'react-router'
-import { getUsers, deleteUser, updateUser } from '../../actions/actions';
+import { getUsers, deleteUser, updateUser, getPermissions } from '../../actions/actions';
 
 class UserDetail extends Component {
   constructor(props) {
@@ -20,6 +20,7 @@ class UserDetail extends Component {
 
   componentWillMount() {
     this.props.getUsers();
+    this.props.getPermissions();
   }
   
   render() {
@@ -34,6 +35,7 @@ class UserDetail extends Component {
           </h1>
           <UserCard className="sensorNode"
                     user={user}
+                    permissions={this.props.permissions} 
                     isEditable={true}
                     updateUser={this.props.updateUser}
                     deleteiUser={this.props.deleteUser}/>
@@ -53,7 +55,8 @@ class UserDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-      user: state.users.users.find((el) => (el.id === ownProps.params.userId))
+      user: state.users.users.find((el) => (el.id === ownProps.params.userId)),
+      permissions: (ownProps.params.userId == state.user.user.id? state.permissions.permissions: null)
     }
 }
 
@@ -61,7 +64,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getUsers: () => {dispatch(getUsers()) },
     deleteUser: (id) => {dispatch(deleteUser(id)) },
-    updateUser: (id, u) => {dispatch(updateUser(id, u)) }
+    updateUser: (id, u) => {dispatch(updateUser(id, u)) },
+    getPermissions: () => {dispatch(getPermissions()) }
   };
 }
 
