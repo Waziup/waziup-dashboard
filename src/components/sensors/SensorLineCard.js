@@ -5,6 +5,7 @@ import sensorImage from '../../images/gauge.png';
 import sensorNodeImage from '../../images/sensorNode.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
+import MeasIcon from './sensor/MeasIcon';
 
 export default class SensorLineCard extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ export default class SensorLineCard extends Component {
               </div>
               <div className="cardContent">
                 <div className="measIcon">
-                  <img src={sensorImage} height="64" title={"Last timestamp: " + meas.timestamp}/>
+                  <MeasIcon sensing_device={meas.sensing_device} height="64" title={"Last timestamp: " + meas.timestamp}/>
                 </div>
                 <div className="measValue"> 
                   <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>

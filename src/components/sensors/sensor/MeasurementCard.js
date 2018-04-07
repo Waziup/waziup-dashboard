@@ -8,6 +8,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import {grey} from 'material-ui/styles/colors';
 import { TextField } from 'redux-form-material-ui'
 import MeasurementForm from './MeasurementForm';
+import MeasIcon from './MeasIcon';
 import { Link } from 'react-router';
 import * as Waziup from 'waziup-js'
 import config from '../../../config';
@@ -41,7 +42,7 @@ export default class MeasurementCard extends Component {
         </div>
         <div className="cardContent">
           <div className="measIcon">
-            <img src={sensorImage} height="100" title={"Last timestamp: " + meas.timestamp}/>
+            <MeasIcon sensing_device={meas.sensing_device} height="100" title={"Last timestamp: " + meas.timestamp}/>
           </div>
           <div className="measValue"> 
             <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
