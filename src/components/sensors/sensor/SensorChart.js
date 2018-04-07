@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Legend, ReferenceArea, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import moment from 'moment';
 import UTIL from '../../../lib/utils.js';
-import { CustomTick, indexSelection } from '../../../lib/Visualization.js'
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 
@@ -10,7 +9,6 @@ class SensorChart extends Component {
   constructor(props) {
     super(props);
   }
-  
 
   render() {
     const xFormatter = (tick) => new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');

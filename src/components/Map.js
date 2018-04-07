@@ -4,7 +4,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { Map as LeafletMap, Marker, Popup, TileLayer, Polygon } from 'react-leaflet';
 import { Container } from 'react-grid-system'
 import { connect } from 'react-redux';
-import { getSensors, getPermissions } from "../actions/actions.js"
+import { getSensors } from "../actions/actions.js"
 import UTILS from '../lib/utils.js';
 import { icon } from 'leaflet';
 import { browserHistory } from 'react-router';
@@ -41,7 +41,6 @@ class Map extends Component {
 
   componentDidMount() {
     this.props.getSensors();
-    this.props.getPermissions();
   }
 
   render() {
@@ -71,7 +70,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getSensors: () => { dispatch(getSensors()) },
-    getPermissions: () => { dispatch(getPermissions()) }
   };
 }
 
