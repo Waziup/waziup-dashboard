@@ -15,6 +15,7 @@ import UTIL from '../lib/utils.js';
 import ErrorBanner from './ErrorBanner';
 import sensorNodesImage from '../images/sensorNodes.png';
 import { browserHistory } from 'react-router'
+import { getPermissions } from "../actions/actions.js"
 
 const styles = {
   medium: {
@@ -40,6 +41,7 @@ class Layout extends Component {
   }
 
   componentWillMount() {
+    this.props.getPermissions()
     this.setState({
       muiTheme: getMuiTheme()
     });
@@ -96,6 +98,8 @@ class Layout extends Component {
                           primaryText="Notifications"/>
                 <MenuItem containerElement={<Link to="/map" />}
                           primaryText="Map" innerDivStyle={styles.menuLink}/>
+                {this.props.permissions.find(p => p.resource == 'Users' && p.scopes.includes('users:view'))?
+                  <MenuItem containerElement={<Link to="/users" />} primaryText="Users" innerDivStyle={styles.menuLink}/>:null}
               </div>
             </div>
           </Col>
@@ -125,8 +129,14 @@ Layout.childContextTypes = {
 function mapStateToProps(state) {
   return {
     user: state.user.user,
-    keycloak: state.keycloak
+    keycloak: state.keycloak,
+    permissions: state.permissions.permissions
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    getPermissions: () => {dispatch(getPermissions()) }, 
   };
 }
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
