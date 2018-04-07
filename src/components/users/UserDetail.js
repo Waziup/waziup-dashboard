@@ -33,12 +33,14 @@ class UserDetail extends Component {
             <img src={userImage} height="40"/>
             User
           </h1>
+          <div>
+            <a href={'/users/' + this.props.user.id + '/perms'}> view permissions </a>
+          </div>
           <UserCard className="sensorNode"
                     user={user}
-                    permissions={this.props.permissions} 
                     isEditable={true}
                     updateUser={this.props.updateUser}
-                    deleteiUser={this.props.deleteUser}/>
+                    deleteUser={this.props.deleteUser}/>
         </Container>
     } else {
       browserHistory.push('/users')
@@ -55,8 +57,7 @@ class UserDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-      user: state.users.users.find((el) => (el.id === ownProps.params.userId)),
-      permissions: (ownProps.params.userId == state.user.user.id? state.permissions.permissions: null)
+      user: state.users.users.find((el) => (el.id === ownProps.params.userId))
     }
 }
 

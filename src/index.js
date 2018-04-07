@@ -9,6 +9,7 @@ import Map from './components/Map';
 import Sensors from './components/sensors/Sensors';
 import Users from './components/users/Users';
 import UserDetail from './components/users/UserDetail';
+import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
 import SensorDetail from './components/sensors/sensor/SensorDetail';
 import MeasurementDetail from './components/sensors/sensor/MeasurementDetail';
@@ -40,7 +41,8 @@ const routes = {
     { path: 'sensors/:sensorId/:measId', component: MeasurementDetail },
     { path: 'gateways', component: Gateways },
     { path: 'users', component: Users },
-    { path: 'users/:userId', component: UserDetail }
+    { path: 'users/:userId', component: UserDetail },
+    { path: 'users/:userId/perms', component: UserPermissions }
   ]
 }
 
