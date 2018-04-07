@@ -71,7 +71,7 @@ body,p{font-size:13px}
     width: auto;
 }
 .menu {
-    padding: 0;
+    padding-top: 40px;
     margin: 0;
     width: 160px;
     color: #fff;

@@ -74,18 +74,6 @@ class Layout extends Component {
         <Hidden xs sm>
           <Col md={2} className="page-sidebar sidebar">
             <div className="page-sidebar-inner">
-              <div className="sidebar-header">
-                <div className="sidebar-profile">
-                  <a id="profile-menu-link">
-                    <div className="sidebar-profile-image">
-                      <Avatar icon={<AccountCircle />} className="img-circle img-responsive" />
-                    </div>
-                    <div className="sidebar-profile-details">
-                      <span>{this.props.user.name}<br /><small></small></span>
-                    </div>
-                  </a>
-                </div>
-              </div>
               <div className="menu">
                 <MenuItem containerElement={<Link to="/sensors" />}
                           innerDivStyle={styles.menuLink}
