@@ -13,15 +13,17 @@ class SensorChart extends Component {
   render() {
     const xFormatter = (tick) => new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
     const yFormatter = (tick) => tick
+
     if(this.props.values && this.props.meas) {
       const meas = this.props.meas
       const data = this.props.values.map(datapoint => {return {time: moment(datapoint.timestamp).valueOf(), value: datapoint.value }});
-      console.log("data:" + JSON.stringify(data))
+      const QK = Waziup.QuantityKinds.getLabel(meas.quantity_kind)
+      const unit = Waziup.Units.getLabel(meas.unit)
       return (
         <ResponsiveContainer width="100%" height={500} className="sensorChart">
           <LineChart data={data} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
             <XAxis interval={0} domain={['dataMin', 'dataMax']} type="number" dataKey="time" tickFormatter={xFormatter} />
-            <YAxis label={{ value: meas.quantity_kind + " (" + (meas.unit? Waziup.Units.getLabel(meas.unit): "") + ")", angle: -90, position: 'insideLeft' }}/>
+            <YAxis label={{ value: QK + (unit? " (" + unit + ")": ""), angle: -90, position: 'insideLeft' }}/>
             <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
             <CartesianGrid strokeDasharray="3 3" />
             <Legend align='right' verticalAlign='top' layout="vertical" wrapperStyle={{ right: '35px', top: '10px', border: '2px solid beige', padding: '5px 0px 5px 5px' }} />
