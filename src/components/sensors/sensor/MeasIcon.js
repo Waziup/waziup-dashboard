@@ -8,6 +8,10 @@ import sensorNodeImage from '../../../images/sensorNode.png';
 import SensorForm from './SensorForm.js'
 import gauge from '../../../images/gauge.png';
 import thermometer from '../../../images/thermometer.png';
+import accelerometer from '../../../images/accelerometer.png';
+import humidity from '../../../images/humidity.png';
+import gps from '../../../images/gps.png';
+import atmospheric_pressure from '../../../images/atmospheric_pressure.png';
 
 export default class MeasIcon extends Component {
   constructor(props) {
@@ -27,12 +31,18 @@ export default class MeasIcon extends Component {
       case "Thermometer":                      
       case "WaterThermometer":                
         icon = thermometer; break;
-      
-      case "Accelerometer": 
-      case "AirHumiditySensor":               
+      case "Accelerometer":
+        icon = accelerometer; break;
+      case "HumiditySensor":                  
+      case "AirHumiditySensor":     
+      case "SoilHumiditySensor":              
+        icon = humidity; break;
+      case "AtmosphericPressureSensor":      
+        icon = atmospheric_pressure; break;
+      case "GPSSensor":            
+        icon = gps; break;
       case "AirPollutantSensor":              
       case "AlcoholLevelSensor":              
-      case "AtmosphericPressureSensor":       
       case "BloodPressureSensor":             
       case "BoardVoltageSensor":              
       case "CholesterolSensor":               
@@ -61,11 +71,9 @@ export default class MeasIcon extends Component {
       case "GasDetector":                     
       case "GaseousPollutantSensor":          
       case "Glucometer":                      
-      case "GPSSensor":                       
       case "GyroscopeSensor":                 
       case "HeartBeatSensor":                 
       case "HumanPresenceDetector":           
-      case "HumiditySensor":                  
       case "Hydrophone":                      
       case "ImageSensor":                     
       case "LeafWetnessSensor":               
@@ -97,7 +105,6 @@ export default class MeasIcon extends Component {
       case "SkinConductanceSensor":           
       case "SmokeDetector":                   
       case "SO2Sensor":                       
-      case "SoilHumiditySensor":              
       case "SolarRadiationSensor":            
       case "SoundSensor":                     
       case "SpeedSensor":                     
