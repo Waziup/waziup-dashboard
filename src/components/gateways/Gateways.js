@@ -46,7 +46,7 @@ class Gateways extends Component {
         </h1>
         {React.DOM.div(null, 
           this.getDomains().map(d => [ 
-            React.DOM.h1({className: "sectionTitle"}, "Domain " + d.domainName),
+            React.DOM.h2({className: "sectionTitle"}, "Domain " + d.domainName),
             d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, updateSensorGatewayId: this.props.updateSensorGatewayId})) 
           ])
         )}

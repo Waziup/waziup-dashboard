@@ -27,10 +27,10 @@ export default class GatewayNetwork extends Component {
         <div className="contentCards">
           <div className="boardIcon">
             <div className={"icon gateway" + this.props.gateway.gatewayID}>
-              <img src={gatewayImage} height="100"/>
+              <img src={gatewayImage} height="90"/>
             </div>
             <div className="icon">
-              <img src={loraImage} height="40"/>
+              <img src={loraImage} height="30"/>
             </div>
           </div>
           <div className="gatewaySensorNodes">

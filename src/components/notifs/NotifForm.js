@@ -54,7 +54,7 @@ class NotifForm extends Component {
     this.setState({notif: notif})
   }
 
-  channels = ["facebook","twitter"]
+  channels = ["facebook", "twitter", "sms"]
 
   render() {
     const actions = [

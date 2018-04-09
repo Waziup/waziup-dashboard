@@ -303,6 +303,10 @@ ul {
   margin-top: 50px;
 }
 
+.sensorNodeTitle {
+  padding: 10px !important;
+}
+
 .tableSwitch {
   color: blue;
   font-family: Roboto, sans-serif;
@@ -325,7 +329,7 @@ ul {
 
 .cardTitle {
   display: inline-block;
-  font-size: 24px;
+  font-size: 18px;
   font-family: Roboto, sans-serif;
   margin: 5px;
 }
@@ -345,7 +349,7 @@ ul {
 
 .sensorNode {
   overflow:hidden;
-  padding-bottom:15px;
+  padding-bottom:10px;
   margin-top: 5px;
   margin-bottom: 10px;
 }
@@ -370,7 +374,7 @@ ul {
   padding-right: 30px;
   padding: 10px;
   margin: 10px;
-  min-width: 300px;
+  min-width: 250px;
   float: left;
 }
 

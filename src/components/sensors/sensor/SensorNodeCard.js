@@ -50,7 +50,7 @@ export default class SensorNodeCard extends Component {
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
-            <img src={sensorNodeImage} height="100" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
+            <img src={sensorNodeImage} height="75" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>
           {measurements}
         </div>

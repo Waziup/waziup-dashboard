@@ -29,7 +29,7 @@ export default class SensorsList extends Component {
     return (
       React.DOM.div(null, 
         this.getDomains().map(d => [ 
-          React.DOM.h1({className: "sectionTitle"}, "Domain " + d.domainName),
+          React.DOM.h2({className: "sectionTitle"}, "Domain " + d.domainName),
           d.sensors.map(s => [
             React.createElement(Link, {to: "/sensors/" + s.id},
               React.createElement(SensorLineCard, {className:"sensorNode", sensor:s})

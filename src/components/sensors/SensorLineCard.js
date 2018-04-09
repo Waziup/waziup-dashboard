@@ -26,8 +26,8 @@ export default class SensorLineCard extends Component {
 
     return ( 
       <Card className="sensorNode">
-        <CardTitle>
-          <h2 className="cardTitle"> Node {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
+        <CardTitle className="sensorNodeTitle">
+          <h3 className="cardTitle"> Node {sensor.name? sensor.name : "(" + sensor.id + ")"} </h3>
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
