@@ -10,7 +10,7 @@ defaultClient.basePath = config.APIServerUrl + '/v1'
 var sensorsApi = new WaziupApi.SensorsApi();
 var usersApi   = new WaziupApi.UsersApi();
 var notifsApi  = new WaziupApi.NotificationsApi();
-var authApi  = new WaziupApi.AuthApi();
+var authApi    = new WaziupApi.AuthApi();
 
 
 /* Sensor Actions */

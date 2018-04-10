@@ -14,13 +14,11 @@ export default class SensorsList extends Component {
   getDomains = () => {
     var domains = []
     var domainNames = [...new Set(this.props.sensors.map(s => s.domain))]
-    console.log("domainNames"+ JSON.stringify(domainNames))
 
     for(var domain of domainNames) {
       let sensors = this.props.sensors.filter(s => s.domain == domain)
       domains.push({domainName: domain, sensors: sensors})
     }
-    console.log("domains"+ JSON.stringify(domains))
     return domains
   }
 
