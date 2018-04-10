@@ -26,7 +26,7 @@ export default class GatewayNetwork extends Component {
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
-            <div className={"icon gateway" + this.props.gateway.gatewayID}>
+            <div className={"iconGateway gateway" + this.props.gateway.gatewayID}>
               <img src={gatewayImage} height="90"/>
             </div>
             <div className="icon">

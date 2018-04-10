@@ -541,6 +541,11 @@ ul {
   float: left;
 }
 
+.iconGateway {
+  float: left;
+  /*margin-top: 65px;*/
+}
+
 .gatewayLine {
   border-top: 5px dashed orange !important;
 }
