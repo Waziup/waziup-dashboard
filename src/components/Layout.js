@@ -58,7 +58,7 @@ class Layout extends Component {
 
     const headerMenu =
       <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
-        <MenuItem primaryText="Help" />
+        <MenuItem primaryText="Help" href='http://www.waziup.io/documentation' />
         <MenuItem primaryText="Profile" onClick={() => { browserHistory.push('/users/' + this.props.user.id) }} />
         <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
       </IconMenu>
@@ -66,7 +66,7 @@ class Layout extends Component {
     return (
       <div id="main">
         <AppBar
-          title={<img style={styles.logo} src={Logo} alt="logo" />}
+          title={<img style={styles.logo} src={Logo} alt="logo" onClick={() => { browserHistory.push('/') }}/>}
           onLeftIconButtonTouchTap={this.toggleNavigation}
           iconElementRight={headerMenu}
           className="navbar"
