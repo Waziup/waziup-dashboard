@@ -26,7 +26,7 @@ export default class GatewayNetwork extends Component {
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
-            <div className={"iconGateway gateway" + this.props.gateway.gatewayID}>
+            <div className={"iconGateway gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName}>
               <img src={gatewayImage} height="90"/>
             </div>
             <div className="icon">
@@ -37,7 +37,7 @@ export default class GatewayNetwork extends Component {
             {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s} updateSensorGatewayId={this.props.updateSensorGatewayId}/>) }
           </div>
           {this.props.gateway.sensors.map(s => 
-            <LineTo from={"gateway" + this.props.gateway.gatewayID} to={"sensor" + s.id} className='gatewayLine'/>)
+            <LineTo from={"gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName} to={"sensor" + s.id} className='gatewayLine'/>)
           }
         </div>
       </Card>
@@ -46,6 +46,7 @@ export default class GatewayNetwork extends Component {
 
   propTypes = {
     gateway: PropTypes.object.isRequired,
+    domainName: PropTypes.string.isRequired,
     updateSensorGatewayId: PropTypes.func.isRequired
   }
 }

@@ -21,6 +21,7 @@ class Gateways extends Component {
     this.props.getSensors();
   }
 
+  //returns a structure with sensors sorted by gateways, and gateways sorted by domains
   getDomains = () => {
     var domains = []
     var domainNames = [...new Set(this.props.sensors.map(s => s.domain))]
@@ -47,7 +48,7 @@ class Gateways extends Component {
         {React.DOM.div(null, 
           this.getDomains().map(d => [ 
             React.DOM.h2({className: "sectionTitle"}, "Domain " + d.domainName),
-            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, updateSensorGatewayId: this.props.updateSensorGatewayId})) 
+            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId})) 
           ])
         )}
       </Container>
