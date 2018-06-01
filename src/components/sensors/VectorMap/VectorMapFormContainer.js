@@ -5,13 +5,16 @@ import { updateSensorStart } from '../../../actions/actions';
 
 
 function mapStateToProps(state) {
-    return {}
+    return {
+        permissions: state.keycloak.idTokenParsed.permissions,
+        allSps: state.sensors.allSps
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-      updateSensorStart:(sensor)=>{dispatch(updateSensorStart(sensor))}
+        updateSensorStart: (sensor) => { dispatch(updateSensorStart(sensor)) }
     }
 }
-const VectorMapFormContainer = connect(mapStateToProps,mapDispatchToProps)(VectorMapForm);
+const VectorMapFormContainer = connect(mapStateToProps, mapDispatchToProps)(VectorMapForm);
 export default VectorMapFormContainer;

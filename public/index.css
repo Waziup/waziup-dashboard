@@ -1,0 +1,551 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+body,html{
+  position:relative;
+  height:100%!important
+}
+body,p{font-size:13px}
+
+#app{
+   background: #34425A;
+   position: relative;
+   overflow-x: hidden;
+   -webkit-transition: -webkit-transform 0.4s;
+   -moz-transition: -moz-transform 0.4s;
+   transition: transform 0.4s;
+   box-shadow: 0 0 30px #241d20;
+   min-height: 100%;
+}
+.page-header-fixed .page-sidebar {
+    padding-top: 60px;
+}
+.page-header-fixed .navbar {
+    position: fixed !important;
+    right: 0;
+    left: 0;
+}
+.navbar {
+    background: #FFF !important;
+    padding: 0;
+    height: 60px;
+    z-index: 999;
+    border-radius: 0;
+    border: none;
+    margin: auto;
+    padding: 0 !important;
+    position: relative;
+    -webkit-box-shadow: 0 5px 5px -5px rgba(0,0,0,.1);
+    -moz-box-shadow: 0 5px 5px -5px rgba(0,0,0,.1);
+    box-shadow: 0 5px 5px -5px rgba(0,0,0,.1);
+}
+.content-wrap{
+  background: #34425A;
+   overflow: hidden;
+}
+.page-content{
+  margin-bottom:50px;
+  padding-left:256px;
+}
+.page-sidebar {
+    display: block;
+    z-index: 998;
+    float: left;
+    height: auto!important;
+    overflow: visible!important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.sidebar {
+    background: #34425A;
+}
+.page-sidebar .page-sidebar-inner {
+    height: 100%!important;
+    overflow: hidden;
+    width: auto;
+}
+.menu {
+    padding-top: 40px;
+    margin: 0;
+    width: 160px;
+    color: #fff;
+    position: relative;
+    display: block;
+}
+
+.menu a div{
+    color: #899dc1;
+}
+.menu  div{
+    color: #fff;
+}
+.menu svg{
+    color: #fff important;
+}
+.menu a {
+    display: block;
+    padding: 15px 18px;
+    background: 0 0;
+    text-decoration: none;
+    font-size: 13px;
+}
+.menu {
+    background: #34425A;
+}
+.page-inner {
+    min-height: 1080px !important;
+    background: #F1F4F9;
+    position: relative;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.page-header-fixed:not(.page-sidebar-fixed):not(.page-horizontal-bar) .page-inner {
+    padding: 60px 0;
+}
+
+#main-wrapper {
+    padding: 0;
+    min-height: 1300px !important;
+}
+.page-footer {
+    background: #fff;
+    width: 100%;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    padding: 14px 18px;
+    
+}
+.page-title {
+    padding: 20px;
+    background: #e9edf2;
+    border-bottom: 1px solid #dee2e8;
+    color:#34425A !important
+}
+.page-title h3 {
+    font-size: 24px;
+    font-weight: 300;
+    color: #74767d;
+    padding: 0;
+    margin: 0 0 4px;
+}
+.standard-row{
+  border: 1px solid #000;
+}
+.griddle th{
+  background-color:#EDEDEF;
+  border:0px;
+  border-bottom:1px solid #DDD;
+  color:#222;
+  padding:5px;
+}
+
+.griddle td{
+  padding:5px !important;
+  background-color:#FFF !important;
+  border-top: 1px solid #EDEDEF !important;
+  color:#222 !important;
+}
+
+.watersense-logo {
+  height: 24px;
+}
+
+.no-s {
+    margin: 0!important;
+    padding: 0!important;
+}
+
+p {
+    display: block;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 22px;
+    margin: 0 0 10px;
+    font-style: normal;
+    white-space: normal;
+}
+.card-container{
+  display:flex;
+}
+.embeded{
+  width:48%;
+  margin-left:10px;
+}
+.part{
+  width: 40%;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.leaflet-container {
+    height: 400px;
+    width: 100%;
+}
+.sensorform.leaflet-container{
+    height:150px;
+}
+.sk-fade-in {
+    float: right;
+}
+/* Mobile hiding/showing */
+.navbar > button {
+  display: block;
+}
+.navbar > div > img{
+   display: block;
+   height: 40px;
+   padding-top: 8px;
+   padding-left: 10px;
+}
+.navbar .profile-menu{
+  padding: 0;
+  width:auto !important;
+}
+.navbar .profile-menu svg{
+  color: #34425A !important;
+  fill: #34425A !important;
+
+}
+.navbar .user-name{
+    color: #34425A !important;
+    fill: #34425A !important;
+    display: block;
+    font-size: 16px;
+    height: 21px;
+    margin-bottom: 3px;
+    float: left;
+    margin-top: 3px;
+}
+.sidebar-header {
+    overflow: hidden;
+    clear: both;
+    position: relative;
+    padding: 20px;
+}
+
+.sidebar-profile-image {
+    display: block;
+}
+
+.sidebar-profile {
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.sidebar-profile a {
+    text-decoration: none;
+}
+
+.sidebar-profile img {
+    width: 60px;
+    display: block;
+    margin: 0 auto;
+}
+
+.sidebar-profile span {
+    color: #fff;
+    font-weight: 600;
+    display: block;
+    padding: 8px 0 0 0;
+    text-align: center;
+}
+
+.sidebar-profile span small {
+    color: #90999c;
+    padding: 5px 0;
+}
+
+.profile {
+    line-height: 60px;
+    margin-left: 5px;
+    font-size: 14px;
+}
+.sidebar-profile .img-circle {
+    width: 60px;
+    display: block !important;
+    margin: 0 auto;
+}
+/* Laptop hiding/showing */
+@media screen and (min-width: 768px) {
+  .navbar > button{
+    display: none !important;
+  }
+
+}
+
+/* Desktop hiding/showing */
+@media screen and (min-width: 992px) {
+.navbar > button{
+    display: none !important;
+  }
+}
+
+li {
+  margin-left: 15px;
+}
+
+ul {
+      list-style-position: inside;
+}
+
+/* Sensors */
+
+.sectionTitle {
+  margin-top: 50px;
+}
+
+.sensorNodeTitle {
+  padding: 10px !important;
+}
+
+.tableSwitch {
+  color: blue;
+  font-family: Roboto, sans-serif;
+  text-decoration: underline;
+}
+
+/* Sensor details */
+
+.sensorMap {
+  padding: 10px;
+  width: 500px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.topRightButton {
+  float: right;
+  margin: 3px;
+}
+
+.cardTitle {
+  display: inline-block;
+  font-size: 18px;
+  font-family: Roboto, sans-serif;
+  margin: 5px;
+}
+
+.cardTitleIcons {
+  display: inline-block;
+  float: right;
+  margin: 5px;
+}
+
+
+/* Sensor */
+
+.sensorNodes {
+  float: left;
+}
+
+.sensorNode {
+  overflow:hidden;
+  padding-bottom:10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.contentCards {
+  clear:left;
+  position: relative;
+}
+
+.boardIcon {
+  float: left;
+  margin: 35px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Measurement */
+
+.card {
+  display: inline-block;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding: 10px;
+  margin: 10px;
+  min-width: 250px;
+  float: left;
+}
+
+.measValue {
+  padding: 5px;
+  float: left
+}
+
+.measIcon {
+  display: inline-block;
+  float: left;
+}
+
+.cardRed {
+  background-color: #ff4141 !important;
+  box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
+}
+
+.cardGreen {
+  background-color: #32bf32 !important;
+  box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
+}
+
+
+/* Notifications */
+
+.notif {
+  margin-top: 20px;
+  width: 100%;
+  position: relative;
+  top: 0px;
+  height: 100%;
+}
+
+.notifSubject {
+  height: 100px;
+  clear: both;
+}
+
+.notifIcon {
+  float: left;
+  display: inline-block;
+}
+
+.notifExpr {
+  padding: 5px;
+  vertical-align: middle;
+  float: left;
+  display: inline-block;
+  font-size: 14pt;
+  margin-left: 10px;
+}
+
+.notifSensorAttrs {
+  clear: both; 
+}
+
+.notifSensors {
+  text-align: right;
+  width: 250px;
+  float: left;
+  display: inline-block;
+}
+
+.notifArrow {
+  width: 30px;
+  float: left;
+  display: inline-block;
+}
+
+.notifAttrs {
+  text-align: left;
+  width: 250px;
+  float: left;
+  display: inline-block;
+}
+
+.notifMsg {
+  clear: left;
+  width: 500px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+}
+
+.notifUsersChannels {
+  clear: both;
+}
+
+.notifUsers {
+  width: 250px;
+  float: left;
+  display: inline-block;
+}
+
+.notifChannels {
+  width: 250px;
+  float: left;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.notifMisc {
+  clear: both;
+}
+
+.notifExpires {
+  width: 250px;
+  float: left;
+  display: inline-block;
+}
+
+.notifDesc {
+  width: 250px;
+  float: left;
+  display: inline-block;
+}
+
+.notifIcon {
+  vertical-align: top;
+}
+
+.notifZone {
+  clear: left;
+}
+
+.notifDetails {
+  padding: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* Message banner */
+
+.errorBanner {
+  border-style: dashed;
+  border-width: 2px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.errorBannerOK {
+  right: 10px;
+  position: absolute;
+  top: 5px;
+}
+
+/* Chart */
+
+.sensorChart {
+  margin: 10px
+}
+
+.graphCard {
+  clear: both
+}
+
+.gatewaySensorNodes {
+  float: left;
+  margin-left: 50px;
+}
+
+.icon {
+  float: left;
+}
+
+.iconGateway {
+  float: left;
+  /*margin-top: 65px;*/
+}
+
+.gatewayLine {
+  border-top: 5px dashed orange !important;
+}

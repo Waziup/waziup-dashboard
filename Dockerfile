@@ -1,15 +1,16 @@
-FROM node:6.10
+FROM node:7.9.0-alpine
 
-RUN mkdir /usr/src/app
-VOLUME ["/app"]
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /usr/src/app
-RUN npm install
+# Installing all dependencies
+COPY ./package.json .
+COPY ./yarn.lock .
+RUN yarn install 
 
-# Bundle app source
 COPY . /usr/src/app
 
 EXPOSE 3000
-CMD [ "npm", "start" ]
+
+# We build before running. 
+# The build will substitute the environement variables in the client code.
+CMD yarn run build -- --release; node build/server.js

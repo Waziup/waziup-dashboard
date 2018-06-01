@@ -1,54 +1,31 @@
-
-Waziup dashboard
+WAZIUP dashboard 
 ================
 
-The Waziup dashboard allows visualize your sensors and applications.
-
+The WAZIUP dashboard is the web front-end for [Waziup](www.waziup.io).
 
 Install
 -------
 
-To test the dashboard locally, first rename and change the content of exports.sh:
+The dashboard can be run standalone with:
 ```
-$ cp exports-template.sh exports.sh
-$ vi exports.sh
-```
-
-Install and start:
-```
-$ npm install
-$ npm start
+yarn start
 ```
 
-Deploy
-------
 
-Dashboard Dockerfile build, tagging and deployment:
+Copyright
+---------
 
-```
-docker build -t waziup/dashboard .
-docker tag waziup/dashboard waziup/dashboard:YOUR_TAG
-docker push waziup/dashboard:YOUR_TAG
+Copyright 2016.
 
-git tag YOUR_TAG
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
 
-kubectl delete -f dashboard.yaml
-kubectl apply -f dashboard.yaml
-```
+       http://www.apache.org/licenses/LICENSE-2.0
 
-Debug
------
-
-after re-deploying dashboard, we need to restart apache (identity proxy)
-kubectl exec -ti identityproxy-y5h7q --namespace=waziup --  /usr/sbin/httpd -k restart
-
-kubectl exec -ti dashboard-no0lu --namespace=waziup --  bash
-
-Development
------------
-
-The following environment variables can be used:
-
-- REACT_APP_DASHBOARD_IDENTITY: set to false to avoid queries to identity server
-
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 
