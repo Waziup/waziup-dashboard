@@ -21,7 +21,7 @@ export function getSensors() {
     dispatch({type: types.GET_SENSORS_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
-      let data = await sensorsApi.getSensors(domain, null)
+      let data = await sensorsApi.getSensors(domain, {limit: 1000})
       dispatch({type: types.GET_SENSORS_SUCCESS, data: data})
     } catch (error) {
       dispatch({type: types.GET_SENSORS_ERROR, data: error});
