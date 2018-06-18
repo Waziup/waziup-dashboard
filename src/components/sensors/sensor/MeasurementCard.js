@@ -24,7 +24,7 @@ export default class MeasurementCard extends Component {
   render() {
     let meas = this.props.measurement
     //Check if inactive delay expired
-    let activeStyle = (meas.timestamp && new Date() < Date.parse(meas.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"
+    let activeStyle = (meas.last_value.timestamp && new Date() < Date.parse(meas.last_value.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"
 
     return (
       <Card className={"card " + activeStyle}>
@@ -42,10 +42,10 @@ export default class MeasurementCard extends Component {
         </div>
         <div className="cardContent">
           <div className="measIcon">
-            <MeasIcon sensing_device={meas.sensing_device} height="75" title={"Last timestamp: " + meas.timestamp}/>
+            <MeasIcon sensing_device={meas.sensing_device} height="75" title={"Last timestamp: " + meas.last_value.timestamp}/>
           </div>
           <div className="measValue"> 
-            <h3> {(meas.last_value? meas.last_value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
+            <h3> {(meas.last_value? meas.last_value.value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
           </div>
           {!this.props.isDetails? 
             <Link to={"/sensors/" + this.props.sensorId + "/" + meas.id} > 

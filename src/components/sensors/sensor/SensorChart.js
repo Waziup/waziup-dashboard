@@ -16,7 +16,7 @@ class SensorChart extends Component {
 
     if(this.props.values && this.props.meas) {
       const meas = this.props.meas
-      const data = this.props.values.map(datapoint => {return {time: moment(datapoint.timestamp).valueOf(), value: datapoint.value }});
+      const data = this.props.values.map(datapoint => {return {time: moment(datapoint.timestamp? datapoint.timestamp: datapoint.dateReceived).valueOf(), value: datapoint.value }});
       const QK = Waziup.QuantityKinds.getLabel(meas.quantity_kind)
       const unit = Waziup.Units.getLabel(meas.unit)
       return (
