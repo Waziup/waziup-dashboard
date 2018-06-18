@@ -26,7 +26,8 @@ export default class SensorLineCard extends Component {
       measurements.push(card);
     }
     
-    let activeStyle = (meas) => {return (meas.last_value.timestamp && new Date() < Date.parse(meas.last_value.timestamp) + config.delaySensorInactive)? "cardGreen": "cardRed"}
+    let activeStyle = (meas) => {return (meas.last_value && new Date() < Date.parse(meas.last_value.date_received) + config.delaySensorInactive)? "cardGreen": "cardRed"}
+    let title = (meas) => {return meas.last_value ? "Date received: " + meas.last_value.date_received : "No data yet"}
 
     return ( 
       <div className="sensorNode">
@@ -50,7 +51,7 @@ export default class SensorLineCard extends Component {
                 </div>
                 <div className="cardContent">
                   <div className="measIcon">
-                    <MeasIcon sensing_device={meas.sensing_device} height="64" title={"Last timestamp: " + meas.timestamp}/>
+                    <MeasIcon sensing_device={meas.sensing_device} height="64" title={title(meas)}/>
                   </div>
                   <div className="measValue"> 
                     <h3> {(meas.last_value? meas.last_value.value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
