@@ -6,6 +6,7 @@ import sensorNodeImage from '../../images/sensorNode.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
 import MeasIcon from './sensor/MeasIcon';
+import newImage from '../../images/new.png';
 
 export default class SensorLineCard extends Component {
   constructor(props) {
@@ -24,6 +25,7 @@ export default class SensorLineCard extends Component {
     
     let activeStyle = (meas) => {return (meas.last_value && new Date() < Date.parse(meas.last_value.date_received) + config.delaySensorInactive)? "cardGreen": "cardRed"}
     let title = (meas) => {return meas.last_value ? "Date received: " + meas.last_value.date_received : "No data yet"}
+    let sensorNodeNew = new Date() < Date.parse(sensor.date_created) + config.delaySensorNodeNew
 
     return ( 
       <Card className="sensorNode">
@@ -33,6 +35,7 @@ export default class SensorLineCard extends Component {
         <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
+            {sensorNodeNew ? <img src={newImage} height="35" className="newIcon"/>: null}
           </div>
           {sensor.measurements.map(meas => {return (
             <Card className={"card " + activeStyle(meas)}>

@@ -313,6 +313,10 @@ ul {
   text-decoration: underline;
 }
 
+.newIcon {
+  vertical-align: top;
+}
+
 /* Sensor details */
 
 .sensorMap {
