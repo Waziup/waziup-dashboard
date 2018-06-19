@@ -73,7 +73,7 @@
     "source-map-support": "^0.5.0",
     "svgo": "^1.0.4",
     "uglifyjs-webpack-plugin": "1.1.8",
-    "waziup-js": "^0.0.21",
+    "waziup-js": "^0.0.22",
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
@@ -82,7 +82,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-plugin-rewire": "^1.1.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-template": "^6.25.0",
