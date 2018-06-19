@@ -65,7 +65,7 @@ export function keycloakLogin() {
     clientId: config.clientId
   });
 
-  keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).success(authenticated => {
+  keycloak.init({ onLoad: 'login-required', checkLoginIframe: false, flow: 'hybrid' }).success(authenticated => {
     if (authenticated) {
       store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
       console.log("kc " + JSON.stringify(keycloak.idTokenParsed))
