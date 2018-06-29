@@ -32,7 +32,7 @@ export default class UserCard extends Component {
           <pre className="cardTitle"> {user.username} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteUser(user.id)}}/>: null }
+            {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete user?')) this.props.deleteUser(user.id)}}/>: null }
           </div>
         </div>
         <div className="contentCards">
