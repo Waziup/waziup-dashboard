@@ -10,7 +10,7 @@ import MeasurementForm from './MeasurementForm';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getSensors, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
+import { getSensor, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import { browserHistory } from 'react-router'
@@ -27,8 +27,8 @@ class SensorDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.getSensors();
-    this.interval = setInterval(() => {this.props.getSensors()}, config.delayRefresh);
+    this.props.getSensor(this.props.params.sensorId);
+    this.interval = setInterval(() => {this.props.getSensor(this.props.params.sensorId)}, config.delayRefresh);
   }
   
   componentWillUnmount() {
@@ -87,13 +87,13 @@ class SensorDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-      sensor: state.sensors.sensors.find((el) => (el.id === ownProps.params.sensorId))
+      sensor: state.sensor.sensor
     }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => {dispatch(getSensors()) },
+    getSensor: (id) => {dispatch(getSensor(id)) },
     addMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
     deleteSensor: (id) => {dispatch(deleteSensor(id)) },

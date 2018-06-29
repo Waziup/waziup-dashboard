@@ -14,11 +14,14 @@ function sensorsReducer(state = { isLoading: false, sensors: [], error: false, e
 };
 
 //Actions on one sensor
-function sensorActionReducer(state = { isLoading: false, msg:{}, error: false }, action = null) {
+function sensorReducer(state = { isLoading: false, msg:{}, error: false }, action = null) {
   switch (action.type) {
     case types.CREATE_SENSOR_START:    return Object.assign({}, state, { isLoading: true });
     case types.CREATE_SENSOR_SUCCESS:  return Object.assign({}, state, { isLoading: false, msg: action.data, error: false });
     case types.CREATE_SENSOR_ERROR:    return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
+    case types.GET_SENSOR_START:       return Object.assign({}, state, { isLoading: true });
+    case types.GET_SENSOR_SUCCESS:     return Object.assign({}, state, { isLoading: false, sensor: action.data, error: false });
+    case types.GET_SENSOR_ERROR:       return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
     case types.UPDATE_SENSOR_START:    return Object.assign({}, state, { isLoading: true });
     case types.UPDATE_SENSOR_SUCCESS:  return Object.assign({}, state, { isLoading: false, msg: action.data, error: false });
     case types.UPDATE_SENSOR_ERROR:    return Object.assign({}, state, { isLoading: false, msg: action.data, error: true });
@@ -102,6 +105,7 @@ function messagesReducer(state = [], action = null) {
 
     //error cases
     case types.GET_SENSORS_ERROR:     msg="Error when fetching sensors";       error= true; break; 
+    case types.GET_SENSOR_ERROR:      msg="Error when fetching a sensor";      error= true; break; 
     case types.CREATE_SENSOR_ERROR:   msg="Error when creating sensor";        error= true; break;
     case types.UPDATE_SENSOR_ERROR:   msg="Error when updating sensor";        error= true; break; 
     case types.DELETE_SENSOR_ERROR:   msg="Error when deleting sensor";        error= true; break; 
@@ -150,7 +154,7 @@ export default function rootReducer(state = {}, action) {
     //list of sensors
     sensors: sensorsReducer(state.sensors, action),
     //Sensor CRUD operations
-    sensorAction: sensorActionReducer(state.sensorAction, action),
+    sensor: sensorReducer(state.sensor, action),
     //Sensor values
     values: valuesReducer(state.values, action),
     //current user

@@ -44,6 +44,20 @@ export function createSensor(sensor) {
   }
 };
 
+export function getSensor(id) {
+  return async function (dispatch) {
+    var domain = "waziup";
+    dispatch({type: types.GET_SENSOR_START});
+    defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
+    try {
+      let data = await sensorsApi.getSensor(domain, id)
+      dispatch({type: types.GET_SENSOR_SUCCESS, data: data})
+    } catch (error) {
+      dispatch({type: types.GET_SENSOR_ERROR, data: error});
+    }
+  }
+};
+
 export function updateSensorLocation(sensorId, location) {
   return async function (dispatch) {
     var domain = "waziup"; 
