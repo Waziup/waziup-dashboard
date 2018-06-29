@@ -23,8 +23,8 @@ class Sensors extends Component {
   }
   
   componentWillMount() {
-    this.props.getSensors();
-    this.interval = setInterval(() => {this.props.getSensors()}, config.delayRefresh);
+    this.props.getSensors({lastN: 1000});
+    this.interval = setInterval(() => {this.props.getSensors({lastN: 1000})}, config.delayRefresh);
   }
   
   componentWillUnmount() {
@@ -60,7 +60,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     createSensor: (sensor) => {dispatch(createSensor(sensor)) }, 
-    getSensors: () => {dispatch(getSensors()) }
+    getSensors: (params) => {dispatch(getSensors(params)) }
   };
 }
 
