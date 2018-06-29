@@ -28,7 +28,7 @@ class Gateways extends Component {
     console.log("domainNames"+ JSON.stringify(domainNames))
 
     for(var domain of domainNames) {
-      let sensors = this.props.sensors.filter(s => s.domain == domain)
+      let sensors = this.props.sensors.filter(s => s.domain == domain && s.gateway_id)
       var gatewayIDs = [...new Set(sensors.map(s => s.gateway_id))]
       console.log("gateways"+ JSON.stringify(gatewayIDs))
       var gateways = gatewayIDs.map(g => {return {gatewayID: g, sensors: sensors.filter(s => s.gateway_id == g)}})
