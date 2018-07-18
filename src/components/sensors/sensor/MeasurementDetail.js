@@ -11,7 +11,7 @@ import MeasurementCard from './MeasurementCard';
 import UTIL from '../../../lib/utils.js';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
-import { getValues, getSensors, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
+import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import NotifForm from '../../notifs/NotifForm.js'
@@ -38,7 +38,7 @@ class MeasurementDetail extends Component {
   }
 
   fetchValues = () => {
-    this.props.getSensors();
+    this.props.getSensor(this.props.params.sensorId);
     if(this.props.sensor) {
       this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100})
     }
@@ -114,7 +114,7 @@ class MeasurementDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const sensor = state.sensors.sensors.find(s => s.id === ownProps.params.sensorId)
+  const sensor = state.sensor.sensor
   const meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
   const notifs = meas && sensor? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)): null
   return {
@@ -131,7 +131,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     getValues: (sid, mid, d, opts) => {dispatch(getValues(sid, mid, d, opts)) },
-    getSensors: () => {dispatch(getSensors()) },
+    getSensor: (id) => {dispatch(getSensor(id)) },
     updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
     createNotif: (notif) => {dispatch(createNotif(notif)) }
