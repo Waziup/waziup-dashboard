@@ -4,7 +4,7 @@ import { Container } from 'react-grid-system'
 import SensorChart from './SensorChart';
 import MeasurementCard from './MeasurementCard';
 import { connect } from 'react-redux';
-import { getValues, getSensors, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
+import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
@@ -46,13 +46,9 @@ class MeasurementDetail extends Component {
   }
 
   fetchValues = () => {
-    this.props.getSensors();
-    
-    console.log(this.state.selectedDayFrom, this.state.selectedDayTo);
-
-    if (this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId,
-         this.props.sensor.domain, { lastN: 100 });
+    this.props.getSensor(this.props.params.sensorId);
+    if(this.props.sensor) {
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100})
     }
   }
 
@@ -144,9 +140,9 @@ class MeasurementDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const sensor = state.sensors.sensors.find(s => s.id === ownProps.params.sensorId)
-  const meas = sensor ? sensor.measurements.find(m => m.id == ownProps.params.measId) : null
-  const notifs = meas && sensor ? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)) : null
+  const sensor = state.sensor.sensor
+  const meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
+  const notifs = meas && sensor? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)): null
   return {
     sensor: sensor,
     meas: meas,
@@ -160,11 +156,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid, d, opts) => { dispatch(getValues(sid, mid, d, opts)) },
-    getSensors: () => { dispatch(getSensors()) },
-    updateMeasurement: (id, m) => { dispatch(addMeasurement(id, m)) },
-    deleteMeasurement: (sid, mid) => { dispatch(deleteMeasurement(sid, mid)) },
-    createNotif: (notif) => { dispatch(createNotif(notif)) }
+    getValues: (sid, mid, d, opts) => {dispatch(getValues(sid, mid, d, opts)) },
+    getSensor: (id) => {dispatch(getSensor(id)) },
+    updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
+    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
+    createNotif: (notif) => {dispatch(createNotif(notif)) }
   };
 }
 

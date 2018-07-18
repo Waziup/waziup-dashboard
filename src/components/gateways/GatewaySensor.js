@@ -36,7 +36,7 @@ export default class SensorLineCard extends Component {
                      handleClose={() => this.setState({ modalEdit: false })}
                      onSubmit={s => this.props.updateSensorGatewayId(sensor.id, s.gateway_id)} />
         <CardTitle>
-          <h2 className="cardTitle"> Node {sensor.name? sensor.name : "(" + sensor.id + ")"} </h2>
+          <h2 className="cardTitle"> Node {(sensor.name? sensor.name + " ": "" ) + "(" + sensor.id + ")"} </h2>
           <EditIcon onClick={() => this.setState({modalEdit: true})}/>
         </CardTitle>
         <Link to={'/sensors/' + sensor.id}> 

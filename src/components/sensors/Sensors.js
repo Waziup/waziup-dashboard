@@ -40,7 +40,8 @@ class Sensors extends Component {
         </h1>
         <SensorForm modalOpen={this.state.modalAddSensor}
                     handleClose={() => this.setState({ modalAddSensor: false })}
-                    onSubmit={s => this.props.createSensor(s)}/>
+                    onSubmit={s => this.props.createSensor(s)}
+                    user={this.props.user}/>
         <pre className="tableSwitch" onClick={() => this.setState({isCardsView: !this.state.isCardsView})}> {this.state.isCardsView? "Switch to table view": "Switch to cards view"} </pre>
         {this.state.isCardsView? 
           <SensorsList  sensors={this.props.sensors}/>: 
@@ -53,7 +54,8 @@ class Sensors extends Component {
 
 function mapStateToProps(state) {
   return {
-    sensors: state.sensors.sensors
+    sensors: state.sensors.sensors,
+    user: state.current_user
   };
 }
 

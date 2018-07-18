@@ -4,6 +4,7 @@ import Dialog from 'material-ui/Dialog';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem'
+import Checkbox from 'material-ui/Checkbox'
 import { SelectField, TextField } from 'redux-form-material-ui'
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
@@ -15,8 +16,9 @@ class SensorForm extends Component {
     super(props);
     const defaultSensor = new Waziup.Sensor("MySensor")
     defaultSensor.name = "My sensor"
-    defaultSensor.owner = "cdupont"
+    defaultSensor.owner = this.props.user
     defaultSensor.domain = "waziup"
+    defaultSensor.visibility = "public"
     this.state = {
       sensor: (this.props.sensor? this.props.sensor: defaultSensor)
     };
@@ -25,6 +27,13 @@ class SensorForm extends Component {
   handleChange = (formData) => {
     var sensor = this.state.sensor
     sensor[formData.target.name] = formData.target.value;
+    this.setState({sensor: sensor})
+  }
+  
+  handleChangeVisibility = (formData) => {
+    var sensor = this.state.sensor
+    console.log("vis:" + formData.target.checked)
+    sensor.visibility = (formData.target.checked? "public": "private");
     this.setState({sensor: sensor})
   }
 
@@ -40,6 +49,7 @@ class SensorForm extends Component {
           <TextField name="id" disabled={this.props.isEdit} floatingLabelText="Sensor ID" value={this.state.sensor.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
           <TextField name="name"  floatingLabelText="Sensor name" value={this.state.sensor.name} onChange={this.handleChange} title="Name of the sensor"/>
           <TextField name="domain"  floatingLabelText="Domain" value={this.state.sensor.domain} onChange={this.handleChange} title="Domain this sensor belongs to"/>
+          <Checkbox  name="visibility" floatingLabelText="Public visibility" checked={this.state.sensor.visibility == "public"} onCheck={this.handleChangeVisibility} title="Public visibility of the sensor"/>
         </Dialog>
       );
   }
@@ -48,7 +58,8 @@ class SensorForm extends Component {
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
+    user: PropTypes.string.isRequired
   }
 }
 

@@ -16,6 +16,7 @@ import ErrorBanner from './ErrorBanner';
 import sensorNodesImage from '../images/sensorNodes.png';
 import { browserHistory } from 'react-router'
 import { getPermissions } from "../actions/actions.js"
+import config from '../config';
 
 const styles = {
   medium: {
@@ -59,7 +60,7 @@ class Layout extends Component {
     const headerMenu =
       <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
         <MenuItem primaryText="Help" href='http://www.waziup.io/documentation' />
-        <MenuItem primaryText="Profile" onClick={() => { browserHistory.push('/users/' + this.props.user.id) }} />
+        <MenuItem primaryText="Profile" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl} />
         <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
       </IconMenu>
 
@@ -116,7 +117,7 @@ Layout.childContextTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.user.user,
+    user: state.current_user,
     keycloak: state.keycloak,
     permissions: state.permissions.permissions
   };

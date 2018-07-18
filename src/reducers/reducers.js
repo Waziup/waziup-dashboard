@@ -151,6 +151,7 @@ export default function rootReducer(state = {}, action) {
   return {
     routing: routerReducer(state.routing, action),
     keycloak: state.keycloak,
+    current_user: state.current_user,
     //list of sensors
     sensors: sensorsReducer(state.sensors, action),
     //Sensor CRUD operations

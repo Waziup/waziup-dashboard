@@ -20,7 +20,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { getUser, getSensors, getUsers } from "./actions/actions.js"
+import { getSensors, getUsers } from "./actions/actions.js"
+import * as Waziup from 'waziup-js'
 
 injectTapEventPlugin();
 
@@ -62,19 +63,24 @@ export function keycloakLogin() {
   var keycloak = Keycloak({
     url: config.keycloakUrl,
     realm: config.realm,
-    clientId: config.clientId
+    clientId: config.clientId,
+    credentials: {
+      secret: '261c186e-7084-4533-9c13-d2ae97e9a1ac'
+    }
   });
 
-  keycloak.init({ onLoad: 'login-required', checkLoginIframe: false, flow: 'hybrid' }).success(authenticated => {
+  keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).success(authenticated => {
     if (authenticated) {
+      console.log(JSON.stringify(keycloak))
       store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
       console.log("kc " + JSON.stringify(keycloak.idTokenParsed))
-      getUser(keycloak.idTokenParsed.sub)(store.dispatch)
+      //getUser(keycloak.idTokenParsed.sub)(store.dispatch)
+      store.getState().current_user = getUser(keycloak.idTokenParsed)
       setInterval(() => {
         keycloak.updateToken(30).success(function (refreshed) {
             if(refreshed) {
               store.getState().keycloak = {token: keycloak.token, logout: keycloak.logout}
-              getUser(keycloak.idTokenParsed.sub)(store.dispatch)
+              store.getState().current_user = getUser(keycloak.idTokenParsed)
             }
           }).error(function () {
             alert('Your session has expired, please log in again');
@@ -90,3 +96,8 @@ export function keycloakLogin() {
   });
 }
 
+function getUser(keycloakId) {
+  return {username:  keycloakId.preferred_username, 
+          lastName:  keycloakId.family_name,
+          firstName: keycloakId.given_name}
+}

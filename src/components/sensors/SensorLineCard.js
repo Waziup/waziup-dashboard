@@ -30,17 +30,19 @@ export default class SensorLineCard extends Component {
     return ( 
       <Card className="sensorNode">
         <CardTitle className="sensorNodeTitle">
-          <h3 className="cardTitle"> Node {sensor.name? sensor.name : "(" + sensor.id + ")"} </h3>
+          <h3 className="cardTitle"> Node {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </h3>
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
             {sensorNodeNew ? <img src={newImage} height="35" className="newIcon"/>: null}
+            <pre> {sensor.owner? "owner: " + sensor.owner : ""} </pre>
+            <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
           </div>
           {sensor.measurements.map(meas => {return (
             <Card className={"card " + activeStyle(meas)}>
               <div className="cardTitleDiv">
-                <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
+                <pre className="cardTitle"> {(meas.name? meas.name : "") + "(" + meas.id + ")"} </pre>
               </div>
               <div className="cardContent">
                 <div className="measIcon">
