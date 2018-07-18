@@ -19,6 +19,7 @@ import NotifCard from '../../notifs/NotifCard.js'
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
 import chartImage from '../../../images/chart-icon.png';
+import config from '../../../config';
 
 class MeasurementDetail extends Component {
   constructor(props) {
@@ -102,6 +103,7 @@ class MeasurementDetail extends Component {
               <h2 className="cardTitle"> Historical chart </h2>
             </CardTitle>
             <CardMedia>
+              <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"} target="_blank" > Download history values</a>
               <SensorChart meas={this.props.meas} values={this.props.values}/>
             </CardMedia>
           </Card>
