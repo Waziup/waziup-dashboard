@@ -13,6 +13,7 @@ import { Link } from 'react-router';
 import chartImage from '../../../images/chart-icon.png';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import config from '../../../config';
 
 class MeasurementDetail extends Component {
   constructor(props) {
@@ -128,7 +129,8 @@ class MeasurementDetail extends Component {
                 }}
                 onDayChange={this.handleDayChangeTo}
               />
-              <SensorChart meas={this.props.meas} values={this.props.values} />
+              <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"} target="_blank" > Download history values</a>
+              <SensorChart meas={this.props.meas} values={this.props.values}/>
             </CardMedia>
           </Card>
         </Container>
