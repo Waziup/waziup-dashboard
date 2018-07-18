@@ -104,6 +104,7 @@ body,p{font-size:13px}
     position: relative;
     padding-left: 0px !important;
     padding-right: 0px !important;
+    padding-bottom: 50px;
 }
 
 .page-header-fixed:not(.page-sidebar-fixed):not(.page-horizontal-bar) .page-inner {
