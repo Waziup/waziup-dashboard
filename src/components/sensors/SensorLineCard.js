@@ -36,7 +36,7 @@ export default class SensorLineCard extends Component {
           <div className="boardIcon">
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
             {sensorNodeNew ? <img src={newImage} height="35" className="newIcon"/>: null}
-            <pre> {sensor.owner? "owner: " + sensor.owner : ""} </pre>
+            <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
             <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
           </div>
           {sensor.measurements.map(meas => {return (
@@ -61,5 +61,6 @@ export default class SensorLineCard extends Component {
 
   propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+    user: PropTypes.object.isRequired
   }
 }
