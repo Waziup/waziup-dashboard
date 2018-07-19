@@ -44,9 +44,8 @@ class Sensors extends Component {
                     user={this.props.user}/>
         <pre className="tableSwitch" onClick={() => this.setState({isCardsView: !this.state.isCardsView})}> {this.state.isCardsView? "Switch to table view": "Switch to cards view"} </pre>
         {this.state.isCardsView? 
-          <SensorsList  sensors={this.props.sensors}/>: 
+          <SensorsList  sensors={this.props.sensors} user={this.props.user} addSensor={() => {console.log("test"); this.setState({modalAddSensor: true})}}/>: 
           <SensorsTable sensors={this.props.sensors}/>}
-        <RaisedButton label="Add sensor node" primary={true} onTouchTap={() => this.setState({ modalAddSensor: true })} />
       </Container>
     );
   }
