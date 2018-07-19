@@ -43,7 +43,8 @@ const routes = {
     { path: 'gateways', component: Gateways },
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },
-    { path: 'users/:userId/perms', component: UserPermissions }
+    { path: 'users/:userId/perms', component: UserPermissions },
+    { path: '*', component: () => <h2> Page not found!</h2> }
   ]
 }
 
