@@ -300,8 +300,12 @@ ul {
 
 /* Sensors */
 
-.sectionTitle {
+.section {
   margin-top: 50px;
+  margin-bottom: 100px;
+}
+
+.sectionTitle {
 }
 
 .sensorNodeTitle {
@@ -316,6 +320,10 @@ ul {
 
 .newIcon {
   vertical-align: top;
+}
+
+.addSensorButton {
+  float: right;
 }
 
 /* Sensor details */
