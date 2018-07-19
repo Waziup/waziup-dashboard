@@ -28,7 +28,7 @@ class Map extends Component {
           markers.push(<Marker key={sensor.id} position={[sensor.location.latitude, sensor.location.longitude]}>
               <Popup>
                 <span>
-                  <a onClick={() => this.browserHistory.push("/sensors/" + sensor.id)} > {sensor.id}</a>
+                  <a onClick={() => browserHistory.push("/sensors/" + sensor.id)} > {sensor.id}</a>
                 </span>
               </Popup>
             </Marker>
