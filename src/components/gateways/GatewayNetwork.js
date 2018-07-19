@@ -34,7 +34,10 @@ export default class GatewayNetwork extends Component {
             </div>
           </div>
           <div className="gatewaySensorNodes">
-            {this.props.gateway.sensors.map(s => <GatewaySensor sensor={s} updateSensorGatewayId={this.props.updateSensorGatewayId}/>) }
+            {this.props.gateway.sensors.map(s => 
+              <GatewaySensor sensor={s}
+                             updateSensorGatewayId={this.props.updateSensorGatewayId}
+                             permission={this.props.permissions.find(p => p.resource == s.id)}/>) }
           </div>
           {this.props.gateway.sensors.map(s => 
             <LineTo from={"gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName} to={"sensor" + s.id} className='gatewayLine'/>)
@@ -47,6 +50,7 @@ export default class GatewayNetwork extends Component {
   propTypes = {
     gateway: PropTypes.object.isRequired,
     domainName: PropTypes.string.isRequired,
-    updateSensorGatewayId: PropTypes.func.isRequired
+    updateSensorGatewayId: PropTypes.func.isRequired,
+    permissions: PropTypes.func.isRequired
   }
 }

@@ -37,7 +37,8 @@ export default class SensorLineCard extends Component {
                      onSubmit={s => this.props.updateSensorGatewayId(sensor.id, s.gateway_id)} />
         <CardTitle>
           <h2 className="cardTitle"> Node {(sensor.name? sensor.name + " ": "" ) + "(" + sensor.id + ")"} </h2>
-          <EditIcon onClick={() => this.setState({modalEdit: true})}/>
+          {this.props.permission.scopes.includes("sensors:update")?
+            <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
         </CardTitle>
         <Link to={'/sensors/' + sensor.id}> 
           <div className="contentCards">
@@ -67,6 +68,7 @@ export default class SensorLineCard extends Component {
 
   propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
-    updateSensorGatewayId: PropTypes.func.isRequired
+    updateSensorGatewayId: PropTypes.func.isRequired,
+    permission: PropTypes.object.isRequired
   }
 }
