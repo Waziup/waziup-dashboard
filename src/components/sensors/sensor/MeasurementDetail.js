@@ -85,7 +85,8 @@ class MeasurementDetail extends Component {
           <Card className="sensorNode">
             <CardTitle>
               <h2 className="cardTitle"> Last value </h2>
-              <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" />
+              {this.props.permission.scopes.includes("sensors:update")?
+                <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" />: null}
               <NotifForm modalOpen={this.state.modalOpen}
                 notif={defaultNotif}
                 sensors={this.props.sensors}
@@ -95,23 +96,25 @@ class MeasurementDetail extends Component {
                 isEditable={true} />
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
-              isDetails={true}
-              updateMeasurement={this.props.updateMeasurement}
-              deleteMeasurement={this.props.deleteMeasurement}
-              sensorId={this.props.sensorId} />
-          </Card>
-          {notifications.length > 0 ?
+                             isDetails={true}
+                             updateMeasurement={this.props.updateMeasurement} 
+                             deleteMeasurement={this.props.deleteMeasurement}
+                             sensorId={this.props.sensorId}
+                             permission={this.props.permission}/>
+          </Card> 
+          {notifications.length>0? 
             <Card className="sensorNode">
               <CardTitle>
                 <h2 className="cardTitle"> Notifications </h2>
               </CardTitle>
-              {notifications}
-            </Card> : null}
-          <Card className="graphCard">
-            <CardTitle>
-              <h2 className="cardTitle"> Historical chart </h2>
-            </CardTitle>
-            <CardMedia>
+            {notifications}
+          </Card>: null}
+          {this.props.permission.scopes.includes("sensors-data:view")?
+            <Card className="graphCard">
+              <CardTitle>
+                <h2 className="cardTitle"> Historical chart </h2>
+              </CardTitle>
+              <CardMedia>
               From: <DayPickerInput
                 dayPickerProps={{
                   month: new Date(2018, 10),
@@ -129,10 +132,10 @@ class MeasurementDetail extends Component {
                 }}
                 onDayChange={this.handleDayChangeTo}
               />
-              <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"} target="_blank" > Download history values</a>
-              <SensorChart meas={this.props.meas} values={this.props.values}/>
-            </CardMedia>
-          </Card>
+                <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"} target="_blank" > Download history values</a>
+                <SensorChart meas={this.props.meas} values={this.props.values}/>
+              </CardMedia>
+            </Card>: null}
         </Container>
       );
     } else {
@@ -152,7 +155,8 @@ function mapStateToProps(state, ownProps) {
     values: state.values.values,
     sensors: state.sensors.sensors,
     users: state.users.users,
-    notifs: notifs
+    notifs: notifs,
+    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId)
   }
 }
 

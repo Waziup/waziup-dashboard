@@ -26,10 +26,11 @@ export default class SensorNodeCard extends Component {
                                     isDetails={false}
                                     updateMeasurement={this.props.updateMeasurement} 
                                     deleteMeasurement={this.props.deleteMeasurement}
-                                    sensorId={sensor.id}/>
+                                    sensorId={sensor.id}
+                                    permission={this.props.permission}/>
       measurements.push(card);
     }
-
+    console.log("perms:" + JSON.stringify(this.props.permission))
     return ( 
       <Card className="sensorNode">
         <MeasurementForm modalOpen={this.state.modalAdd}
@@ -44,9 +45,9 @@ export default class SensorNodeCard extends Component {
                     onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <CardTitle>
           <h2 className="cardTitle"> {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </h2>
-          <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}/>
-          <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>
-          <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>
+          {this.props.permission.scopes.includes("sensors:delete")? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}/>: null}
+          {this.props.permission.scopes.includes("sensors:update")? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
+          {this.props.permission.scopes.includes("sensors:update")? <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
@@ -66,5 +67,6 @@ export default class SensorNodeCard extends Component {
     deleteSensor: PropTypes.func,
     updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func,
+    permission: PropTypes.object.isRequired
   }
 }

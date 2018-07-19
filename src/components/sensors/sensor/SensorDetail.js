@@ -47,13 +47,18 @@ class SensorDetail extends Component {
                           updateSensorName={this.props.updateSensorName}
                           deleteSensor={this.props.deleteSensor}
                           updateMeasurement={this.props.addMeasurement}
-                          deleteMeasurement={this.props.deleteMeasurement}/>
+                          deleteMeasurement={this.props.deleteMeasurement}
+                          permission={this.props.permission}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="cardTitle"> Location </h2>
-              <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>
-              <LocationForm initialLocation={sensor.location} modalOpen={this.state.modalLocation} 
-                            onSubmit={(l) => this.props.updateSensorLocation(sensor.id, l)} handleClose={() => this.setState({modalLocation: false})}/>
+              {this.props.permission.scopes.includes("sensors:update")?
+                <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>: null}
+              <LocationForm initialLocation={sensor.location}
+                            modalOpen={this.state.modalLocation} 
+                            onSubmit={(l) => this.props.updateSensorLocation(sensor.id, l)}
+                            handleClose={() => this.setState({modalLocation: false})}
+                            permission={this.props.permission}/>
             </CardTitle>
             <CardMedia>
               <Map ref="map" center={position} zoom={5}>
@@ -81,7 +86,8 @@ class SensorDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-      sensor: state.sensor.sensor
+      sensor: state.sensor.sensor,
+      permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId)
     }
 }
 

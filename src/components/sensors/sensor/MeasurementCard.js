@@ -37,8 +37,8 @@ export default class MeasurementCard extends Component {
         <div className="cardTitleDiv">
           <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
           <div className="cardTitleIcons"> 
-            <EditIcon onClick={() => this.setState({modalEdit: true})}/>
-            <DeleteIcon onClick={() => {if(window.confirm('Delete measurement?')) this.props.deleteMeasurement(this.props.sensorId, meas.id)}}/>
+            {this.props.permission.scopes.includes("sensors:update")? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
+            {this.props.permission.scopes.includes("sensors:update")? <DeleteIcon onClick={() => {if(window.confirm('Delete measurement?')) this.props.deleteMeasurement(this.props.sensorId, meas.id)}}/>: null}
           </div>
         </div>
         <div className="cardContent">
@@ -66,7 +66,8 @@ export default class MeasurementCard extends Component {
     isDetails: PropTypes.bool,
     updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func,
-    sensorId: PropTypes.string.isRequired
+    sensorId: PropTypes.string.isRequired,
+    permission: PropTypes.object.isRequired
   }
 }
 

@@ -48,7 +48,7 @@ class Gateways extends Component {
         {React.DOM.div(null, 
           this.getDomains().map(d => [ 
             React.DOM.h2({className: "sectionTitle"}, "Domain " + d.domainName),
-            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId})) 
+            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId, permissions: this.props.permissions})) 
           ])
         )}
       </Container>
@@ -58,7 +58,8 @@ class Gateways extends Component {
 
 function mapStateToProps(state) {
   return {
-    sensors: state.sensors.sensors
+    sensors: state.sensors.sensors,
+    permissions: state.permissions.permissions
   };
 }
 
