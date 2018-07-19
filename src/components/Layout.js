@@ -124,7 +124,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getPermissions: () => {dispatch(getPermissions()) }, 
+    getPermissions: () => {dispatch(getPermissions()) } 
   };
 }
 
