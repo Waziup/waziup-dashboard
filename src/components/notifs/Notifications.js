@@ -21,7 +21,7 @@ class Notifications extends Component {
   }
 
   componentWillMount() {
-    this.props.getSensors();
+    this.props.getSensors({limit: 1000});
     this.props.getNotifs();
     this.props.getUsers();
   }
@@ -80,7 +80,7 @@ function mapDispatchToProps(dispatch) {
       getNotifs: (user) => {dispatch(getNotifs()) }, 
       deleteNotif: (notifId) => {dispatch(deleteNotif(notifId)) },
       createNotif: (notif) => {dispatch(createNotif(notif)) }, 
-      getSensors: () => {dispatch(getSensors()) },
+      getSensors: (params) => {dispatch(getSensors(params)) },
       getUsers: () => {dispatch(getUsers()) }
    }
 }

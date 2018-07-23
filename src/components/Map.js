@@ -40,7 +40,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.props.getSensors();
+    this.props.getSensors({limit: 1000});
   }
 
   render() {
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => { dispatch(getSensors()) },
+    getSensors: (params) => { dispatch(getSensors(params)) },
   };
 }
 
