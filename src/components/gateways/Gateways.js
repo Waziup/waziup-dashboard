@@ -18,7 +18,7 @@ class Gateways extends Component {
   }
   
   componentDidMount() {
-    this.props.getSensors();
+    this.props.getSensors({limit: 1000});
   }
 
   //returns a structure with sensors sorted by gateways, and gateways sorted by domains
@@ -65,7 +65,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: () => {dispatch(getSensors()) },
+    getSensors: (params) => {dispatch(getSensors(params)) },
     updateSensorGatewayId: (sid, gid) => {dispatch(updateSensorGatewayId(sid, gid)) }
   };
 }

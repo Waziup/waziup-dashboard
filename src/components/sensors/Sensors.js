@@ -23,8 +23,8 @@ class Sensors extends Component {
   }
   
   componentWillMount() {
-    this.props.getSensors({lastN: 1000});
-    this.interval = setInterval(() => {this.props.getSensors({lastN: 1000})}, config.delayRefresh);
+    this.props.getSensors({limit: 1000});
+    this.interval = setInterval(() => {this.props.getSensors({limit: 1000})}, config.delayRefresh);
   }
   
   componentWillUnmount() {
