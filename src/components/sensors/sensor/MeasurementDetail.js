@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import SensorChart from './SensorChart';
+import LocationForm from './LocationForm';
+import MeasurementForm from './MeasurementForm';
 import MeasurementCard from './MeasurementCard';
 import { connect } from 'react-redux';
 import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
@@ -99,7 +101,7 @@ class MeasurementDetail extends Component {
                              isDetails={true}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
-                             sensorId={this.props.sensorId}
+                             sensorId={this.props.sensor.id}
                              permission={this.props.permission}/>
           </Card> 
           {notifications.length>0? 
