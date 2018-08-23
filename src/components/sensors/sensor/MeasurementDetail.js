@@ -4,7 +4,6 @@ import { Container } from 'react-grid-system'
 import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorChart from './SensorChart';
-import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
 import MeasurementForm from './MeasurementForm';
 import MeasurementCard from './MeasurementCard';
@@ -90,7 +89,7 @@ class MeasurementDetail extends Component {
                              isDetails={true}
                              updateMeasurement={this.props.updateMeasurement} 
                              deleteMeasurement={this.props.deleteMeasurement}
-                             sensorId={this.props.sensorId}
+                             sensorId={this.props.sensor.id}
                              permission={this.props.permission}/>
           </Card> 
           {notifications.length>0? 
