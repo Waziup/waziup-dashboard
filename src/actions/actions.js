@@ -18,6 +18,9 @@ var authApi    = new WaziupApi.AuthApi();
 export function getSensors(params) {
   return async function (dispatch) {
     var domain = "waziup";
+    if(!params) {
+      params = {limit: 1000}
+    }
     dispatch({type: types.GET_SENSORS_START});
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
@@ -37,7 +40,7 @@ export function createSensor(sensor) {
     try {
       let data = await sensorsApi.createSensor(domain, sensor);
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
-      dispatch(getSensors());
+      dispatch(getSensors({limit:1000}));
     } catch (error) {
       dispatch({type: types.CREATE_SENSOR_ERROR, data: error});
     }
