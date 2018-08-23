@@ -45,14 +45,29 @@ export default class SensorNodeCard extends Component {
                     onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
         <CardTitle>
           <h2 className="cardTitle"> {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </h2>
-          {this.props.permission.scopes.includes("sensors:delete")? <RaisedButton label="Delete" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}/>: null}
-          {this.props.permission.scopes.includes("sensors:update")? <RaisedButton label="Add measurement" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
-          {this.props.permission.scopes.includes("sensors:update")? <RaisedButton label="Edit" labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
+          {this.props.permission && this.props.permission.scopes.includes("sensors:delete")? 
+            <RaisedButton label="Delete"
+                          labelStyle={{height: '10px'}}
+                          className="topRightButton"
+                          primary={true}
+                          onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}/>: null}
+          {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
+            <RaisedButton label="Add measurement"
+                          labelStyle={{height: '10px'}}
+                          className="topRightButton"
+                          primary={true}
+                          onTouchTap={()=>{this.setState({modalAdd: true})}}/>: null}
+          {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
+            <RaisedButton label="Edit"
+                          labelStyle={{height: '10px'}}
+                          className="topRightButton"
+                          primary={true}
+                          onTouchTap={()=>{this.setState({modalEdit: true})}}/>: null}
         </CardTitle>
         <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="75" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
-            <pre> {sensor.owner? "owner: " + sensor.owner : ""} </pre>
+            <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
             <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
           </div>
           {measurements}
@@ -67,6 +82,7 @@ export default class SensorNodeCard extends Component {
     deleteSensor: PropTypes.func,
     updateMeasurement: PropTypes.func,
     deleteMeasurement: PropTypes.func,
-    permission: PropTypes.object.isRequired
+    permission: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
   }
 }

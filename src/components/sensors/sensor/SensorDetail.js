@@ -45,14 +45,15 @@ class SensorDetail extends Component {
           <SensorNodeCard className="sensorNode"
                           sensor={sensor}
                           updateSensorName={this.props.updateSensorName}
-                          deleteSensor={this.props.deleteSensor}
+                          deleteSensor={(sid) => {this.props.deleteSensor(sid); browserHistory.push('/sensors')}}
                           updateMeasurement={this.props.addMeasurement}
                           deleteMeasurement={this.props.deleteMeasurement}
-                          permission={this.props.permission}/>
+                          permission={this.props.permission}
+                          user={this.props.user}/>
           <Card className="sensorMap">
             <CardTitle>
               <h2 className="cardTitle"> Location </h2>
-              {this.props.permission.scopes.includes("sensors:update")?
+              {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
                 <RaisedButton label="Change..." labelStyle={{height: '10px'}} className="topRightButton" primary={true} onTouchTap={()=>{this.setState({modalLocation: true})}}/>: null}
               <LocationForm initialLocation={sensor.location}
                             modalOpen={this.state.modalLocation} 
@@ -87,7 +88,8 @@ class SensorDetail extends Component {
 function mapStateToProps(state, ownProps) {
     return {
       sensor: state.sensor.sensor,
-      permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId)
+      permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId),
+      user: state.current_user
     }
 }
 
