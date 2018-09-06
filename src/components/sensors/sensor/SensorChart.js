@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Legend, ReferenceArea, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
+import { Legend, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
 import moment from 'moment';
-import UTIL from '../../../lib/utils.js';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 

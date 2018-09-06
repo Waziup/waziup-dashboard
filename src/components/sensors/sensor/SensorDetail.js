@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
-import { List, ListItem } from 'material-ui/List';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import SensorChart from './SensorChart';
 import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
-import MeasurementForm from './MeasurementForm';
-import UTIL from '../../../lib/utils.js';
-import moment from 'moment-timezone';
+
 import { connect } from 'react-redux';
 import { getSensor, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import { browserHistory } from 'react-router'
 import config from '../../../config';
-
-var position;
 
 class SensorDetail extends Component {
   constructor(props) {
