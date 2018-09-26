@@ -411,6 +411,13 @@ ul {
   box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
 }
 
+/* Gateways */
+
+.boardIcon {
+  float: left;
+  position: relative;
+  z-index: 10;
+}
 
 /* Notifications */
 
