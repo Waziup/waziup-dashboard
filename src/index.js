@@ -20,7 +20,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import config from './config';
 import UTIL from './lib/utils.js';
-import { getSensors, getUsers } from "./actions/actions.js"
 import * as Waziup from 'waziup-js'
 
 injectTapEventPlugin();

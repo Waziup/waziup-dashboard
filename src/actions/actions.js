@@ -41,6 +41,7 @@ export function createSensor(sensor) {
       let data = await sensorsApi.createSensor(domain, sensor);
       dispatch({type: types.CREATE_SENSOR_SUCCESS, data: data})
       dispatch(getSensors({limit:1000}));
+      dispatch(getPermissions());
     } catch (error) {
       dispatch({type: types.CREATE_SENSOR_ERROR, data: error});
     }
