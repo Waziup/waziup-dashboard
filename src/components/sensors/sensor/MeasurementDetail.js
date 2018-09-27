@@ -115,13 +115,13 @@ class MeasurementDetail extends Component {
               <CardTitle>
                 <h2 className="cardTitle"> Historical chart </h2>
               </CardTitle>
-                From: 
+                {/*From: 
                 <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today'}}
                                 onDayChange={this.handleDayChangeFrom}/>
 
                 To:
                 <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true,  todayButton: 'Today'}}
-                                onDayChange={this.handleDayChangeTo}/>
+                                onDayChange={this.handleDayChangeTo}/>*/}
                 <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"/*&dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-01T00:00:00.000Z*/} target="_blank" > Download history values</a>
                 <SensorChart meas={this.props.meas} values={this.props.values}/>
             </Card>: null}
