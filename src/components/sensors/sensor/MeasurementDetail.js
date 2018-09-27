@@ -24,17 +24,17 @@ class MeasurementDetail extends Component {
       modalOpen: false,
       selectedDayFrom: undefined,
       selectedDayTo: undefined,
+      lastN: 100,
+      limit: undefined,
+      offset: undefined
     };
-  
-    this.handleDayChangeFrom = this.handleDayChangeFrom.bind(this);
-    this.handleDayChangeTo = this.handleDayChangeTo.bind(this);
   }
 
-  handleDayChangeFrom(day) {
+  handleDayChangeFrom = (day) => {
     this.setState({ selectedDayFrom: day });
   }
   
-  handleDayChangeTo(day) {
+  handleDayChangeTo = (day) => {
     this.setState({ selectedDayTo: day });
   }
 
@@ -51,7 +51,7 @@ class MeasurementDetail extends Component {
   fetchValues = () => {
     this.props.getSensor(this.props.params.sensorId);
     if(this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100})
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100 /*, dateFrom:2016-01-01T00:00:00.000Z, dateTo:2016-01-01T00:00:00.000Z*/})
     }
   }
 
@@ -71,13 +71,12 @@ class MeasurementDetail extends Component {
           const card =
             <Link to={"/notifications/" + notif.id} >
               <NotifCard className="sensorNode"
-                notif={notif}
-                isEditable={false} />
+                         notif={notif}
+                         isEditable={false} />
             </Link>
           notifications.push(card)
         }
       }
-
       return (
         <Container fluid={true}>
           <h1 className="page-title">
@@ -109,34 +108,22 @@ class MeasurementDetail extends Component {
               <CardTitle>
                 <h2 className="cardTitle"> Notifications </h2>
               </CardTitle>
-            {notifications}
-          </Card>: null}
+              {notifications}
+            </Card>: null}
           {this.props.permission.scopes.includes("sensors-data:view")?
             <Card className="graphCard">
               <CardTitle>
                 <h2 className="cardTitle"> Historical chart </h2>
               </CardTitle>
-              <CardMedia>
-              From: <DayPickerInput
-                dayPickerProps={{
-                  month: new Date(2018, 10),
-                  showWeekNumbers: true,
-                  todayButton: 'Today',
-                }}
-                onDayChange={this.handleDayChangeFrom}
-                />
+                From: 
+                <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today'}}
+                                onDayChange={this.handleDayChangeFrom}/>
 
-              To: <DayPickerInput
-                dayPickerProps={{
-                  month: new Date(2018, 10),
-                  showWeekNumbers: true,
-                  todayButton: 'Today',
-                }}
-                onDayChange={this.handleDayChangeTo}
-              />
-                <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"} target="_blank" > Download history values</a>
+                To:
+                <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true,  todayButton: 'Today'}}
+                                onDayChange={this.handleDayChangeTo}/>
+                <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"/*&dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-01T00:00:00.000Z*/} target="_blank" > Download history values</a>
                 <SensorChart meas={this.props.meas} values={this.props.values}/>
-              </CardMedia>
             </Card>: null}
         </Container>
       );

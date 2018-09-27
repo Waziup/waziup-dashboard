@@ -10,7 +10,7 @@ class SensorChart extends Component {
   }
 
   render() {
-    const xFormatter = (tick) => new moment(tick).tz(moment.tz.guess()).format('MMMM Do YYYY H:mm a z');
+    const xFormatter = (tick) => moment(tick).format('MMMM Do YYYY H:mm a z');
     const yFormatter = (tick) => tick
 
     if(this.props.values && this.props.meas) {
