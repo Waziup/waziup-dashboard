@@ -50,13 +50,12 @@ class Layout extends Component {
 
   render() {
     var Logo;
-    Logo = require("../images/logo-waziup-white.png");
+    var Logo = require("../images/logo-waziup-white.png");
     const profileButton = 
       <IconButton className="profile-menu" style={styles.medium}>
         <span className="user-name">{this.props.user.firstName + " " + this.props.user.lastName}</span>
         <AccountCircle />
       </IconButton>
-
     const headerMenu =
       <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
         <MenuItem primaryText="Help" href='http://www.waziup.io/documentation' />
