@@ -56,10 +56,6 @@ let server;
  * synchronizing URLs, interactions and code changes across multiple devices.
  */
 async function start() {
-  console.info("API_SERVER_URL: " + process.env.API_SERVER_URL)
-  console.info("KEYCLOAK_URL: " + process.env.KEYCLOAK_URL)
-  console.info("NODE_ENV: " + process.env.NODE_ENV)
-  
   if (server) return server;
   server = express();
   server.use(createLaunchEditorMiddleware());

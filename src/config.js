@@ -1,5 +1,6 @@
 
 module.exports = {
+  //In a production environment, those environment variables will be overitten at startup by webpack (see webpack.config.js). 
   serverUrl: process.env.SERVER_URL || `http://localhost:${process.env.SERVER_PORT || 3000}`,
   serverPort: process.env.SERVER_PORT || 3000,
   keycloakUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080/auth',

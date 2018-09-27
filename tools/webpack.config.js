@@ -288,6 +288,7 @@ const clientConfig = {
       'process.env.BROWSER': true,
       'process.env.API_SERVER_URL': JSON.stringify(process.env.API_SERVER_URL),
       'process.env.KEYCLOAK_URL': JSON.stringify(process.env.KEYCLOAK_URL),
+      'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL),
       __DEV__: isDebug
     }),
 
