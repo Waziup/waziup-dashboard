@@ -192,6 +192,7 @@ export function getValues(sensorId, measId, domain, options) {
     defaultClient.authentications['Bearer'].apiKey = "Bearer " + store.getState().keycloak.token
     try {
       let data = await sensorsApi.getMeasurementValues(domain, sensorId, measId, options)
+      console.log(data);
       dispatch({type: types.GET_VALUES_SUCCESS, data: data})
     } catch (error) {
       dispatch({type: types.GET_VALUES_ERROR, data: error});

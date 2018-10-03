@@ -1,10 +1,13 @@
-FROM node:7.9.0-alpine
+FROM node:alpine
 
 WORKDIR /usr/src/app
 
 # Installing all dependencies
 COPY ./package.json .
 COPY ./yarn.lock .
+
+ENV NODE_ENV production
+
 RUN yarn install 
 
 COPY . /usr/src/app

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardMedia, CardTitle } from 'material-ui/Card';
 import { Container } from 'react-grid-system'
 import SensorChart from './SensorChart';
-import LocationForm from './LocationForm';
-import MeasurementForm from './MeasurementForm';
 import MeasurementCard from './MeasurementCard';
 import { connect } from 'react-redux';
 import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
@@ -14,8 +12,10 @@ import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
 import chartImage from '../../../images/chart-icon.png';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 import config from '../../../config';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem'
 
 class MeasurementDetail extends Component {
   constructor(props) {
@@ -26,37 +26,56 @@ class MeasurementDetail extends Component {
       selectedDayTo: undefined,
       lastN: 100,
       limit: undefined,
-      offset: undefined
+      offset: undefined,
+      timeAxis: 'device'
     };
   }
 
   handleDayChangeFrom = (day) => {
-    this.setState({ selectedDayFrom: day });
+    this.setState({ selectedDayFrom: moment(day).utc().format() });
   }
-  
+
   handleDayChangeTo = (day) => {
-    this.setState({ selectedDayTo: day });
+    this.setState({ selectedDayTo: moment(day).utc().format() });
+  }
+
+  handleApply = () => {
+    console.log('Submit clicked A', this.state.selectedDayFrom, this.state.selectedDayTo);
+    this.fetchValues();
   }
 
   componentWillMount() {
-    this.fetchValues()
-    this.interval = setInterval(() => { this.fetchValues() }, 10000);
+    this.fetchValues100()
+    //this.interval = setInterval(() => { this.fetchValues() }, 10000);
   }
 
-  
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  handleTimeAxis = (event, index, value) => {
+    console.log('timeAxis', value);
+    this.setState({ timeAxis: value });
+  }
+
+
+  fetchValues100 = () => {
+    this.props.getSensor(this.props.params.sensorId);
+    if (this.props.sensor) {
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, { lastN: 100 });
+    }
   }
 
   fetchValues = () => {
     this.props.getSensor(this.props.params.sensorId);
-    if(this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100 /*, dateFrom:2016-01-01T00:00:00.000Z, dateTo:2016-01-01T00:00:00.000Z*/})
+    console.log(this.state.selectedDayFrom, this.state.selectedDayTo, this.props.sensor.domain);
+
+    if (this.props.sensor) {
+      if (this.state.selectedDayFrom && this.state.selectedDayTo)
+        this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, { dateFrom: this.state.selectedDayFrom, dateTo: this.state.selectedDayTo });
+      else
+        this.fetchValues100();
     }
   }
 
   render() {
-    console.log("modal:" + JSON.stringify(this.state.modalOpen))
+    //console.log("modal:" + JSON.stringify(this.state.modalOpen))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
         subject: { entityNames: [this.props.sensor.id], condition: { attrs: [this.props.meas.id], expression: "TC>30" } },
@@ -64,19 +83,27 @@ class MeasurementDetail extends Component {
         description: "Send message",
         throttling: 1
       })
-      console.log("defaultModal:" + JSON.stringify(defaultNotif))
+      //console.log("defaultModal:" + JSON.stringify(defaultNotif))
       var notifications = []
       if (this.props.notifs) {
         for (var notif of this.props.notifs) {
           const card =
             <Link to={"/notifications/" + notif.id} >
               <NotifCard className="sensorNode"
-                         notif={notif}
-                         isEditable={false} />
+                notif={notif}
+                isEditable={false} />
             </Link>
           notifications.push(card)
         }
       }
+
+      //AAA href link construction
+      let aOptions;
+      if (this.state.selectedDayFrom && this.state.selectedDayTo)
+        aOptions = `dateFrom=${this.state.selectedDayFrom}&dateTo=${this.state.selectedDayTo}`;
+      else
+        aOptions = 'lastN=20';
+
       return (
         <Container fluid={true}>
           <h1 className="page-title">
@@ -86,8 +113,8 @@ class MeasurementDetail extends Component {
           <Card className="sensorNode">
             <CardTitle>
               <h2 className="cardTitle"> Last value </h2>
-              {this.props.permission.scopes.includes("sensors:update")?
-                <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" />: null}
+              {this.props.permission.scopes.includes("sensors:update") ?
+                <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" /> : null}
               <NotifForm modalOpen={this.state.modalOpen}
                 notif={defaultNotif}
                 sensors={this.props.sensors}
@@ -97,34 +124,42 @@ class MeasurementDetail extends Component {
                 isEditable={true} />
             </CardTitle>
             <MeasurementCard measurement={this.props.meas}
-                             isDetails={true}
-                             updateMeasurement={this.props.updateMeasurement} 
-                             deleteMeasurement={this.props.deleteMeasurement}
-                             sensorId={this.props.sensor.id}
-                             permission={this.props.permission}/>
-          </Card> 
-          {notifications.length>0? 
+              isDetails={true}
+              updateMeasurement={this.props.updateMeasurement}
+              deleteMeasurement={this.props.deleteMeasurement}
+              sensorId={this.props.sensor.id}
+              permission={this.props.permission} />
+          </Card>
+          {notifications.length > 0 ?
             <Card className="sensorNode">
               <CardTitle>
                 <h2 className="cardTitle"> Notifications </h2>
               </CardTitle>
               {notifications}
-            </Card>: null}
-          {this.props.permission.scopes.includes("sensors-data:view")?
+            </Card> : null}
+          {this.props.permission.scopes.includes("sensors-data:view") ?
             <Card className="graphCard">
               <CardTitle>
                 <h2 className="cardTitle"> Historical chart </h2>
               </CardTitle>
-                {/*From: 
-                <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today'}}
-                                onDayChange={this.handleDayChangeFrom}/>
-
+              <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                  <MenuItem value="cloud" primaryText="Cloud timestamp" />
+                  <MenuItem value="device" primaryText="Device timestamp" />
+                </SelectField>
+              <div>
+                From:
+                  <DayPickerInput
+                  onDayChange={this.handleDayChangeFrom} />
                 To:
-                <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true,  todayButton: 'Today'}}
-                                onDayChange={this.handleDayChangeTo}/>*/}
-                <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"/*&dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-01T00:00:00.000Z*/} target="_blank" > Download history values</a>
-                <SensorChart meas={this.props.meas} values={this.props.values}/>
-            </Card>: null}
+                  <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }}
+                  onDayChange={this.handleDayChangeTo} />
+              </div>
+              <div>
+                <input type='submit' label='Apply' onClick={this.handleApply} />
+              </div>
+              <a href={config.APIServerUrl + "/v1/domains/" + this.props.sensor.domain + "/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank"> Download history values </a>;
+              <SensorChart meas={this.props.meas} values={this.props.values} time={this.state.timeAxis} />
+            </Card> : null}
         </Container>
       );
     } else {
@@ -135,8 +170,8 @@ class MeasurementDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   const sensor = state.sensor.sensor
-  const meas = sensor? sensor.measurements.find(m => m.id == ownProps.params.measId): null
-  const notifs = meas && sensor? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)): null
+  const meas = sensor ? sensor.measurements.find(m => m.id == ownProps.params.measId) : null
+  const notifs = meas && sensor ? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)) : null
   return {
     sensor: sensor,
     meas: meas,
@@ -151,11 +186,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid, d, opts) => {dispatch(getValues(sid, mid, d, opts)) },
-    getSensor: (id) => {dispatch(getSensor(id)) },
-    updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
-    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
-    createNotif: (notif) => {dispatch(createNotif(notif)) }
+    getValues: (sid, mid, d, opts) => { dispatch(getValues(sid, mid, d, opts)) },
+    getSensor: (id) => { dispatch(getSensor(id)) },
+    updateMeasurement: (id, m) => { dispatch(addMeasurement(id, m)) },
+    deleteMeasurement: (sid, mid) => { dispatch(deleteMeasurement(sid, mid)) },
+    createNotif: (notif) => { dispatch(createNotif(notif)) }
   };
 }
 
