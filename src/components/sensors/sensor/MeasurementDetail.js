@@ -51,7 +51,7 @@ class MeasurementDetail extends Component {
   fetchValues = () => {
     this.props.getSensor(this.props.params.sensorId);
     if(this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, {lastN:100 /*, dateFrom:2016-01-01T00:00:00.000Z, dateTo:2016-01-01T00:00:00.000Z*/})
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, {lastN:100 /*, dateFrom:2016-01-01T00:00:00.000Z, dateTo:2016-01-01T00:00:00.000Z*/})
     }
   }
 
@@ -122,7 +122,7 @@ class MeasurementDetail extends Component {
                 To:
                 <DayPickerInput dayPickerProps={{month: new Date(2018, 10), showWeekNumbers: true,  todayButton: 'Today'}}
                                 onDayChange={this.handleDayChangeTo}/>*/}
-                <a href={config.APIServerUrl + "/v1/domains/waziup/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"/*&dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-01T00:00:00.000Z*/} target="_blank" > Download history values</a>
+                <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&lastN=20"/*&dateFrom=2016-01-01T00:00:00.000Z&dateTo=2016-01-01T00:00:00.000Z*/} target="_blank" > Download history values</a>
                 <SensorChart meas={this.props.meas} values={this.props.values}/>
             </Card>: null}
         </Container>
@@ -151,7 +151,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid, d, opts) => {dispatch(getValues(sid, mid, d, opts)) },
+    getValues: (sid, mid, opts) => {dispatch(getValues(sid, mid, opts)) },
     getSensor: (id) => {dispatch(getSensor(id)) },
     updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
     deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
