@@ -73,7 +73,7 @@
     "source-map-support": "^0.5.0",
     "svgo": "^1.0.4",
     "uglifyjs-webpack-plugin": "1.1.8",
-    "waziup-js": "1.1.2",
+    "waziup-js": "1.1.4",
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
