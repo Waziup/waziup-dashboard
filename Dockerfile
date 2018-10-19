@@ -13,4 +13,5 @@ EXPOSE 3000
 
 # We build before running. 
 # The build will substitute the environement variables in the client code.
-CMD yarn run build -- --release; node build/server.js
+RUN yarn run build -- --release;
+CMD node build/server.js
