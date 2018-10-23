@@ -58,7 +58,7 @@ class MeasurementDetail extends Component {
   fetchValues100 = () => {
     this.props.getSensor(this.props.params.sensorId);
     if (this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, { lastN: 100 });
+      this.props.getValues(this.props.params.sensorId, this.props.params.measId, { lastN: 100 });
     }
   }
 
@@ -67,7 +67,7 @@ class MeasurementDetail extends Component {
 
     if (this.props.sensor) {
       if (this.state.selectedDayFrom && this.state.selectedDayTo)
-        this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.props.sensor.domain, { dateFrom: this.state.selectedDayFrom, dateTo: this.state.selectedDayTo });
+        this.props.getValues(this.props.params.sensorId, this.props.params.measId, { dateFrom: this.state.selectedDayFrom, dateTo: this.state.selectedDayTo });
       else
         this.fetchValues100();
     }
@@ -77,7 +77,7 @@ class MeasurementDetail extends Component {
     //console.log("modal:" + JSON.stringify(this.state.modalOpen))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
-        subject: { entityNames: [this.props.sensor.id], condition: { attrs: [this.props.meas.id], expression: "TC>30" } },
+        condition: { sensors: [this.props.sensor.id], measurements: [this.props.meas.id], expression: "TC>30" },
         notification: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.username] },
         description: "Send message",
         throttling: 1
@@ -141,23 +141,26 @@ class MeasurementDetail extends Component {
               <CardTitle>
                 <h2 className="cardTitle"> Historical chart </h2>
               </CardTitle>
-              <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+              <SensorChart meas={this.props.meas} values={this.props.values} time={this.state.timeAxis} />
+              <Card className="graphForm">
+                <div>
+                  <h4>Range from: </h4>
+                    <DayPickerInput onDayChange={this.handleDayChangeFrom} />
+                  <h4> To:</h4>
+                    <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDayChangeTo} />
+                </div>
+                <h4>Time axis values:</h4>
+                <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
                   <MenuItem value="cloud" primaryText="Cloud timestamp" />
                   <MenuItem value="device" primaryText="Device timestamp" />
                 </SelectField>
-              <div>
-                From:
-                  <DayPickerInput
-                  onDayChange={this.handleDayChangeFrom} />
-                To:
-                  <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }}
-                  onDayChange={this.handleDayChangeTo} />
-              </div>
-              <div>
-                <input type='submit' label='Apply' onClick={this.handleApply} />
-              </div>
-              <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank"> Download history values </a>;
-              <SensorChart meas={this.props.meas} values={this.props.values} time={this.state.timeAxis} />
+                <div>
+                  <RaisedButton type='submit' label='Update graph' onClick={this.handleApply} />
+                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank">
+                    <RaisedButton label="download data"/>
+                  </a>
+                </div>
+              </Card>
             </Card> : null}
         </Container>
       );
@@ -170,7 +173,7 @@ class MeasurementDetail extends Component {
 function mapStateToProps(state, ownProps) {
   const sensor = state.sensor.sensor
   const meas = sensor ? sensor.measurements.find(m => m.id == ownProps.params.measId) : null
-  const notifs = meas && sensor ? state.notifications.notifications.filter(n => n.subject.entityNames.includes(sensor.id) && n.subject.condition.attrs.includes(meas.id)) : null
+  const notifs = meas && sensor ? state.notifications.notifications.filter(n => n.condition.sensors.includes(sensor.id) && n.condition.measurements.includes(meas.id)) : null
   return {
     sensor: sensor,
     meas: meas,

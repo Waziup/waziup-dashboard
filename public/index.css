@@ -545,11 +545,17 @@ ul {
 /* Chart */
 
 .sensorChart {
-  margin: 10px
+  margin: 10px;
 }
 
 .graphCard {
-  clear: both
+  clear: both;
+  padding: 10px;
+}
+
+.graphForm {
+  padding: 10px;
+  margin: 10px;
 }
 
 .gatewaySensorNodes {
