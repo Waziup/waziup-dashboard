@@ -64,7 +64,6 @@ class MeasurementDetail extends Component {
 
   fetchValues = () => {
     this.props.getSensor(this.props.params.sensorId);
-    console.log(this.state.selectedDayFrom, this.state.selectedDayTo, this.props.sensor.domain);
 
     if (this.props.sensor) {
       if (this.state.selectedDayFrom && this.state.selectedDayTo)
@@ -157,7 +156,7 @@ class MeasurementDetail extends Component {
               <div>
                 <input type='submit' label='Apply' onClick={this.handleApply} />
               </div>
-              <a href={config.APIServerUrl + "/v1/domains/" + this.props.sensor.domain + "/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank"> Download history values </a>;
+              <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank"> Download history values </a>;
               <SensorChart meas={this.props.meas} values={this.props.values} time={this.state.timeAxis} />
             </Card> : null}
         </Container>
@@ -186,11 +185,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getValues: (sid, mid, d, opts) => { dispatch(getValues(sid, mid, d, opts)) },
-    getSensor: (id) => { dispatch(getSensor(id)) },
-    updateMeasurement: (id, m) => { dispatch(addMeasurement(id, m)) },
-    deleteMeasurement: (sid, mid) => { dispatch(deleteMeasurement(sid, mid)) },
-    createNotif: (notif) => { dispatch(createNotif(notif)) }
+    getValues: (sid, mid, opts) => {dispatch(getValues(sid, mid, opts)) },
+    getSensor: (id) => {dispatch(getSensor(id)) },
+    updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
+    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
+    createNotif: (notif) => {dispatch(createNotif(notif)) }
   };
 }
 

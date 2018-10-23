@@ -14,6 +14,14 @@ COPY . /usr/src/app
 
 EXPOSE 3000
 
+ARG SERVER_PORT
+ARG KEYCLOAK_URL 
+ARG API_SERVER_URL
+ENV SERVER_PORT=$SERVER_PORT
+ENV KEYCLOAK_URL=$KEYCLOAK_URL
+ENV API_SERVER_URL=$API_SERVER_URL
+
 # We build before running. 
 # The build will substitute the environement variables in the client code.
-CMD yarn run build -- --release; node build/server.js
+RUN yarn run build -- --release;
+CMD node build/server.js

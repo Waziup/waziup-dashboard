@@ -25,7 +25,7 @@ export default class NotifCard extends Component {
     return (
       <Card className="card">
         <div className="cardTitleDiv">
-          <pre className="cardTitle"> {notif.subject.entityNames} -> {notif.subject.condition.attrs} </pre>
+          <pre className="cardTitle"> {notif.condition.sensors} -> {notif.condition.measurements} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
             {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>: null }
@@ -39,7 +39,7 @@ export default class NotifCard extends Component {
                 <img src={sensorImage} height="32"/>
               </div>
               <div className="notifExpr"> 
-                <h3> {(notif.subject.condition.expression? notif.subject.condition.expression: "")} </h3>
+                <h3> {(notif.condition.expression? notif.condition.expression: "")} </h3>
               </div>
             </div>  
             <div className="notifMsg">

@@ -27,7 +27,7 @@ class NotifForm extends Component {
     super(props);
     console.log("notif before:" + JSON.stringify(props.notif))
     const defaultNotif = Waziup.Notification.constructFromObject({
-      subject: { entityNames: [], condition: {attrs: [], expression: "SM1>40"}},
+      condition: { sensors: [], measurements: [], expression: "SM1>40"},
       notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
       description: "Waziup notification",
       throttling: 1,
@@ -41,15 +41,15 @@ class NotifForm extends Component {
   handleChange = (field, value) => {
     var notif = this.state.notif
     switch (field) {
-      case "entityNames" : notif.subject.entityNames = value; break;
-      case "attrs"       : notif.subject.condition.attrs = value; break;
-      case "expr"        : notif.subject.condition.expression = value; break;
-      case "channels"    : notif.notification.channels = value; break;
-      case "message"     : notif.notification.message = value; break;
-      case "usernames"   : notif.notification.usernames = value; break;
-      case "description" : notif.description = value; break;
-      case "throttling"  : notif.throttling = value; break;
-      case "expires"     : notif.expires = value; break;
+      case "sensors"      : notif.condition.sensors = value; break;
+      case "measurements" : notif.condition.measurements = value; break;
+      case "expr"         : notif.condition.expression = value; break;
+      case "channels"     : notif.notification.channels = value; break;
+      case "message"      : notif.notification.message = value; break;
+      case "usernames"    : notif.notification.usernames = value; break;
+      case "description"  : notif.description = value; break;
+      case "throttling"   : notif.throttling = value; break;
+      case "expires"      : notif.expires = value; break;
     }
     this.setState({notif: notif})
   }
@@ -72,16 +72,16 @@ class NotifForm extends Component {
           <div className="notif">
             <div className="notifSensorAttrs">
               <div className="notifSensors">
-                <SelectField name="sensors" multiple={true} value={this.state.notif.subject.entityNames} onChange={(_1, _2, s) => this.handleChange("entityNames", s)} hintText='My Sensor'>
-                  {this.props.sensors.map(s => <MenuItem key={s.id} insetChildren={true} checked={this.state.notif.subject.entityNames.includes(s.id)} value={s.id} primaryText={s.id} />)}
+                <SelectField name="sensors" multiple={true} value={this.state.notif.condition.sensors} onChange={(_1, _2, s) => this.handleChange("sensors", s)} hintText='My Sensor'>
+                  {this.props.sensors.map(s => <MenuItem key={s.id} insetChildren={true} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id} primaryText={s.id} />)}
                 </SelectField>
               </div>
               <div className="notifArrow">
                 <img src={sensorArrow} width="30" height="30"/>
               </div>
               <div className="notifAttrs">
-                <SelectField name="attrs" multiple={true} hintText="My sensor value" value={this.state.notif.subject.condition.attrs} onChange={(_1, _2, a) => this.handleChange("attrs", a)}>
-                  {this.props.sensors.filter(s => this.state.notif.subject.entityNames.includes(s.id)).map(s => s.measurements.map(m => <MenuItem key={m.id} insetChildren={true} checked={this.state.notif.subject.condition.attrs.includes(m.id)} value={m.id} primaryText={m.id} />))}
+                <SelectField name="measurements" multiple={true} hintText="My sensor value" value={this.state.notif.condition.measurements} onChange={(_1, _2, a) => this.handleChange("measurements", a)}>
+                  {this.props.sensors.filter(s => this.state.notif.condition.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem key={m.id} insetChildren={true} checked={this.state.notif.condition.measurements.includes(m.id)} value={m.id} primaryText={m.id} />))}
                 </SelectField>
               </div>
             </div>
@@ -91,7 +91,7 @@ class NotifForm extends Component {
                 <img src={bellImage} height="24"/>
               </div>
               <div className="notifExpr">
-                <TextField name="expr" value={this.state.notif.subject.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
+                <TextField name="expr" value={this.state.notif.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
               </div>
             </div>
             <div className="notifMsgRow">

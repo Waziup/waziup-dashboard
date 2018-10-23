@@ -7,7 +7,6 @@ import config from '../../config';
 import * as Waziup from 'waziup-js'
 import sensorNodeImage from '../../images/sensorNode.png';
 import GatewaySensor from './GatewaySensor.js'
-import LineTo from 'react-lineto';
 
 export default class GatewayNetwork extends Component {
   constructor(props) {
@@ -39,9 +38,6 @@ export default class GatewayNetwork extends Component {
                              updateSensorGatewayId={this.props.updateSensorGatewayId}
                              permission={this.props.permissions.find(p => p.resource == s.id)}/>) }
           </div>
-          {this.props.gateway.sensors.map(s => 
-            <LineTo from={"gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName} to={"sensor" + s.id} className='gatewayLine'/>)
-          }
         </div>
       </Card>
     );
