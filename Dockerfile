@@ -1,27 +1,23 @@
 FROM node:alpine
 
-WORKDIR /usr/src/app
+#ENV NODE_ENV production
 
 # Installing all dependencies
+WORKDIR /usr/src/app
 COPY ./package.json .
 COPY ./yarn.lock .
-
-ENV NODE_ENV production
-
 RUN yarn install 
 
+# Compile sources
 COPY . /usr/src/app
-
-EXPOSE 3000
-
 ARG SERVER_PORT
 ARG KEYCLOAK_URL 
 ARG API_SERVER_URL
 ENV SERVER_PORT=$SERVER_PORT
 ENV KEYCLOAK_URL=$KEYCLOAK_URL
 ENV API_SERVER_URL=$API_SERVER_URL
+RUN yarn run build --release;
 
-# We build before running. 
-# The build will substitute the environement variables in the client code.
-RUN yarn run build -- --release;
+# Run
+EXPOSE 3000
 CMD node build/server.js
