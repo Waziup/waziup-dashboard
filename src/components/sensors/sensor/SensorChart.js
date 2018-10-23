@@ -9,13 +9,26 @@ class SensorChart extends Component {
     super(props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('cwrp', nextProps.time);
+  }
+
   render() {
     const xFormatter = (tick) => moment(tick).format('MMMM Do YYYY H:mm a z');
     const yFormatter = (tick) => tick
 
+    let timeKey = 'date_received';
+    if(this.props.time) {
+      console.log('this.props.time: ', this.props.time);
+      if(this.props.time === 'timestamp')
+        timeKey = 'timestamp';
+      else
+        timeKey = 'date_received';
+    }
+    
     if(this.props.values && this.props.meas) {
       const meas = this.props.meas
-      const data = this.props.values.map(datapoint => {return {time: moment(datapoint.date_received).valueOf(), value: datapoint.value }});
+      const data = this.props.values.map(datapoint => {return {time: moment(datapoint[timeKey]).valueOf(), value: datapoint.value }});
       const QK = Waziup.QuantityKinds.getLabel(meas.quantity_kind)
       const unit = Waziup.Units.getLabel(meas.unit)
       return (
