@@ -15,7 +15,7 @@ import UTIL from '../lib/utils.js';
 import ErrorBanner from './ErrorBanner';
 import sensorNodesImage from '../images/sensorNodes.png';
 import { browserHistory } from 'react-router'
-import { getPermissions } from "../actions/actions.js"
+import { getPermissions, logout } from "../actions/actions.js"
 import config from '../config';
 
 const styles = {
@@ -60,7 +60,7 @@ class Layout extends Component {
       <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
         <MenuItem primaryText="Help" href='http://www.waziup.io/documentation' />
         <MenuItem primaryText="Profile" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl} />
-        <MenuItem primaryText="Sign Out" onClick={() => { this.props.keycloak.logout() }} />
+        <MenuItem primaryText="Sign Out" onClick={() => { this.props.logout(); this.props.keycloak.logout() }} />
       </IconMenu>
 
     return (
@@ -123,7 +123,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getPermissions: () => {dispatch(getPermissions()) } 
+    getPermissions: () => {dispatch(getPermissions()) }, 
+    logout: () => {dispatch(logout()) } 
   };
 }
 

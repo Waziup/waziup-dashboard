@@ -59,3 +59,5 @@ export const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
 export const GET_PERMS_START     = 'GET_PERMS_START';
 export const GET_PERMS_SUCCESS   = 'GET_PERMS_SUCCESS';
 export const GET_PERMS_ERROR     = 'GET_PERMS_ERROR';
+
+export const USER_LOGOUT = 'USER_LOGOUT';

@@ -148,6 +148,9 @@ function permissionsReducer(state = { isLoading: false, permissions: [], error: 
 };
 
 export default function rootReducer(state = {}, action) {
+  if(action.type === types.USER_LOGOUT) {
+    state = undefined;
+  } 
   return {
     routing: routerReducer(state.routing, action),
     keycloak: state.keycloak,

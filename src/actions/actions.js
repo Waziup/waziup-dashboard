@@ -12,6 +12,11 @@ var usersApi   = new WaziupApi.UsersApi();
 var notifsApi  = new WaziupApi.NotificationsApi();
 var authApi    = new WaziupApi.AuthApi();
 
+export function logout() {
+  return async function (dispatch) {
+    dispatch({type: types.USER_LOGOUT});
+  }
+};
 
 /* Sensor Actions */
 
