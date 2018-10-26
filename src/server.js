@@ -26,13 +26,7 @@ app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('*', async (req, res, next) => {
   try {
-    const css = new Set();
-
-    const data = { };
-    data.title = 'WAZIUP';
-    data.styles = [{ id: 'css', cssText: [...css].join('') }];
-    data.scripts = [assets.vendor.js, assets.client.js];
-
+    const data = {vendor: assets.vendor.js, client: assets.client.js};
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
     res.status(200);
     res.send(`<!doctype html>${html}`);
@@ -50,11 +44,9 @@ pe.skipPackage('express');
 app.use((err, req, res, next) => {
   console.error(pe.render(err));
   const html = ReactDOM.renderToStaticMarkup(
-    <Html
+    <Html 
       title="Internal Server Error"
-      description={err.message}
-      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]} // eslint-disable-line no-underscore-dangle
-    >
+      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]}>
       {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
     </Html>,
   );

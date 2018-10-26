@@ -6,48 +6,20 @@ import config from '../config';
 /* eslint-disable react/no-danger */
 
 class Html extends React.Component {
-  static propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    styles: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        cssText: PropTypes.string.isRequired,
-      }).isRequired,
-    ),
-    scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
-    app: PropTypes.object, // eslint-disable-line
-    children: PropTypes.string.isRequired,
-  };
-
-  static defaultProps = {
-    styles: [],
-    scripts: [],
-  };
 
   render() {
-    const { title, description, styles, scripts, app, children } = this.props;
+    const { vendor, client, app, children } = this.props;
     return (
       <html className="no-js" lang="en">
         <head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
-          <title>
-            {title}
-          </title>
-          <meta name="description" content={description} />
+          <title> WAZIUP </title>
+          <meta name="description" content="IoT dashboard for Arduino, Raspberry PI and LoRa"/>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          {scripts.map(script =>
-            <link key={script} rel="preload" href={script} as="script" />,
-          )}
+          <link key={vendor} rel="preload" href={vendor} as="script" />
+          <link key={client} rel="preload" href={client} as="script" />
           <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-          {styles.map(style =>
-            <style
-              key={style.id}
-              id={style.id}
-              dangerouslySetInnerHTML={{ __html: style.cssText }}
-            />,
-          )}
           <link rel="stylesheet" href="/index.css" />
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css"/>
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
@@ -57,29 +29,32 @@ class Html extends React.Component {
         </head>
         <body>
           <div id="app" className="content-wrap" dangerouslySetInnerHTML={{ __html: children }} />
-          <script
-            dangerouslySetInnerHTML={{ __html: `window.App=${serialize(app)}` }}
-          />
-          {scripts.map(script => <script key={script} src={script} />)}
+          <script dangerouslySetInnerHTML={{ __html: `window.App=${serialize(app)}` }} />
+          <script key={vendor} src={vendor} />
+          <script key={client} src={client} />
           {config.analytics.googleTrackingId &&
-            <script
-              dangerouslySetInnerHTML={{
-                __html:
-                  'window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;' +
-                  `ga('create','${config.analytics
-                    .googleTrackingId}','auto');ga('send','pageview')`,
-              }}
-            />}
+            <script dangerouslySetInnerHTML={{__html: 'window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;' + `ga('create','${config.analytics.googleTrackingId}','auto');ga('send','pageview')` }} />}
           {config.analytics.googleTrackingId &&
-            <script
-              src="https://www.google-analytics.com/analytics.js"
-              async
-              defer
-            />}
+            <script src="https://www.google-analytics.com/analytics.js" async defer/>}
         </body>
       </html>
     );
   }
+  
+
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    styles: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.string.isRequired, cssText: PropTypes.string.isRequired}).isRequired),
+    scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
+    app: PropTypes.object, // eslint-disable-line
+    children: PropTypes.string.isRequired,
+  };
+
+  static defaultProps = {
+    styles: [],
+    scripts: [],
+  };
 }
 
 export default Html;
