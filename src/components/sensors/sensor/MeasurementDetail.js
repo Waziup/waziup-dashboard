@@ -22,55 +22,45 @@ class MeasurementDetail extends Component {
     super(props);
     this.state = {
       modalOpen: false,
-      selectedDayFrom: undefined,
-      selectedDayTo: undefined,
-      lastN: 100,
-      limit: undefined,
-      offset: undefined,
+      query: {
+        dateFrom: undefined,
+        dateTo: undefined,
+        lastN: 100,
+        limit: undefined,
+        offset: undefined
+      },
       timeAxis: 'device'
     };
   }
 
-  handleDayChangeFrom = (day) => {
-    this.setState({ selectedDayFrom: moment(day).utc().format() });
+  handleDateFrom = (day) => {
+    var myQuery = this.state.query
+    myQuery.dateFrom = moment(day).utc().format();
+    this.setState({ query: myQuery});
   }
 
-  handleDayChangeTo = (day) => {
-    this.setState({ selectedDayTo: moment(day).utc().format() });
+  handleDateTo = (day) => {
+    var myQuery = this.state.query
+    myQuery.dateTo = moment(day).utc().format();
+    this.setState({ query: myQuery});
   }
 
+  handleTimeAxis = (event, index, value) => {
+    this.setState({ timeAxis: value });
+  }
   handleApply = () => {
-    console.log('Submit clicked A', this.state.selectedDayFrom, this.state.selectedDayTo);
+    console.log('Query submit clicked: ' + JSON.stringify(this.state));
     this.fetchValues();
   }
 
   componentWillMount() {
-    this.fetchValues100()
-    //this.interval = setInterval(() => { this.fetchValues() }, 10000);
-  }
-
-  handleTimeAxis = (event, index, value) => {
-    console.log('timeAxis', value);
-    this.setState({ timeAxis: value });
-  }
-
-
-  fetchValues100 = () => {
-    this.props.getSensor(this.props.params.sensorId);
-    if (this.props.sensor) {
-      this.props.getValues(this.props.params.sensorId, this.props.params.measId, { lastN: 100 });
-    }
+    this.fetchValues()
+    this.interval = setInterval(() => { this.fetchValues() }, 10000);
   }
 
   fetchValues = () => {
     this.props.getSensor(this.props.params.sensorId);
-
-    if (this.props.sensor) {
-      if (this.state.selectedDayFrom && this.state.selectedDayTo)
-        this.props.getValues(this.props.params.sensorId, this.props.params.measId, { dateFrom: this.state.selectedDayFrom, dateTo: this.state.selectedDayTo });
-      else
-        this.fetchValues100();
-    }
+    this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.state.query);
   }
 
   render() {
@@ -98,10 +88,7 @@ class MeasurementDetail extends Component {
 
       //AAA href link construction
       let aOptions;
-      if (this.state.selectedDayFrom && this.state.selectedDayTo)
-        aOptions = `dateFrom=${this.state.selectedDayFrom}&dateTo=${this.state.selectedDayTo}`;
-      else
-        aOptions = 'lastN=20';
+      aOptions = `dateFrom=${this.state.query.dateFrom}&dateTo=${this.state.query.DateTo}`;
 
       return (
         <Container fluid={true}>
@@ -141,13 +128,13 @@ class MeasurementDetail extends Component {
               <CardTitle>
                 <h2 className="cardTitle"> Historical chart </h2>
               </CardTitle>
-              <SensorChart meas={this.props.meas} values={this.props.values} time={this.state.timeAxis} />
+              <SensorChart meas={this.props.meas} values={this.props.values} timeAxis={this.state.timeAxis} />
               <Card className="graphForm">
                 <div>
                   <h4>Range from: </h4>
-                    <DayPickerInput onDayChange={this.handleDayChangeFrom} />
+                    <DayPickerInput onDayChange={this.handleDateFrom} />
                   <h4> To:</h4>
-                    <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDayChangeTo} />
+                    <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
                 </div>
                 <h4>Time axis values:</h4>
                 <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">

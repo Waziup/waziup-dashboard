@@ -17,13 +17,14 @@ class SensorChart extends Component {
     const xFormatter = (tick) => moment(tick).format('MMMM Do YYYY H:mm a z');
     const yFormatter = (tick) => tick
 
-    let timeKey = 'date_received';
-    if(this.props.time) {
+    let timeKey;
+    if(this.props.timeAxis) {
       console.log('this.props.time: ', this.props.time);
-      if(this.props.time === 'timestamp')
-        timeKey = 'timestamp';
-      else
-        timeKey = 'date_received';
+      switch(this.props.timeAxis) {
+        case 'device': timeKey = 'timestamp'; break;
+        case 'cloud': timeKey = 'date_received'; break;
+        default: timeKey = 'date_received'; 
+      }
     }
     
     if(this.props.values && this.props.meas) {
@@ -50,7 +51,8 @@ class SensorChart extends Component {
   
   static propTypes = {
     meas: PropTypes.object.isRequired,
-    values: PropTypes.array.isRequired
+    values: PropTypes.array.isRequired,
+    timeAxis: PropTypes.string
   }
 }
 
