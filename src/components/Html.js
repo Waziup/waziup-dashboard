@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import serialize from 'serialize-javascript';
 import config from '../config';
 
-/* eslint-disable react/no-danger */
-
 class Html extends React.Component {
 
   render() {
@@ -40,21 +38,12 @@ class Html extends React.Component {
       </html>
     );
   }
-  
 
   static propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    styles: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.string.isRequired, cssText: PropTypes.string.isRequired}).isRequired),
-    scripts: PropTypes.arrayOf(PropTypes.string.isRequired),
-    app: PropTypes.object, // eslint-disable-line
+    app: PropTypes.object,
     children: PropTypes.string.isRequired,
   };
 
-  static defaultProps = {
-    styles: [],
-    scripts: [],
-  };
 }
 
 export default Html;
