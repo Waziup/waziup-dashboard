@@ -16,6 +16,7 @@ import moment from 'moment';
 import config from '../../../config';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem'
+import querystring from 'querystring'
 
 class MeasurementDetail extends Component {
   constructor(props) {
@@ -64,7 +65,6 @@ class MeasurementDetail extends Component {
   }
 
   render() {
-    //console.log("modal:" + JSON.stringify(this.state.modalOpen))
     if (this.props.meas) {
       const defaultNotif = Waziup.Notification.constructFromObject({
         condition: { sensors: [this.props.sensor.id], measurements: [this.props.meas.id], expression: "TC>30" },
@@ -72,7 +72,6 @@ class MeasurementDetail extends Component {
         description: "Send message",
         throttling: 1
       })
-      //console.log("defaultModal:" + JSON.stringify(defaultNotif))
       var notifications = []
       if (this.props.notifs) {
         for (var notif of this.props.notifs) {
@@ -85,10 +84,6 @@ class MeasurementDetail extends Component {
           notifications.push(card)
         }
       }
-
-      //AAA href link construction
-      let aOptions;
-      aOptions = `dateFrom=${this.state.query.dateFrom}&dateTo=${this.state.query.DateTo}`;
 
       return (
         <Container fluid={true}>
@@ -143,7 +138,7 @@ class MeasurementDetail extends Component {
                 </SelectField>
                 <div>
                   <RaisedButton type='submit' label='Update graph' onClick={this.handleApply} />
-                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + aOptions} target="_blank">
+                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
                     <RaisedButton label="download data"/>
                   </a>
                 </div>
