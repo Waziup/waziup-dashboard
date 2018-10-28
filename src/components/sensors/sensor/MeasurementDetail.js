@@ -34,6 +34,20 @@ class MeasurementDetail extends Component {
     };
   }
 
+  componentWillMount() {
+    this.fetchValues()
+    this.interval = setInterval(() => {this.fetchValues() }, config.delayRefresh);
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  fetchValues = () => {
+    this.props.getSensor(this.props.params.sensorId);
+    this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.state.query);
+  }
+
   handleDateFrom = (day) => {
     var myQuery = this.state.query
     myQuery.dateFrom = moment(day).utc().format();
@@ -52,16 +66,6 @@ class MeasurementDetail extends Component {
   handleApply = () => {
     console.log('Query submit clicked: ' + JSON.stringify(this.state));
     this.fetchValues();
-  }
-
-  componentWillMount() {
-    this.fetchValues()
-    this.interval = setInterval(() => { this.fetchValues() }, 10000);
-  }
-
-  fetchValues = () => {
-    this.props.getSensor(this.props.params.sensorId);
-    this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.state.query);
   }
 
   render() {
