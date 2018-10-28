@@ -46,7 +46,7 @@ export default class MeasurementCard extends Component {
             <MeasIcon sensing_device={meas.sensing_device} height="75" title={title}/>
           </div>
           <div className="measValue"> 
-            <h3> {(meas.last_value? JSON.stringify(meas.last_value.value).replace(/\\"/g, '"'): "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
+            <h3> {(meas.last_value? JSON.stringify(meas.last_value.value).replace(/"/g, ""): "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
           </div>
           {!this.props.isDetails? 
             <Link to={"/sensors/" + this.props.sensorId + "/" + meas.id} > 
