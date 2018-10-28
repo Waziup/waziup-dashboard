@@ -69,6 +69,7 @@ export default class SensorNodeCard extends Component {
             <img src={sensorNodeImage} height="75" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
             <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
             <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
+            <pre> {"domain: " + (sensor.domain? sensor.domain : "none")} </pre>
           </div>
           {measurements}
         </div>
