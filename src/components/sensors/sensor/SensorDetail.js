@@ -4,7 +4,6 @@ import { Container } from 'react-grid-system'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
-
 import { connect } from 'react-redux';
 import { getSensor, deleteSensor, updateSensorLocation, updateSensorName, updateMeasurementName, addMeasurement, deleteMeasurement } from "../../../actions/actions.js"
 import RaisedButton from 'material-ui/RaisedButton';
