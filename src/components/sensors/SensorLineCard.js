@@ -49,7 +49,7 @@ export default class SensorLineCard extends Component {
                   <MeasIcon sensing_device={meas.sensing_device} height="64" title={title(meas)}/>
                 </div>
                 <div className="measValue"> 
-                  <h3> {(meas.last_value? meas.last_value.value: "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
+                  <h3> {(meas.last_value? JSON.stringify(meas.last_value.value).replace(/\\"/g, '"'): "") + " " + (meas.unit? Waziup.Units.getLabel(meas.unit): "")} </h3>
                 </div>
               </div>
             </Card>
