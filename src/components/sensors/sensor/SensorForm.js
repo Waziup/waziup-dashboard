@@ -24,6 +24,12 @@ class SensorForm extends Component {
     };
   }
   
+  componentWillReceiveProps(nextProps) { 
+    if(nextProps.sensor && nextProps.sensor !== this.state.sensor) {
+      this.setState({sensor: nextProps.sensor})
+    }
+  }
+  
   handleChange = (formData) => {
     var sensor = this.state.sensor
     sensor[formData.target.name] = formData.target.value;
@@ -32,7 +38,6 @@ class SensorForm extends Component {
   
   handleChangeVisibility = (event, index, value) => {
     var sensor = this.state.sensor
-    console.log("vis:" + value)
     sensor.visibility = value;
     this.setState({sensor: sensor})
   }
@@ -58,6 +63,7 @@ class SensorForm extends Component {
   }
 
   propTypes = {
+    sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
