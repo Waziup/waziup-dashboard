@@ -12,6 +12,7 @@ import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
 import chartImage from '../../../images/chart-icon.png';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
+require('react-day-picker/lib/style.css');
 import moment from 'moment';
 import config from '../../../config';
 import SelectField from 'material-ui/SelectField';
@@ -90,7 +91,7 @@ class MeasurementDetail extends Component {
       }
 
       return (
-        <Container fluid={true}>
+        <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
             <img src={chartImage} height="50" />
             Measurement: {this.props.meas.id}
@@ -131,19 +132,19 @@ class MeasurementDetail extends Component {
               <Card className="graphForm">
                 <div>
                   <h4>Range from: </h4>
-                    <DayPickerInput onDayChange={this.handleDateFrom} />
+                    <DayPickerInput onDayChange={this.handleDateFrom}/>
                   <h4> To:</h4>
                     <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
                 </div>
-                <h4>Time axis values:</h4>
-                <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis" floatingLabelText="Use time from:">
                   <MenuItem value="cloud" primaryText="Cloud timestamp" />
                   <MenuItem value="device" primaryText="Device timestamp" />
                 </SelectField>
                 <div>
-                  <RaisedButton type='submit' label='Update graph' onClick={this.handleApply} />
-                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
-                    <RaisedButton label="download data"/>
+                  <RaisedButton label='Update graph' onClick={this.handleApply} primary={true}/>
+                  <span>  </span>
+                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank" >
+                    <RaisedButton label="download data" primary={true} style={{'z-index':'0 !important'}} />
                   </a>
                 </div>
               </Card>
