@@ -143,7 +143,7 @@ class MeasurementDetail extends Component {
                 <div>
                   <RaisedButton label='Update graph' onClick={this.handleApply} primary={true}/>
                   <span>  </span>
-                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank" >
+                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank" download >
                     <RaisedButton label="download data" primary={true} style={{'z-index':'0 !important'}} />
                   </a>
                 </div>
