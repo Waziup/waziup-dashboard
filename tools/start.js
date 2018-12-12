@@ -13,11 +13,14 @@ const isDebug = !process.argv.includes('--release');
 
 // https://webpack.js.org/configuration/watch/#watchoptions
 const watchOptions = {
-  // Watching may not work with NFS and machines in VirtualBox
-  // Uncomment next line if it is your case (use true or interval in milliseconds)
-  // poll: true,
-  // Decrease CPU or memory usage in some file systems
-  // ignored: /node_modules/,
+
+  /*
+   * Watching may not work with NFS and machines in VirtualBox
+   * Uncomment next line if it is your case (use true or interval in milliseconds)
+   * poll: true,
+   * Decrease CPU or memory usage in some file systems
+   * ignored: /node_modules/,
+   */
 };
 
 
@@ -28,7 +31,7 @@ function createCompilationPromise(name, compiler, config) {
       timeStart = new Date();
       console.info(`[${format(timeStart)}] Compiling '${name}'...`);
     });
-    compiler.plugin('done', stats => {
+    compiler.plugin('done', (stats) => {
       console.info(stats.toString(config.stats));
       const timeEnd = new Date();
       const time = timeEnd.getTime() - timeStart.getTime();
@@ -94,8 +97,7 @@ async function start() {
   // Configure server-side hot module replacement
   const serverConfig = webpackConfig.find(config => config.name === 'server');
   serverConfig.output.hotUpdateMainFilename = 'updates/[hash].hot-update.json';
-  serverConfig.output.hotUpdateChunkFilename =
-    'updates/[id].[hash].hot-update.js';
+  serverConfig.output.hotUpdateChunkFilename = 'updates/[id].[hash].hot-update.js';
   serverConfig.module.rules = serverConfig.module.rules.filter(
     x => x.loader !== 'null-loader',
   );
@@ -164,7 +166,7 @@ async function start() {
     }
     return app.hot
       .check(true)
-      .then(updatedModules => {
+      .then((updatedModules) => {
         if (!updatedModules) {
           if (fromUpdate) {
             console.info(`${hmrPrefix}Update applied.`);
@@ -175,13 +177,11 @@ async function start() {
           console.info(`${hmrPrefix}Nothing hot updated.`);
         } else {
           console.info(`${hmrPrefix}Updated modules:`);
-          updatedModules.forEach(moduleId =>
-            console.info(`${hmrPrefix} - ${moduleId}`),
-          );
+          updatedModules.forEach(moduleId => console.info(`${hmrPrefix} - ${moduleId}`));
           checkForUpdate(true);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (['abort', 'fail'].includes(app.hot.status())) {
           console.warn(`${hmrPrefix}Cannot apply update.`);
           delete require.cache[require.resolve('../build/server')];
@@ -219,18 +219,16 @@ async function start() {
   appPromiseResolve();
 
   // Launch the development server with Browsersync and HMR
-  await new Promise((resolve, reject) =>
-    browserSync.create().init(
-      {
-        // https://www.browsersync.io/docs/options
-        server: 'src/server.js',
-        middleware: [server],
-        open: !process.argv.includes('--silent'),
-        ...(isDebug ? {} : { notify: false, ui: false }),
-      },
-      (error, bs) => (error ? reject(error) : resolve(bs)),
-    ),
-  );
+  await new Promise((resolve, reject) => browserSync.create().init(
+    {
+      // https://www.browsersync.io/docs/options
+      server: 'src/server.js',
+      middleware: [server],
+      open: !process.argv.includes('--silent'),
+      ...isDebug ? {} : { notify: false, ui: false },
+    },
+    (error, bs) => (error ? reject(error) : resolve(bs)),
+  ));
 
   const timeEnd = new Date();
   const time = timeEnd.getTime() - timeStart.getTime();

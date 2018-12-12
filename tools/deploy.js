@@ -10,7 +10,7 @@
 import path from 'path';
 import fetch from 'node-fetch';
 import { spawn } from './lib/cp';
-import { makeDir, moveDir, cleanDir } from './lib/fs';
+import { cleanDir, makeDir, moveDir } from './lib/fs';
 import run from './run';
 
 // GitHub Pages
@@ -22,25 +22,31 @@ const remote = {
   static: true,
 };
 
-// Heroku
-// const remote = {
-//   name: 'heroku',
-//   url: 'https://git.heroku.com/<app>.git',
-//   branch: 'master',
-//   website: 'https://<app>.herokuapp.com',
-// };
+/*
+ * Heroku
+ * const remote = {
+ *   name: 'heroku',
+ *   url: 'https://git.heroku.com/<app>.git',
+ *   branch: 'master',
+ *   website: 'https://<app>.herokuapp.com',
+ * };
+ */
 
-// Azure Web Apps
-// const remote = {
-//   name: 'azure',
-//   url: 'https://<user>@<app>.scm.azurewebsites.net:443/<app>.git',
-//   branch: 'master',
-//   website: `http://<app>.azurewebsites.net`,
-// };
+/*
+ * Azure Web Apps
+ * const remote = {
+ *   name: 'azure',
+ *   url: 'https://<user>@<app>.scm.azurewebsites.net:443/<app>.git',
+ *   branch: 'master',
+ *   website: `http://<app>.azurewebsites.net`,
+ * };
+ */
 
 const options = {
   cwd: path.resolve(__dirname, '../build'),
-  stdio: ['ignore', 'inherit', 'inherit'],
+  stdio: ['ignore',
+    'inherit',
+    'inherit'],
 };
 
 /**
@@ -56,16 +62,22 @@ async function deploy() {
   try {
     await spawn(
       'git',
-      ['config', '--get', `remote.${remote.name}.url`],
+      ['config',
+        '--get',
+        `remote.${remote.name}.url`],
       options,
     );
     isRemoteExists = true;
   } catch (error) {
+
     /* skip */
   }
   await spawn(
     'git',
-    ['remote', isRemoteExists ? 'set-url' : 'add', remote.name, remote.url],
+    ['remote',
+      isRemoteExists ? 'set-url' : 'add',
+      remote.name,
+      remote.url],
     options,
   );
 
@@ -74,25 +86,35 @@ async function deploy() {
   try {
     await spawn(
       'git',
-      ['ls-remote', '--quiet', '--exit-code', remote.url, remote.branch],
+      ['ls-remote',
+        '--quiet',
+        '--exit-code',
+        remote.url,
+        remote.branch],
       options,
     );
     isRefExists = true;
   } catch (error) {
-    await spawn('git', ['update-ref', '-d', 'HEAD'], options);
+    await spawn('git', ['update-ref',
+      '-d',
+      'HEAD'], options);
   }
   if (isRefExists) {
     await spawn('git', ['fetch', remote.name], options);
     await spawn(
       'git',
-      ['reset', `${remote.name}/${remote.branch}`, '--hard'],
+      ['reset',
+        `${remote.name}/${remote.branch}`,
+        '--hard'],
       options,
     );
     await spawn('git', ['clean', '--force'], options);
   }
 
-  // Build the project in RELEASE mode which
-  // generates optimized and minimized bundles
+  /*
+   * Build the project in RELEASE mode which
+   * generates optimized and minimized bundles
+   */
   process.argv.push('--release');
   if (remote.static) process.argv.push('--static');
   await run(require('./build').default); // eslint-disable-line global-require
@@ -106,19 +128,29 @@ async function deploy() {
   }
 
   // Push the contents of the build folder to the remote server via Git
-  await spawn('git', ['add', '.', '--all'], options);
+  await spawn('git', ['add',
+    '.',
+    '--all'], options);
   try {
-    await spawn('git', ['diff', '--cached', '--exit-code', '--quiet'], options);
+    await spawn('git', ['diff',
+      '--cached',
+      '--exit-code',
+      '--quiet'], options);
   } catch (error) {
     await spawn(
       'git',
-      ['commit', '--message', `Update ${new Date().toISOString()}`],
+      ['commit',
+        '--message',
+        `Update ${new Date().toISOString()}`],
       options,
     );
   }
   await spawn(
     'git',
-    ['push', remote.name, `master:${remote.branch}`, '--set-upstream'],
+    ['push',
+      remote.name,
+      `master:${remote.branch}`,
+      '--set-upstream'],
     options,
   );
 

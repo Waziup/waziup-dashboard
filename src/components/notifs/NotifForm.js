@@ -1,26 +1,23 @@
 import React, {Component} from 'react';
-import { reduxForm, Field, FieldArray } from 'redux-form'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton';
-import DatePicker from 'material-ui/DatePicker';
-import MenuItem from 'material-ui/MenuItem'
-import DropDownMenu from 'material-ui/DropDownMenu'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField';
-import Menu from 'material-ui/Menu';
-import {List, ListItem} from 'material-ui/List';
-import { Row, Col } from 'react-grid-system'
+import { reduxForm } from 'redux-form'
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField'
 import sensorImage from '../../images/gauge.png';
 import sensorArrow from '../../images/sensorArrow.png';
 import bellImage from '../../images/bell-icon.png';
-import Paper from 'material-ui/Paper';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import Socials from 'material-ui/svg-icons/social/share';
-import Checkbox from 'material-ui/Checkbox';
+import PersonAdd from '@material-ui/icons/PersonAdd';
+import Socials from '@material-ui/icons/Share';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
+import { DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 
 class NotifForm extends Component {
   constructor(props) {
@@ -38,7 +35,8 @@ class NotifForm extends Component {
     console.log("users:" + JSON.stringify(props.users))
   }
 
-  handleChange = (field, value) => {
+  handleChange = (field, event) => {
+    const value = event.target.value;
     var notif = this.state.notif
     switch (field) {
       case "sensors"      : notif.condition.sensors = value; break;
@@ -57,73 +55,96 @@ class NotifForm extends Component {
   channels = ["twitter", "sms", "voice"]
 
   render() {
+    
     const actions = [
-      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{this.props.handleClose(); }}/>,
-      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}/>,
+      <Button color="primary" key="cancel" onTouchTap={()=>{this.props.handleClose(); }}>Cancel</Button>,
+      <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}>Submit</Button>,
     ];
 
     console.log("open form" + JSON.stringify(this.state.notif))  
     
     return (
-      <Dialog title="Create New Notification"
-              actions={actions}
-              modal={true}
-              open={this.props.modalOpen}>
-          <div className="notif">
-            <div className="notifSensorAttrs">
-              <div className="notifSensors">
-                <SelectField name="sensors" multiple={true} value={this.state.notif.condition.sensors} onChange={(_1, _2, s) => this.handleChange("sensors", s)} hintText='My Sensor'>
-                  {this.props.sensors.map(s => <MenuItem key={s.id} insetChildren={true} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id} primaryText={s.id} />)}
-                </SelectField>
-              </div>
-              <div className="notifArrow">
-                <img src={sensorArrow} width="30" height="30"/>
-              </div>
-              <div className="notifAttrs">
-                <SelectField name="measurements" multiple={true} hintText="My sensor value" value={this.state.notif.condition.measurements} onChange={(_1, _2, a) => this.handleChange("measurements", a)}>
-                  {this.props.sensors.filter(s => this.state.notif.condition.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem key={m.id} insetChildren={true} checked={this.state.notif.condition.measurements.includes(m.id)} value={m.id} primaryText={m.id} />))}
-                </SelectField>
-              </div>
-            </div>
-            <div className="notifSubject" >
+      <Dialog
+        actions={actions}
+        modal={true}
+        open={this.props.modalOpen}>
+        <DialogTitle>Create New Notification</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={24}>
+            <Grid item xs={5}>
+              <FormControl style={{display: 'flex'}}>
+                <InputLabel htmlFor="sensors">Sensors</InputLabel>
+                <Select multiple={true} hintText='My Sensor'
+                  input={<Input name="sensors" id="sensors" />}
+                  value={this.state.notif.condition.sensors} onChange={(s) => this.handleChange("sensors", s)} title="The kind of sensor used for this measurement">
+                  {this.props.sensors.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={1}>
+              <img src={sensorArrow} width="30" height="30"/>
+            </Grid>
+            <Grid item xs={5}>
+              <FormControl style={{display: 'flex'}}>
+                <InputLabel htmlFor="measurements">Measurements</InputLabel>
+                <Select multiple={true} hintText='My sensor value'
+                  input={<Input name="measurements" id="measurements" />}
+                  value={this.state.notif.condition.measurements} onChange={(a) => this.handleChange("measurements", a)}>
+                  {this.props.sensors.filter(s => this.state.notif.condition.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem key={m.id} checked={this.state.notif.condition.measurements.includes(m.id)} value={m.id} >{m.id}</MenuItem>))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
               <div className="notifIcon">
                 <img src={sensorImage} height="100"/>
                 <img src={bellImage} height="24"/>
               </div>
-              <div className="notifExpr">
-                <TextField name="expr" value={this.state.notif.condition.expression} onChange={(_1, e) => this.handleChange("expr", e)}/>
-              </div>
-            </div>
-            <div className="notifMsgRow">
-              <div className="notifMsg">
-                <TextField name="message" fullWidth={true} hintText="message" floatingLabelText="Message to send:" value={this.state.notif.notification.message} onChange={(_1, m) => this.handleChange("message", m)}/>
-              </div> 
-            </div>
-            <div className="notifUsersChannels">
-              <div className="notifUsers">
-                <SelectField name="usernames" multiple={true} value={this.state.notif.notification.usernames} onChange={(_1, _2, u) => this.handleChange("usernames", u)} hintText="Users">
-                  {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
-                     <MenuItem key={u.username} value={u.username} primaryText={u.username} insetChildren={true} checked={this.state.notif.notification.usernames.includes(u.username)} leftIcon={<PersonAdd/>} />): <br/>}
-                </SelectField>
-              </div>
-              <div className="notifChannels">
-                <SelectField name="channels" multiple={true} hintText="Socials" value={this.state.notif.notification.channels} onChange={(_1, _2, c) => this.handleChange("channels", c)}>
-                  {this.channels.map(c => <MenuItem value={c} primaryText={c} checked={this.state.notif.notification.channels.includes(c)} leftIcon={<Socials/>}/>)}
-                </SelectField>
-              </div>
-            </div>
-            <div className="notifMisc">
-              <div className="notifExpires">
-                <DatePicker name="expires" hintText="Expires" floatingLabelText="Expires" value={this.state.notif.expires} onChange={(_1, e) => this.handleChange("expires", e)}/>
-              </div>
-            </div>
-          </div>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField name="expr" value={this.state.notif.condition.expression} onChange={(e) => this.handleChange("expr", e)}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField name="message" fullWidth={true} hintText="message" label="Message to send:" value={this.state.notif.notification.message} onChange={(_1, m) => this.handleChange("message", m)}/>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl style={{display: 'flex'}}>
+              <InputLabel htmlFor="usernames">Users</InputLabel>
+              <Select multiple={true} hintText='Users'
+                input={<Input name="usernames" id="usernames" />}
+                value={this.state.notif.notification.usernames} onChange={(u) => this.handleChange("usernames", u)}>
+                {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
+                  <MenuItem key={u.username} value={u.username} checked={this.state.notif.notification.usernames.includes(u.username)}>
+                 
+                  {u.username}
+                  </MenuItem>): <br/>
+                }
+              </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl style={{display: 'flex'}}>
+                <InputLabel htmlFor="channels">Socials</InputLabel>
+                <Select multiple={true} hintText='Socials'
+                  input={<Input name="channels" id="channels" />}
+                  value={this.state.notif.notification.channels} onChange={(c) => this.handleChange("channels", c)}>
+                  {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.notification.channels.includes(c)} leftIcon={<Socials/>}>{c}</MenuItem>)}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+            <TextField name="expires" type="date" hintText="Expires" value={this.state.notif.expires} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          {actions}
+        </DialogActions>
       </Dialog>
     );
   }
 
-  propTypes = {
-    notif: PropTypes.object.isRequired,  //Should be a Waziup.Notif
+  static propTypes = {
+    notif: PropTypes.object,  //Should be a Waziup.Notif
     modalOpen: PropTypes.bool,
     sensors: PropTypes.array,
     users: PropTypes.array,

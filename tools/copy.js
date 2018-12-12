@@ -9,7 +9,9 @@
 
 import path from 'path';
 import chokidar from 'chokidar';
-import { writeFile, copyFile, makeDir, copyDir, cleanDir } from './lib/fs';
+import {
+  cleanDir, copyDir, copyFile, makeDir, writeFile,
+} from './lib/fs';
 import pkg from '../package.json';
 import { format } from './run';
 

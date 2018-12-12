@@ -6,11 +6,11 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import overrideRules from './lib/overrideRules';
 import pkg from '../package.json';
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 const isDebug = !process.argv.includes('--release');
 const isVerbose = process.argv.includes('--verbose');
-const isAnalyze =
-  process.argv.includes('--analyze') || process.argv.includes('--analyse');
+const isAnalyze = process.argv.includes('--analyze') || process.argv.includes('--analyse');
 
 const reScript = /\.jsx?$/;
 const reStyle = /\.(css|less|scss|sss)$/;
@@ -19,10 +19,12 @@ const staticAssetName = isDebug
   ? '[path][name].[ext]?[hash:8]'
   : '[hash:8].[ext]';
 
-//
-// Common configuration chunk to be used for both
-// client-side (client.js) and server-side (server.js) bundles
-// -----------------------------------------------------------------------------
+/*
+ *
+ * Common configuration chunk to be used for both
+ * client-side (client.js) and server-side (server.js) bundles
+ * -----------------------------------------------------------------------------
+ */
 
 const config = {
   context: path.resolve(__dirname, '..'),
@@ -35,13 +37,15 @@ const config = {
     chunkFilename: isDebug
       ? '[name].chunk.js'
       : '[name].[chunkhash:8].chunk.js',
-    devtoolModuleFilenameTemplate: info =>
-      path.resolve(info.absoluteResourcePath),
+    devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath),
   },
 
   resolve: {
-    // Allow absolute paths in imports, e.g. import Button from 'components/Button'
-    // Keep in sync with .flowconfig and .eslintrc
+
+    /*
+     * Allow absolute paths in imports, e.g. import Button from 'components/Button'
+     * Keep in sync with .flowconfig and .eslintrc
+     */
     modules: ['node_modules', 'src'],
   },
 
@@ -62,8 +66,11 @@ const config = {
           // https://babeljs.io/docs/usage/options/
           babelrc: false,
           presets: [
-            // A Babel preset that can automatically determine the Babel plugins and polyfills
-            // https://github.com/babel/babel-preset-env
+
+            /*
+             * A Babel preset that can automatically determine the Babel plugins and polyfills
+             * https://github.com/babel/babel-preset-env
+             */
             [
               'env',
               {
@@ -76,23 +83,38 @@ const config = {
                 debug: false,
               },
             ],
-            // Experimental ECMAScript proposals
-            // https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-
+
+            /*
+             * Experimental ECMAScript proposals
+             * https://babeljs.io/docs/plugins/#presets-stage-x-experimental-presets-
+             */
             'stage-2',
-            // JSX, Flow
-            // https://github.com/babel/babel/tree/master/packages/babel-preset-react
+
+            /*
+             * JSX, Flow
+             * https://github.com/babel/babel/tree/master/packages/babel-preset-react
+             */
             'react',
-            // Optimize React code for the production build
-            // https://github.com/thejameskyle/babel-react-optimize
-            ...(isDebug ? [] : ['react-optimize']),
+
+            /*
+             * Optimize React code for the production build
+             * https://github.com/thejameskyle/babel-react-optimize
+             */
+            ...isDebug ? [] : ['react-optimize'],
           ],
           plugins: [
-            // Adds component stack to warning messages
-            // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-react-jsx-source
-            ...(isDebug ? ['transform-react-jsx-source'] : []),
-            // Adds __self attribute to JSX which React will use for some warnings
-            // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-react-jsx-self
-            ...(isDebug ? ['transform-react-jsx-self'] : []),
+
+            /*
+             * Adds component stack to warning messages
+             * https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-react-jsx-source
+             */
+            ...isDebug ? ['transform-react-jsx-source'] : [],
+
+            /*
+             * Adds __self attribute to JSX which React will use for some warnings
+             * https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-react-jsx-self
+             */
+            ...isDebug ? ['transform-react-jsx-self'] : [],
           ],
         },
       },
@@ -147,21 +169,25 @@ const config = {
             },
           },
 
-          // Compile Less to CSS
-          // https://github.com/webpack-contrib/less-loader
-          // Install dependencies before uncommenting: yarn add --dev less-loader less
-          // {
-          //   test: /\.less$/,
-          //   loader: 'less-loader',
-          // },
+          /*
+           * Compile Less to CSS
+           * https://github.com/webpack-contrib/less-loader
+           * Install dependencies before uncommenting: yarn add --dev less-loader less
+           * {
+           *   test: /\.less$/,
+           *   loader: 'less-loader',
+           * },
+           */
 
-          // Compile Sass to CSS
-          // https://github.com/webpack-contrib/sass-loader
-          // Install dependencies before uncommenting: yarn add --dev sass-loader node-sass
-          // {
-          //   test: /\.scss$/,
-          //   loader: 'sass-loader',
-          // },
+          /*
+           * Compile Sass to CSS
+           * https://github.com/webpack-contrib/sass-loader
+           * Install dependencies before uncommenting: yarn add --dev sass-loader node-sass
+           * {
+           *   test: /\.scss$/,
+           *   loader: 'sass-loader',
+           * },
+           */
         ],
       },
 
@@ -216,10 +242,17 @@ const config = {
         loader: path.resolve(__dirname, './lib/markdown-loader.js'),
       },
 
-      // Return public URL for all assets unless explicitly excluded
-      // DO NOT FORGET to update `exclude` list when you adding a new loader
+      /*
+       * Return public URL for all assets unless explicitly excluded
+       * DO NOT FORGET to update `exclude` list when you adding a new loader
+       */
       {
-        exclude: [reScript, reStyle, reImage, /\.json$/, /\.txt$/, /\.md$/],
+        exclude: [reScript,
+          reStyle,
+          reImage,
+          /\.json$/,
+          /\.txt$/,
+          /\.md$/],
         loader: 'file-loader',
         options: {
           name: staticAssetName,
@@ -227,17 +260,17 @@ const config = {
       },
 
       // Exclude dev modules from production build
-      ...(isDebug
+      ...isDebug
         ? []
         : [
-            {
-              test: path.resolve(
-                __dirname,
-                '../node_modules/react-deep-force-update/lib/index.js',
-              ),
-              loader: 'null-loader',
-            },
-          ]),
+          {
+            test: path.resolve(
+              __dirname,
+              '../node_modules/react-deep-force-update/lib/index.js',
+            ),
+            loader: 'null-loader',
+          },
+        ],
     ],
   },
 
@@ -246,8 +279,10 @@ const config = {
 
   cache: isDebug,
 
-  // Specify what bundle information gets displayed
-  // https://webpack.js.org/configuration/stats/
+  /*
+   * Specify what bundle information gets displayed
+   * https://webpack.js.org/configuration/stats/
+   */
   stats: {
     cached: isVerbose,
     cachedAssets: isVerbose,
@@ -261,14 +296,18 @@ const config = {
     version: isVerbose,
   },
 
-  // Choose a developer tool to enhance debugging
-  // https://webpack.js.org/configuration/devtool/#devtool
+  /*
+   * Choose a developer tool to enhance debugging
+   * https://webpack.js.org/configuration/devtool/#devtool
+   */
   devtool: isDebug ? 'cheap-module-inline-source-map' : 'source-map',
 };
 
-//
-// Configuration for the client-side bundle (client.js)
-// -----------------------------------------------------------------------------
+/*
+ *
+ * Configuration for the client-side bundle (client.js)
+ * -----------------------------------------------------------------------------
+ */
 
 const clientConfig = {
   ...config,
@@ -281,52 +320,66 @@ const clientConfig = {
   },
 
   plugins: [
-    // Define free variables
-    // https://webpack.js.org/plugins/define-plugin/
+
+    /*
+     * Define free variables
+     * https://webpack.js.org/plugins/define-plugin/
+     */
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
       'process.env.BROWSER': true,
       'process.env.API_SERVER_URL': JSON.stringify(process.env.API_SERVER_URL),
       'process.env.KEYCLOAK_URL': JSON.stringify(process.env.KEYCLOAK_URL),
       'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL),
-      __DEV__: isDebug
+      __DEV__: isDebug,
     }),
 
-    // Emit a file with assets paths
-    // https://github.com/sporto/assets-webpack-plugin#options
+    /*
+     * Emit a file with assets paths
+     * https://github.com/sporto/assets-webpack-plugin#options
+     */
     new AssetsPlugin({
       path: path.resolve(__dirname, '../build'),
       filename: 'assets.json',
       prettyPrint: true,
     }),
 
-    // Move modules that occur in multiple entry chunks to a new entry chunk (the commons chunk).
-    // https://webpack.js.org/plugins/commons-chunk-plugin/
+    /*
+     * Move modules that occur in multiple entry chunks to a new entry chunk (the commons chunk).
+     * https://webpack.js.org/plugins/commons-chunk-plugin/
+     */
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: module => /node_modules/.test(module.resource),
+      minChunks: module => (/node_modules/).test(module.resource),
     }),
 
-    ...(isDebug
+    ...isDebug
       ? []
       : [
-          // Decrease script evaluation time
-          // https://github.com/webpack/webpack/blob/master/examples/scope-hoisting/README.md
-          new webpack.optimize.ModuleConcatenationPlugin(),
 
-          // Minimize all JavaScript output of chunks
-          new UglifyJsPlugin(),
-        ]),
+        /*
+         * Decrease script evaluation time
+         * https://github.com/webpack/webpack/blob/master/examples/scope-hoisting/README.md
+         */
+        new webpack.optimize.ModuleConcatenationPlugin(),
 
-    // Webpack Bundle Analyzer
-    // https://github.com/th0r/webpack-bundle-analyzer
-    ...(isAnalyze ? [new BundleAnalyzerPlugin()] : []),
+        // Minimize all JavaScript output of chunks
+        new UglifyJsPlugin(),
+      ],
+
+    /*
+     * Webpack Bundle Analyzer
+     * https://github.com/th0r/webpack-bundle-analyzer
+     */
+    ...isAnalyze ? [new BundleAnalyzerPlugin()] : [],
   ],
 
-  // Some libraries import Node modules but don't use them in the browser.
-  // Tell Webpack to provide empty mocks for them so importing them works.
-  // https://webpack.js.org/configuration/node/
-  // https://github.com/webpack/node-libs-browser/tree/master/mock
+  /*
+   * Some libraries import Node modules but don't use them in the browser.
+   * Tell Webpack to provide empty mocks for them so importing them works.
+   * https://webpack.js.org/configuration/node/
+   * https://github.com/webpack/node-libs-browser/tree/master/mock
+   */
   node: {
     fs: 'empty',
     net: 'empty',
@@ -334,9 +387,11 @@ const clientConfig = {
   },
 };
 
-//
-// Configuration for the server-side bundle (server.js)
-// -----------------------------------------------------------------------------
+/*
+ *
+ * Configuration for the server-side bundle (server.js)
+ * -----------------------------------------------------------------------------
+ */
 
 const serverConfig = {
   ...config,
@@ -356,8 +411,10 @@ const serverConfig = {
     libraryTarget: 'commonjs2',
   },
 
-  // Webpack mutates resolve object, so clone it to avoid issues
-  // https://github.com/webpack/webpack/issues/4817
+  /*
+   * Webpack mutates resolve object, so clone it to avoid issues
+   * https://github.com/webpack/webpack/issues/4817
+   */
   resolve: {
     ...config.resolve,
   },
@@ -365,7 +422,7 @@ const serverConfig = {
   module: {
     ...config.module,
 
-    rules: overrideRules(config.module.rules, rule => {
+    rules: overrideRules(config.module.rules, (rule) => {
       // Override babel-preset-env configuration for Node.js
       if (rule.loader === 'babel-loader') {
         return {
@@ -373,20 +430,19 @@ const serverConfig = {
           options: {
             ...rule.options,
             presets: rule.options.presets.map(
-              preset =>
-                preset[0] !== 'env'
-                  ? preset
-                  : [
-                      'env',
-                      {
-                        targets: {
-                          node: pkg.engines.node.match(/(\d+\.?)+/)[0],
-                        },
-                        modules: false,
-                        useBuiltIns: false,
-                        debug: false,
-                      },
-                    ],
+              preset => (preset[0] !== 'env'
+                ? preset
+                : [
+                  'env',
+                  {
+                    targets: {
+                      node: pkg.engines.node.match(/(\d+\.?)+/)[0],
+                    },
+                    modules: false,
+                    useBuiltIns: false,
+                    debug: false,
+                  },
+                ]),
             ),
           },
         };
@@ -394,9 +450,9 @@ const serverConfig = {
 
       // Override paths to static assets
       if (
-        rule.loader === 'file-loader' ||
-        rule.loader === 'url-loader' ||
-        rule.loader === 'svg-url-loader'
+        rule.loader === 'file-loader'
+        || rule.loader === 'url-loader'
+        || rule.loader === 'svg-url-loader'
       ) {
         return {
           ...rule,
@@ -420,16 +476,21 @@ const serverConfig = {
   ],
 
   plugins: [
-    // Define free variables
-    // https://webpack.js.org/plugins/define-plugin/
+
+    /*
+     * Define free variables
+     * https://webpack.js.org/plugins/define-plugin/
+     */
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
       'process.env.BROWSER': false,
       __DEV__: isDebug,
     }),
 
-    // Adds a banner to the top of each generated chunk
-    // https://webpack.js.org/plugins/banner-plugin/
+    /*
+     * Adds a banner to the top of each generated chunk
+     * https://webpack.js.org/plugins/banner-plugin/
+     */
     new webpack.BannerPlugin({
       banner: 'require("source-map-support").install();',
       raw: true,
@@ -437,8 +498,10 @@ const serverConfig = {
     }),
   ],
 
-  // Do not replace node globals with polyfills
-  // https://webpack.js.org/configuration/node/
+  /*
+   * Do not replace node globals with polyfills
+   * https://webpack.js.org/configuration/node/
+   */
   node: {
     console: false,
     global: false,

@@ -4,8 +4,10 @@ import history from './history';
 
 /* eslint-disable global-require */
 
-// Switch off the native scroll restoration behavior and handle it manually
-// https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
+/*
+ * Switch off the native scroll restoration behavior and handle it manually
+ * https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
+ */
 const scrollPositionsHistory = {};
 if (window.history && 'scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
@@ -43,8 +45,10 @@ async function onLocationChange(location, action) {
   }
 }
 
-// Handle client-side navigation by using HTML5 History API
-// For more information visit https://github.com/mjackson/history#readme
+/*
+ * Handle client-side navigation by using HTML5 History API
+ * For more information visit https://github.com/mjackson/history#readme
+ */
 history.listen(onLocationChange);
 onLocationChange(currentLocation);
 

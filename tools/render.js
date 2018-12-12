@@ -9,18 +9,20 @@
 
 import path from 'path';
 import fetch from 'node-fetch';
-import { writeFile, makeDir } from './lib/fs';
+import { makeDir, writeFile } from './lib/fs';
 import runServer from './runServer';
 
-// Enter your paths here which you want to render as static
-// Example:
-// const routes = [
-//   '/',           // => build/public/index.html
-//   '/page',       // => build/public/page.html
-//   '/page/',      // => build/public/page/index.html
-//   '/page/name',  // => build/public/page/name.html
-//   '/page/name/', // => build/public/page/name/index.html
-// ];
+/*
+ * Enter your paths here which you want to render as static
+ * Example:
+ * const routes = [
+ *   '/',           // => build/public/index.html
+ *   '/page',       // => build/public/page.html
+ *   '/page/',      // => build/public/page/index.html
+ *   '/page/name',  // => build/public/page/name.html
+ *   '/page/name/', // => build/public/page/name/index.html
+ * ];
+ */
 const routes = [
   '/',
   '/contact',
@@ -34,12 +36,14 @@ const routes = [
 async function render() {
   const server = await runServer();
 
-  // add dynamic routes
-  // const products = await fetch(`http://${server.host}/api/products`).then(res => res.json());
-  // products.forEach(product => routes.push(
-  //   `/product/${product.uri}`,
-  //   `/product/${product.uri}/specs`
-  // ));
+  /*
+   * add dynamic routes
+   * const products = await fetch(`http://${server.host}/api/products`).then(res => res.json());
+   * products.forEach(product => routes.push(
+   *   `/product/${product.uri}`,
+   *   `/product/${product.uri}/specs`
+   * ));
+   */
 
   await Promise.all(
     routes.map(async (route, index) => {
@@ -60,8 +64,8 @@ async function render() {
       await writeFile(dist, text);
       const time = timeEnd.getTime() - timeStart.getTime();
       console.info(
-        `#${index +
-          1} ${dist} => ${response.status} ${response.statusText} (${time} ms)`,
+        `#${index
+          + 1} ${dist} => ${response.status} ${response.statusText} (${time} ms)`,
       );
     }),
   );
