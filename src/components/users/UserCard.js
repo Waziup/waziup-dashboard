@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import userImage from '../../images/user-icon.png';
 import facebookImage from '../../images/facebook.png';
 import twitterImage from '../../images/twitter.png';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import MailIcon from 'material-ui/svg-icons/content/mail';
-import PhoneIcon from 'material-ui/svg-icons/hardware/smartphone';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import MailIcon from '@material-ui/icons/Mail';
+import PhoneIcon from '@material-ui/icons/Smartphone';
 import UserForm from './UserForm.js';
 
 export default class UserCard extends Component {
@@ -28,9 +31,9 @@ export default class UserCard extends Component {
                   modalOpen={this.state.modalEdit}
                   handleClose={() => this.setState({ modalEdit: false })}
                   onSubmit={u => this.props.updateUser(user.id, u)} />
-        <div className="cardTitleDiv">
-          <pre className="cardTitle"> {user.username} </pre>
-          <div className="cardTitleIcons"> 
+        <div className="TypographyDiv">
+          <pre className="Typography"> {user.username} </pre>
+          <div className="TypographyIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
             {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete user?')) this.props.deleteUser(user.id)}}/>: null }
           </div>
@@ -50,7 +53,7 @@ export default class UserCard extends Component {
     );
   }
 
-  propTypes = {
+  static propTypes = {
     user: PropTypes.object.isRequired, //Should be a Waziup.Sensor
     updateUser: PropTypes.func,
     deleteUser: PropTypes.func,

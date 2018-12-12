@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Checkbox from 'material-ui/Checkbox';
 import { connect } from 'react-redux';
 import GatewayNetwork from './GatewayNetwork.js'
-import { Container } from 'react-grid-system'
-import Utils from '../../lib/utils';
-import { getSensors, updateSensorGatewayId} from "../../actions/actions.js"
-import * as Waziup from 'waziup-js'
-import { Link } from 'react-router';
+import { Container } from 'react-grid-system';
+import { getSensors, updateSensorGatewayId} from "../../actions/actions.js";
 import gatewayImage from '../../images/RPIs.png';
+import DOM from 'react-dom-factories';
 
 class Gateways extends Component {
   constructor(props) {
@@ -45,10 +41,10 @@ class Gateways extends Component {
           <img src={gatewayImage} height="80"/>
           Gateways
         </h1>
-        {React.DOM.div(null, 
-          this.getDomains().map(d => [ 
-            React.DOM.h2({className: "sectionTitle"}, "Domain " + d.domainName),
-            d.gateways.map(g => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId, permissions: this.props.permissions})) 
+        {DOM.div(null, 
+          this.getDomains().map((d,index) => [ 
+            DOM.h2({className: "sectionTitle",key: index}, "Domain " + d.domainName),
+            d.gateways.map((g,index2) => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId, permissions: this.props.permissions, key: (index+index2)})) 
           ])
         )}
       </Container>

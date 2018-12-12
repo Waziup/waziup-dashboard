@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import gatewayImage from '../../images/RPI.png';
 import loraImage from '../../images/lora.png';
-import config from '../../config';
-import * as Waziup from 'waziup-js'
-import sensorNodeImage from '../../images/sensorNode.png';
 import GatewaySensor from './GatewaySensor.js'
 
 export default class GatewayNetwork extends Component {
@@ -20,9 +18,9 @@ export default class GatewayNetwork extends Component {
     console.log("gateway:   " + JSON.stringify(gateway))
     return ( 
       <Card className="sensorNode">
-        <CardTitle>
-          <h2 className="cardTitle"> Gateway {gateway.gatewayID? gateway.gatewayID: "unknown"} </h2>
-        </CardTitle>
+        <Typography>
+          <span className="Typography"> Gateway {gateway.gatewayID? gateway.gatewayID: "unknown"} </span>
+        </Typography>
         <div className="contentCards">
           <div className="boardIcon">
             <div className={"iconGateway gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName}>
@@ -33,8 +31,9 @@ export default class GatewayNetwork extends Component {
             </div>
           </div>
           <div className="gatewaySensorNodes">
-            {this.props.gateway.sensors.map(s => 
+            {this.props.gateway.sensors.map((s,index) => 
               <GatewaySensor sensor={s}
+                             key={index}
                              updateSensorGatewayId={this.props.updateSensorGatewayId}
                              permission={this.props.permissions.find(p => p.resource == s.id)}/>) }
           </div>
@@ -43,10 +42,10 @@ export default class GatewayNetwork extends Component {
     );
   }
 
-  propTypes = {
+  static propTypes = {
     gateway: PropTypes.object.isRequired,
     domainName: PropTypes.string.isRequired,
     updateSensorGatewayId: PropTypes.func.isRequired,
-    permissions: PropTypes.func.isRequired
+    permissions: PropTypes.array
   }
 }

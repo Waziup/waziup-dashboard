@@ -1,22 +1,34 @@
+
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle } from 'material-ui/Card';
-import { Container } from 'react-grid-system'
-import SensorChart from './SensorChart';
-import MeasurementCard from './MeasurementCard';
-import { connect } from 'react-redux';
-import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
-import RaisedButton from 'material-ui/RaisedButton';
-import NotifForm from '../../notifs/NotifForm.js'
-import NotifCard from '../../notifs/NotifCard.js'
 import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
-import chartImage from '../../../images/chart-icon.png';
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Container } from 'react-grid-system'
+import querystring from 'querystring';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
+import SensorChart from './SensorChart';
+import Grid from '@material-ui/core/Grid';
+import MeasurementCard from './MeasurementCard';
+import NotifForm from '../../notifs/NotifForm.js'
+import NotifCard from '../../notifs/NotifCard.js'
+import chartImage from '../../../images/chart-icon.png';
+import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
 import config from '../../../config';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem'
-import querystring from 'querystring'
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
+const styles = () => ({
+  button: {
+    margin: theme.spacing.unit,
+  }
+});
 
 class MeasurementDetail extends Component {
   constructor(props) {
@@ -90,16 +102,16 @@ class MeasurementDetail extends Component {
       }
 
       return (
-        <Container fluid={true}>
+        <Container fluid>
           <h1 className="page-title">
             <img src={chartImage} height="50" />
             Measurement: {this.props.meas.id}
           </h1>
           <Card className="sensorNode">
-            <CardTitle>
-              <h2 className="cardTitle"> Last value </h2>
+            <Typography>
+              <span className="Typography"> Last value </span>
               {this.props.permission.scopes.includes("sensors:update") ?
-                <RaisedButton label="Add Notification" onTouchTap={() => this.setState({ modalOpen: true })} primary={true} className="topRightButton" /> : null}
+                <Button onTouchTap={() => this.setState({ modalOpen: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button> : null}
               <NotifForm modalOpen={this.state.modalOpen}
                 notif={defaultNotif}
                 sensors={this.props.sensors}
@@ -107,7 +119,7 @@ class MeasurementDetail extends Component {
                 onSubmit={this.props.createNotif}
                 handleClose={() => this.setState({ modalOpen: false })}
                 isEditable={true} />
-            </CardTitle>
+            </Typography>
             <MeasurementCard measurement={this.props.meas}
               isDetails={true}
               updateMeasurement={this.props.updateMeasurement}
@@ -117,36 +129,47 @@ class MeasurementDetail extends Component {
           </Card>
           {notifications.length > 0 ?
             <Card className="sensorNode">
-              <CardTitle>
-                <h2 className="cardTitle"> Notifications </h2>
-              </CardTitle>
+              <Typography>
+                <h2 className="Typography"> Notifications </h2>
+              </Typography>
               {notifications}
             </Card> : null}
           {this.props.permission.scopes.includes("sensors-data:view") ?
             <Card className="graphCard">
-              <CardTitle>
-                <h2 className="cardTitle"> Historical chart </h2>
-              </CardTitle>
+              <Typography>
+                <span className="Typography"> Historical chart </span>
+              </Typography>
               <SensorChart meas={this.props.meas} values={this.props.values} timeAxis={this.state.timeAxis} />
-              <Card className="graphForm">
-                <div>
+              {/* <Card className="graphForm"> */}
+              <Grid container spacing={24}>
+            <Grid item xs={3}>
                   <h4>Range from: </h4>
                     <DayPickerInput onDayChange={this.handleDateFrom} />
-                  <h4> To:</h4>
-                    <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
-                </div>
-                <h4>Time axis values:</h4>
-                <SelectField name="timeAxis" value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
-                  <MenuItem value="cloud" primaryText="Cloud timestamp" />
-                  <MenuItem value="device" primaryText="Device timestamp" />
-                </SelectField>
-                <div>
-                  <RaisedButton type='submit' label='Update graph' onClick={this.handleApply} />
-                  <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
-                    <RaisedButton label="download data"/>
-                  </a>
-                </div>
-              </Card>
+            </Grid>
+            <Grid item xs={3}>
+              <h4> To:</h4>
+              <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl>
+                <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                <Select 
+                input={<Input name="timeAxis" id="timeAxis" />}
+                value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                  <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                  <MenuItem value="device">Device timestamp</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+          <Grid item xs={2}>
+            <Button type='submit' onClick={this.handleApply} className="measurementButton" variant="contained" color="primary">Update graph</Button>
+          </Grid>
+          <Grid item xs={2}>
+            <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
+              <Button variant="contained" color="primary">download data</Button>
+            </a>
+          </Grid>
+        </Grid>
             </Card> : null}
         </Container>
       );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Legend, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Label } from 'recharts';
+import { Legend, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
@@ -33,7 +33,7 @@ class SensorChart extends Component {
       const QK = Waziup.QuantityKinds.getLabel(meas.quantity_kind)
       const unit = Waziup.Units.getLabel(meas.unit)
       return (
-        <ResponsiveContainer width="100%" height={500} className="sensorChart">
+        <ResponsiveContainer  height={500} style={{margin: 30}}>
           <LineChart data={data} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
             <XAxis interval={0} domain={['dataMin', 'dataMax']} type="number" dataKey="time" tickFormatter={xFormatter} />
             <YAxis label={{ value: QK + (unit? " (" + unit + ")": ""), angle: -90, position: 'insideLeft' }}/>

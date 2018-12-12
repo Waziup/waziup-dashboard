@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import sensorImage from '../../images/gauge.png';
 import bellImage from '../../images/bell-icon.png';
 import PropTypes from 'prop-types';
-import { Card, CardTitle } from 'material-ui/Card';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import {grey} from 'material-ui/styles/colors';
-import { TextField } from 'redux-form-material-ui'
+import Card from '@material-ui/core/Card';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Link } from 'react-router';
-import {List, ListItem} from 'material-ui/List';
-import Person from 'material-ui/svg-icons/social/person';
-import Share from 'material-ui/svg-icons/social/share';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Person from '@material-ui/icons/Person';
+import Share from '@material-ui/icons/Share';
 
 export default class NotifCard extends Component {
   constructor(props) {
@@ -24,8 +24,8 @@ export default class NotifCard extends Component {
     let notif = this.props.notif
     return (
       <Card className="card">
-        <div className="cardTitleDiv">
-          <pre className="cardTitle"> {notif.condition.sensors} -> {notif.condition.measurements} </pre>
+        <div className="TypographyDiv">
+          <pre className="Typography"> {notif.condition.sensors} -> {notif.condition.measurements} </pre>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
             {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>: null }
@@ -47,10 +47,13 @@ export default class NotifCard extends Component {
             </div> 
             <div className="notifUsersChannels">
               <List className="notifUsers">
-                  {notif.notification.usernames.map(u => <ListItem primaryText={u} leftIcon={<Person/>} />)}
+                  {notif.notification.usernames.map((u,index) => <ListItem key={index}>
+                  <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>)}
               </List>
               <List className="notifChannels">
-                  {notif.notification.channels.map(c => <ListItem primaryText={c} leftIcon={<Share/>} />)}
+                  {notif.notification.channels.map((c,index) => <ListItem key={index}>
+                    <ListItemIcon><Share/></ListItemIcon>
+                      {c}</ListItem>)}
               </List>
             </div>
           </Link>
@@ -59,10 +62,10 @@ export default class NotifCard extends Component {
     );
   }
   
-  propTypes = {
+  static propTypes = {
     notif: PropTypes.object.isRequired, //Should be a Waziup.Notification
     isEditable: PropTypes.bool,
-    deleteNotif: PropTypes.func.isRequired
+    deleteNotif: PropTypes.func
   }
 }
 

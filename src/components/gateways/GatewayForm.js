@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import { reduxForm, Field } from 'redux-form'
-import Dialog from 'material-ui/Dialog';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import FlatButton from 'material-ui/FlatButton';
-import { SelectField, TextField } from 'redux-form-material-ui'
+import { reduxForm, Field } from 'redux-form';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import { TextField } from 'redux-form-material-ui'
 import PropTypes from 'prop-types';
-import * as Waziup from 'waziup-js'
 
 class GatewayForm extends Component {
 
@@ -25,19 +23,19 @@ class GatewayForm extends Component {
   render() {
     const {modalOpen, handleClose, onSubmit} = this.props;
     const actions = [ 
-      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
-      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
+      <Button label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
+      <Button label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
     ];
 
     return (
         <Dialog title="Update Gateway ID" actions={actions} modal={true} open={modalOpen}>
-          <TextField disabled={true} name="id" floatingLabelText="Sensor ID" value={this.state.sensor.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
-          <TextField name="gateway_id"  floatingLabelText="Gateway ID" value={this.state.sensor.gateway_id} onChange={this.handleChange} title="ID of the gateway attached to the sensor"/>
+          <TextField disabled={true} name="id" label="Sensor ID" value={this.state.sensor.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
+          <TextField name="gateway_id"  label="Gateway ID" value={this.state.sensor.gateway_id} onChange={this.handleChange} title="ID of the gateway attached to the sensor"/>
         </Dialog>
       );
   }
 
-  propTypes = {
+  static propTypes = {
     sensor: PropTypes.object.isRequired,
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,

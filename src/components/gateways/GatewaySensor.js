@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import PropTypes from 'prop-types';
-import sensorImage from '../../images/gauge.png';
 import sensorNodeImage from '../../images/sensorNode.png';
 import config from '../../config';
-import * as Waziup from 'waziup-js'
 import { Link } from 'react-router';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import GatewayForm from './GatewayForm.js'
-import MeasIcon from '../sensors/sensor/MeasIcon';
+import EditIcon from '@material-ui/icons/Edit';
+import GatewayForm from './GatewayForm.js';
 
 export default class SensorLineCard extends Component {
   constructor(props) {
@@ -38,7 +34,7 @@ export default class SensorLineCard extends Component {
         {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
                   <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
         <Link to={'/sensors/' + sensor.id}> 
-          <h2 className="cardTitle"> Node {(sensor.name? sensor.name + " ": "" ) + "(" + sensor.id + ")"} </h2>
+          <h2 className="Typography"> Node {(sensor.name? sensor.name + " ": "" ) + "(" + sensor.id + ")"} </h2>
           <div className={"gatewayBoardIcon sensor" + sensor.id}>
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
           </div>
@@ -47,9 +43,9 @@ export default class SensorLineCard extends Component {
     );
   }
 
-  propTypes = {
+  static propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
     updateSensorGatewayId: PropTypes.func.isRequired,
-    permission: PropTypes.object.isRequired
+    permission: PropTypes.object
   }
 }
