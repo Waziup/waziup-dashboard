@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import SensorLineCard from './SensorLineCard.js'
-import DOM from 'react-dom-factories';
+import Button from '@material-ui/core/Button';
 
-export default class SensorsList extends Component {
+export default class MySensorsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,18 +23,16 @@ export default class SensorsList extends Component {
   }
 
   render() {
+    let mySensors = this.props.sensors.filter(s => s.owner == this.props.user.username)
     return (
-        <div className="section">
-          <h1 className="sectionTitle"> All sensors </h1>
-          {this.getDomains().map((d,index) => [ 
-            DOM.h2({className: "sectionTitle",key:{index}}, "Domain " + d.domainName),
-            d.sensors.map(s => [
-              React.createElement(Link, {to: "/sensors/" + s.id,key:{index}},
-                React.createElement(SensorLineCard, {className: "sensorNode", sensor: s, user: this.props.user,key:{index}})
-              )
-            ])
-          ])}
-        </div>
+      <div className="section">
+        <h1 className="sectionTitle"> My sensors </h1>
+        {(mySensors.length != 0 ?
+            mySensors.map((s,index) => [React.createElement(Link, {to: "/sensors/" + s.id,key:{index}}, React.createElement(SensorLineCard, {className: "sensorNode", sensor: s, user: this.props.user,key:{index}}))]) :
+            <h3> You don't have any sensors yet </h3>)
+        }
+        <Button variant="contained" color="primary" className="addSensorButton" onTouchTap={() => this.props.addSensor()} >Add sensor node</Button>
+      </div>
     )
   }
 

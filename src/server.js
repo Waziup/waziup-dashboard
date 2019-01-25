@@ -4,29 +4,29 @@ import request from 'request';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import PrettyError from 'pretty-error';
+import cors from 'cors';
 import Html from './components/Html';
 import { ErrorPageWithoutStyle } from './routes/error/ErrorPage';
 import errorPageStyle from './routes/error/ErrorPage.css';
 import assets from './assets.json'; // eslint-disable-line import/no-unresolved
 import config from './config';
-import cors from 'cors';
 
-//Create app and router
+// Create app and router
 const app = express();
 
-//Include cors headers responses 
+// Include cors headers responses
 app.use(cors());
 
 // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the user agent is not known.
 global.navigator = global.navigator || {};
 global.navigator.userAgent = global.navigator.userAgent || 'all';
 
-// Serve public folder 
+// Serve public folder
 app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.get('*', async (req, res, next) => {
   try {
-    const data = {vendor: assets.vendor.js, client: assets.client.js};
+    const data = { vendor: assets.vendor.js, client: assets.client.js };
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
     res.status(200);
     res.send(`<!doctype html>${html}`);
@@ -44,9 +44,10 @@ pe.skipPackage('express');
 app.use((err, req, res, next) => {
   console.error(pe.render(err));
   const html = ReactDOM.renderToStaticMarkup(
-    <Html 
+    <Html
+      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]}
       title="Internal Server Error"
-      styles={[{ id: 'css', cssText: errorPageStyle._getCss() }]}>
+    >
       {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
     </Html>,
   );

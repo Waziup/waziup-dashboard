@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'react-grid-system'
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from '@material-ui/core/Button';
 import { clearMessages } from "../actions/actions.js"
+import Grid from '@material-ui/core/Grid';
 
 class Sensors extends Component {
   constructor(props) {
@@ -38,8 +39,18 @@ class Sensors extends Component {
     if(this.props.messages.length !=0) {
       return (
         <Container fluid={true} className="errorBanner" >
-          {messages.map(a => getLine(a))}
-          <RaisedButton className="errorBannerOK" label="Clear" primary={true} onTouchTap={() => { this.handleOK(); }} />
+        <Grid
+          container
+          justify="space-between"
+          alignItems="flex-start"
+        >
+        <div>
+        {messages.map(a => getLine(a))}
+        </div>
+        
+          <Button  className="errorBannerOK" variant="contained" color="primary" onTouchTap={() => { this.handleOK(); }}>Clear</Button>
+        </Grid>
+
         </Container>
         );
     } else {

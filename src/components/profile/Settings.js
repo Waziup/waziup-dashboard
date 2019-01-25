@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, CardText } from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import UTIL from '../../lib/utils.js';
 import { Container } from 'react-grid-system'
 
@@ -42,9 +43,9 @@ class Settings extends Component {
                 <h1 className="page-title">Settings</h1>
                 <Container>
                     <Card>
-                        <CardText>
+                        <CardContent>
                             <SettingsForm onSubmit={this.handleSubmit} />
-                        </CardText>
+                        </CardContent>
                     </Card>
                 </Container>
             </div>

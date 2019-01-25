@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form'
- import RaisedButton from 'material-ui/RaisedButton';
-import { TextField } from 'redux-form-material-ui'
-import { Row, Col} from 'react-grid-system'
+import { reduxForm, Field } from 'redux-form';
+ import Button from '@material-ui/core/Button';
+import { TextField } from 'redux-form-material-ui';
 
 class settingsForm extends Component {
   constructor(props){
@@ -22,46 +20,46 @@ class settingsForm extends Component {
   render() {
     const {reset, modalOpen, handleClose, onSubmit} = this.props;
     const actions = [ 
-      <FlatButton label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
-      <FlatButton label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
+      <Button label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
+      <Button label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
     ];
     return (
       <Dialog title={"User profile"} actions={actions} modal={true} open={modalOpen}>
         <TextField
           name="firstName"
-          floatingLabelText="First name"
+          label="First name"
           value={this.state.user.firstName}
           onChange={this.handleChange}/>
         <TextField
           name="lastName"
-          floatingLabelText="Last name"
+          label="Last name"
           value={this.state.user.lastName}
           onChange={this.handleChange}/>
         <TextField
           name="email"
-          floatingLabelText="Email"
+          label="Email"
           value={this.state.user.email}
           onChange={this.handleChange}/>
         <TextField
           name="phone"
-          floatingLabelText="Phone"
+          label="Phone"
           value={this.state.user.phone}
           onChange={this.handleChange}/>
         <TextField
           name="facebook"
-          floatingLabelText="Last name"
+          label="Last name"
           value={this.state.user.facebook}
           onChange={this.handleChange}/>
         <TextField
           name="twitter"
-          floatingLabelText="Twitter"
+          label="Twitter"
           value={this.state.user.twitter}
           onChange={this.handleChange}/>
       </Dialog>
     );
   }
 
-  propTypes = {
+  static propTypes = {
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired

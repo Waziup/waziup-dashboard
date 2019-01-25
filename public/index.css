@@ -326,6 +326,10 @@ ul {
   float: right;
 }
 
+.measurementButton {
+  margin: 20px;
+}
+
 /* Sensor details */
 
 .sensorMap {
@@ -337,14 +341,15 @@ ul {
 
 .topRightButton {
   float: right;
-  margin: 3px;
+  margin: 10px !important;
 }
 
-.cardTitle {
+.Typography {
   display: inline-block;
   font-size: 18px;
   font-family: Roboto, sans-serif;
-  margin: 5px;
+  font-weight: bold;
+  margin: 15px;
 }
 
 .cardTitleIcons {
@@ -537,9 +542,8 @@ ul {
 }
 
 .errorBannerOK {
-  right: 10px;
   position: absolute;
-  top: 5px;
+  top: 10px;
 }
 
 /* Chart */

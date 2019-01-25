@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import sensorImage from '../../images/gauge.png';
 import sensorNodeImage from '../../images/sensorNode.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
@@ -29,9 +29,9 @@ export default class SensorLineCard extends Component {
 
     return ( 
       <Card className="sensorNode">
-        <CardTitle className="sensorNodeTitle">
-          <h3 className="cardTitle"> Node {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </h3>
-        </CardTitle>
+        <Typography>
+          <span className="Typography"> Node {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </span>
+        </Typography>
         <div className="contentCards">
           <div className="boardIcon">
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
@@ -39,10 +39,10 @@ export default class SensorLineCard extends Component {
             <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
             <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
           </div>
-          {sensor.measurements.map(meas => {return (
-            <Card className={"card " + activeStyle(meas)}>
-              <div className="cardTitleDiv">
-                <pre className="cardTitle"> {(meas.name? meas.name : "") + "(" + meas.id + ")"} </pre>
+          {sensor.measurements.map((meas,index) => {return (
+            <Card className={"card " + activeStyle(meas)} key={index}>
+              <div className="TypographyDiv">
+                <pre className="Typography"> {(meas.name? meas.name : "") + "(" + meas.id + ")"} </pre>
               </div>
               <div className="cardContent">
                 <div className="measIcon">
@@ -59,7 +59,7 @@ export default class SensorLineCard extends Component {
     );
   }
 
-  propTypes = {
+  static propTypes = {
     sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
     user: PropTypes.object.isRequired
   }

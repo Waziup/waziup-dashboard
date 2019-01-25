@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import sensorImage from '../../../images/gauge.png';
 import chartImage from '../../../images/chart-icon.png';
 import PropTypes from 'prop-types';
-import { Card, CardTitle } from 'material-ui/Card';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
-import {grey} from 'material-ui/styles/colors';
-import { TextField } from 'redux-form-material-ui'
+import Card from '@material-ui/core/Card';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import MeasurementForm from './MeasurementForm';
 import MeasIcon from './MeasIcon';
 import { Link } from 'react-router';
@@ -34,8 +31,8 @@ export default class MeasurementCard extends Component {
                          onSubmit={(m) => {this.props.updateMeasurement(this.props.sensorId, m); this.setState({modalEdit: false});}}
                          isEdit={true}
                          measurement={meas}/>
-        <div className="cardTitleDiv">
-          <pre className="cardTitle"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
+        <div className="TypographyDiv">
+          <pre className="Typography"> {meas.name? meas.name : "(" + meas.id + ")"} </pre>
           <div className="cardTitleIcons"> 
             {this.props.permission.scopes.includes("sensors:update")? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
             {this.props.permission.scopes.includes("sensors:update")? <DeleteIcon onClick={() => {if(window.confirm('Delete measurement?')) this.props.deleteMeasurement(this.props.sensorId, meas.id)}}/>: null}
@@ -60,8 +57,8 @@ export default class MeasurementCard extends Component {
     );
   }
   
-  propTypes = {
-    meas: PropTypes.object.isRequired, //Should be a Waziup.Measurement
+  static propTypes = {
+    meas: PropTypes.object, //Should be a Waziup.Measurement
     isEditable: PropTypes.bool,
     isDetails: PropTypes.bool,
     updateMeasurement: PropTypes.func,

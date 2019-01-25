@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { Container } from 'react-grid-system';
 import SensorForm from './sensor/SensorForm.js';
 import SensorsTable from './SensorsTable.js';
-import SensorsList from './SensorsList.js';
-import {
-  createSensor, getSensors
-} from '../../actions/actions.js';
+import MySensorsList from './MySensorsList.js';
+import { createSensor, getSensors } from '../../actions/actions.js';
 import sensorNodesImage from '../../images/sensorNodes.png';
 import config from '../../config';
 
-class Sensors extends Component {
+class MySensors extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,17 +43,9 @@ class Sensors extends Component {
           modalOpen={this.state.modalAddSensor}
           onSubmit={s => this.props.createSensor(s)}
         />
-        <pre
-          className="tableSwitch"
-          onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}
-        >
-          {' '}
-          {this.state.isCardsView ? 'Switch to table view' : 'Switch to cards view'}
-          {' '}
-        </pre>
         {this.state.isCardsView
           ? (
-            <SensorsList
+            <MySensorsList
               addSensor={() => {
                 console.log('test'); this.setState({ modalAddSensor: true });
               }}
@@ -87,4 +77,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sensors);
+export default connect(mapStateToProps, mapDispatchToProps)(MySensors);

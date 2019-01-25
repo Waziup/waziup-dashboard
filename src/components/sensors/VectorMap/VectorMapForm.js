@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form'
-import Dialog from 'material-ui/Dialog';
+import Dialog from '@material-ui/core/Dialog';
 import { Map, TileLayer, Circle, FeatureGroup } from 'react-leaflet';
 import { EditControl } from "react-leaflet-draw";
-import FlatButton from 'material-ui/FlatButton';
-import { SelectField, TextField } from 'redux-form-material-ui'
-//import SuperSelectField from 'material-ui-superselectfield'
-import MenuItem from 'material-ui/MenuItem'
+import Button from '@material-ui/core/Button';
+import { Select, TextField } from 'redux-form-material-ui'
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { Row, Col } from 'react-grid-system'
 import UTIL from '../../../lib/utils.js'
@@ -92,25 +91,25 @@ class VectorMapForm extends Component {
     const spList = servicePaths.map(sp => <MenuItem key={sp} value={sp} primaryText={sp} />);
 
     const actionsLocalization = [
-      <FlatButton
+      <Button
         type="reset"
         label="Reset"
         secondary={true}
         style={{ float: 'left' }}
       />,
-      <FlatButton
+      <Button
         label="Cancel"
         primary={true}
         onClick={this.handleClose}
       />,
-      <FlatButton
+      <Button
         type="submit"
         label="Submit"
         primary={true}
       />,
     ];
     const actions = [
-      <FlatButton
+      <Button
         label="Cancel"
         primary={true}
         onTouchTap={() => {
@@ -119,7 +118,7 @@ class VectorMapForm extends Component {
           handleClose();
         }}
       />,
-      <FlatButton
+      <Button
         label="Submit"
         primary={true}
         onTouchTap={() => {
@@ -143,7 +142,7 @@ class VectorMapForm extends Component {
             <Row>
               <Col md={4}>
                 Farm ServicePath:<Field
-                  component={SelectField}
+                  component={Select}
                   name='servicePath'
                   hintText='Farm Service Path'
                   style={{ minWidth: 150, margin: 10 }}

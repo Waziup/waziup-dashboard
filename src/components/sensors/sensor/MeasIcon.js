@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import MeasurementForm from './MeasurementForm';
-import MeasurementCard from './MeasurementCard';
-import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
-import sensorNodeImage from '../../../images/sensorNode.png';
-import SensorForm from './SensorForm.js'
 import gauge from '../../../images/gauge.png';
 import thermometer from '../../../images/thermometer.png';
 import accelerometer from '../../../images/accelerometer.png';
@@ -142,8 +136,8 @@ export default class MeasIcon extends Component {
     );
   }
                                                                                                                                   
-  propTypes = {
-    sensing_device: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+  static propTypes = {
+    sensing_device: PropTypes.string, //Should be a Waziup.Sensor
     title: PropTypes.string,
     height: PropTypes.string
   }

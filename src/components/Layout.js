@@ -1,117 +1,306 @@
 require('normalize.css');
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
+import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
 import { Link } from 'react-router';
-import IconButton from 'material-ui/IconButton';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import Avatar from 'material-ui/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+
+import Button from '@material-ui/core/Button';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import { Container, Col, Hidden } from 'react-grid-system'
-import UTIL from '../lib/utils.js';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorBanner from './ErrorBanner';
-import sensorNodesImage from '../images/sensorNodes.png';
 import { browserHistory } from 'react-router'
 import { getPermissions, logout } from "../actions/actions.js"
 import config from '../config';
+import { Container, Col } from 'react-grid-system'
 
-const styles = {
+import Drawer from '@material-ui/core/Drawer';
+import Collapse from '@material-ui/core/Collapse';
+import Toolbar from '@material-ui/core/Toolbar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import MenuIcon from '@material-ui/icons/Menu';
+import PlaceIcon from '@material-ui/icons/Place';
+import CloudIcon from '@material-ui/icons/Cloud';
+import AlarmIcon from '@material-ui/icons/Alarm';
+import SettingsRemoteIcon from '@material-ui/icons/SettingsRemote';
+
+import theme from './theme';
+
+const drawerWidth = 240;
+
+const styles = () => ({
+  root: {
+    display: 'flex',
+  },
+  drawer: {   
+    [theme.breakpoints.up('sm')]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+    maxHeight: '64px'
+  },
+  appBar: {
+    marginLeft: drawerWidth,
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
+  },
+  menuButton: {
+    marginRight: 20,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  sideBarMenuItem: {
+    color: '#ffffff',
+    textColor: '#ffffff !important',
+    backgroundColor: '#ffffff !important'
+  },
+  toolbar: theme.mixins.toolbar,
+  drawerPaper: {
+    backgroundColor: "#34425A",
+    width: drawerWidth,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    backgroundColor: '#fafafa'
+  },
+  logo: {
+    width: drawerWidth,
+    padding: '40px',
+  },
   medium: {
     marginRight: 30,
     color: '#cecece'
   },
   menuLink: {
     border: 'none',
+  },
+  listItemText: {
+    color: '#fff',
+  },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4,
   }
-}
+});
 
 class Layout extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      mobileOpen: false,
+      collapseOpen: false,
+      anchorEl: null
     };
   }
+  
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
-  getChildContext() {
-    return {
-      muiTheme: this.state.muiTheme
-    };
-  }
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
-  componentWillMount() {
-    this.props.getPermissions()
-    this.setState({
-      muiTheme: getMuiTheme()
-    });
-  }
+  handleCollapse = () => {
+    this.setState(state => ({ collapseOpen: !state.collapseOpen }));
+  };
+
+  handleDrawerToggle = () => {
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
+
+  hideDrawer = () => {
+    if(this.state.mobileOpen)
+    this.setState(state => ({ mobileOpen: !state.mobileOpen }));
+  };
 
   render() {
-    var Logo;
-    var Logo = require("../images/logo-waziup-white.png");
-    const profileButton = 
-      <IconButton className="profile-menu" style={styles.medium}>
-        <span className="user-name">{this.props.user.firstName + " " + this.props.user.lastName}</span>
-        <AccountCircle />
-      </IconButton>
-    const headerMenu =
-      <IconMenu iconButtonElement={profileButton} anchorOrigin={{ horizontal: 'left', vertical: 'top' }} targetOrigin={{ horizontal: 'left', vertical: 'top' }}>
-        <MenuItem primaryText="Help" href='http://www.waziup.io/documentation' />
-        <MenuItem primaryText="Profile" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl} />
-        <MenuItem primaryText="Sign Out" onClick={() => { this.props.logout(); this.props.keycloak.logout() }} />
-      </IconMenu>
+    const { anchorEl } = this.state;
+    const { classes } = this.props;
+    const open = Boolean(anchorEl);
+    const Logo = require("../images/logo-waziup-white.png");
+    const listItems = [
+      { name: "Gateways", icon: (<CloudIcon />)},
+      { name: "Notifications", icon: (<AlarmIcon />)},
+      { name: "Map", icon: (<PlaceIcon />)}
+    ]
+
+      const renderMenu = (
+        <div>
+          <Button      
+            className={classes.button}            
+            aria-owns={open ? 'menu-appbar' : undefined}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit">
+              {this.props.user.firstName + " " + this.props.user.lastName + " "}
+              <AccountCircle className={classes.rightIcon}/>
+            </Button>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={this.handleClose}
+          >
+            <MenuItem component="a" href="http://www.waziup.io/documentation"> Help</MenuItem>
+            <MenuItem component="a" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl}>Profile</MenuItem>
+            <MenuItem onClick={() => { this.props.logout(); this.props.keycloak.logout() }}>Sign Out</MenuItem>
+          </Menu>
+        </div>
+      );
+
+      const drawer = (
+        <div>
+          <div className={classes.drawerHeader}>
+          <img style={styles.logo} src={Logo} className={classes.logo} alt="logo" onClick={() => { browserHistory.push('/') }}/>
+          </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+
+          <Divider />
+
+          <List>
+          <ListItem button onClick={this.handleCollapse}>
+              <ListItemIcon>
+                <span className={classes.listItemText}><SettingsRemoteIcon /></span>
+              </ListItemIcon>
+              <ListItemText inset ><span className={classes.listItemText}>Sensors</span></ListItemText>
+              <span className={classes.listItemText}>{this.state.collapseOpen ? <ExpandLess /> : <ExpandMore />}</span>
+            </ListItem>
+            <Collapse in={this.state.collapseOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItem button className={classes.nested} component={Link} to={"/MySensors"}>
+                  <ListItemText inset><span className={classes.listItemText}>My Sensors</span></ListItemText>
+                </ListItem>
+                <ListItem button className={classes.nested} component={Link} to={"/Sensors"}>
+                  <ListItemText inset><span className={classes.listItemText}>All Sensors</span></ListItemText>
+                </ListItem>
+              </List>
+            </Collapse>
+            {listItems.map((text, index) => (
+              <ListItem button  key={index} component={Link} to={"/" + text.name} onTouchTap={this.hideDrawer} >   
+                <ListItemIcon><span className={classes.listItemText}>{ text.icon }</span></ListItemIcon>
+                <ListItemText><span className={classes.listItemText}>{ text.name }</span></ListItemText>                                                    
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      );
+
 
     return (
-      <div id="main">
-        <AppBar
-          title={<img style={styles.logo} src={Logo} alt="logo" onClick={() => { browserHistory.push('/') }}/>}
-          onLeftIconButtonTouchTap={this.toggleNavigation}
-          iconElementRight={headerMenu}
-          className="navbar"
-        />
-        <Hidden xs sm>
-          <Col md={2} className="page-sidebar sidebar">
-            <div className="page-sidebar-inner">
-              <div className="menu">
-                <MenuItem containerElement={<Link to="/sensors" />}
-                          innerDivStyle={styles.menuLink}
-                          primaryText="Sensors"/>
-                <MenuItem containerElement={<Link to="/gateways" />}
-                          innerDivStyle={styles.menuLink}
-                          primaryText="Gateways"/>
-                <MenuItem containerElement={<Link to="/notifications" />}
-                          innerDivStyle={styles.menuLink}
-                          primaryText="Notifications"/>
-                <MenuItem containerElement={<Link to="/map" />}
-                          primaryText="Map" innerDivStyle={styles.menuLink}/>
-                {this.props.permissions.find(p => p.resource == 'Users' && p.scopes.includes('users:view'))?
-                  <MenuItem containerElement={<Link to="/users" />} primaryText="Users" innerDivStyle={styles.menuLink}/>:null}
-              </div>
-            </div>
-          </Col>
-        </Hidden>
-        <Col md={10} className="page-inner">
-          <div id="main-wrapper">
-            <ErrorBanner/>
-            {this.props.children}
-          </div>
-          <div className="page-footer">
-            <Container>
-              <Col md={6} className="footer-left">
-                <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2017 <a href="">Waziup.io</a></p>
-              </Col>
-            </Container>
-          </div>
-        </Col>
+      <MuiThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              aria-label="Open drawer"
+              onClick={this.handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+            <div className={classes.grow} />
+            { renderMenu }
+          </Toolbar>
+        </AppBar>
+        <nav className={classes.drawer}>
+          {/* The implementation can be swap with js to avoid SEO duplication of links. */}
+          <Hidden smUp implementation="css">
+            <Drawer
+              container={this.props.container}
+              variant="temporary"
+              anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+              open={this.state.mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+             {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden xsDown implementation="css">
+            <Drawer
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              variant="permanent"
+              open
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+        </nav>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+           <div id="main-wrapper">
+     <ErrorBanner/>
+     {this.props.children}
+   </div>
+   <div className="page-footer">
+   <Container>
+       <Col md={6} className="footer-left">
+         <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2017 <a href="">Waziup.io</a></p>
+       </Col>
+       </Container>
+   </div>
+        </main>
       </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-Layout.childContextTypes = {
-  muiTheme: PropTypes.object.isRequired
+Layout.propTypes = {
+  classes: PropTypes.object.isRequired,
+  // Injected by the documentation to work in an iframe.
+  // You won't need it on your project.
+  container: PropTypes.object,
+  theme: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -128,4 +317,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Layout));
