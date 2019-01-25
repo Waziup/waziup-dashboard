@@ -21,12 +21,18 @@ class SensorForm extends Component {
   constructor(props){
     super(props);
     const defaultSensor = new Waziup.Sensor("MySensor")
+    defaultSensor.id = "MySensor"
     defaultSensor.name = "My sensor"
     defaultSensor.domain = "waziup"
     defaultSensor.visibility = "public"
     this.state = {
       sensor: (this.props.sensor? this.props.sensor: defaultSensor)
     };
+  }
+
+  componentWillReceiveProps(){
+    if(this.props.isEdit)
+    this.setState({sensor:this.props.sensor})
   }
   
   handleChange = (formData) => {
