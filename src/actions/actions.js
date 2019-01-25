@@ -105,6 +105,20 @@ export function updateSensorName(sensorId, name) {
   };
 }
 
+export function updateSensorVisibility(sensorId, visibility) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_SENSOR_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await sensorsApi.putSensorVisility(sensorId, visibility);
+      dispatch({ type: types.UPDATE_SENSOR_SUCCESS, data });
+      dispatch(getSensors());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_SENSOR_ERROR, data: error });
+    }
+  };
+}
+
 export function updateSensorGatewayId(sensorId, gateway_id) {
   return async function (dispatch) {
     dispatch({ type: types.UPDATE_SENSOR_START });

@@ -13,7 +13,8 @@ import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
 
 import {
-  addMeasurement, deleteMeasurement, deleteSensor, getSensor, updateMeasurementName, updateSensorLocation, updateSensorName,
+  addMeasurement, deleteMeasurement, deleteSensor, getSensor, updateMeasurementName, 
+  updateSensorLocation, updateSensorName, updateSensorVisibility
 } from '../../../actions/actions.js';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import config from '../../../config';
@@ -72,6 +73,7 @@ class SensorDetail extends Component {
             sensor={sensor}
             updateMeasurement={this.props.addMeasurement}
             updateSensorName={this.props.updateSensorName}
+            updateSensorVisibility={this.props.updateSensorVisibility}
             user={this.props.user}
           />
           <Card className="sensorMap">
@@ -159,6 +161,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateSensorName: (id, n) => {
       dispatch(updateSensorName(id, n));
+    },
+    updateSensorVisibility: (id, v) => {
+      dispatch(updateSensorVisibility(id, v));
     },
     updateMeasurementName: (sensorId, measId, n) => {
       dispatch(updateMeasurementName(sensorId, measId, n));

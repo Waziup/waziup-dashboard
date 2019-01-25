@@ -43,7 +43,8 @@ export default class SensorNodeCard extends Component {
                     isEdit={true}
                     modalOpen={this.state.modalEdit}
                     handleClose={() => this.setState({ modalEdit: false })}
-                    onSubmit={s => this.props.updateSensorName(sensor.id, s.name)} />
+                    onSubmit={s => {this.props.updateSensorName(sensor.id, s.name),
+                    this.props.updateSensorVisibility(sensor.id, s.visibility)}} />
         <Typography>
           <span className="Typography"> {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </span>
           {this.props.permission && this.props.permission.scopes.includes("sensors:delete")? 
