@@ -19,9 +19,6 @@ import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
 import chartImage from '../../../images/chart-icon.png';
 import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-require('react-day-picker/lib/style.css');
-import moment from 'moment';
 import config from '../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -106,8 +103,7 @@ class MeasurementDetail extends Component {
       }
 
       return (
-        <Container fluid={true} 
-        ={{'padding-bottom':'100px'}}>
+        <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
             <img src={chartImage} height="50" />
             Measurement: {this.props.meas.id}
