@@ -72,9 +72,10 @@ class MeasurementDetail extends Component {
     this.setState({ query: myQuery});
   }
 
-  handleTimeAxis = (event, index, value) => {
-    this.setState({ timeAxis: value });
+  handleTimeAxis = (event) => {
+    this.setState({ timeAxis: event.target.value });
   }
+  
   handleApply = () => {
     console.log('Query submit clicked: ' + JSON.stringify(this.state));
     this.fetchValues();
