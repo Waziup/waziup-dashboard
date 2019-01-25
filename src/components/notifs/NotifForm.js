@@ -74,7 +74,7 @@ class NotifForm extends Component {
             <Grid item xs={5}>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="sensors">Sensors</InputLabel>
-                <Select multiple={true} hintText='My Sensor'
+                <Select multiple={true}
                   input={<Input name="sensors" id="sensors" />}
                   value={this.state.notif.condition.sensors} onChange={(s) => this.handleChange("sensors", s)} title="The kind of sensor used for this measurement">
                   {this.props.sensors.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
@@ -87,7 +87,7 @@ class NotifForm extends Component {
             <Grid item xs={5}>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="measurements">Measurements</InputLabel>
-                <Select multiple={true} hintText='My sensor value'
+                <Select multiple={true}
                   input={<Input name="measurements" id="measurements" />}
                   value={this.state.notif.condition.measurements} onChange={(a) => this.handleChange("measurements", a)}>
                   {this.props.sensors.filter(s => this.state.notif.condition.sensors.includes(s.id)).map(s => s.measurements.map(m => <MenuItem key={m.id} checked={this.state.notif.condition.measurements.includes(m.id)} value={m.id} >{m.id}</MenuItem>))}
@@ -104,12 +104,12 @@ class NotifForm extends Component {
               <TextField name="expr" value={this.state.notif.condition.expression} onChange={(e) => this.handleChange("expr", e)}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField name="message" fullWidth={true} hintText="message" label="Message to send:" value={this.state.notif.notification.message} onChange={(_1, m) => this.handleChange("message", m)}/>
+              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.notification.message} onChange={(_1, m) => this.handleChange("message", m)}/>
             </Grid>
             <Grid item xs={6}>
               <FormControl style={{display: 'flex'}}>
               <InputLabel htmlFor="usernames">Users</InputLabel>
-              <Select multiple={true} hintText='Users'
+              <Select multiple={true}
                 input={<Input name="usernames" id="usernames" />}
                 value={this.state.notif.notification.usernames} onChange={(u) => this.handleChange("usernames", u)}>
                 {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
@@ -124,7 +124,7 @@ class NotifForm extends Component {
             <Grid item xs={6}>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="channels">Socials</InputLabel>
-                <Select multiple={true} hintText='Socials'
+                <Select multiple={true}
                   input={<Input name="channels" id="channels" />}
                   value={this.state.notif.notification.channels} onChange={(c) => this.handleChange("channels", c)}>
                   {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.notification.channels.includes(c)} leftIcon={<Socials/>}>{c}</MenuItem>)}
@@ -132,7 +132,7 @@ class NotifForm extends Component {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-            <TextField name="expires" type="date" hintText="Expires" value={this.state.notif.expires} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
+            <TextField name="expires" type="date" value={this.state.notif.expires} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
             </Grid>
           </Grid>
         </DialogContent>
