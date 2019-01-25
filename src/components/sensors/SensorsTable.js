@@ -44,7 +44,7 @@ export default class SensorsTable extends Component {
                     <TableRow>
                       <TableCell> 
                         <Link to={"/sensors/" + sensor.id + "/" + meas.id}>
-                          {(meas.name? meas.name: meas.id) + ": " + (meas.last_value? JSON.stringify(meas.last_value.value).replace(/\\"/g, '"'): "") + " " + (meas.unit? meas.unit: "")} 
+                          {(meas.name? meas.name: meas.id) + ": " + (meas.last_value? JSON.stringify(meas.last_value.value).replace(/"/g, ""): "") + " " + (meas.unit? meas.unit: "")} 
                         </Link>
                       </TableCell> 
                     </TableRow>

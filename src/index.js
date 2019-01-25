@@ -45,9 +45,14 @@ const routes = {
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },
     { path: 'users/:userId/perms', component: UserPermissions },
-    { path: '*', component: () => <h2> Page not found!</h2> },
+    { path: '*', component: () => <h2> Page not found!</h2> }
   ],
-};
+  onChange: (prevState, nextState) => {
+      if (nextState.location.action !== "POP") {
+        window.scrollTo(0, 0);
+      }
+  }
+}
 
 // Render the page with the layout and routes
 function displayPage() {

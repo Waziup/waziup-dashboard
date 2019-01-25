@@ -23,7 +23,7 @@ class Html extends React.Component {
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.3/toastr.min.css"/>
-
+          <link rel="stylesheet" href="/style.css"/>
         </head>
         <body>
           <div id="app" className="content-wrap" dangerouslySetInnerHTML={{ __html: children }} />

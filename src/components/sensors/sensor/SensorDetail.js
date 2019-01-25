@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
 import SensorNodeCard from './SensorNodeCard';
 import LocationForm from './LocationForm';
-
 import {
   addMeasurement, deleteMeasurement, deleteSensor, getSensor, updateMeasurementName, 
   updateSensorLocation, updateSensorName, updateSensorVisibility

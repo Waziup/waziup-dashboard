@@ -42,17 +42,13 @@ class Notifications extends Component {
       }
       console.log(`open${JSON.stringify(this.state.modalOpen)}`);
       return (
-        <Container fluid>
-          <h1 className="page-title">
-Notifications settings
-          </h1>
-          <NotifForm
-            handleClose={() => this.setState({ modalOpen: false })}
-            modalOpen={this.state.modalOpen}
-            onSubmit={this.props.createNotif}
-            sensors={this.props.sensors}
-            users={this.props.users}
-          />
+        <Container fluid={true} style={{'padding-bottom':'50px'}}>
+          <h1 className="page-title">Notifications settings</h1>
+          <NotifForm modalOpen={this.state.modalOpen}
+                     sensors={this.props.sensors}
+                     users={this.props.users}
+                     handleClose={() => this.setState({ modalOpen: false })}
+                     onSubmit={this.props.createNotif} />
           <Card className="sensorNode">
             <Typography>
               <span className="Typography">
