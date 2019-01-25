@@ -117,11 +117,14 @@ const styles = () => ({
 
 class Layout extends Component {
 
-  state = {
-    mobileOpen: false,
-    collapseOpen: false,
-    anchorEl: null
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      mobileOpen: false,
+      collapseOpen: false,
+      anchorEl: null
+    };
+  }
   
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
