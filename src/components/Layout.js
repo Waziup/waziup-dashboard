@@ -125,7 +125,10 @@ class Layout extends Component {
       anchorEl: null
     };
   }
-  
+  componentWillMount() {
+    this.props.getPermissions()
+  }
+
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
