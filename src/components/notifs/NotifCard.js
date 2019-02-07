@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Person from '@material-ui/icons/Person';
 import Share from '@material-ui/icons/Share';
+import Grid from '@material-ui/core/Grid';
 
 export default class NotifCard extends Component {
   constructor(props) {
@@ -46,15 +47,21 @@ export default class NotifCard extends Component {
               <pre> {notif.notification.message} </pre>
             </div> 
             <div className="notifUsersChannels">
-              <List className="notifUsers">
-                  {notif.notification.usernames.map((u,index) => <ListItem key={index}>
-                  <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>)}
-              </List>
-              <List className="notifChannels">
-                  {notif.notification.channels.map((c,index) => <ListItem key={index}>
-                    <ListItemIcon><Share/></ListItemIcon>
-                      {c}</ListItem>)}
-              </List>
+              <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <List className="notifUsers">
+                      {notif.notification.usernames.map((u,index) => <ListItem key={index}>
+                      <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>)}
+                  </List>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <List className="notifChannels">
+                      {notif.notification.channels.map((c,index) => <ListItem key={index}>
+                        <ListItemIcon><Share/></ListItemIcon>
+                          {c}</ListItem>)}
+                  </List>
+                </Grid>
+              </Grid>
             </div>
           </Link>
         </div>

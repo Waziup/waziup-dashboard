@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import gatewayImage from '../../images/RPI.png';
 import loraImage from '../../images/lora.png';
 import GatewaySensor from './GatewaySensor.js'
+import Grid from '@material-ui/core/Grid';
 
 export default class GatewayNetwork extends Component {
   constructor(props) {
@@ -20,8 +21,10 @@ export default class GatewayNetwork extends Component {
       <Card className="sensorNode">
         <Typography>
           <span className="Typography"> Gateway {gateway.gatewayID? gateway.gatewayID: "unknown"} </span>
-        </Typography>
+        </Typography> 
         <div className="contentCards">
+        <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <div className="boardIcon">
             <div className={"iconGateway gateway" + this.props.gateway.gatewayID + "-" + this.props.domainName}>
               <img src={gatewayImage} height="90"/>
@@ -30,14 +33,20 @@ export default class GatewayNetwork extends Component {
               <img src={loraImage} height="30"/>
             </div>
           </div>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
           <div className="gatewaySensorNodes">
             {this.props.gateway.sensors.map((s,index) => 
+                  
               <GatewaySensor sensor={s}
                              key={index}
                              updateSensorGatewayId={this.props.updateSensorGatewayId}
-                             permission={this.props.permissions.find(p => p.resource == s.id)}/>) }
+                             permission={this.props.permissions.find(p => p.resource == s.id)}/>
+                             ) }
           </div>
-        </div>
+          </Grid>
+          </Grid>
+          </div>        
       </Card>
     );
   }
