@@ -790,3 +790,11 @@ ul {
   background: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
+
+a {
+  color: #000 !important
+}
+
+a, a:visited, a:focus, a:active, a:hover{
+  outline:0 none !important;
+}
