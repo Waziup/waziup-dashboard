@@ -579,3 +579,11 @@ ul {
 .gatewayLine {
   border-top: 5px dashed orange !important;
 }
+
+a {
+  color: #000 !important
+}
+
+a, a:visited, a:focus, a:active, a:hover{
+  outline:0 none !important;
+}

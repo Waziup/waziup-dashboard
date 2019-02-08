@@ -268,10 +268,11 @@ export function deleteUser(userid) {
 
 export function getNotifs() {
   return async function (dispatch) {
+    const  params = { limit: 1000 };
     dispatch({ type: types.GET_NOTIFS_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
-      const data = await notifsApi.getNotifications();
+      const data = await notifsApi.getNotifications(params);
       dispatch({ type: types.GET_NOTIFS_SUCCESS, data });
     } catch (error) {
       dispatch({ type: types.GET_NOTIFS_ERROR, data: error });

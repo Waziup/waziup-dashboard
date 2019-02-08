@@ -18,6 +18,7 @@ import { browserHistory } from 'react-router'
 import { getPermissions, logout } from "../actions/actions.js"
 import config from '../config';
 import { Container, Col } from 'react-grid-system'
+import Grid from '@material-ui/core/Grid';
 
 import Drawer from '@material-ui/core/Drawer';
 import Collapse from '@material-ui/core/Collapse';
@@ -65,6 +66,7 @@ const styles = () => ({
   },
   appBar: {
     marginLeft: drawerWidth,
+    backgroundColor: '#ffffff !important',
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
@@ -87,6 +89,7 @@ const styles = () => ({
   },
   button: {
     margin: theme.spacing.unit,
+    textTransform: 'none'
   },
   rightIcon: {
     marginLeft: theme.spacing.unit,
@@ -98,7 +101,7 @@ const styles = () => ({
   },
   logo: {
     width: drawerWidth,
-    padding: '40px',
+    padding: '20px',
   },
   medium: {
     marginRight: 30,
@@ -125,10 +128,11 @@ class Layout extends Component {
       anchorEl: null
     };
   }
+
   componentWillMount() {
     this.props.getPermissions()
   }
-
+  
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -211,10 +215,10 @@ class Layout extends Component {
             </ListItem>
             <Collapse in={this.state.collapseOpen} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem button className={classes.nested} component={Link} to={"/MySensors"}>
+                <ListItem button className={classes.nested} component={Link} to={"/MySensors"} onTouchTap={this.hideDrawer}>
                   <ListItemText inset><span className={classes.listItemText}>My Sensors</span></ListItemText>
                 </ListItem>
-                <ListItem button className={classes.nested} component={Link} to={"/Sensors"}>
+                <ListItem button className={classes.nested} component={Link} to={"/Sensors"} onTouchTap={this.hideDrawer}>
                   <ListItemText inset><span className={classes.listItemText}>All Sensors</span></ListItemText>
                 </ListItem>
               </List>
@@ -282,7 +286,11 @@ class Layout extends Component {
           <div className={classes.toolbar} />
            <div id="main-wrapper">
      <ErrorBanner/>
-     {this.props.children}
+     <Grid container spacing={24}>
+      <Grid item xs={12}>  
+        {this.props.children}
+      </Grid>
+     </Grid>
    </div>
    <div className="page-footer">
    <Container>

@@ -7,6 +7,7 @@ import config from '../../config';
 import * as Waziup from 'waziup-js'
 import MeasIcon from './sensor/MeasIcon';
 import newImage from '../../images/new.png';
+import Grid from '@material-ui/core/Grid';
 
 export default class SensorLineCard extends Component {
   constructor(props) {
@@ -33,13 +34,17 @@ export default class SensorLineCard extends Component {
           <span className="Typography"> Node {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </span>
         </Typography>
         <div className="contentCards">
+        <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
           <div className="boardIcon">
             <img src={sensorNodeImage} height="64" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
             {sensorNodeNew ? <img src={newImage} height="35" className="newIcon"/>: null}
             <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
             <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
           </div>
+          </Grid>
           {sensor.measurements.map((meas,index) => {return (
+            <Grid item xs={12} sm={6} md={4} lg={3}>
             <Card className={"card " + activeStyle(meas)} key={index}>
               <div className="TypographyDiv">
                 <pre className="Typography"> {(meas.name? meas.name : "") + "(" + meas.id + ")"} </pre>
@@ -53,7 +58,9 @@ export default class SensorLineCard extends Component {
                 </div>
               </div>
             </Card>
-          )})}
+            </Grid>
+          )})}          
+          </Grid>
         </div>
       </Card>
     );
