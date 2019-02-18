@@ -19,7 +19,6 @@ import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
 import chartImage from '../../../images/chart-icon.png';
 import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
-require('react-day-picker/lib/style.css');
 import config from '../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
