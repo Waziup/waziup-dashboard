@@ -30,9 +30,24 @@ class NotifForm extends Component {
       throttling: 1,
       expires: ""})
     this.state = {
-      notif: props.notif? props.notif: defaultNotif
+      notif: props.notif? props.notif: defaultNotif,
+      sensors: []
     };
-    console.log("users:" + JSON.stringify(props.users))
+    console.log("users:" + JSON.stringify(props.users))    
+  }
+
+  compare(a,b) {
+    if (a.id < b.id)
+      return -1;
+    if (a.id > b.id)
+      return 1;
+    return 0;
+  }
+
+  componentWillMount() {
+    let sensors =  this.props.sensors.sort(this.compare);
+    this.setState({sensors:sensors })
+    console.log(sensors);
   }
 
   handleChange = (field, event) => {
@@ -77,7 +92,7 @@ class NotifForm extends Component {
                 <Select multiple={true}
                   input={<Input name="sensors" id="sensors" />}
                   value={this.state.notif.condition.sensors} onChange={(s) => this.handleChange("sensors", s)} title="The kind of sensor used for this measurement">
-                  {this.props.sensors.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
+                  {this.state.sensors.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.sensors.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>
