@@ -17,6 +17,8 @@ import {
 } from '../../../actions/actions.js';
 import sensorNodeImage from '../../../images/sensorNode.png';
 import config from '../../../config';
+import Hidden from '@material-ui/core/Hidden';
+import EditIcon from '@material-ui/icons/Edit';
 
 class SensorDetail extends Component {
   constructor(props) {
@@ -83,7 +85,15 @@ class SensorDetail extends Component {
                 {' '}
               </span>
               {this.props.permission && this.props.permission.scopes.includes('sensors:update')
-                ? <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button> : null}
+                ? 
+                (<div className="cardTitleIcons">
+                  <Hidden mdUp implementation="css">
+                    <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
+                  </Hidden>
+                  <Hidden smDown implementation="css">
+                  <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
+                  </Hidden>
+                </div>) : null}
               <LocationForm
                 handleClose={() => this.setState({ modalLocation: false })}
                 initialLocation={sensor.location}

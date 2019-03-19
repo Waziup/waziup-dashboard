@@ -6,6 +6,7 @@ import gatewayImage from '../../images/RPI.png';
 import loraImage from '../../images/lora.png';
 import GatewaySensor from './GatewaySensor.js'
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 
 export default class GatewayNetwork extends Component {
   constructor(props) {
@@ -16,11 +17,19 @@ export default class GatewayNetwork extends Component {
 
   render() {
     var gateway = this.props.gateway
-    console.log("gateway:   " + JSON.stringify(gateway))
+    console.log("gateway:   " + JSON.stringify(gateway));
+    let gatewayID = gateway.gatewayID? gateway.gatewayID: "unknown";
+    let maxlimit = 20;
+    
     return ( 
       <Card className="sensorNode">
         <Typography>
-          <span className="Typography"> Gateway {gateway.gatewayID? gateway.gatewayID: "unknown"} </span>
+        <Hidden mdUp implementation="css">
+            <span className="Typography"> Gateway {((gatewayID).length > maxlimit) ? (((gatewayID).substring(0, maxlimit - 3)) + '...') : gatewayID} </span>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <span className="Typography"> Gateway {gatewayID} </span>
+          </Hidden>
         </Typography> 
         <div className="contentCards">
         <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
