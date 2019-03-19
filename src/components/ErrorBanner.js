@@ -28,11 +28,11 @@ class Sensors extends Component {
       return acc;
     }, []);
 
-    function getLine(e) {
+    function getLine(e,index) {
       if(e.error) {
-        return <h4 style={{"color": "red"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
+        return <h4 key={index} style={{"color": "red"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       } else {
-        return <h4 style={{"color": "green"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
+        return <h4 key={index} style={{"color": "green"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       }
     }
     console.log("props: " + JSON.stringify(this.props))
@@ -45,7 +45,7 @@ class Sensors extends Component {
           alignItems="flex-start"
         >
         <div>
-        {messages.map(a => getLine(a))}
+        {messages.map((a,index) => getLine(a,index))}
         </div>
         
           <Button  className="errorBannerOK" variant="contained" color="primary" onTouchTap={() => { this.handleOK(); }}>Clear</Button>
