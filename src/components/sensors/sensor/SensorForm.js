@@ -109,7 +109,7 @@ class SensorForm extends Component {
   }
 
   static propTypes = {
-    sensor: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+    sensor: PropTypes.object, //Should be a Waziup.Sensor
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

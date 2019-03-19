@@ -42,7 +42,7 @@ class Notifications extends Component {
       }
       console.log(`open${JSON.stringify(this.state.modalOpen)}`);
       return (
-        <Container fluid={true} style={{'padding-bottom':'50px'}}>
+        <Container fluid={true} style={{'paddingBottom':'50px'}}>
           <h1 className="page-title">Notifications settings</h1>
           <NotifForm modalOpen={this.state.modalOpen}
                      sensors={this.props.sensors}
