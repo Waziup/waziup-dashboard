@@ -1,6 +1,32 @@
 import { routerReducer } from 'react-router-redux';
 import * as types from '../actions/actionTypes';
 
+// Get all sensors attributes
+function sensorAttributesReducer(state = {
+  isLoading: false,
+  sensorAttributes: [],
+  error: false,
+  errMsg: '',
+}, action = null) {
+  switch (action.type) {
+    case types.GET_SENSOR_ATTRIBUTES_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_SENSOR_ATTRIBUTES_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      sensorAttributes: action.data,
+      error: false,
+    });
+    case types.GET_SENSOR_ATTRIBUTES_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
 // Get all sensors
 function sensorsReducer(state = {
   isLoading: false,
@@ -309,6 +335,8 @@ export default function rootReducer(state = {}, action) {
     routing: routerReducer(state.routing, action),
     keycloak: state.keycloak,
     current_user: state.current_user,
+    // List of sensor attributes
+    sensorAttributes: sensorAttributesReducer(state.sensorAttributes, action),
     // List of sensors
     sensors: sensorsReducer(state.sensors, action),
     // Sensor CRUD operations

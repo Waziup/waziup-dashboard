@@ -19,6 +19,27 @@ export function logout() {
 
 /* Sensor Actions */
 
+export function getSensorAttributes(params) {
+  return async function (dispatch) {
+    if (!params) {
+      params = { limit: 1000 };
+    }
+    dispatch({ type: types.GET_SENSOR_ATTRIBUTES_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const result = await sensorsApi.getSensors(params);
+      const domains = [...new Set(result.map(s => s.domain))];
+      const owners = [...new Set(result.map(s => s.owner))];
+      const ids = [...new Set(result.map(s => s.id))];
+      const names = [...new Set(result.map(s => s.name))];
+      const data = {domains,owners,ids,names}
+      dispatch({ type: types.GET_SENSOR_ATTRIBUTES_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: types.GET_SENSOR_ATTRIBUTES_ERROR, data: error });
+    }
+  };
+}
+
 export function getSensors(params) {
   return async function (dispatch) {
     if (!params) {
