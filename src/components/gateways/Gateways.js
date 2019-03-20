@@ -5,6 +5,28 @@ import { Container } from 'react-grid-system';
 import { getSensors, updateSensorGatewayId} from "../../actions/actions.js";
 import gatewayImage from '../../images/RPIs.png';
 import DOM from 'react-dom-factories';
+import Hidden from '@material-ui/core/Hidden';
+
+class DomainNameComponent extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let maxlimit = 20;
+    return (
+      <div>
+        <Hidden mdUp implementation="css">
+          <h2> Domain {((this.props.domain).length > maxlimit) ? (((this.props.domain).substring(0, maxlimit - 3)) + '...') : this.props.domain} </h2>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <h2 > Domain {this.props.domain} </h2>
+        </Hidden>
+      </div>
+    )
+  }
+}
 
 class Gateways extends Component {
   constructor(props) {
@@ -43,7 +65,7 @@ class Gateways extends Component {
         </h1>
         {DOM.div(null, 
           this.getDomains().map((d,index) => [ 
-            DOM.h2({className: "sectionTitle",key: index}, "Domain " + d.domainName),
+            React.createElement(DomainNameComponent, { key: { index }, domain:d.domainName}),
             d.gateways.map((g,index2) => React.createElement(GatewayNetwork, {gateway: g, domainName: d.domainName, updateSensorGatewayId: this.props.updateSensorGatewayId, permissions: this.props.permissions, key: (index+index2)})) 
           ])
         )}

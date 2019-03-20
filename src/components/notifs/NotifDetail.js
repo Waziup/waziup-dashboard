@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { deleteNotif, getNotifs } from '../../actions/actions.js';
 import NotifCard from './NotifCard.js';
+import Hidden from '@material-ui/core/Hidden';
 
 class NotifDetail extends Component {
   constructor(props) {
@@ -21,17 +22,22 @@ class NotifDetail extends Component {
     let renderElement = (
       <h1>
         {' '}
-loading notification view...
+        loading notification view...
         {' '}
       </h1>
     );
+    let notifId = this.props.params.notifId;
+    let maxlimit = 20;
+
     if (this.props.notif) {
       renderElement = (
         <Container fluid>
-          <h1 className="page-title">
-Notification:
-            {this.props.params.notifId}
-          </h1>
+          <Hidden mdUp implementation="css">
+            <h1 className="page-title"> Notification: {((notifId).length > maxlimit) ? (((notifId).substring(0, maxlimit - 3)) + '...') : notifId} </h1>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <h1 className="page-title"> Notification: {notifId} </h1>
+          </Hidden>
           <Card className="notifDetails">
             <Typography variant="h6">Notification</Typography>
             <NotifCard

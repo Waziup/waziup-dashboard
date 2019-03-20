@@ -23,6 +23,7 @@ import config from '../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField'
 
 const styles = () => ({
   button: {
@@ -38,7 +39,7 @@ class MeasurementDetail extends Component {
       query: {
         dateFrom: undefined,
         dateTo: undefined,
-        lastN: 100,
+        lastN: 1000,
         limit: undefined,
         offset: undefined
       },
@@ -69,6 +70,12 @@ class MeasurementDetail extends Component {
   handleDateTo = (day) => {
     var myQuery = this.state.query
     myQuery.dateTo = moment(day).utc().format();
+    this.setState({ query: myQuery});
+  }
+
+  handleLimitChange = (event) => {
+    var myQuery = this.state.query
+    myQuery.lastN = event.target.value;
     this.setState({ query: myQuery});
   }
 
@@ -149,7 +156,11 @@ class MeasurementDetail extends Component {
             </Grid>
             <Grid item xs={3}>
               <h4> To:</h4>
-              <DayPickerInput dayPickerProps={{ month: new Date(2018, 10), showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+              <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+            </Grid>
+            <Grid item xs={3}>
+              <h4> Data Points:</h4>
+              <TextField name="dataPoints" value={this.state.query.lastN} onChange={this.handleLimitChange}/>
             </Grid>
             <Grid item xs={12}>
               <FormControl>

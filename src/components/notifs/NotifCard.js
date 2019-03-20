@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Person from '@material-ui/icons/Person';
 import Share from '@material-ui/icons/Share';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 
 export default class NotifCard extends Component {
   constructor(props) {
@@ -23,10 +24,18 @@ export default class NotifCard extends Component {
 
   render() {
     let notif = this.props.notif
+    let notifName = notif.condition.sensors + '->' + notif.condition.measurements
+    let maxlimit = 20;
+
     return (
       <Card className="card">
         <div className="TypographyDiv">
-          <pre className="Typography"> {notif.condition.sensors} -> {notif.condition.measurements} </pre>
+          <Hidden mdUp implementation="css">
+            <pre className="Typography"> {((notifName).length > maxlimit) ? (((notifName).substring(0, maxlimit - 3)) + '...') : notifName} </pre>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <pre className="Typography"> {notifName} </pre>
+          </Hidden>
           <div className="cardTitleIcons"> 
             {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
             {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>: null }

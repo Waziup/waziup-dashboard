@@ -160,6 +160,7 @@ class Layout extends Component {
     const open = Boolean(anchorEl);
     const Logo = require("../images/logo-waziup-white.png");
     const listItems = [
+      { name: "Sensors", icon: (<SettingsRemoteIcon />)},
       { name: "Gateways", icon: (<CloudIcon />)},
       { name: "Notifications", icon: (<AlarmIcon />)},
       { name: "Map", icon: (<PlaceIcon />)}
@@ -206,23 +207,6 @@ class Layout extends Component {
           <Divider />
 
           <List>
-          <ListItem button onClick={this.handleCollapse}>
-              <ListItemIcon>
-                <span className={classes.listItemText}><SettingsRemoteIcon /></span>
-              </ListItemIcon>
-              <ListItemText inset ><span className={classes.listItemText}>Sensors</span></ListItemText>
-              <span className={classes.listItemText}>{this.state.collapseOpen ? <ExpandLess /> : <ExpandMore />}</span>
-            </ListItem>
-            <Collapse in={this.state.collapseOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested} component={Link} to={"/MySensors"} onTouchTap={this.hideDrawer}>
-                  <ListItemText inset><span className={classes.listItemText}>My Sensors</span></ListItemText>
-                </ListItem>
-                <ListItem button className={classes.nested} component={Link} to={"/Sensors"} onTouchTap={this.hideDrawer}>
-                  <ListItemText inset><span className={classes.listItemText}>All Sensors</span></ListItemText>
-                </ListItem>
-              </List>
-            </Collapse>
             {listItems.map((text, index) => (
               <ListItem button  key={index} component={Link} to={"/" + text.name} onTouchTap={this.hideDrawer} >   
                 <ListItemIcon><span className={classes.listItemText}>{ text.icon }</span></ListItemIcon>

@@ -6,7 +6,12 @@ import MeasurementCard from './MeasurementCard';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import sensorNodeImage from '../../../images/sensorNode.png';
-import SensorForm from './SensorForm.js'
+import SensorForm from './SensorForm.js';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 export default class SensorNodeCard extends Component {
   constructor(props) {
@@ -23,55 +28,87 @@ export default class SensorNodeCard extends Component {
     var measurements = [];
     for (let m of sensor.measurements) {
       const card = <MeasurementCard key={m.id}
-                                    measurement={m}
-                                    isDetails={false}
-                                    updateMeasurement={this.props.updateMeasurement} 
-                                    deleteMeasurement={this.props.deleteMeasurement}
-                                    sensorId={sensor.id}
-                                    permission={this.props.permission}/>
+        measurement={m}
+        isDetails={false}
+        updateMeasurement={this.props.updateMeasurement}
+        deleteMeasurement={this.props.deleteMeasurement}
+        sensorId={sensor.id}
+        permission={this.props.permission} />
       measurements.push(card);
     }
     console.log("perms:" + JSON.stringify(this.props.permission))
-    return ( 
+    return (
       <Card className="sensorNode">
         <MeasurementForm modalOpen={this.state.modalAdd}
-                         handleClose={()=>{this.setState({modalAdd: false})}}
-                         onSubmit={(m) => {this.props.updateMeasurement(sensor.id, m);
-                         this.setState({modalAdd: false});}}
-                         isEdit={false}/>
+          handleClose={() => { this.setState({ modalAdd: false }) }}
+          onSubmit={(m) => {
+            this.props.updateMeasurement(sensor.id, m);
+            this.setState({ modalAdd: false });
+          }}
+          isEdit={false} />
         <SensorForm sensor={sensor}
-                    isEdit={true}
-                    modalOpen={this.state.modalEdit}
-                    handleClose={() => this.setState({ modalEdit: false })}
-                    onSubmit={s => {this.props.updateSensorName(sensor.id, s.name),
-                    this.props.updateSensorVisibility(sensor.id, s.visibility)}} />
-        <Typography>
-          <span className="Typography"> {(sensor.name? sensor.name + " " : "") + "(" + sensor.id + ")"} </span>
-          {this.props.permission && this.props.permission.scopes.includes("sensors:delete")? 
-            <Button 
-                          className="topRightButton"
-                          variant="contained" 
-                          color="primary"
-                          onTouchTap={()=>{if(window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id)}}>Delete</Button>: null}
-          {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
-            <Button
-                          className="topRightButton"
-                          variant="contained" 
-                          color="primary"
-                          onTouchTap={()=>{this.setState({modalAdd: true})}}>Add measurement</Button>: null}
-          {this.props.permission && this.props.permission.scopes.includes("sensors:update")?
-            <Button
-                          className="topRightButton"
-                          variant="contained" 
-                          color="primary"
-                          onTouchTap={()=>{this.setState({modalEdit: true})}}>Edit</Button>: null}
-        </Typography>
+          isEdit={true}
+          modalOpen={this.state.modalEdit}
+          handleClose={() => this.setState({ modalEdit: false })}
+          onSubmit={s => {
+            this.props.updateSensorName(sensor.id, s.name),
+              this.props.updateSensorVisibility(sensor.id, s.visibility)
+          }} />
+        <Grid container direction="row" justify="flex-start" alignItems="left" spacing={24}>
+          <Grid item md={12} lg={6}>
+            <span className="Typography"> {(sensor.name ? sensor.name + " " : "") + "(" + sensor.id + ")"} </span>
+          </Grid>
+          <Grid item md={12} lg={6}>
+            <Typography>
+              {this.props.permission && this.props.permission.scopes.includes("sensors:delete") ?
+              (<div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <DeleteIcon onClick={() => { if (window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id) }} />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                <Button
+                  className="topRightButton"
+                  variant="contained"
+                  color="primary"
+                  onTouchTap={() => { if (window.confirm('Delete sensor node?')) this.props.deleteSensor(sensor.id) }}>Delete</Button>
+                </Hidden>
+              </div>) : null}
+              {this.props.permission && this.props.permission.scopes.includes("sensors:update") ?
+              (<div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <AddCircleIcon onClick={() => { this.setState({ modalAdd: true }) }} />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                <Button
+                  className="topRightButton"
+                  variant="contained"
+                  color="primary"
+                  onTouchTap={() => { this.setState({ modalAdd: true }) }}>Add measurement</Button> 
+                </Hidden>
+              </div>) : null}
+              {this.props.permission && this.props.permission.scopes.includes("sensors:update") ?
+                (<div className="cardTitleIcons">
+                  <Hidden mdUp implementation="css">
+                    <EditIcon onClick={() => this.setState({ modalEdit: true })} />
+                  </Hidden>
+                  <Hidden smDown implementation="css">
+                    <Button
+                      className="topRightButton"
+                      variant="contained"
+                      color="primary"
+                      onTouchTap={() => { this.setState({ modalEdit: true }) }}>Edit</Button>
+                  </Hidden>
+                </div>) : null}
+            </Typography>
+          </Grid>
+        </Grid>
+
         <div className="contentCards">
           <div className="boardIcon">
-            <img src={sensorNodeImage} height="75" title={sensor.dateUpdated? "Last update at " + sensor.dateUpdated: "No data yet"}/>
-            <pre> {sensor.owner? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username? " (you)": "") : ""} </pre>
-            <pre> {"visibility: " + (sensor.visibility? sensor.visibility : "public")} </pre>
-            <pre> {"domain: " + (sensor.domain? sensor.domain : "none")} </pre>
+            <img src={sensorNodeImage} height="75" title={sensor.dateUpdated ? "Last update at " + sensor.dateUpdated : "No data yet"} />
+            <pre> {sensor.owner ? "owner: " + sensor.owner + (this.props.user && sensor.owner == this.props.user.username ? " (you)" : "") : ""} </pre>
+            <pre> {"visibility: " + (sensor.visibility ? sensor.visibility : "public")} </pre>
+            <pre> {"domain: " + (sensor.domain ? sensor.domain : "none")} </pre>
           </div>
           {measurements}
         </div>

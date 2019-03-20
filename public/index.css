@@ -334,7 +334,7 @@ ul {
 
 .sensorMap {
   padding: 10px;
-  width: 500px;
+  max-width: 500px;
   margin-top: 10px;
   overflow: hidden;
 }
@@ -375,6 +375,7 @@ ul {
 .contentCards {
   clear:left;
   position: relative;
+  padding: 10px !important;
 }
 
 .boardIcon {
@@ -479,7 +480,6 @@ ul {
 
 .notifMsg {
   clear: left;
-  width: 500px;
   border-style: solid;
   border-width: 1px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
@@ -586,4 +586,8 @@ a {
 
 a, a:visited, a:focus, a:active, a:hover{
   outline:0 none !important;
+}
+
+pre{
+  white-space: pre-wrap;
 }

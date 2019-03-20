@@ -199,7 +199,7 @@
 }
 
 .DayPickerInput-OverlayWrapper {
-  position: relative;
+  position: absolute;
 }
 
 .DayPickerInput-Overlay {
