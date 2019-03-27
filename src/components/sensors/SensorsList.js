@@ -47,7 +47,6 @@ export default class SensorsList extends Component {
   render() {
     return (
       <div className="section">
-        <h1 className="sectionTitle"> All sensors </h1>
         <Button variant="contained" color="primary" className="addSensorButton" onTouchTap={() => this.props.addSensor()} >Add sensor node</Button>
         {this.getDomains().length != 0 ? this.getDomains().map((d, index) => [
           React.createElement(DomainNameComponent, { key: { index }, domain: d.domainName }),
