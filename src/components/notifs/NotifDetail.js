@@ -41,7 +41,7 @@ class NotifDetail extends Component {
           <Card className="notifDetails">
             <Typography variant="h6">Notification</Typography>
             <NotifCard
-              className="sensorNode"
+              className="deviceNode"
               deleteNotif={this.props.deleteNotif}
               isEditable
               notif={this.props.notif}
@@ -53,7 +53,7 @@ class NotifDetail extends Component {
       browserHistory.push('/notifications');
     }
     return (
-      <div className="sensor">
+      <div className="device">
         {renderElement}
       </div>
     );

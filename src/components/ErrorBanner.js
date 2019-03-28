@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import { clearMessages } from "../actions/actions.js"
 import Grid from '@material-ui/core/Grid';
 
-class Sensors extends Component {
+class Devices extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,4 +69,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sensors);
+export default connect(mapStateToProps, mapDispatchToProps)(Devices);

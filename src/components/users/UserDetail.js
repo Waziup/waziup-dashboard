@@ -54,7 +54,7 @@ view permissions
             </a>
           </div>
           <UserCard
-            className="sensorNode"
+            className="deviceNode"
             deleteUser={this.props.deleteUser}
             isEditable
             updateUser={this.props.updateUser}
@@ -67,7 +67,7 @@ view permissions
     }
 
     return (
-      <div className="sensor">
+      <div className="device">
 
         {renderElement}
       </div>

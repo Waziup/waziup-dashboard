@@ -9,27 +9,27 @@ import {
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
-import SensorNodeCard from './SensorNodeCard';
+import DeviceNodeCard from './DeviceNodeCard';
 import LocationForm from './LocationForm';
 import {
-  addMeasurement, deleteMeasurement, deleteSensor, getSensor, updateMeasurementName, 
-  updateSensorLocation, updateSensorName, updateSensorVisibility
+  addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
+  updateDeviceLocation, updateDeviceName, updateDeviceVisibility
 } from '../../../actions/actions.js';
-import sensorNodeImage from '../../../images/sensorNode.png';
+import deviceNodeImage from '../../../images/deviceNode.png';
 import config from '../../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 
-class SensorDetail extends Component {
+class DeviceDetail extends Component {
   constructor(props) {
     super(props);
     this.state = { modalLocation: false };
   }
 
   componentWillMount() {
-    this.props.getSensor(this.props.params.sensorId);
+    this.props.getDevice(this.props.params.deviceId);
     this.interval = setInterval(() => {
-      this.props.getSensor(this.props.params.sensorId);
+      this.props.getDevice(this.props.params.deviceId);
     }, config.delayRefresh);
   }
 
@@ -41,16 +41,16 @@ class SensorDetail extends Component {
     let renderElement = (
       <h1>
         {' '}
-        Sensor view is being loaded...
+        Device view is being loaded...
         {' '}
       </h1>
     );
-    console.log(`sens:${JSON.stringify(this.props.sensor)}`);
-    const sensor = this.props.sensor;
-    console.log(sensor);
-    if (sensor) {
-      const position = sensor.location ? [
-        sensor.location.latitude, sensor.location.longitude,
+    console.log(`sens:${JSON.stringify(this.props.device)}`);
+    const device = this.props.device;
+    console.log(device);
+    if (device) {
+      const position = device.location ? [
+        device.location.latitude, device.location.longitude,
       ] : [
         12.238, -1.561,
       ];
@@ -60,31 +60,31 @@ class SensorDetail extends Component {
           <h1 className="page-title">
             <img
               height="40"
-              src={sensorNodeImage}
+              src={deviceNodeImage}
             />
-            Sensor node
+            Device node
           </h1>
-          <SensorNodeCard
-            className="sensorNode"
-            deleteMeasurement={this.props.deleteMeasurement}
-            deleteSensor={(sid) => {
-              this.props.deleteSensor(sid); browserHistory.push('/mysensors');
+          <DeviceNodeCard
+            className="deviceNode"
+            deleteSensor={this.props.deleteSensor}
+            deleteDevice={(sid) => {
+              this.props.deleteDevice(sid); browserHistory.push('/mydevices');
             }}
             permission={this.props.permission}
-            sensor={sensor}
-            updateMeasurement={this.props.addMeasurement}
-            updateSensorName={this.props.updateSensorName}
-            updateSensorVisibility={this.props.updateSensorVisibility}
+            device={device}
+            updateSensor={this.props.addSensor}
+            updateDeviceName={this.props.updateDeviceName}
+            updateDeviceVisibility={this.props.updateDeviceVisibility}
             user={this.props.user}
           />
-          <Card className="sensorMap">
+          <Card className="deviceMap">
             <Typography>
               <span className="Typography">
                 {' '}
                 Location
                 {' '}
               </span>
-              {this.props.permission && this.props.permission.scopes.includes('sensors:update')
+              {this.props.permission && this.props.permission.scopes.includes('devices:update')
                 ? 
                 (<div className="cardTitleIcons">
                   <Hidden mdUp implementation="css">
@@ -96,9 +96,9 @@ class SensorDetail extends Component {
                 </div>) : null}
               <LocationForm
                 handleClose={() => this.setState({ modalLocation: false })}
-                initialLocation={sensor.location}
+                initialLocation={device.location}
                 modalOpen={this.state.modalLocation}
-                onSubmit={l => this.props.updateSensorLocation(sensor.id, l)}
+                onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
                 permission={this.props.permission}
               />
             </Typography>
@@ -112,7 +112,7 @@ class SensorDetail extends Component {
                 <Marker position={position}>
                   <Popup>
                     <span>
-                      Sensor Position
+                      Device Position
                       <br />
                       {' '}
                       Latitude:
@@ -132,11 +132,11 @@ class SensorDetail extends Component {
         </Container>
       );
     } else {
-      browserHistory.push('/sensors');
+      browserHistory.push('/devices');
     }
 
     return (
-      <div className="sensor">
+      <div className="device">
         {renderElement}
       </div>
     );
@@ -145,39 +145,39 @@ class SensorDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    sensor: state.sensor.sensor,
-    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId),
+    device: state.device.device,
+    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.deviceId),
     user: state.current_user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensor: (id) => {
-      dispatch(getSensor(id));
+    getDevice: (id) => {
+      dispatch(getDevice(id));
     },
-    addMeasurement: (id, m) => {
-      dispatch(addMeasurement(id, m));
+    addSensor: (id, m) => {
+      dispatch(addSensor(id, m));
     },
-    deleteMeasurement: (sid, mid) => {
-      dispatch(deleteMeasurement(sid, mid));
+    deleteSensor: (sid, mid) => {
+      dispatch(deleteSensor(sid, mid));
     },
-    deleteSensor: (id) => {
-      dispatch(deleteSensor(id));
+    deleteDevice: (id) => {
+      dispatch(deleteDevice(id));
     },
-    updateSensorLocation: (id, l) => {
-      dispatch(updateSensorLocation(id, l));
+    updateDeviceLocation: (id, l) => {
+      dispatch(updateDeviceLocation(id, l));
     },
-    updateSensorName: (id, n) => {
-      dispatch(updateSensorName(id, n));
+    updateDeviceName: (id, n) => {
+      dispatch(updateDeviceName(id, n));
     },
-    updateSensorVisibility: (id, v) => {
-      dispatch(updateSensorVisibility(id, v));
+    updateDeviceVisibility: (id, v) => {
+      dispatch(updateDeviceVisibility(id, v));
     },
-    updateMeasurementName: (sensorId, measId, n) => {
-      dispatch(updateMeasurementName(sensorId, measId, n));
+    updateSensorName: (deviceId, sensId, n) => {
+      dispatch(updateSensorName(deviceId, sensId, n));
     },
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(DeviceDetail);

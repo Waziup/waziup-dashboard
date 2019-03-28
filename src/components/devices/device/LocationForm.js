@@ -47,13 +47,13 @@ class LocationForm extends Component {
           <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
           <Marker onDrag={(e)=>{this.choosePosition(e)}} position={[this.state.location.latitude, this.state.location.longitude]} draggable={true}>
             <Popup>
-              <span>Your sensor position !</span>
+              <span>Your device position !</span>
             </Popup>
           </Marker>
          </Map>
          <div className="locationCoords">
           <Typography variant="subtitle1" style={{margin: 10}}>
-            Sensor Location:
+            Device Location:
             </Typography> 
            <Grid container spacing={24}>
             <Grid item xs={6}>

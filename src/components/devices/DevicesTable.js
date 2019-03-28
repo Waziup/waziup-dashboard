@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
-export default class SensorsTable extends Component {
+export default class DevicesTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +16,7 @@ export default class SensorsTable extends Component {
 
   render() {
 
-    let sensor = this.props.sensor;
+    let device = this.props.device;
     return (
       <Table>
         <TableHead displaySelectAll={false}>
@@ -24,27 +24,27 @@ export default class SensorsTable extends Component {
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Owner</TableCell>
-            <TableCell>Measurements</TableCell>
+            <TableCell>Sensors</TableCell>
           </TableRow>
         </TableHead>
         <TableBody displayRowCheckbox={false}>
-        {this.props.sensors.map( sensor => (
-          <TableRow key={sensor.id}>
+        {this.props.devices.map( device => (
+          <TableRow key={device.id}>
             <TableCell>
-              <Link to={"/sensors/" + sensor.id}>
-                {sensor.id}
+              <Link to={"/devices/" + device.id}>
+                {device.id}
               </Link>
             </TableCell>
-            <TableCell> {sensor.name} </TableCell>
-            <TableCell>{sensor.owner} </TableCell>
+            <TableCell> {device.name} </TableCell>
+            <TableCell>{device.owner} </TableCell>
             <TableCell>
               <Table>
                 <TableBody displayRowCheckbox={false}>
-                  {sensor.measurements.map( meas => (
+                  {device.sensors.map( sens => (
                     <TableRow>
                       <TableCell> 
-                        <Link to={"/sensors/" + sensor.id + "/" + meas.id}>
-                          {(meas.name? meas.name: meas.id) + ": " + (meas.last_value? JSON.stringify(meas.last_value.value).replace(/"/g, ""): "") + " " + (meas.unit? meas.unit: "")} 
+                        <Link to={"/devices/" + device.id + "/" + sens.id}>
+                          {(sens.name? sens.name: sens.id) + ": " + (sens.last_value? JSON.stringify(sens.last_value.value).replace(/"/g, ""): "") + " " + (sens.unit? sens.unit: "")} 
                         </Link>
                       </TableCell> 
                     </TableRow>
@@ -60,6 +60,6 @@ export default class SensorsTable extends Component {
   }
 
   static propTypes = {
-    sensors: PropTypes.object.isRequired, //Should be a list of Waziup.Sensor
+    devices: PropTypes.object.isRequired, //Should be a list of Waziup.Device
   }
 }

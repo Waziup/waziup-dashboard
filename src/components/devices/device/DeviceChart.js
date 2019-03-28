@@ -4,7 +4,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 
-class SensorChart extends Component {
+class DeviceChart extends Component {
   constructor(props) {
     super(props);
   }
@@ -27,11 +27,11 @@ class SensorChart extends Component {
       }
     }
     
-    if(this.props.values && this.props.meas) {
-      const meas = this.props.meas
+    if(this.props.values && this.props.sens) {
+      const sens = this.props.sens
       const data = this.props.values.map(datapoint => {return {time: moment(datapoint[timeKey]).valueOf(), value: datapoint.value }});
-      const QK = Waziup.QuantityKinds.getLabel(meas.quantity_kind)
-      const unit = Waziup.Units.getLabel(meas.unit)
+      const QK = Waziup.QuantityKinds.getLabel(sens.quantity_kind)
+      const unit = Waziup.Units.getLabel(sens.unit)
       return (
         <ResponsiveContainer  height={500} style={{margin: 30}}>
           <LineChart data={data} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
@@ -40,7 +40,7 @@ class SensorChart extends Component {
             <Tooltip formatter={yFormatter} labelFormatter={xFormatter} />
             <CartesianGrid strokeDasharray="3 3" />
             <Legend align='right' verticalAlign='top' layout="vertical" wrapperStyle={{ right: '35px', top: '10px', border: '2px solid beige', padding: '5px 0px 5px 5px' }} />
-            <Line name={this.props.meas.name} type="monotone" stroke="#2020f0" strokeWidth={2} dot={{ stroke: '#2020f0', r: 1 }} isAnimationActive={false} dataKey="value" />
+            <Line name={this.props.sens.name} type="monotone" stroke="#2020f0" strokeWidth={2} dot={{ stroke: '#2020f0', r: 1 }} isAnimationActive={false} dataKey="value" />
           </LineChart>
         </ResponsiveContainer>
       );
@@ -50,10 +50,10 @@ class SensorChart extends Component {
   }
   
   static propTypes = {
-    meas: PropTypes.object.isRequired,
+    sens: PropTypes.object.isRequired,
     values: PropTypes.array.isRequired,
     timeAxis: PropTypes.string
   }
 }
 
-export default SensorChart;
+export default DeviceChart;

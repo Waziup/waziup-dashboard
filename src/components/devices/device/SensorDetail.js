@@ -12,13 +12,13 @@ import { Container } from 'react-grid-system'
 import querystring from 'querystring';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import SensorChart from './SensorChart';
+import DeviceChart from './DeviceChart';
 import Grid from '@material-ui/core/Grid';
-import MeasurementCard from './MeasurementCard';
+import SensorCard from './SensorCard';
 import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
 import chartImage from '../../../images/chart-icon.png';
-import { getValues, getSensor, addMeasurement, deleteMeasurement, createNotif } from "../../../actions/actions.js"
+import { getValues, getDevice, addSensor, deleteSensor, createNotif } from "../../../actions/actions.js"
 import config from '../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -31,7 +31,7 @@ const styles = () => ({
   }
 });
 
-class MeasurementDetail extends Component {
+class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,8 +57,8 @@ class MeasurementDetail extends Component {
   }
 
   fetchValues = () => {
-    this.props.getSensor(this.props.params.sensorId);
-    this.props.getValues(this.props.params.sensorId, this.props.params.measId, this.state.query);
+    this.props.getDevice(this.props.params.deviceId);
+    this.props.getValues(this.props.params.deviceId, this.props.params.sensId, this.state.query);
   }
 
   handleDateFrom = (day) => {
@@ -89,9 +89,9 @@ class MeasurementDetail extends Component {
   }
 
   render() {
-    if (this.props.meas) {
+    if (this.props.sens) {
       const defaultNotif = Waziup.Notification.constructFromObject({
-        condition: { sensors: [this.props.sensor.id], measurements: [this.props.meas.id], expression: "TC>30" },
+        condition: { devices: [this.props.device.id], sensors: [this.props.sens.id], expression: "TC>30" },
         notification: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.username] },
         description: "Send message",
         throttling: 1
@@ -101,7 +101,7 @@ class MeasurementDetail extends Component {
         for (var notif of this.props.notifs) {
           const card =
             <Link to={"/notifications/" + notif.id} >
-              <NotifCard className="sensorNode"
+              <NotifCard className="deviceNode"
                 notif={notif}
                 isEditable={false} />
             </Link>
@@ -113,41 +113,41 @@ class MeasurementDetail extends Component {
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
             <img src={chartImage} height="50" />
-            Measurement: {this.props.meas.id}
+            Sensor: {this.props.sens.id}
           </h1>
-          <Card className="sensorNode">
+          <Card className="deviceNode">
             <Typography>
               <span className="Typography"> Last value </span>
-              {this.props.permission.scopes.includes("sensors:update") ?
+              {this.props.permission.scopes.includes("devices:update") ?
                 <Button onTouchTap={() => this.setState({ modalOpen: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button> : null}
               <NotifForm modalOpen={this.state.modalOpen}
                 notif={defaultNotif}
-                sensors={this.props.sensors}
+                devices={this.props.devices}
                 users={this.props.users}
                 onSubmit={this.props.createNotif}
                 handleClose={() => this.setState({ modalOpen: false })}
                 isEditable={true} />
             </Typography>
-            <MeasurementCard measurement={this.props.meas}
+            <SensorCard sensor={this.props.sens}
               isDetails={true}
-              updateMeasurement={this.props.updateMeasurement}
-              deleteMeasurement={this.props.deleteMeasurement}
-              sensorId={this.props.sensor.id}
+              updateSensor={this.props.updateSensor}
+              deleteSensor={this.props.deleteSensor}
+              deviceId={this.props.device.id}
               permission={this.props.permission} />
           </Card>
           {notifications.length > 0 ?
-            <Card className="sensorNode">
+            <Card className="deviceNode">
               <Typography>
                 <h2 className="Typography"> Notifications </h2>
               </Typography>
               {notifications}
             </Card> : null}
-          {this.props.permission.scopes.includes("sensors-data:view") ?
+          {this.props.permission.scopes.includes("devices-data:view") ?
             <Card className="graphCard">
               <Typography>
                 <span className="Typography"> Historical chart </span>
               </Typography>
-              <SensorChart meas={this.props.meas} values={this.props.values} timeAxis={this.state.timeAxis} />
+              <DeviceChart sens={this.props.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
               {/* <Card className="graphForm"> */}
               <Grid container spacing={24}>
             <Grid item xs={3}>
@@ -174,10 +174,10 @@ class MeasurementDetail extends Component {
               </FormControl>
             </Grid>
           <Grid item xs={2}>
-            <Button type='submit' onClick={this.handleApply} className="measurementButton" variant="contained" color="primary">Update graph</Button>
+            <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
           </Grid>
           <Grid item xs={2}>
-            <a href={config.APIServerUrl + "/v1/sensors/" + this.props.sensor.id + "/measurements/" + this.props.meas.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
+            <a href={config.APIServerUrl + "/v2/devices/" + this.props.device.id + "/sensors/" + this.props.sens.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
               <Button variant="contained" color="primary">download data</Button>
             </a>
           </Grid>
@@ -186,35 +186,35 @@ class MeasurementDetail extends Component {
         </Container>
       );
     } else {
-      return (<h1> Measurement view is being loaded... </h1>)
+      return (<h1> Sensor view is being loaded... </h1>)
     }
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const sensor = state.sensor.sensor
-  const meas = sensor ? sensor.measurements.find(m => m.id == ownProps.params.measId) : null
-  const notifs = meas && sensor ? state.notifications.notifications.filter(n => n.condition.sensors.includes(sensor.id) && n.condition.measurements.includes(meas.id)) : null
+  const device = state.device.device
+  const sens = device ? device.sensors.find(m => m.id == ownProps.params.sensId) : null
+  const notifs = sens && device ? state.notifications.notifications.filter(n => n.condition.devices.includes(device.id) && n.condition.sensors.includes(sens.id)) : null
   return {
-    sensor: sensor,
-    meas: meas,
+    device: device,
+    sens: sens,
     user: state.user,
     values: state.values.values,
-    sensors: state.sensors.sensors,
+    devices: state.devices.devices,
     users: state.users.users,
     notifs: notifs,
-    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.sensorId)
+    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.deviceId)
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     getValues: (sid, mid, opts) => {dispatch(getValues(sid, mid, opts)) },
-    getSensor: (id) => {dispatch(getSensor(id)) },
-    updateMeasurement: (id, m) => {dispatch(addMeasurement(id, m)) },
-    deleteMeasurement: (sid, mid) => {dispatch(deleteMeasurement(sid, mid)) },
+    getDevice: (id) => {dispatch(getDevice(id)) },
+    updateSensor: (id, m) => {dispatch(addSensor(id, m)) },
+    deleteSensor: (sid, mid) => {dispatch(deleteSensor(sid, mid)) },
     createNotif: (notif) => {dispatch(createNotif(notif)) }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MeasurementDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);

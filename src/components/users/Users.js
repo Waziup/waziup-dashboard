@@ -21,7 +21,7 @@ class Users extends Component {
         const card = (
           <Link to={`/users/${user.id}`}>
             <UserCard
-              className="sensorNode"
+              className="deviceNode"
               isEditable={false}
               user={user}
             />
