@@ -182,7 +182,7 @@ class Sensors extends Component {
                   />}
                   title="Domain of the sensor">
                   <MenuItem value="all">All</MenuItem>
-                  {this.props.sensorAttributes ? this.props.sensorAttributes.domains.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>) : null}
+                  {this.props.sensorAttributes.domains ? this.props.sensorAttributes.domains.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>) : null}
                 </Select>
               </FormControl>
             </Grid>
@@ -195,7 +195,7 @@ class Sensors extends Component {
                     onChange={(a) => this.handleFilter("owner", a)} />}
                   title="Owner of the sensor">
                   <MenuItem value="all">All</MenuItem>
-                  {this.props.sensorAttributes ? this.props.sensorAttributes.owners.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>) : null}
+                  {this.props.sensorAttributes.owners ? this.props.sensorAttributes.owners.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>) : null}
                 </Select>
               </FormControl>
             </Grid>
