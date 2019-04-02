@@ -149,7 +149,7 @@ class Devices extends Component {
             height="40"
             src={deviceNodesImage}
           />
-          Device nodes
+          Devices
         </h1>
         <DeviceForm
           handleClose={() => this.setState({ modalAddDevice: false })}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import SensorForm from './DeviceForm';
+import SensorForm from './SensorForm';
 import SensorCard from './SensorCard';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
@@ -63,14 +63,14 @@ export default class DeviceNodeCard extends Component {
               {this.props.permission && this.props.permission.scopes.includes("devices:delete") ?
               (<div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <DeleteIcon onClick={() => { if (window.confirm('Delete device node?')) this.props.deleteDevice(device.id) }} />
+                  <DeleteIcon onClick={() => { if (window.confirm('Delete a device?')) this.props.deleteDevice(device.id) }} />
                 </Hidden>
                 <Hidden smDown implementation="css">
                 <Button
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { if (window.confirm('Delete device node?')) this.props.deleteDevice(device.id) }}>Delete</Button>
+                  onTouchTap={() => { if (window.confirm('Delete a device?')) this.props.deleteDevice(device.id) }}>Delete</Button>
                 </Hidden>
               </div>) : null}
               {this.props.permission && this.props.permission.scopes.includes("devices:update") ?

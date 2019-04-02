@@ -62,13 +62,13 @@ class DeviceDetail extends Component {
               height="40"
               src={deviceNodeImage}
             />
-            Device node
+            Device
           </h1>
           <DeviceNodeCard
             className="deviceNode"
             deleteSensor={this.props.deleteSensor}
             deleteDevice={(sid) => {
-              this.props.deleteDevice(sid); browserHistory.push('/mydevices');
+              this.props.deleteDevice(sid); browserHistory.push('/devices');
             }}
             permission={this.props.permission}
             device={device}

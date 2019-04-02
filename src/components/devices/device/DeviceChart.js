@@ -33,7 +33,7 @@ class DeviceChart extends Component {
       const QK = Waziup.QuantityKinds.getLabel(sens.quantity_kind)
       const unit = Waziup.Units.getLabel(sens.unit)
       return (
-        <ResponsiveContainer  height={500} style={{margin: 30}}>
+        <ResponsiveContainer  height={500} style={{margin: 30,width: '100px'}}>
           <LineChart data={data} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
             <XAxis interval={0} domain={['dataMin', 'dataMax']} type="number" dataKey="time" tickFormatter={xFormatter} />
             <YAxis label={{ value: QK + (unit? " (" + unit + ")": ""), angle: -90, position: 'insideLeft' }}/>

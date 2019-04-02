@@ -90,9 +90,9 @@ class SensorDetail extends Component {
 
   render() {
     if (this.props.sens) {
-      const defaultNotif = Waziup.Notification.constructFromObject({
+     const defaultNotif = Waziup.Notification.constructFromObject({
         condition: { devices: [this.props.device.id], sensors: [this.props.sens.id], expression: "TC>30" },
-        notification: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [this.props.user.username] },
+        action: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [] },
         description: "Send message",
         throttling: 1
       })

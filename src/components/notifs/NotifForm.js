@@ -25,7 +25,7 @@ class NotifForm extends Component {
     console.log("notif before:" + JSON.stringify(props.notif))
     const defaultNotif = Waziup.Notification.constructFromObject({
       condition: { devices: [], sensors: [], expression: "SM1>40"},
-      notification: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
+      action: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
       description: "Waziup notification",
       throttling: 1,
       expires: ""})
@@ -57,9 +57,9 @@ class NotifForm extends Component {
       case "devices"      : notif.condition.devices = value; break;
       case "sensors" : notif.condition.sensors = value; break;
       case "expr"         : notif.condition.expression = value; break;
-      case "channels"     : notif.notification.channels = value; break;
-      case "message"      : notif.notification.message = value; break;
-      case "usernames"    : notif.notification.usernames = value; break;
+      case "channels"     : notif.action.channels = value; break;
+      case "message"      : notif.action.message = value; break;
+      case "usernames"    : notif.action.usernames = value; break;
       case "description"  : notif.description = value; break;
       case "throttling"   : notif.throttling = value; break;
       case "expires"      : notif.expires = value; break;
@@ -119,16 +119,16 @@ class NotifForm extends Component {
               <TextField name="expr" value={this.state.notif.condition.expression} onChange={(e) => this.handleChange("expr", e)}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.notification ? this.state.notif.notification.message:null} onChange={(_1, m) => this.handleChange("message", m)}/>
+              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.action ? this.state.notif.action.message:null} onChange={(_1, m) => this.handleChange("message", m)}/>
             </Grid>
             <Grid item xs={6}>
               <FormControl style={{display: 'flex'}}>
               <InputLabel htmlFor="usernames">Users</InputLabel>
               <Select multiple={true}
                 input={<Input name="usernames" id="usernames" />}
-                value={this.state.notif.notification ? this.state.notif.notification.usernames: null} onChange={(u) => this.handleChange("usernames", u)}>
+                value={this.state.notif.action ? this.state.notif.action.usernames: null} onChange={(u) => this.handleChange("usernames", u)}>
                 {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
-                  <MenuItem key={u.username} value={u.username} checked={this.state.notif.notification ? this.state.notif.notification.usernames.includes(u.username): null}>
+                  <MenuItem key={u.username} value={u.username} checked={this.state.notif.action ? this.state.notif.action.usernames.includes(u.username): null}>
                  
                   {u.username}
                   </MenuItem>): <br/>
@@ -141,8 +141,8 @@ class NotifForm extends Component {
                 <InputLabel htmlFor="channels">Socials</InputLabel>
                 <Select multiple={true}
                   input={<Input name="channels" id="channels" />}
-                  value={this.state.notif.notification ? this.state.notif.notification.channels : null} onChange={(c) => this.handleChange("channels", c)}>
-                  {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.notification ? this.state.notif.notification.channels.includes(c) : null} leftIcon={<Socials/>}>{c}</MenuItem>)}
+                  value={this.state.notif.action ? this.state.notif.action.channels : null} onChange={(c) => this.handleChange("channels", c)}>
+                  {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.action ? this.state.notif.action.channels.includes(c) : null} leftIcon={<Socials/>}>{c}</MenuItem>)}
                 </Select>
               </FormControl> 
             </Grid>

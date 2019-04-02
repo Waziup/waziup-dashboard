@@ -25,6 +25,8 @@ class DeviceForm extends Component {
     defaultDevice.name = "My device"
     defaultDevice.domain = "waziup"
     defaultDevice.visibility = "public"
+    defaultDevice.sensors = []
+    defaultDevice.actuators = []
     this.state = {
       device: (this.props.device? this.props.device: defaultDevice)
     };
@@ -62,7 +64,7 @@ class DeviceForm extends Component {
 
     return (
         <Dialog actions={actions} modal="true" open={modalOpen}>
-          <DialogTitle>{this.props.isEdit? "Update Device Node": "Add Device Node"}</DialogTitle>
+          <DialogTitle>{this.props.isEdit? "Update A Device": "Add A Device"}</DialogTitle>
           <DialogContent>
 
           <Grid container spacing={24}>
