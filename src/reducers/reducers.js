@@ -288,21 +288,10 @@ function messagesReducer(state = [], action = null) {
       errorContext = 'Client error. Please check web console for details.';
       console.error(`client error: ${action.data}`);
     }
-    return [
-      ...state,
-      {
-        msg: `${msg}: ${errorContext}`,
-        error: true,
-      },
-    ];
+    return [...state, {msg: `${msg}: ${errorContext}`, error: true}];
+  } else {
+    return [...state, {msg, error: false}];
   }
-  return [
-    ...state,
-    {
-      msg,
-      error: false,
-    },
-  ];
 }
 
 // Get all permissions

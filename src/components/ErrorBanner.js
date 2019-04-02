@@ -35,7 +35,6 @@ class Sensors extends Component {
         return <h4 key={index} style={{"color": "green"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       }
     }
-    console.log("props: " + JSON.stringify(this.props))
     if(this.props.messages.length !=0) {
       return (
         <Container fluid={true} className="errorBanner" >
