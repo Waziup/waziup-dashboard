@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import sensorImage from '../../images/gauge.png';
+import deviceImage from '../../images/gauge.png';
 import bellImage from '../../images/bell-icon.png';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -24,7 +24,7 @@ export default class NotifCard extends Component {
 
   render() {
     let notif = this.props.notif
-    let notifName = notif.condition.sensors + '->' + notif.condition.measurements
+    let notifName = notif.condition.devices + '->' + notif.condition.sensors
     let maxlimit = 20;
 
     return (
@@ -46,28 +46,28 @@ export default class NotifCard extends Component {
             <div className="notifSubject">
               <div className="notifIcon">
                 <img src={bellImage} height="80"/>
-                <img src={sensorImage} height="32"/>
+                <img src={deviceImage} height="32"/>
               </div>
               <div className="notifExpr"> 
                 <h3> {(notif.condition.expression? notif.condition.expression: "")} </h3>
               </div>
             </div>  
             <div className="notifMsg">
-              <pre> {notif.notification.message} </pre>
+              <pre> {notif.action ? notif.action.message : null} </pre>
             </div> 
             <div className="notifUsersChannels">
               <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <List className="notifUsers">
-                      {notif.notification.usernames.map((u,index) => <ListItem key={index}>
-                      <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>)}
+                      {notif.action ? notif.action.usernames.map((u,index) => <ListItem key={index}>
+                      <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>): null}
                   </List>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                   <List className="notifChannels">
-                      {notif.notification.channels.map((c,index) => <ListItem key={index}>
+                      {notif.action ? notif.action.channels.map((c,index) => <ListItem key={index}>
                         <ListItemIcon><Share/></ListItemIcon>
-                          {c}</ListItem>)}
+                          {c}</ListItem>): null}
                   </List>
                 </Grid>
               </Grid>

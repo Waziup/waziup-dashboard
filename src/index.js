@@ -9,13 +9,13 @@ import * as Waziup from 'waziup-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Map from './components/Map';
-import Sensors from './components/sensors/Sensors';
+import Devices from './components/devices/Devices';
 import Users from './components/users/Users';
 import UserDetail from './components/users/UserDetail';
 import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
-import SensorDetail from './components/sensors/sensor/SensorDetail';
-import MeasurementDetail from './components/sensors/sensor/MeasurementDetail';
+import DeviceDetail from './components/devices/device/DeviceDetail';
+import SensorDetail from './components/devices/device/SensorDetail';
 import Settings from './components/profile/Settings.js';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
@@ -31,14 +31,14 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Sensors },
+  indexRoute: { component: Devices },
   childRoutes: [
     { path: 'map', component: Map },
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
-    { path: 'sensors', component: Sensors },
-    { path: 'sensors/:sensorId', component: SensorDetail },
-    { path: 'sensors/:sensorId/:measId', component: MeasurementDetail },
+    { path: 'devices', component: Devices },
+    { path: 'devices/:deviceId', component: DeviceDetail },
+    { path: 'devices/:deviceId/:sensId', component: SensorDetail },
     { path: 'gateways', component: Gateways },
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },

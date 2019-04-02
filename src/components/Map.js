@@ -5,7 +5,7 @@ import {
 import { Container } from 'react-grid-system';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { getSensors } from '../actions/actions.js';
+import { getDevices } from '../actions/actions.js';
 
 class Map extends Component {
   constructor(props) {
@@ -22,20 +22,20 @@ class Map extends Component {
   componentWillReceiveProps(nextProps) {
     const markers = [];
 
-    if (nextProps.sensors) {
-      for (const sensor of nextProps.sensors) {
-        if (sensor.location) {
+    if (nextProps.devices) {
+      for (const device of nextProps.devices) {
+        if (device.location) {
           markers.push(<Marker
-            key={sensor.id}
+            key={device.id}
             position={[
-              sensor.location.latitude, sensor.location.longitude,
+              device.location.latitude, device.location.longitude,
             ]}
           >
             <Popup>
               <span>
-                <a onClick={() => browserHistory.push(`/sensors/${sensor.id}`)}>
+                <a onClick={() => browserHistory.push(`/devices/${device.id}`)}>
                   {' '}
-                  {sensor.id}
+                  {device.id}
                 </a>
               </span>
             </Popup>
@@ -47,7 +47,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.props.getSensors({ limit: 1000 });
+    this.props.getDevices({ limit: 1000 });
   }
 
   render() {
@@ -77,13 +77,13 @@ Map
 }
 
 function mapStateToProps(state) {
-  return { sensors: state.sensors.sensors };
+  return { devices: state.devices.devices };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getSensors: (params) => {
-      dispatch(getSensors(params));
+    getDevices: (params) => {
+      dispatch(getDevices(params));
     },
   };
 }

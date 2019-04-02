@@ -16,53 +16,55 @@ import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 
 
-class SensorForm extends Component {
+class DeviceForm extends Component {
 
   constructor(props){
     super(props);
-    const defaultSensor = new Waziup.Sensor("MySensor")
-    defaultSensor.id = "MySensor"
-    defaultSensor.name = "My sensor"
-    defaultSensor.domain = "waziup"
-    defaultSensor.visibility = "public"
+    const defaultDevice = new Waziup.Device("MyDevice")
+    defaultDevice.id = "MyDevice"
+    defaultDevice.name = "My device"
+    defaultDevice.domain = "waziup"
+    defaultDevice.visibility = "public"
+    defaultDevice.sensors = []
+    defaultDevice.actuators = []
     this.state = {
-      sensor: (this.props.sensor? this.props.sensor: defaultSensor)
+      device: (this.props.device? this.props.device: defaultDevice)
     };
   }
 
   componentWillReceiveProps(){
     if(this.props.isEdit)
-    this.setState({sensor:this.props.sensor})
+    this.setState({device:this.props.device})
   }
   
   componentWillReceiveProps(nextProps) { 
-    if(nextProps.sensor && nextProps.sensor !== this.state.sensor) {
-      this.setState({sensor: nextProps.sensor})
+    if(nextProps.device && nextProps.device !== this.state.device) {
+      this.setState({device: nextProps.device})
     }
   }
   
   handleChange = (formData) => {
-    var sensor = this.state.sensor
-    sensor[formData.target.name] = formData.target.value;
-    this.setState({sensor: sensor})
+    var device = this.state.device
+    device[formData.target.name] = formData.target.value;
+    this.setState({device: device})
   }
 
   handleChangeVisibility = event => {
-    var sensor = this.state.sensor
-    sensor.visibility = event.target.value;
-    this.setState({sensor: sensor})
+    var device = this.state.device
+    device.visibility = event.target.value;
+    this.setState({device: device})
   };
 
   render() {
     const {modalOpen, handleClose, onSubmit} = this.props;
     const actions = [ 
       <Button color="primary" key="cancel" onTouchTap={()=>{handleClose();}}>Cancel</Button>,
-      <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}>Submit</Button>
+      <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.device); handleClose();}}>Submit</Button>
     ];
 
     return (
         <Dialog actions={actions} modal="true" open={modalOpen}>
-          <DialogTitle>{this.props.isEdit? "Update Sensor Node": "Add Sensor Node"}</DialogTitle>
+          <DialogTitle>{this.props.isEdit? "Update A Device": "Add A Device"}</DialogTitle>
           <DialogContent>
 
           <Grid container spacing={24}>
@@ -70,8 +72,8 @@ class SensorForm extends Component {
         <TextField 
           name="id" 
           disabled={this.props.isEdit} 
-          label="Sensor ID" 
-          value={this.state.sensor.id} 
+          label="Device ID" 
+          value={this.state.device.id} 
           onChange={this.handleChange} 
           title="ID used by the gateway to send data"
           />
@@ -80,20 +82,20 @@ class SensorForm extends Component {
         <TextField
           id="standard-name"
           name="name"
-          label="Sensor name"
-          value={this.state.sensor.name}
+          label="Device name"
+          value={this.state.device.name}
           onChange={this.handleChange}
         />
         </Grid>
         <Grid item xs={6}>
-        <TextField name="domain"  label="Domain" value={this.state.sensor.domain} onChange={this.handleChange} title="Domain this sensor belongs to"/>
+        <TextField name="domain"  label="Domain" value={this.state.device.domain} onChange={this.handleChange} title="Domain this device belongs to"/>
         </Grid>
         <Grid item xs={6}>
         <FormControl>
           <InputLabel htmlFor="visibility">Visibility</InputLabel>
           <Select 
           input={<Input name="visibility" id="visibility" />}
-          value={this.state.sensor.visibility} onChange={this.handleChangeVisibility} title="Public visibility of the sensor">
+          value={this.state.device.visibility} onChange={this.handleChangeVisibility} title="Public visibility of the device">
             <MenuItem value="public">Public</MenuItem>
             <MenuItem value="private">Private</MenuItem>
           </Select>
@@ -109,7 +111,7 @@ class SensorForm extends Component {
   }
 
   static propTypes = {
-    sensor: PropTypes.object, //Should be a Waziup.Sensor
+    device: PropTypes.object, //Should be a Waziup.Device
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -117,4 +119,4 @@ class SensorForm extends Component {
   }
 }
 
-export default reduxForm({form: 'simple'})(SensorForm)
+export default reduxForm({form: 'simple'})(DeviceForm)

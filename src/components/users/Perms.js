@@ -56,7 +56,7 @@ You have access to the following resources:
     }
 
     return (
-      <div className="sensor">
+      <div className="device">
         {renderElement}
       </div>
     );

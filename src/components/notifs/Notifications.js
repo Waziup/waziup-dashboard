@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import NotifForm from './NotifForm.js';
 import NotifCard from './NotifCard.js';
 import {
-  createNotif, getNotifs, getSensors, getUsers,
+  createNotif, getNotifs, getDevices, getUsers,
 } from '../../actions/actions.js';
 
 class Notifications extends Component {
@@ -18,7 +18,7 @@ class Notifications extends Component {
   }
 
   componentWillMount() {
-    this.props.getSensors({ limit: 1000 });
+    this.props.getDevices({ limit: 1000 });
     this.props.getNotifs();
     this.props.getUsers();
   }
@@ -32,7 +32,7 @@ class Notifications extends Component {
         const card = (
           <Link to={`/notifications/${notif.id}`} key={notif.id}>
             <NotifCard
-              className="sensorNode"
+              className="deviceNode"
               isEditable={false}
               notif={notif}
             />
@@ -45,11 +45,11 @@ class Notifications extends Component {
         <Container fluid={true} style={{'paddingBottom':'50px'}}>
           <h1 className="page-title">Notifications settings</h1>
           <NotifForm modalOpen={this.state.modalOpen}
-                     sensors={this.props.sensors}
+                     devices={this.props.devices}
                      users={this.props.users}
                      handleClose={() => this.setState({ modalOpen: false })}
                      onSubmit={this.props.createNotif} />
-          <Card className="sensorNode">
+          <Card className="deviceNode">
             <Typography>
               <span className="Typography">
                 {' '}
@@ -82,7 +82,7 @@ function mapStateToProps(state) {
   console.log(`state:${JSON.stringify(state.notifications)}`);
   return {
     notifications: state.notifications.notifications,
-    sensors: state.sensors.sensors,
+    devices: state.devices.devices,
     users: state.users.users,
   };
 }
@@ -98,8 +98,8 @@ function mapDispatchToProps(dispatch) {
     createNotif: (notif) => {
       dispatch(createNotif(notif));
     },
-    getSensors: (params) => {
-      dispatch(getSensors(params));
+    getDevices: (params) => {
+      dispatch(getDevices(params));
     },
     getUsers: () => {
       dispatch(getUsers());

@@ -54,7 +54,7 @@ export default class UserCard extends Component {
   }
 
   static propTypes = {
-    user: PropTypes.object.isRequired, //Should be a Waziup.Sensor
+    user: PropTypes.object.isRequired, //Should be a Waziup.Device
     updateUser: PropTypes.func,
     deleteUser: PropTypes.func,
     isEditable: PropTypes.bool
