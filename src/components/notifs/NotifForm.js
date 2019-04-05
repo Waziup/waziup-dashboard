@@ -31,7 +31,8 @@ class NotifForm extends Component {
       expires: ""})
     this.state = {
       notif: props.notif? props.notif: defaultNotif,
-      devices: []
+      devices: [],
+      expDate:""
     };
     console.log("users:" + JSON.stringify(props.users))    
   }
@@ -62,7 +63,12 @@ class NotifForm extends Component {
       case "usernames"    : notif.action.usernames = value; break;
       case "description"  : notif.description = value; break;
       case "throttling"   : notif.throttling = value; break;
-      case "expires"      : notif.expires = value; break;
+      case "expires"      : 
+        {
+          this.setState({expDate: value})
+          notif.expires = (new Date(value)).toISOString();       
+          break;
+        }
     }
     this.setState({notif: notif})
   }
@@ -147,7 +153,7 @@ class NotifForm extends Component {
               </FormControl> 
             </Grid>
             <Grid item xs={6}>
-            <TextField name="expires" type="date" value={this.state.notif.expires} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
+            <TextField name="expires" type="date" value={this.state.expDate} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
             </Grid>
           </Grid>
         </DialogContent>
