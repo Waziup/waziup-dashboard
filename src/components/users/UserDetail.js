@@ -13,7 +13,7 @@ import userImage from '../../images/user-icon.png';
 import UserCard from './UserCard.js';
 import UserForm from './UserForm.js';
 import {
-  deleteUser, getPermissions, getUsers, updateUser,
+  deleteUser, getDevicePermissions, getUsers, updateUser,
 } from '../../actions/actions';
 
 class UserDetail extends Component {
@@ -24,7 +24,7 @@ class UserDetail extends Component {
 
   componentWillMount() {
     this.props.getUsers();
-    this.props.getPermissions();
+    this.props.getDevicePermissions();
   }
 
   render() {
@@ -90,8 +90,8 @@ function mapDispatchToProps(dispatch) {
     updateUser: (id, u) => {
       dispatch(updateUser(id, u));
     },
-    getPermissions: () => {
-      dispatch(getPermissions());
+    getDevicePermissions: () => {
+      dispatch(getDevicePermissions());
     },
   };
 }
