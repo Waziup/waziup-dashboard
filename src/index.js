@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
-import * as Waziup from 'waziup-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Map from './components/Map';
@@ -16,11 +15,11 @@ import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
 import DeviceDetail from './components/devices/device/DeviceDetail';
 import SensorDetail from './components/devices/device/SensorDetail';
-import Settings from './components/profile/Settings.js';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
+import Projects from './components/projects/Projects';
+import ProjectDetail from './components/projects/ProjectDetail';
 import config from './config';
-import UTIL from './lib/utils.js';
 
 injectTapEventPlugin();
 
@@ -36,6 +35,8 @@ const routes = {
     { path: 'map', component: Map },
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
+    { path: 'projects', component: Projects },
+    { path: 'projects/:projectId', component: ProjectDetail },
     { path: 'devices', component: Devices },
     { path: 'devices/:deviceId', component: DeviceDetail },
     { path: 'devices/:deviceId/:sensId', component: SensorDetail },

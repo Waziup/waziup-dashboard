@@ -134,6 +134,83 @@ function valuesReducer(state = {
   }
 }
 
+// Get all projects
+function projectsReducer(state = {
+  isLoading: false,
+  projects: [],
+  error: false,
+  errMsg: '',
+}, action = null) {
+  switch (action.type) {
+    case types.GET_PROJECTS_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_PROJECTS_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      projects: action.data,
+      error: false,
+    });
+    case types.GET_PROJECTS_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
+// Get a project
+function projectReducer(state = {
+  isLoading: false,
+  project: [],
+  error: false,
+  errMsg: '',
+}, action = null) {  
+  switch (action.type) {
+    case types.GET_PROJECT_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_PROJECT_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      project: action.data,
+      error: false,
+    });
+    case types.GET_PROJECT_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
+// Get all gateways
+function gatewaysReducer(state = {
+  isLoading: false,
+  gateways: [],
+  error: false,
+  errMsg: '',
+}, action = null) {
+  switch (action.type) {
+    case types.GET_GATEWAYS_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_GATEWAYS_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      gateways: action.data,
+      error: false,
+    });
+    case types.GET_GATEWAYS_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
 
 // Get all users
 function usersReducer(state = {
@@ -259,6 +336,9 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_USER_SUCCESS: msg = 'New user created'; error = false; break;
     case types.UPDATE_USER_SUCCESS: msg = 'User updated'; error = false; break;
     case types.DELETE_USER_SUCCESS: msg = 'User deleted'; error = false; break;
+    case types.CREATE_PROJECT_SUCCESS: msg = 'Project created'; error = false; break;
+    case types.UPDATE_PROJECT_SUCCESS: msg = 'Project updated'; error = false; break;
+    case types.DELETE_PROJECT_SUCCESS: msg = 'Project deleted'; error = false; break;
 
     // Error cases
     case types.GET_DEVICES_ERROR: msg = 'Error when fetching devices'; error = true; break;
@@ -273,10 +353,13 @@ function messagesReducer(state = [], action = null) {
     case types.DELETE_NOTIF_ERROR: msg = 'Error when deleting notification'; error = true; break;
     case types.GET_USERS_ERROR: msg = 'Error when fetching users'; error = true; break;
     case types.GET_USER_ERROR: msg = 'Error when fetching user infos'; error = true; break;
-    case types.GET_PERMS_ERROR: msg = 'Error when fetching user permissions'; error = true; break;
+    case types.GET_DEVICE_PERMS_ERROR: msg = 'Error when fetching user permissions'; error = true; break;
     case types.CREATE_USER_ERROR: msg = 'Error when creating user'; error = true; break;
     case types.UPDATE_USER_ERROR: msg = 'Error when updating user'; error = true; break;
     case types.DELETE_USER_ERROR: msg = 'Error when deleting user'; error = true; break;
+    case types.CREATE_PROJECT_ERROR: msg = 'Error when creating project'; error = true; break;
+    case types.UPDATE_PROJECT_ERROR: msg = 'Error when updating project'; error = true; break;
+    case types.DELETE_PROJECT_ERROR: msg = 'Error when deleting project'; error = true; break;
 
     default: return state;
   }
@@ -314,13 +397,13 @@ function permissionsReducer(state = {
   error: false,
 }, action = null) {
   switch (action.type) {
-    case types.GET_PERMS_START: return Object.assign({}, state, { isLoading: true });
-    case types.GET_PERMS_SUCCESS: return Object.assign({}, state, {
+    case types.GET_DEVICE_PERMS_START: return Object.assign({}, state, { isLoading: true });
+    case types.GET_DEVICE_PERMS_SUCCESS: return Object.assign({}, state, {
       isLoading: false,
       permissions: action.data,
       error: false,
     });
-    case types.GET_PERMS_ERROR: return Object.assign({}, state, {
+    case types.GET_DEVICE_PERMS_ERROR: return Object.assign({}, state, {
       isLoading: false,
       msg: action.data,
       error: true,
@@ -345,6 +428,12 @@ export default function rootReducer(state = {}, action) {
     device: deviceReducer(state.device, action),
     // Device values
     values: valuesReducer(state.values, action),
+    // List of projects
+    projects: projectsReducer(state.projects, action),
+    // List of project
+    project: projectReducer(state.project, action),
+    // List of gateways
+    gateways: gatewaysReducer(state.gateways, action),
     // Current user
     user: userReducer(state.user, action),
     // List of users
