@@ -14,11 +14,11 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
 import DeviceChart from './DeviceChart';
 import Grid from '@material-ui/core/Grid';
-import SensorCard from './SensorCard';
+import ActuatorCard from './ActuatorCard';
 import NotifForm from '../../notifs/NotifForm.js'
 import NotifCard from '../../notifs/NotifCard.js'
 import chartImage from '../../../images/chart-icon.png';
-import { getValues, getDevice, addSensor, deleteSensor, createNotif } from "../../../actions/actions.js"
+import { getValues, getDevice, addActuator, deleteActuator, createNotif } from "../../../actions/actions.js"
 import config from '../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -31,7 +31,7 @@ const styles = () => ({
   }
 });
 
-class SensorDetail extends Component {
+class ActuatorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +44,7 @@ class SensorDetail extends Component {
         limit: undefined,
         offset: undefined,
         deviceId: props.params.deviceId,
-        sensorId: props.params.sensId
+        actuorId: props.params.actuId
       },
       timeAxis: 'device'
     };
@@ -92,9 +92,9 @@ class SensorDetail extends Component {
   }
 
   render() {
-    if (this.props.sens) {
+    if (this.props.actu) {
      const defaultNotif = Waziup.Notification.constructFromObject({
-        condition: { devices: [this.props.device.id], sensors: [this.props.sens.id], expression: "TC>30" },
+        condition: { devices: [this.props.device.id], actuors: [this.props.actu.id], expression: "TC>30" },
         action: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [] },
         description: "Send message",
         throttling: 1
@@ -116,7 +116,7 @@ class SensorDetail extends Component {
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
             <img src={chartImage} height="50" />
-            Sensor: {this.props.sens.id}
+            Actuator: {this.props.actu.id}
           </h1>
           <Card className="deviceNode">
             <Typography>
@@ -131,10 +131,10 @@ class SensorDetail extends Component {
                 handleClose={() => this.setState({ modalOpen: false })}
                 isEditable={true} />
             </Typography>
-            <SensorCard sensor={this.props.sens}
+            <ActuatorCard actuor={this.props.actu}
               isDetails={true}
-              updateSensor={this.props.updateSensor}
-              deleteSensor={this.props.deleteSensor}
+              updateActuator={this.props.updateActuator}
+              deleteActuator={this.props.deleteActuator}
               deviceId={this.props.device.id}
               permission={this.props.permission} />
           </Card>
@@ -150,7 +150,7 @@ class SensorDetail extends Component {
               <Typography>
                 <span className="Typography"> Historical chart </span>
               </Typography>
-              <DeviceChart sens={this.props.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
+              <DeviceChart actu={this.props.actu} values={this.props.values} timeAxis={this.state.timeAxis} />
               {/* <Card className="graphForm"> */}
               <Grid container spacing={24}>
             <Grid item xs={3}>
@@ -177,10 +177,10 @@ class SensorDetail extends Component {
               </FormControl>
             </Grid>
           <Grid item xs={2}>
-            <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
+            <Button type='submit' onClick={this.handleApply} className="actuorButton" variant="contained" color="primary">Update graph</Button>
           </Grid>
           <Grid item xs={2}>
-            <a href={config.APIServerUrl + "/v2/devices/" + this.props.device.id + "/sensors/" + this.props.sens.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
+            <a href={config.APIServerUrl + "/v2/devices/" + this.props.device.id + "/actuors/" + this.props.actu.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
               <Button variant="contained" color="primary">download data</Button>
             </a>
           </Grid>
@@ -189,18 +189,18 @@ class SensorDetail extends Component {
         </Container>
       );
     } else {
-      return (<h1> Sensor view is being loaded... </h1>)
+      return (<h1> Actuator view is being loaded... </h1>)
     }
   }
 }
 
 function mapStateToProps(state, ownProps) {
   const device = state.device.device
-  const sens = device ? device.sensors.find(m => m.id == ownProps.params.sensId) : null
-  const notifs = sens && device ? state.notifications.notifications.filter(n => n.condition.devices.includes(device.id) && n.condition.sensors.includes(sens.id)) : null
+  const actu = device ? device.actuors.find(m => m.id == ownProps.params.actuId) : null
+  const notifs = actu && device ? state.notifications.notifications.filter(n => n.condition.devices.includes(device.id) && n.condition.actuors.includes(actu.id)) : null
   return {
     device: device,
-    sens: sens,
+    actu: actu,
     user: state.user,
     values: state.values.values,
     devices: state.devices.devices,
@@ -214,10 +214,10 @@ function mapDispatchToProps(dispatch) {
   return {
     getValues: (opts) => {dispatch(getValues(opts)) },
     getDevice: (id) => {dispatch(getDevice(id)) },
-    updateSensor: (id, m) => {dispatch(addSensor(id, m)) },
-    deleteSensor: (sid, mid) => {dispatch(deleteSensor(sid, mid)) },
+    updateActuator: (id, m) => {dispatch(addActuator(id, m)) },
+    deleteActuator: (sid, mid) => {dispatch(deleteActuator(sid, mid)) },
     createNotif: (notif) => {dispatch(createNotif(notif)) }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ActuatorDetail);
