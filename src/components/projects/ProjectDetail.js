@@ -13,7 +13,7 @@ import ProjectNodeCard from './ProjectNodeCard';
 import LocationForm from './LocationForm';
 import {
   addSensor, deleteSensor, deleteProject, getProject, 
-  getDevices, getGateways, getDevicePermissions
+  getDevices, getGateways, getDevicePermissions, getProjectPermissions
 } from '../../actions/actions.js';
 import deviceNodeImage from '../../images/deviceNode.png';
 import config from '../../config';
@@ -27,7 +27,8 @@ class ProjectDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.getDevicePermissions()
+    this.props.getDevicePermissions();
+    this.props.getProjectPermissions();
     this.props.getProject(this.props.params.projectId);
   }
   componentDidMount() {
@@ -142,7 +143,7 @@ class ProjectDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     project: state.project.project,
-    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.projectId),
+    permission: state.permissions.project.find(p => p.resource == ownProps.params.projectId),
     user: state.current_user,
     devices: state.devices.devices,
     gateways: state.gateways.gateways
@@ -161,6 +162,7 @@ function mapDispatchToProps(dispatch) {
       dispatch(deleteSensor(sid, mid));
     },
     getDevicePermissions: () => {dispatch(getDevicePermissions()) }, 
+    getProjectPermissions: () => {dispatch(getProjectPermissions()) }, 
     deleteProject: (id) => {
       dispatch(deleteProject(id));
     },

@@ -100,7 +100,7 @@ export default class ProjectNodeCard extends Component {
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { this.setState({ modalAdd: true }) }}>Add sensor</Button> 
+                  onTouchTap={() => { this.setState({ modalAdd: true }) }}>Add Device</Button> 
                 </Hidden>
               </div>) : null}
               {this.props.permission && this.props.permission.scopes.includes("projects:update") ?

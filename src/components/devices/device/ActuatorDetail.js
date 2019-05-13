@@ -206,7 +206,7 @@ function mapStateToProps(state, ownProps) {
     devices: state.devices.devices,
     users: state.users.users,
     notifs: notifs,
-    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.deviceId)
+    permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId)
   }
 }
 

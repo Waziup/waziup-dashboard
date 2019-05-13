@@ -393,14 +393,26 @@ function messagesReducer(state = [], action = null) {
 // Get all permissions
 function permissionsReducer(state = {
   isLoading: false,
-  permissions: [],
+  device: [],
+  project: [],
   error: false,
 }, action = null) {
   switch (action.type) {
+    case types.GET_PROJECT_PERMS_START: return Object.assign({}, state, { isLoading: true });
+    case types.GET_PROJECT_PERMS_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      project: action.data,
+      error: false,
+    });
+    case types.GET_PROJECT_PERMS_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
     case types.GET_DEVICE_PERMS_START: return Object.assign({}, state, { isLoading: true });
     case types.GET_DEVICE_PERMS_SUCCESS: return Object.assign({}, state, {
       isLoading: false,
-      permissions: action.data,
+      device: action.data,
       error: false,
     });
     case types.GET_DEVICE_PERMS_ERROR: return Object.assign({}, state, {
@@ -445,6 +457,6 @@ export default function rootReducer(state = {}, action) {
     // global messages
     messages: messagesReducer(state.messages, action),
     // List of permissions
-    permissions: permissionsReducer(state.permissions, action),
+    permissions: permissionsReducer(state.permissions, action)
   };
 }

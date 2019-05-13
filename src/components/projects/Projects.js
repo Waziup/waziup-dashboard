@@ -53,7 +53,7 @@ class Projects extends Component {
 function mapStateToProps(state) {
   return {
     projects: state.projects.projects,
-    permissions: state.permissions.permissions,
+    permissions: state.permissions.project,
     devices: state.devices.devices,
     gateways: state.gateways.gateways
   };

@@ -39,16 +39,16 @@ export default class DeviceNodeCard extends Component {
         permission={this.props.permission} />
       sensors.push(card);
     }
-    for (let m of device.actuators) {
-      const card = <ActuatorCard key={m.id}
-        sensor={m}
-        isDetails={false}
-        updateActuator={this.props.updateActuator}
-        deleteActuator={this.props.deleteActuator}
-        deviceId={device.id}
-        permission={this.props.permission} />
-      actuators.push(card);
-    }
+    // for (let m of device.actuators) {
+    //   const card = <ActuatorCard key={m.id}
+    //     sensor={m}
+    //     isDetails={false}
+    //     updateActuator={this.props.updateActuator}
+    //     deleteActuator={this.props.deleteActuator}
+    //     deviceId={device.id}
+    //     permission={this.props.permission} />
+    //   actuators.push(card);
+    // }
     console.log("perms:" + JSON.stringify(this.props.permission))
     return (
       <Card className="deviceNode">

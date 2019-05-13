@@ -375,6 +375,7 @@ export function createProject(proj) {
       const data = await projectsApi.createProject(proj);
       dispatch({ type: types.CREATE_PROJECT_SUCCESS, data });
       dispatch(getProjects());
+      dispatch(getProjectPermissions());
     } catch (error) {
       dispatch({ type: types.CREATE_PROJECT_ERROR, data: error });
     }

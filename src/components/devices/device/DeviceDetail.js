@@ -146,7 +146,7 @@ class DeviceDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     device: state.device.device,
-    permission: state.permissions.permissions.find(p => p.resource == ownProps.params.deviceId),
+    permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId),
     user: state.current_user,
   };
 }
