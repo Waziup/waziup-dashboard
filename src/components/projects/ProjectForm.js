@@ -29,11 +29,13 @@ class ProjectForm extends Component {
       gateways: [],
       project: (this.props.project? this.props.project: defaultProject)
     };
+
   }
 
   componentWillReceiveProps(){
-    if(this.props.isEdit)
-    this.setState({project:this.props.project})
+    if(this.props.isEdit){
+      this.setState({project:this.props.project})
+    }    
   }
   
   componentWillReceiveProps(nextProps) { 
@@ -50,7 +52,7 @@ class ProjectForm extends Component {
     return 0;
   }
 
-  componentWillMount() {
+  componentWillMount() { 
     let devices =  this.props.devices.sort(this.compare);
     let gateways =  this.props.gateways;
     this.setState({devices:devices, gateways:gateways})

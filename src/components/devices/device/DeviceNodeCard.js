@@ -103,19 +103,6 @@ export default class DeviceNodeCard extends Component {
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { this.setState({ modalAddActuator: true }) }}>Add actuator</Button> 
-                </Hidden>
-              </div>) : null}
-              {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
-              (<div className="cardTitleIcons">
-                <Hidden mdUp implementation="css">
-                  <AddCircleIcon onClick={() => { this.setState({ modalAddSensor: true }) }} />
-                </Hidden>
-                <Hidden smDown implementation="css">
-                <Button
-                  className="topRightButton"
-                  variant="contained"
-                  color="primary"
                   onTouchTap={() => { this.setState({ modalAddSensor: true }) }}>Add sensor</Button> 
                 </Hidden>
               </div>) : null}
