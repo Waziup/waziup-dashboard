@@ -398,28 +398,42 @@ export function deleteProject(projectId) {
 
 export function updateProjectDevices(projectId, devices) {
   return async function (dispatch) {
-    dispatch({ type: types.UPDATE_PROJECT_DEVICES_START });
+    dispatch({ type: types.UPDATE_PROJECT_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
       const data = await projectsApi.putDevices(projectId, devices);
-      dispatch({ type: types.UPDATE_PROJECT_DEVICES_SUCCESS, data });
+      dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
       dispatch(getProjects());
     } catch (error) {
-      dispatch({ type: types.UPDATE_PROJECT_DEVICES_ERROR, data: error });
+      dispatch({ type: types.UPDATE_PROJECT_ERROR, data: error });
     }
   };
 }
 
 export function updateProjectGateways(projectId, gateways) {
   return async function (dispatch) {
-    dispatch({ type: types.UPDATE_PROJECT_GATEWAYS_START });
+    dispatch({ type: types.UPDATE_PROJECT_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
       const data = await projectsApi.putGateways(projectId, gateways);
-      dispatch({ type: types.UPDATE_PROJECT_GATEWAYS_SUCCESS, data });
+      dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
       dispatch(getProjects());
     } catch (error) {
-      dispatch({ type: types.UPDATE_PROJECT_GATEWAYS_ERROR, data: error });
+      dispatch({ type: types.UPDATE_PROJECT_ERROR, data: error });
+    }
+  };
+}
+
+export function updateProjectName(projectId, name) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_PROJECT_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await projectsApi.putProjectName(projectId, name);
+      dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
+      dispatch(getProjects());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
   };
 }

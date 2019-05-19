@@ -13,7 +13,8 @@ import ProjectNodeCard from './ProjectNodeCard';
 import LocationForm from './LocationForm';
 import {
   addSensor, deleteSensor, deleteProject, getProject, 
-  getDevices, getGateways, getDevicePermissions, getProjectPermissions
+  getDevices, getGateways, getDevicePermissions, getProjectPermissions, updateSensorName,
+   updateProjectName, updateProjectDevices, updateProjectGateways
 } from '../../actions/actions.js';
 import deviceNodeImage from '../../images/deviceNode.png';
 import config from '../../config';
@@ -47,12 +48,14 @@ class ProjectDetail extends Component {
     console.log(`sens:${JSON.stringify(this.props.project)}`);
     const project = this.props.project;
     if (project) {
-      // const position = project.location ? [
-      //   project.location.latitude, project.location.longitude,
-      // ] : [
-      //   12.238, -1.561,
-      // ];
-      // console.log(`pos:${JSON.stringify(position)}`);
+      const position = 
+      // project.devices[0] ? [
+      //   project.devices[0].location.latitude, project.devices[0].location.longitude,
+      // ] : 
+      [
+        12.238, -1.561,
+      ];
+      console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
           <h1 className="page-title">
@@ -72,7 +75,9 @@ class ProjectDetail extends Component {
             project={project}
             devices={this.props.devices}
             gateways={this.props.gateways}
-            updateSensor={this.props.addSensor}
+            updateProjectName={this.props.updateProjectName}
+            updateProjectDevices={this.props.updateProjectDevices}
+            updateProjectGateways={this.props.updateProjectGateways}
             user={this.props.user}
           />
           <Card className="deviceMap">
@@ -82,16 +87,6 @@ class ProjectDetail extends Component {
                 Location
                 {' '}
               </span>
-              {this.props.permission && this.props.permission.scopes.includes('projects:update')
-                ? 
-                (<div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                  <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
-                  </Hidden>
-                </div>) : null}
               {/* <LocationForm
                 handleClose={() => this.setState({ modalLocation: false })}
                 initialLocation={device.location}
@@ -99,7 +94,7 @@ class ProjectDetail extends Component {
                 permission={this.props.permission}
               /> */}
             </Typography>
-            {/* <CardMedia>
+            <CardMedia>
               <Map
                 ref="map"
                 center={position}
@@ -124,7 +119,7 @@ class ProjectDetail extends Component {
                   </Popup>
                 </Marker>
               </Map>
-            </CardMedia> */}
+            </CardMedia>
           </Card>
         </Container>
       );
@@ -168,6 +163,12 @@ function mapDispatchToProps(dispatch) {
     },
     updateProjectName: (id, n) => {
       dispatch(updateProjectName(id, n));
+    },
+    updateProjectDevices: (id, n) => {
+      dispatch(updateProjectDevices(id, n));
+    },
+    updateProjectGateways: (id, n) => {
+      dispatch(updateProjectGateways(id, n));
     },
     updateSensorName: (deviceId, sensId, n) => {
       dispatch(updateSensorName(deviceId, sensId, n));

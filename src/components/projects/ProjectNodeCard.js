@@ -38,9 +38,7 @@ export default class ProjectNodeCard extends Component {
         <img src={deviceNodeImage} height="64" title={d.dateUpdated ? "Last update at " + d.dateUpdated : "No data yet"} />
         {deviceNodeNew ? <img src={newImage} height="35" className="newIcon" /> : null}
         <br />
-        <h3> {d.name} </h3>
-        <pre> {d.owner ? "owner: " + d.owner + (this.props.user && d.owner == this.props.user.username ? " (you)" : "") : ""} </pre>
-        <pre> {"visibility: " + (d.visibility ? d.visibility : "public")} </pre>
+        <h3> {d} </h3>
       </div>
         devices.push(card);
     }
@@ -50,7 +48,7 @@ export default class ProjectNodeCard extends Component {
       <div className="boardIcon">        
         <img src={gatewayImage} height="90"/>
         <br />
-        <h3> {d.name} </h3>
+        <h3> {d} </h3>
       </div>
         gateways.push(card);
     }
@@ -66,41 +64,30 @@ export default class ProjectNodeCard extends Component {
           isEdit={false} />
         <ProjectForm
           isEdit={true}
+          project={this.props.project}
           devices={this.props.devices}
           gateways={this.props.gateways}
           modalOpen={this.state.modalEdit}
           handleClose={() => this.setState({ modalEdit: false })}
           onSubmit={s => {
-            this.props.updateProjectName(device.id, s.name),
-              this.props.updateProjectVisibility(device.id, s.visibility)
+            this.props.updateProjectName(project.id, '"'+s.name+'"'),
+              this.props.updateProjectDevices(project.id, s.devices),
+              this.props.updateProjectGateways(project.id, s.gateways)
           }} />
         <Grid container direction="row" justify="flex-start" alignItems="left" spacing={24}>
-          <Grid item md={12} lg={6}>
+          <Grid item md={12} lg={12}>
             <Typography>
               {this.props.permission && this.props.permission.scopes.includes("projects:delete") ?
               (<div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <DeleteIcon onClick={() => { if (window.confirm('Delete a device?')) this.props.deleteProject(device.id) }} />
+                  <DeleteIcon onClick={() => { if (window.confirm('Delete a project?')) this.props.deleteProject(project.id) }} />
                 </Hidden>
                 <Hidden smDown implementation="css">
                 <Button
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { if (window.confirm('Delete a device?')) this.props.deleteProject(device.id) }}>Delete</Button>
-                </Hidden>
-              </div>) : null}
-              {this.props.permission && this.props.permission.scopes.includes("projects:update") ?
-              (<div className="cardTitleIcons">
-                <Hidden mdUp implementation="css">
-                  <AddCircleIcon onClick={() => { this.setState({ modalAdd: true }) }} />
-                </Hidden>
-                <Hidden smDown implementation="css">
-                <Button
-                  className="topRightButton"
-                  variant="contained"
-                  color="primary"
-                  onTouchTap={() => { this.setState({ modalAdd: true }) }}>Add Device</Button> 
+                  onTouchTap={() => { if (window.confirm('Delete a project?')) this.props.deleteProject(project.id) }}>Delete</Button>
                 </Hidden>
               </div>) : null}
               {this.props.permission && this.props.permission.scopes.includes("projects:update") ?
