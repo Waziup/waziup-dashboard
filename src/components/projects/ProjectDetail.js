@@ -9,52 +9,50 @@ import {
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
-import DeviceNodeCard from './DeviceNodeCard';
+import ProjectNodeCard from './ProjectNodeCard';
 import LocationForm from './LocationForm';
 import {
-  addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
-  updateDeviceLocation, updateDeviceName, updateDeviceVisibility
-} from '../../../actions/actions.js';
-import deviceNodeImage from '../../../images/deviceNode.png';
-import config from '../../../config';
+  addSensor, deleteSensor, deleteProject, getProject, 
+  getDevices, getGateways, getDevicePermissions, getProjectPermissions
+} from '../../actions/actions.js';
+import deviceNodeImage from '../../images/deviceNode.png';
+import config from '../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 
-class DeviceDetail extends Component {
+class ProjectDetail extends Component {
   constructor(props) {
     super(props);
     this.state = { modalLocation: false };
   }
 
   componentWillMount() {
-    this.props.getDevice(this.props.params.deviceId);
-    this.interval = setInterval(() => {
-      this.props.getDevice(this.props.params.deviceId);
-    }, config.delayRefresh);
+    this.props.getDevicePermissions();
+    this.props.getProjectPermissions();
+    this.props.getProject(this.props.params.projectId);
   }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  componentDidMount() {
+    this.props.getDevices({ limit: 1000 });
+    this.props.getGateways();
   }
 
   render() {
     let renderElement = (
       <h1>
         {' '}
-        Device view is being loaded...
+        Project view is being loaded...
         {' '}
       </h1>
     );
-    console.log(`sens:${JSON.stringify(this.props.device)}`);
-    const device = this.props.device;
-    console.log(device);
-    if (device) {
-      const position = device.location ? [
-        device.location.latitude, device.location.longitude,
-      ] : [
-        12.238, -1.561,
-      ];
-      console.log(`pos:${JSON.stringify(position)}`);
+    console.log(`sens:${JSON.stringify(this.props.project)}`);
+    const project = this.props.project;
+    if (project) {
+      // const position = project.location ? [
+      //   project.location.latitude, project.location.longitude,
+      // ] : [
+      //   12.238, -1.561,
+      // ];
+      // console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
           <h1 className="page-title">
@@ -62,19 +60,19 @@ class DeviceDetail extends Component {
               height="40"
               src={deviceNodeImage}
             />
-            Device
+            Project
           </h1>
-          <DeviceNodeCard
+          <ProjectNodeCard
             className="deviceNode"
             deleteSensor={this.props.deleteSensor}
-            deleteDevice={(sid) => {
-              this.props.deleteDevice(sid); browserHistory.push('/devices');
+            deleteProject={(sid) => {
+              this.props.deleteProject(sid); browserHistory.push('/projects');
             }}
             permission={this.props.permission}
-            device={device}
+            project={project}
+            devices={this.props.devices}
+            gateways={this.props.gateways}
             updateSensor={this.props.addSensor}
-            updateDeviceName={this.props.updateDeviceName}
-            updateDeviceVisibility={this.props.updateDeviceVisibility}
             user={this.props.user}
           />
           <Card className="deviceMap">
@@ -84,7 +82,7 @@ class DeviceDetail extends Component {
                 Location
                 {' '}
               </span>
-              {this.props.permission && this.props.permission.scopes.includes('devices:update')
+              {this.props.permission && this.props.permission.scopes.includes('projects:update')
                 ? 
                 (<div className="cardTitleIcons">
                   <Hidden mdUp implementation="css">
@@ -94,15 +92,14 @@ class DeviceDetail extends Component {
                   <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
                   </Hidden>
                 </div>) : null}
-              <LocationForm
+              {/* <LocationForm
                 handleClose={() => this.setState({ modalLocation: false })}
                 initialLocation={device.location}
                 modalOpen={this.state.modalLocation}
-                onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
                 permission={this.props.permission}
-              />
+              /> */}
             </Typography>
-            <CardMedia>
+            {/* <CardMedia>
               <Map
                 ref="map"
                 center={position}
@@ -112,7 +109,7 @@ class DeviceDetail extends Component {
                 <Marker position={position}>
                   <Popup>
                     <span>
-                      Device Position
+                      Project Position
                       <br />
                       {' '}
                       Latitude:
@@ -127,12 +124,12 @@ class DeviceDetail extends Component {
                   </Popup>
                 </Marker>
               </Map>
-            </CardMedia>
+            </CardMedia> */}
           </Card>
         </Container>
       );
     } else {
-      browserHistory.push('/devices');
+      browserHistory.push('/projects');
     }
 
     return (
@@ -145,16 +142,18 @@ class DeviceDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    device: state.device.device,
-    permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId),
+    project: state.project.project,
+    permission: state.permissions.project.find(p => p.resource == ownProps.params.projectId),
     user: state.current_user,
+    devices: state.devices.devices,
+    gateways: state.gateways.gateways
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getDevice: (id) => {
-      dispatch(getDevice(id));
+    getProject: (id) => {
+      dispatch(getProject(id));
     },
     addSensor: (id, m) => {
       dispatch(addSensor(id, m));
@@ -162,22 +161,24 @@ function mapDispatchToProps(dispatch) {
     deleteSensor: (sid, mid) => {
       dispatch(deleteSensor(sid, mid));
     },
-    deleteDevice: (id) => {
-      dispatch(deleteDevice(id));
+    getDevicePermissions: () => {dispatch(getDevicePermissions()) }, 
+    getProjectPermissions: () => {dispatch(getProjectPermissions()) }, 
+    deleteProject: (id) => {
+      dispatch(deleteProject(id));
     },
-    updateDeviceLocation: (id, l) => {
-      dispatch(updateDeviceLocation(id, l));
-    },
-    updateDeviceName: (id, n) => {
-      dispatch(updateDeviceName(id, n));
-    },
-    updateDeviceVisibility: (id, v) => {
-      dispatch(updateDeviceVisibility(id, v));
+    updateProjectName: (id, n) => {
+      dispatch(updateProjectName(id, n));
     },
     updateSensorName: (deviceId, sensId, n) => {
       dispatch(updateSensorName(deviceId, sensId, n));
     },
+    getDevices: (params) => {
+      dispatch(getDevices(params));
+    },
+    getGateways: (params) => {
+      dispatch(getGateways(params));
+    }
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeviceDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetail);

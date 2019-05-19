@@ -15,13 +15,12 @@ import PropTypes from 'prop-types'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorBanner from './ErrorBanner';
 import { browserHistory } from 'react-router'
-import { getPermissions, logout } from "../actions/actions.js"
+import { getDevicePermissions, getProjectPermissions, logout } from "../actions/actions.js"
 import config from '../config';
 import { Container, Col } from 'react-grid-system'
 import Grid from '@material-ui/core/Grid';
 
 import Drawer from '@material-ui/core/Drawer';
-import Collapse from '@material-ui/core/Collapse';
 import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -31,12 +30,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import MenuIcon from '@material-ui/icons/Menu';
 import PlaceIcon from '@material-ui/icons/Place';
 import CloudIcon from '@material-ui/icons/Cloud';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import SettingsRemoteIcon from '@material-ui/icons/SettingsRemote';
 
 import theme from './theme';
@@ -130,7 +128,8 @@ class Layout extends Component {
   }
 
   componentWillMount() {
-    this.props.getPermissions()
+    this.props.getDevicePermissions();
+    this.props.getProjectPermissions();
   }
   
   handleMenu = event => {
@@ -160,6 +159,7 @@ class Layout extends Component {
     const open = Boolean(anchorEl);
     const Logo = require("../images/logo-waziup-white.png");
     const listItems = [
+      { name: "Projects", icon: (<AssignmentIcon />)},
       { name: "Devices", icon: (<SettingsRemoteIcon />)},
       { name: "Gateways", icon: (<CloudIcon />)},
       { name: "Notifications", icon: (<AlarmIcon />)},
@@ -302,12 +302,13 @@ function mapStateToProps(state) {
   return {
     user: state.current_user,
     keycloak: state.keycloak,
-    permissions: state.permissions.permissions
+    permissions: state.permissions.device
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    getPermissions: () => {dispatch(getPermissions()) }, 
+    getDevicePermissions: () => {dispatch(getDevicePermissions()) }, 
+    getProjectPermissions: () => {dispatch(getProjectPermissions()) }, 
     logout: () => {dispatch(logout()) } 
   };
 }

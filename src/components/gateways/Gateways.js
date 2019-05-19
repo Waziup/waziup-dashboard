@@ -77,7 +77,7 @@ class Gateways extends Component {
 function mapStateToProps(state) {
   return {
     devices: state.devices.devices,
-    permissions: state.permissions.permissions
+    permissions: state.permissions.device
   };
 }
 

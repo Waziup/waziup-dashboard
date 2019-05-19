@@ -3,6 +3,8 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import SensorForm from './SensorForm';
 import SensorCard from './SensorCard';
+import ActuatorForm from './ActuatorForm';
+import ActuatorCard from './ActuatorCard';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import deviceNodeImage from '../../../images/deviceNode.png';
@@ -17,8 +19,8 @@ export default class DeviceNodeCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalSens: false,
-      modalAdd: false,
+      modalAddSensor: false,
+      modalAddActuator: false,
       modalEdit: false
     };
   }
@@ -26,6 +28,7 @@ export default class DeviceNodeCard extends Component {
   render() {
     let device = this.props.device;
     var sensors = [];
+    var actuators = [];
     for (let m of device.sensors) {
       const card = <SensorCard key={m.id}
         sensor={m}
@@ -36,16 +39,33 @@ export default class DeviceNodeCard extends Component {
         permission={this.props.permission} />
       sensors.push(card);
     }
+    // for (let m of device.actuators) {
+    //   const card = <ActuatorCard key={m.id}
+    //     sensor={m}
+    //     isDetails={false}
+    //     updateActuator={this.props.updateActuator}
+    //     deleteActuator={this.props.deleteActuator}
+    //     deviceId={device.id}
+    //     permission={this.props.permission} />
+    //   actuators.push(card);
+    // }
     console.log("perms:" + JSON.stringify(this.props.permission))
     return (
       <Card className="deviceNode">
-        <SensorForm modalOpen={this.state.modalAdd}
-          handleClose={() => { this.setState({ modalAdd: false }) }}
+        <SensorForm modalOpen={this.state.modalAddSensor}
+          handleClose={() => { this.setState({ modalAddSensor: false }) }}
           onSubmit={(m) => {
             this.props.updateSensor(device.id, m);
-            this.setState({ modalAdd: false });
+            this.setState({ modalAddSensor: false });
           }}
           isEdit={false} />
+        <ActuatorForm modalOpen={this.state.modalAddActuator}
+        handleClose={() => { this.setState({ modalAddActuator: false }) }}
+        onSubmit={(m) => {
+          this.props.updateActuator(device.id, m);
+          this.setState({ modalAddActuator: false });
+        }}
+        isEdit={false} />
         <DeviceForm device={device}
           isEdit={true}
           modalOpen={this.state.modalEdit}
@@ -76,14 +96,27 @@ export default class DeviceNodeCard extends Component {
               {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
               (<div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <AddCircleIcon onClick={() => { this.setState({ modalAdd: true }) }} />
+                  <AddCircleIcon onClick={() => { this.setState({ modalAddSensor: true }) }} />
                 </Hidden>
                 <Hidden smDown implementation="css">
                 <Button
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { this.setState({ modalAdd: true }) }}>Add sensor</Button> 
+                  onTouchTap={() => { this.setState({ modalAddActuator: true }) }}>Add actuator</Button> 
+                </Hidden>
+              </div>) : null}
+              {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
+              (<div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <AddCircleIcon onClick={() => { this.setState({ modalAddSensor: true }) }} />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                <Button
+                  className="topRightButton"
+                  variant="contained"
+                  color="primary"
+                  onTouchTap={() => { this.setState({ modalAddSensor: true }) }}>Add sensor</Button> 
                 </Hidden>
               </div>) : null}
               {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
@@ -122,6 +155,8 @@ export default class DeviceNodeCard extends Component {
     deleteDevice: PropTypes.func,
     updateSensor: PropTypes.func,
     deleteSensor: PropTypes.func,
+    updateActuator: PropTypes.func,
+    deleteActuator: PropTypes.func,
     permission: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
   }

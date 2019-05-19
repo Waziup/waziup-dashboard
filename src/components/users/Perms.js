@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
 import userImage from '../../images/user-icon.png';
-import { getPermissions } from '../../actions/actions';
+import { getDevicePermissions } from '../../actions/actions';
+import { getProjectPermissions } from '../../actions/actions';
 
 class UserPermissions extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class UserPermissions extends Component {
   }
 
   componentWillMount() {
-    this.props.getPermissions();
+    this.props.getDevicePermissions();
+    this.props.getProjectPermissions();
   }
 
   render() {
@@ -64,14 +66,17 @@ You have access to the following resources:
 }
 
 function mapStateToProps(state, ownProps) {
-  return { permissions: ownProps.params.userId == state.user.user.id ? state.permissions.permissions : null };
+  return { permissions: ownProps.params.userId == state.user.user.id ? state.permissions.device : null };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPermissions: () => {
-      dispatch(getPermissions());
+    getDevicePermissions: () => {
+      dispatch(getDevicePermissions());
     },
+    getProjectPermissions: () => {
+      dispatch(getProjectPermissions());
+    }
   };
 }
 
