@@ -182,7 +182,7 @@ class Devices extends Component {
                   />}
                   title="Domain of the device">
                   <MenuItem value="all">All</MenuItem>
-                  {this.props.deviceAttributes.domains ? this.props.deviceAttributes.domains.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
+                  {this.props.deviceAttributes.domains ? this.props.deviceAttributes.domains.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
                 </Select>
               </FormControl>
             </Grid>
@@ -195,7 +195,7 @@ class Devices extends Component {
                     onChange={(a) => this.handleFilter("owner", a)} />}
                   title="Owner of the device">
                   <MenuItem value="all">All</MenuItem>
-                  {this.props.deviceAttributes.owners ? this.props.deviceAttributes.owners.map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
+                  {this.props.deviceAttributes.owners ? this.props.deviceAttributes.owners.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
                 </Select>
               </FormControl>
             </Grid>
