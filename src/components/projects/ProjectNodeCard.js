@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import deviceNodeImage from '../../images/deviceNode.png';
 import gatewayImage from '../../images/RPI.png';
+import newImage from '../../images/new.png';
 import ProjectForm from './ProjectForm.js';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
