@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import chartImage from '../../../images/chart-icon.png';
+import sensorImage from '../../../../images/sensor.png';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import EditIcon from '@material-ui/icons/Edit';
@@ -8,7 +8,7 @@ import SensorForm from './SensorForm';
 import SensIcon from './SensIcon';
 import { Link } from 'react-router';
 import * as Waziup from 'waziup-js'
-import config from '../../../config';
+import config from '../../../../config';
 
 export default class SensorCard extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class SensorCard extends Component {
           {!this.props.isDetails? 
             <Link to={"/devices/" + this.props.deviceId + "/" + sens.id} > 
               <div className="sensIcon">
-                <img src={chartImage} height="75" title={"Go to sensor details"}/>
+                <img src={sensorImage} height="75" title={"Go to sensor details"}/>
               </div>
             </Link> : null
           }

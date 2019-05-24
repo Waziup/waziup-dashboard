@@ -14,17 +14,17 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
-import deviceImage from '../../../images/gauge.png';
+import deviceImage from '../../../../images/actuator.png';
 
 class ActuatorForm extends Component {
 
   constructor(props){
     super(props);
-    var defaultActu = new Waziup.Actuator("TC")
-    defaultActu.name = "My Temperature"
-    defaultActu.actuator_kind = "Thermometer"
-    defaultActu.actuator_value_type = "Temperature"
-    defaultActu.value = "DegreeCelsius"
+    var defaultActu = new Waziup.Actuator("MOT")
+    defaultActu.name = "DC Motor"
+    defaultActu.actuator_kind = "Motor"
+    defaultActu.actuator_value_type = "bool"
+    defaultActu.value = true
     this.state = {
       actu: (this.props.actuator? this.props.actuator: defaultActu)
     };
@@ -49,7 +49,8 @@ class ActuatorForm extends Component {
       <Button color="primary" key='cancel' onTouchTap={()=>{this.props.handleClose();}}>Cancel</Button>,
       <Button color="primary" key='submit' onTouchTap={()=>{this.props.onSubmit(this.state.actu); this.props.handleClose();}}>Submit</Button>,
     ];
-
+    const valueTypes = ["string", "number", "bool", "null", "object","array"]
+    const ActuatorKinds = ["Motor","Lamp"]
     return (
       <Dialog actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
          <DialogTitle>{this.props.isEdit? "Edit Actuator": "Add actuator"}</DialogTitle>
@@ -64,33 +65,22 @@ class ActuatorForm extends Component {
            <TextField name="name" label="Name" value={this.state.actu.name} onChange={this.handleChange} title="A name for this device actuator"/>
            </Grid>
         <Grid item xs={6}>
-
           <FormControl>
-            <InputLabel htmlFor="device_kind">Device</InputLabel>
-            <Select 
-            input={<Input name="device_kind" id="device_kind" />}
-            value={this.state.actu.actuator_kind} onChange={this.handleSelect("actuator_kind")} title="The kind of device used for this actuator">
-              {Waziup.ActuatorKinds.getAll().map(s => <MenuItem key={s.id} value={s.id}>{s.label}</MenuItem>)}
-            </Select>
-          </FormControl>
-           </Grid>
-        <Grid item xs={6}>
-          <FormControl>
-            <InputLabel htmlFor="dimension">Actuator kind</InputLabel>
-            <Select 
-            input={<Input name="dimension" id="dimension" />}
-            value={this.state.actu.quantity_kind} onChange={this.handleSelect("quantity_kind")} title="What does it actuures?">
-              {Waziup.ActuatorKinds.getVTs(this.state.actu.actuator_kind).map(qk => <MenuItem key={qk.id} value={qk.id}>{qk.label}</MenuItem>)}
+            <InputLabel htmlFor="actuator_kind">Actuator kind</InputLabel>
+            <Select style={{ minWidth: 150 }}
+            input={<Input name="actuator_kind" id="actuator_kind" />}
+            value={this.state.actu.actuator_kind} onChange={this.handleSelect("actuator_kind")} >
+              {ActuatorKinds.map(ak => <MenuItem key={ak} value={ak}>{ak}</MenuItem>)}
            </Select>
           </FormControl>
         </Grid>
         <Grid item xs={6}>
         <FormControl>
-            <InputLabel htmlFor="unit">Value Type</InputLabel>
-            <Select 
-            input={<Input name="unit" id="unit" />}
-            value={this.state.actu.unit} onChange={this.handleSelect("unit")} title="The actuator unit">
-              {Waziup.QuantityKinds.getUnits(this.state.actu.quantity_kind).map(u => <MenuItem key={u.id} value={u.id}>{u.label}</MenuItem>)}
+            <InputLabel htmlFor="actuator_value_type">Value Type</InputLabel>
+            <Select style={{ minWidth: 150 }}
+            input={<Input name="actuator_value_type" id="actuator_value_type" />}
+            value={this.state.actu.actuator_value_type} onChange={this.handleSelect("actuator_value_type")}>
+              {valueTypes.map(u => <MenuItem key={u} value={u}>{u}</MenuItem>)}
            </Select>
           </FormControl>        
            </Grid>

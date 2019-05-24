@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
-import SensorForm from './SensorForm';
-import SensorCard from './SensorCard';
-import ActuatorForm from './ActuatorForm';
-import ActuatorCard from './ActuatorCard';
+import SensorForm from './sensor/SensorForm';
+import SensorCard from './sensor/SensorCard';
+import ActuatorForm from './actuator/ActuatorForm';
+import ActuatorCard from './actuator/ActuatorCard';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import deviceNodeImage from '../../../images/deviceNode.png';
+import deviceNodeImage from '../../../images/device.png';
 import DeviceForm from './DeviceForm.js';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
@@ -39,16 +39,17 @@ export default class DeviceNodeCard extends Component {
         permission={this.props.permission} />
       sensors.push(card);
     }
-    // for (let m of device.actuators) {
-    //   const card = <ActuatorCard key={m.id}
-    //     sensor={m}
-    //     isDetails={false}
-    //     updateActuator={this.props.updateActuator}
-    //     deleteActuator={this.props.deleteActuator}
-    //     deviceId={device.id}
-    //     permission={this.props.permission} />
-    //   actuators.push(card);
-    // }
+    if(device.actuators)
+    for (let m of device.actuators) {
+      const card = <ActuatorCard key={m.id}
+        actuator={m}
+        isDetails={false}
+        updateActuator={this.props.updateActuator}
+        deleteActuator={this.props.deleteActuator}
+        deviceId={device.id}
+        permission={this.props.permission} />
+      actuators.push(card);
+    }
     console.log("perms:" + JSON.stringify(this.props.permission))
     return (
       <Card className="deviceNode">
@@ -96,6 +97,19 @@ export default class DeviceNodeCard extends Component {
               {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
               (<div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
+                  <AddCircleIcon onClick={() => { this.setState({ modalAddActuator: true }) }} />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                <Button
+                  className="topRightButton"
+                  variant="contained"
+                  color="primary"
+                  onTouchTap={() => { this.setState({ modalAddActuator: true }) }}>Add actuator</Button> 
+                </Hidden>
+              </div>) : null}
+              {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
+              (<div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
                   <AddCircleIcon onClick={() => { this.setState({ modalAddSensor: true }) }} />
                 </Hidden>
                 <Hidden smDown implementation="css">
@@ -131,6 +145,7 @@ export default class DeviceNodeCard extends Component {
             <pre> {"domain: " + (device.domain ? device.domain : "none")} </pre>
           </div>
           {sensors}
+          {actuators}
         </div>
       </Card>
     );

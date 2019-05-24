@@ -6,6 +6,10 @@ import { Container } from 'react-grid-system';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { getDevices } from '../actions/actions.js';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import mapImage from '../images/map.png';
+import Typography from '@material-ui/core/Typography';
 
 class Map extends Component {
   constructor(props) {
@@ -53,11 +57,14 @@ class Map extends Component {
   render() {
     return (
       <div>
-        <h1 className="page-title">
-          {' '}
-Map
-          {' '}
-        </h1>
+          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={mapImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+            Map     
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <Container fluid>
           <LeafletMap
             ref="map"

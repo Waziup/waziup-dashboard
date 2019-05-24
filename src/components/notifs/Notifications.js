@@ -10,6 +10,9 @@ import NotifCard from './NotifCard.js';
 import {
   createNotif, getNotifs, getDevices, getUsers,
 } from '../../actions/actions.js';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import notificationImage from '../../images/notification.png';
 
 class Notifications extends Component {
   constructor(props) {
@@ -43,7 +46,14 @@ class Notifications extends Component {
       console.log(`open${JSON.stringify(this.state.modalOpen)}`);
       return (
         <Container fluid={true} style={{'paddingBottom':'50px'}}>
-          <h1 className="page-title">Notifications settings</h1>
+          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+            <Toolbar>
+            <img src={notificationImage} height="50"/>
+              <Typography variant="h5" className="page-title">
+              Notifications settings       
+              </Typography>
+            </Toolbar>
+          </AppBar>
           <NotifForm modalOpen={this.state.modalOpen}
                      devices={this.props.devices}
                      users={this.props.users}

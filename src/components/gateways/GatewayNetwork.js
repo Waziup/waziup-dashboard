@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import gatewayImage from '../../images/RPI.png';
+import gatewayImage from '../../images/gateway.png';
 import loraImage from '../../images/lora.png';
 import GatewayDevice from './GatewayDevice.js'
 import Grid from '@material-ui/core/Grid';

@@ -16,10 +16,12 @@ import {
   getDevices, getGateways, getDevicePermissions, getProjectPermissions, updateSensorName,
    updateProjectName, updateProjectDevices, updateProjectGateways
 } from '../../actions/actions.js';
-import deviceNodeImage from '../../images/deviceNode.png';
 import config from '../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import projectImage from '../../images/project.png';
 
 class ProjectDetail extends Component {
   constructor(props) {
@@ -58,13 +60,14 @@ class ProjectDetail extends Component {
       console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
-          <h1 className="page-title">
-            <img
-              height="40"
-              src={deviceNodeImage}
-            />
-            Project
-          </h1>
+        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={projectImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+              Project Detail    
+            </Typography>
+          </Toolbar>
+        </AppBar>
           <ProjectNodeCard
             className="deviceNode"
             deleteSensor={this.props.deleteSensor}

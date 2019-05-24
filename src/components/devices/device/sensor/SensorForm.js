@@ -14,7 +14,7 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
-import deviceImage from '../../../images/gauge.png';
+import deviceImage from '../../../../images/gauge.png';
 
 class SensorForm extends Component {
 

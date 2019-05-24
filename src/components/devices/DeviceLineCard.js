@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import deviceNodeImage from '../../images/deviceNode.png';
+import deviceNodeImage from '../../images/device.png';
 import config from '../../config';
 import * as Waziup from 'waziup-js'
-import SensIcon from './device/SensIcon';
+import SensIcon from './device/sensor/SensIcon';
 import newImage from '../../images/new.png';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';

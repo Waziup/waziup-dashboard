@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import deviceNodeImage from '../../images/deviceNode.png';
+import deviceNodeImage from '../../images/device.png';
 import config from '../../config';
 import { Link } from 'react-router';
 import EditIcon from '@material-ui/icons/Edit';

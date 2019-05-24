@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import chartImage from '../../../images/chart-icon.png';
+import actuatorImage from '../../../../images/actuator.png';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ActuatorForm from './ActuatorForm';
-import SensIcon from './SensIcon';
 import { Link } from 'react-router';
 import * as Waziup from 'waziup-js'
-import config from '../../../config';
+import config from '../../../../config';
 
 export default class ActuatorCard extends Component {
   constructor(props) {
@@ -20,12 +19,9 @@ export default class ActuatorCard extends Component {
 
   render() {
     let actu = this.props.actuator
-    //Check if inactive delay expired
-    let activeStyle = (actu.last_value && new Date() < Date.parse(actu.last_value.date_received) + config.delayDeviceInactive)? "cardGreen": "cardRed"
-    let title = actu.last_value ? "Date received: " + actu.last_value.date_received : "No data yet"
 
     return (
-      <Card className={"card " + activeStyle}>
+      <Card className={"card "}>
         <ActuatorForm modalOpen={this.state.modalEdit}
                          handleClose={()=>{this.setState({modalEdit: false})}}
                          onSubmit={(m) => {this.props.updateActuator(this.props.deviceId, m); this.setState({modalEdit: false});}}
@@ -39,16 +35,10 @@ export default class ActuatorCard extends Component {
           </div>
         </div>
         <div className="cardContent">
-          <div className="actuIcon">
-            <SensIcon actuator_kind={actu.actuator_kind} height="75" title={title}/>
-          </div>
-          <div className="actuValue"> 
-            <h3> {(actu.last_value? JSON.stringify(actu.last_value.value).replace(/"/g, ""): "") + " " + (actu.unit? Waziup.Units.getLabel(actu.unit): "")} </h3>
-          </div>
           {!this.props.isDetails? 
             <Link to={"/devices/" + this.props.deviceId + "/" + actu.id} > 
               <div className="actuIcon">
-                <img src={chartImage} height="75" title={"Go to actuator details"}/>
+                <img src={actuatorImage} height="75" title={"Go to actuator details"}/>
               </div>
             </Link> : null
           }

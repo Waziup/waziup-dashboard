@@ -5,13 +5,15 @@ import DeviceForm from './../devices/device/DeviceForm';
 import config from '../../config';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
-import deviceNodeImage from '../../images/deviceNode.png';
-import gatewayImage from '../../images/RPI.png';
+import deviceImage from '../../images/device.png';
+import gatewayImage from '../../images/gateway.png';
+import projectImage from '../../images/project.png';
 import newImage from '../../images/new.png';
 import ProjectForm from './ProjectForm.js';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Link } from 'react-router';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -34,23 +36,26 @@ export default class ProjectNodeCard extends Component {
     for (let d of project.devices) {
       let deviceNodeNew = new Date() < Date.parse(d.date_created) + config.delayDeviceNodeNew
       const card = 
-      <div className="boardIcon">
-        
-        <img src={deviceNodeImage} height="64" title={d.dateUpdated ? "Last update at " + d.dateUpdated : "No data yet"} />
-        {deviceNodeNew ? <img src={newImage} height="35" className="newIcon" /> : null}
-        <br />
-        <h3> {d} </h3>
-      </div>
+        <Link to={"/devices/" + d} >
+          <div className="boardIcon">      
+            <img src={deviceImage} height="64" title={d.dateUpdated ? "Last update at " + d.dateUpdated : "No data yet"} />
+            {deviceNodeNew ? <img src={newImage} height="35" className="newIcon" /> : null}
+            <br />
+            <h3> {d} </h3>
+          </div>
+        </Link>
         devices.push(card);
     }
     if (project.gateways)    
     for (let d of project.gateways) {
       const card = 
-      <div className="boardIcon">        
-        <img src={gatewayImage} height="90"/>
-        <br />
-        <h3> {d} </h3>
-      </div>
+      <Link to={"/gateways/" + d} >
+        <div className="boardIcon">        
+          <img src={gatewayImage} height="90"/>
+          <br />
+          <h3> {d} </h3>
+        </div>
+      </Link>
         gateways.push(card);
     }
     console.log("perms:" + JSON.stringify(this.props.permission))
@@ -110,7 +115,7 @@ export default class ProjectNodeCard extends Component {
 
         <div className="contentCards">
           <div className="boardIcon">
-            <img src={deviceNodeImage} height="75" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+            <img src={projectImage} height="75" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
             <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre>
             <span className="Typography"> {(project.name ? project.name + " " : "")} </span>
           </div>

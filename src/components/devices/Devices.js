@@ -7,7 +7,6 @@ import DevicesList from './DevicesList.js';
 import {
   createDevice, getDevices, getDeviceAttributes
 } from '../../actions/actions.js';
-import deviceNodesImage from '../../images/deviceNodes.png';
 import config from '../../config';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -23,6 +22,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import FilterList from '@material-ui/icons/FilterList';
 import { withStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import deviceImage from '../../images/device.png';
+import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
   root: {
@@ -144,13 +147,14 @@ class Devices extends Component {
 
     return (
       <Container fluid>
-        <h1 className="page-title">
-          <img
-            height="40"
-            src={deviceNodesImage}
-          />
-          Devices
-        </h1>
+        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={deviceImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+              Devices       
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <DeviceForm
           handleClose={() => this.setState({ modalAddDevice: false })}
           modalOpen={this.state.modalAddDevice}

@@ -3,9 +3,12 @@ import { connect } from 'react-redux';
 import GatewayNetwork from './GatewayNetwork.js'
 import { Container } from 'react-grid-system';
 import { getDevices, updateDeviceGatewayId} from "../../actions/actions.js";
-import gatewayImage from '../../images/RPIs.png';
+import gatewayImage from '../../images/gateway.png';
 import DOM from 'react-dom-factories';
 import Hidden from '@material-ui/core/Hidden';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 class DomainNameComponent extends Component {
 
@@ -59,10 +62,14 @@ class Gateways extends Component {
   render() {
     return (
       <Container fluid={true}>
-        <h1 className="page-title">
-          <img src={gatewayImage} height="80"/>
-          Gateways
-        </h1>
+        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={gatewayImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+              Gateways       
+            </Typography>
+          </Toolbar>
+        </AppBar>
         {DOM.div(null, 
           this.getDomains().map((d,index) => [ 
             React.createElement(DomainNameComponent, { key: { index }, domain:d.domainName}),

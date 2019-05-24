@@ -14,7 +14,7 @@ import UserDetail from './components/users/UserDetail';
 import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
 import DeviceDetail from './components/devices/device/DeviceDetail';
-import SensorDetail from './components/devices/device/SensorDetail';
+import SensorDetail from './components/devices/device/sensor/SensorDetail';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
 import Projects from './components/projects/Projects';

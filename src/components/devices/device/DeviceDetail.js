@@ -13,12 +13,15 @@ import DeviceNodeCard from './DeviceNodeCard';
 import LocationForm from './LocationForm';
 import {
   addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
-  updateDeviceLocation, updateDeviceName, updateDeviceVisibility
+  updateDeviceLocation, updateDeviceName, updateDeviceVisibility,
+  addActuator, deleteActuator, updateActuatorName,
 } from '../../../actions/actions.js';
-import deviceNodeImage from '../../../images/deviceNode.png';
+import deviceImage from '../../../images/device.png';
 import config from '../../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 class DeviceDetail extends Component {
   constructor(props) {
@@ -57,22 +60,25 @@ class DeviceDetail extends Component {
       console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
-          <h1 className="page-title">
-            <img
-              height="40"
-              src={deviceNodeImage}
-            />
-            Device
-          </h1>
+        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={deviceImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+              Device Detail    
+            </Typography>
+          </Toolbar>
+        </AppBar>
           <DeviceNodeCard
             className="deviceNode"
             deleteSensor={this.props.deleteSensor}
+            deleteActuator={this.props.deleteActuator}
             deleteDevice={(sid) => {
               this.props.deleteDevice(sid); browserHistory.push('/devices');
             }}
             permission={this.props.permission}
             device={device}
             updateSensor={this.props.addSensor}
+            updateActuator={this.props.addActuator}
             updateDeviceName={this.props.updateDeviceName}
             updateDeviceVisibility={this.props.updateDeviceVisibility}
             user={this.props.user}
@@ -162,6 +168,12 @@ function mapDispatchToProps(dispatch) {
     deleteSensor: (sid, mid) => {
       dispatch(deleteSensor(sid, mid));
     },
+    addActuator: (id, m) => {
+      dispatch(addActuator(id, m));
+    },
+    deleteActuator: (aid, mid) => {
+      dispatch(deleteActuator(aid, mid));
+    },
     deleteDevice: (id) => {
       dispatch(deleteDevice(id));
     },
@@ -176,6 +188,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateSensorName: (deviceId, sensId, n) => {
       dispatch(updateSensorName(deviceId, sensId, n));
+    },
+    updateActuatorName: (deviceId, actuId, n) => {
+      dispatch(updateActuatorName(deviceId, actuId, n));
     },
   };
 }

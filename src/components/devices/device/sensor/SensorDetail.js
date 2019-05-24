@@ -12,14 +12,15 @@ import { Container } from 'react-grid-system'
 import querystring from 'querystring';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import DeviceChart from './DeviceChart';
+import DeviceChart from '../DeviceChart';
 import Grid from '@material-ui/core/Grid';
 import SensorCard from './SensorCard';
-import NotifForm from '../../notifs/NotifForm.js'
-import NotifCard from '../../notifs/NotifCard.js'
-import chartImage from '../../../images/chart-icon.png';
-import { getValues, getDevice, addSensor, deleteSensor, createNotif } from "../../../actions/actions.js"
-import config from '../../../config';
+// import CalibrationForm from './CalibrationForm';
+import NotifForm from '../../../notifs/NotifForm.js'
+import NotifCard from '../../../notifs/NotifCard.js'
+import sensorImage from '../../../../images/sensor.png';
+import { getValues, getDevice, addSensor, deleteSensor, createNotif } from "../../../../actions/actions.js"
+import config from '../../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -35,7 +36,8 @@ class SensorDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalOpen: false,
+      modalAddNotif: false,
+      modalAddCalib: false,
       query: {
         dateFrom: undefined,
         dateTo: undefined,
@@ -115,20 +117,31 @@ class SensorDetail extends Component {
       return (
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
-            <img src={chartImage} height="50" />
+            <img src={sensorImage} height="50" />
             Sensor: {this.props.sens.id}
           </h1>
           <Card className="deviceNode">
             <Typography>
               <span className="Typography"> Last value </span>
-              {this.props.permission.scopes.includes("devices:update") ?
-                <Button onTouchTap={() => this.setState({ modalOpen: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button> : null}
-              <NotifForm modalOpen={this.state.modalOpen}
+              {this.props.permission.scopes.includes("devices:update") ? 
+                <div>
+                <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
+                <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
+                </div> : null}
+
+              {/* <CalibrationForm modalOpen={this.state.modalAddCalib}
+                handleClose={() => { this.setState({ modalAddCalib: false }) }}
+                onSubmit={(m) => {
+                  this.props.updateSensor(device.id, m);
+                  this.setState({ modalAddCalib: false });
+                }}
+                isEdit={false} />  */}
+              <NotifForm modalOpen={this.state.modalAddNotif}
                 notif={defaultNotif}
                 devices={this.props.devices}
                 users={this.props.users}
                 onSubmit={this.props.createNotif}
-                handleClose={() => this.setState({ modalOpen: false })}
+                handleClose={() => this.setState({ modalAddNotif: false })}
                 isEditable={true} />
             </Typography>
             <SensorCard sensor={this.props.sens}

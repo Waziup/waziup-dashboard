@@ -8,6 +8,10 @@ import DOM from 'react-dom-factories';
 import { Link } from 'react-router';
 import ProjectForm from './ProjectForm.js';
 import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import projectImage from '../../images/project.png';
+import Typography from '@material-ui/core/Typography';
 
 class Projects extends Component {
   constructor(props) {
@@ -26,9 +30,14 @@ class Projects extends Component {
   render() {
     return (
       <Container fluid={true} style={{paddingBottom: '100px'}}>
-        <h1 className="page-title">
-          Projects
-        </h1>
+        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
+          <img src={projectImage} height="50"/>
+            <Typography variant="h5" className="page-title">
+              Projects       
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <ProjectForm
           devices={this.props.devices}
           gateways={this.props.gateways}

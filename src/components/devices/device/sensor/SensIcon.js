@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import gauge from '../../../images/gauge.png';
-import thermometer from '../../../images/thermometer.png';
-import accelerometer from '../../../images/accelerometer.png';
-import humidity from '../../../images/humidity.png';
-import gps from '../../../images/gps.png';
-import atmospheric_pressure from '../../../images/atmospheric_pressure.png';
+import gauge from '../../../../images/gauge.png';
+import thermometer from '../../../../images/thermometer.png';
+import accelerometer from '../../../../images/accelerometer.png';
+import humidity from '../../../../images/humidity.png';
+import gps from '../../../../images/gps.png';
+import atmospheric_pressure from '../../../../images/atmospheric_pressure.png';
 
 export default class SensIcon extends Component {
   constructor(props) {

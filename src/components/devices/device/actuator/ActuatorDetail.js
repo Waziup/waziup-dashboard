@@ -12,14 +12,14 @@ import { Container } from 'react-grid-system'
 import querystring from 'querystring';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import DeviceChart from './DeviceChart';
+import DeviceChart from '../DeviceChart';
 import Grid from '@material-ui/core/Grid';
 import ActuatorCard from './ActuatorCard';
-import NotifForm from '../../notifs/NotifForm.js'
-import NotifCard from '../../notifs/NotifCard.js'
-import chartImage from '../../../images/chart-icon.png';
-import { getValues, getDevice, addActuator, deleteActuator, createNotif } from "../../../actions/actions.js"
-import config from '../../../config';
+import NotifForm from '../../../../notifs/NotifForm.js'
+import NotifCard from '../../../../notifs/NotifCard.js'
+import sensorImage from '../../../../images/sensor.png';
+import { getValues, getDevice, addActuator, deleteActuator, createNotif } from "../../../../../actions/actions.js"
+import config from '../../../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -115,7 +115,7 @@ class ActuatorDetail extends Component {
       return (
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
           <h1 className="page-title">
-            <img src={chartImage} height="50" />
+            <img src={sensorImage} height="50" />
             Actuator: {this.props.actu.id}
           </h1>
           <Card className="deviceNode">
