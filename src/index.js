@@ -76,7 +76,7 @@ export function keycloakLogin() {
     realm: config.realm,
     clientId: config.clientId,
     credentials: {
-      secret: '261c186e-7084-4533-9c13-d2ae97e9a1ac',
+      secret: config.clientSecret 
     },
   });
 
