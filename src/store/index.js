@@ -12,7 +12,7 @@ const createAppStore = composeEnhancers(
 
 export default function configureStore(initialState) {
   const store = createAppStore(rootReducer, initialState);
-  const configPersist = { blacklist: ['routing', 'form'] };
+  const configPersist = { blacklist: ['routing', 'keycloak', 'current_user'] };
   persistStore(store, configPersist);
   return store;
 }
