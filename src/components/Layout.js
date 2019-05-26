@@ -162,8 +162,7 @@ class Layout extends Component {
       { name: "Projects", icon: (<AssignmentIcon />)},
       { name: "Devices", icon: (<SettingsRemoteIcon />)},
       { name: "Gateways", icon: (<CloudIcon />)},
-      { name: "Notifications", icon: (<AlarmIcon />)},
-      { name: "Map", icon: (<PlaceIcon />)}
+      { name: "Notifications", icon: (<AlarmIcon />)}
     ]
 
       const renderMenu = (
