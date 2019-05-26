@@ -168,16 +168,46 @@ function projectReducer(state = {
   errMsg: '',
 }, action = null) {  
   switch (action.type) {
-    case types.GET_PROJECT_START: return Object.assign({}, state, {
-      isLoading: true,
+    case types.CREATE_PROJECT_START: return Object.assign({}, state, { isLoading: true });
+    case types.CREATE_PROJECT_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
       error: false,
     });
+    case types.CREATE_PROJECT_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.GET_PROJECT_START: return Object.assign({}, state, { isLoading: true });
     case types.GET_PROJECT_SUCCESS: return Object.assign({}, state, {
       isLoading: false,
       project: action.data,
       error: false,
     });
     case types.GET_PROJECT_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.UPDATE_PROJECT_START: return Object.assign({}, state, { isLoading: true });
+    case types.UPDATE_PROJECT_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: false,
+    });
+    case types.UPDATE_PROJECT_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.DELETE_PROJECT_START: return Object.assign({}, state, { isLoading: true });
+    case types.DELETE_PROJECT_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: false,
+    });
+    case types.DELETE_PROJECT_ERROR: return Object.assign({}, state, {
       isLoading: false,
       msg: action.data,
       error: true,
