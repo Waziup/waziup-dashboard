@@ -52,7 +52,6 @@ export default class DeviceLineCard extends Component {
                 <img src={deviceNodeImage} height="64" title={device.dateUpdated ? "Last update at " + device.dateUpdated : "No data yet"} />
                 {deviceNodeNew ? <img src={newImage} height="35" className="newIcon" /> : null}
                 <pre> {device.owner ? "owner: " + device.owner + (this.props.user && device.owner == this.props.user.username ? " (you)" : "") : ""} </pre>
-                <pre> {"visibility: " + (device.visibility ? device.visibility : "public")} </pre>
               </div>
             </Grid>
 

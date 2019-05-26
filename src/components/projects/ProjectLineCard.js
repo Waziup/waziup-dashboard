@@ -24,21 +24,21 @@ export default class ProjectLineCard extends Component {
 
           <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
 
-            <Grid item xs={12} sm={6} md={4} lg={2}>
+            <Grid item xs={12} sm={6} md={3} lg={2} container justify = "center">
               <div className="boardIcon">
-                <img src={projectImage} height="64" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+                <img src={projectImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
                 {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
                 <br />
                 <span className="Typography"> {projectName} </span>
               </div>
             </Grid>
-            <div className="boardIcon">
-              <img src={gatewayImage} height="64" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+            <div className="boardIcon" style={{'margin-right':'20px'}}>
+              <img src={gatewayImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
               <br />
               <span className="Typography"> {project.gateways.length} gateways</span>
             </div>  
             <div className="boardIcon">
-              <img src={deviceImage} height="64" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+              <img src={deviceImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
               <br />
               <span className="Typography"> {project.devices.length} devices</span>
             </div>             
