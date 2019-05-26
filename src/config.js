@@ -5,7 +5,8 @@ module.exports = {
   serverPort: process.env.SERVER_PORT || 3000,
   keycloakUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080/auth',
   realm: 'waziup',
-  clientId: 'dashboard',
+  clientId: 'api-server',
+  clientSecret: '4e9dcb80-efcd-484c-b3d7-1e95a0096ac0',
   APIServerUrl: process.env.API_SERVER_URL || 'http://localhost/api',
   logLevel: process.env.LOG_LEVEL || 'INFO',  
   // Web analytics
