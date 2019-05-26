@@ -12,13 +12,10 @@ import { browserHistory } from 'react-router';
 import ProjectNodeCard from './ProjectNodeCard';
 import LocationForm from './LocationForm';
 import {
-  addSensor, deleteSensor, deleteProject, getProject, 
+  addSensor, deleteSensor, deleteProject, getProject, getProjects,
   getDevices, getGateways, getDevicePermissions, getProjectPermissions, updateSensorName,
-   updateProjectName, updateProjectDevices, updateProjectGateways
+   updateProjectName, updateProjectDevices, updateProjectGateways, createDevice
 } from '../../actions/actions.js';
-import config from '../../config';
-import Hidden from '@material-ui/core/Hidden';
-import EditIcon from '@material-ui/icons/Edit';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import projectImage from '../../images/project.png';
@@ -26,7 +23,7 @@ import projectImage from '../../images/project.png';
 class ProjectDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { modalLocation: false };
+    this.state = { modalLocation: false, fullProject: [] };
   }
 
   componentWillMount() {
@@ -37,6 +34,11 @@ class ProjectDetail extends Component {
   componentDidMount() {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
+    var self = this;
+    const fullProject = (this.props.projects).find(function(project) {
+      return project.id == self.props.params.projectId;
+    });
+    this.setState({ fullProject: fullProject });
   }
 
   render() {
@@ -70,13 +72,14 @@ class ProjectDetail extends Component {
         </AppBar>
           <ProjectNodeCard
             className="deviceNode"
-            deleteSensor={this.props.deleteSensor}
+            createDevice={this.props.createDevice}
             deleteProject={(sid) => {
               this.props.deleteProject(sid); browserHistory.push('/projects');
             }}
             permission={this.props.permission}
             project={project}
             devices={this.props.devices}
+            fullProject={this.state.fullProject}
             gateways={this.props.gateways}
             updateProjectName={this.props.updateProjectName}
             updateProjectDevices={this.props.updateProjectDevices}
@@ -141,6 +144,7 @@ class ProjectDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     project: state.project.project,
+    projects: state.projects.projects,
     permission: state.permissions.project.find(p => p.resource == ownProps.params.projectId),
     user: state.current_user,
     devices: state.devices.devices,
@@ -153,8 +157,9 @@ function mapDispatchToProps(dispatch) {
     getProject: (id) => {
       dispatch(getProject(id));
     },
-    addSensor: (id, m) => {
-      dispatch(addSensor(id, m));
+    getProjects: (params) => {dispatch(getProjects(params)) },
+    createDevice: (device) => {
+      dispatch(createDevice(device));
     },
     deleteSensor: (sid, mid) => {
       dispatch(deleteSensor(sid, mid));
