@@ -3,7 +3,6 @@ import { autoRehydrate, persistStore } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from '../reducers/reducers.js';
 
-// import createHistory from 'history/lib/createBrowserHistory';
 const composeEnhancers = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const createAppStore = composeEnhancers(
   applyMiddleware(thunkMiddleware),
