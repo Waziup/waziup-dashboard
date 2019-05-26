@@ -44,17 +44,18 @@ const styles = theme => ({
 class Devices extends Component {
   constructor(props) {
     super(props);
-    this.filterQuery = `owner==${props.user.username};`,
+    let defaultFilter = {
+      domain: 'all',
+      owner: props.user.username,
+      visibility: 'all',
+      status: 'all'
+    }
     this.state = {
       open: false,
       modalAddDevice: false,
       isCardsView: true,
-      filter: {
-        domain: 'all',
-        owner: props.user.username,
-        visibility: 'all',
-        status: 'all'
-      }
+      filter: defaultFilter,
+      devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter))
     };
 
   }
@@ -64,16 +65,20 @@ class Devices extends Component {
   };
 
   componentWillMount() {
-    this.props.getDevices({ q: this.filterQuery, limit: 1000 });
+    this.props.getDevices({ limit: 1000 });
     this.props.getDeviceAttributes({ limit: 1000 });
     this.interval = setInterval(() => {
-      this.props.getDevices({ q: this.filterQuery, limit: 1000 });
+      this.props.getDevices({ limit: 1000 });
     }, config.delayRefresh);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
 
+  }
+  
+  componentWillReceiveProps(nextProps) { 
+    this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter))})
   }
 
   compare(a, b) {
@@ -86,16 +91,8 @@ class Devices extends Component {
 
   handleFilter = (field, event) => {
 
-    if (!this.filterQuery) {
-      clearInterval(this.interval);
-      this.interval = setInterval(() => {
-        this.props.getDevices({ limit: 1000, q: this.filterQuery });
-      }, config.delayRefresh);
-    }
-
     const value = event.target.value;
     var filter = this.state.filter;
-    let statusFilter;
     switch (field) {
       case "domain":
         {
@@ -115,31 +112,42 @@ class Devices extends Component {
       case "status":
         {
           filter.status = value;
-          var yesterday = new Date(Date.now() - 86400 * 1000).toISOString();
-          if (value == 'all') {
-            statusFilter = `dateModified>2000-01-01T00:00:00.00Z`
-          }
-          else if (value == 'new') {
-            statusFilter = `dateCreated>${yesterday}`
-          }
-          else if (value == 'active') {
-            statusFilter = `dateModified>${yesterday}`
-          }
           break;
         }
     }
-    this.filterQuery = ((filter.domain && filter.domain !== 'all') ? `domain==${filter.domain};` : '')
-      + ((filter.owner && filter.owner !== 'all') ? `owner==${filter.owner};` : '') +
-      ((filter.visibility && filter.visibility !== 'all') ? `visibility==${filter.visibility};` : '')
-      + (statusFilter ? statusFilter : '');
-    if (!(this.filterQuery).replace(/\s/g, '').length) {
-      this.filterQuery = null;
-      this.props.getDevices({ limit: 1000 });
-    }
-    else {
-      this.props.getDevices({ q: this.filterQuery, limit: 1000 });
-    }
     this.setState({ filter: filter })
+    //re-filter the devices
+    this.setState({ devices: this.props.devices.filter(dev => this.isFilteredDevice(dev, filter))})
+  }
+
+
+  isFilteredDevice = (device, filter) => {
+    
+    // Check the domain
+    if (filter.domain && filter.domain != 'all' && filter.domain != device.domain) {
+      return false;
+    }
+    // Check the owner
+    if (filter.owner && filter.owner != 'all' && filter.owner != device.owner) {
+      return false;
+    }
+    // Check the visibility
+    if (filter.visibility && filter.visibility != 'all' && filter.visibility != device.visibility) {
+      return false;
+    }
+    // check new status
+    var yesterday = new Date(Date.now() - config.delayDeviceNew).toISOString();
+    if (filter.status == 'new' && device.date_created < yesterday) {
+      return false;
+    }
+    // check active status
+    var yesterday = new Date(Date.now() - config.delayDeviceActive).toISOString();
+    if (filter.status == 'active' && device.date_modified < yesterday) {
+      return false;
+    }
+
+    //all checks passed, device is OK
+    return true;
   }
 
   render() {
@@ -240,11 +248,11 @@ class Devices extends Component {
               addDevice={() => {
                 console.log('test'); this.setState({ modalAddDevice: true });
               }}
-              devices={this.props.devices}
+              devices={this.state.devices}
               user={this.props.user}
             />
           )
-          : <DevicesTable devices={this.props.devices} />}
+          : <DevicesTable devices={this.state.devices} />}
       </Container>
     );
   }
