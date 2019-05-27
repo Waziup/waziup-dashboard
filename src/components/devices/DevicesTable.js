@@ -44,7 +44,7 @@ export default class DevicesTable extends Component {
                     <TableRow>
                       <TableCell> 
                         <Link to={"/devices/" + device.id + "/" + sens.id}>
-                          {(sens.name? sens.name: sens.id) + ": " + (sens.last_value? JSON.stringify(sens.last_value.value).replace(/"/g, ""): "") + " " + (sens.unit? sens.unit: "")} 
+                          {(sens.name? sens.name: sens.id) + ": " + (sens.value? JSON.stringify(sens.value.value).replace(/"/g, ""): "") + " " + (sens.unit? sens.unit: "")} 
                         </Link>
                       </TableCell> 
                     </TableRow>

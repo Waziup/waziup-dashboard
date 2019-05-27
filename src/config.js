@@ -13,7 +13,7 @@ module.exports = {
   analytics: {
     googleTrackingId: process.env.GOOGLE_TRACKING_ID, // UA-XXXXX-X
   },
-  delaySensorNodeNew: 24 * 60 * 60 * 1000, // 24 hours (in milliseconds)
-  delaySensorInactive: 12 * 60 * 60 * 1000, // 12 hours (in milliseconds)
+  delayDeviceNew: 24 * 60 * 60 * 1000, // 24 hours (in milliseconds)
+  delayDeviceActive: 12 * 60 * 60 * 1000, // 12 hours (in milliseconds)
   delayRefresh: 10*1000 // 10 seconds
 };

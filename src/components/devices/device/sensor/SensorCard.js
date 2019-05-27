@@ -21,8 +21,8 @@ export default class SensorCard extends Component {
   render() {
     let sens = this.props.sensor
     //Check if inactive delay expired
-    let activeStyle = (sens.last_value && new Date() < Date.parse(sens.last_value.date_received) + config.delayDeviceInactive)? "cardGreen": "cardRed"
-    let title = sens.last_value ? "Date received: " + sens.last_value.date_received : "No data yet"
+    let activeStyle = (sens.value && new Date() < Date.parse(sens.value.date_received) + config.delayDeviceActive)? "cardGreen": "cardRed"
+    let title = sens.value ? "Date received: " + sens.value.date_received : "No data yet"
 
     return (
       <Card className={"card " + activeStyle}>
@@ -43,7 +43,7 @@ export default class SensorCard extends Component {
             <SensIcon sensor_kind={sens.sensor_kind} height="75" title={title}/>
           </div>
           <div className="sensValue"> 
-            <h3> {(sens.last_value? JSON.stringify(sens.last_value.value).replace(/"/g, ""): "") + " " + (sens.unit? Waziup.Units.getLabel(sens.unit): "")} </h3>
+            <h3> {(sens.value? JSON.stringify(sens.value.value).replace(/"/g, ""): "") + " " + (sens.unit? Waziup.Units.getLabel(sens.unit): "")} </h3>
           </div>
           {!this.props.isDetails? 
             <Link to={"/devices/" + this.props.deviceId + "/" + sens.id} > 

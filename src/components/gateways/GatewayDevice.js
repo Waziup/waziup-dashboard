@@ -23,8 +23,8 @@ export default class DeviceLineCard extends Component {
       sensors.push(card);
     }
     
-    let activeStyle = (sens) => {return (sens.last_value && new Date() < Date.parse(sens.last_value.date_received) + config.delayDeviceInactive)? "cardGreen": "cardRed"}
-    let title = (sens) => {return sens.last_value ? "Date received: " + sens.last_value.date_received : "No data yet"}
+    let activeStyle = (sens) => {return (sens.value && new Date() < Date.parse(sens.value.date_received) + config.delayDeviceActive)? "cardGreen": "cardRed"}
+    let title = (sens) => {return sens.value ? "Date received: " + sens.value.date_received : "No data yet"}
     let deviceName = (device.name ? device.name + " " : "") + "(" + device.id + ")";
     let maxlimit = 20;
 
