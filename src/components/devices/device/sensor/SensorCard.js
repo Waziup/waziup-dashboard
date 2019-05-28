@@ -46,7 +46,7 @@ export default class SensorCard extends Component {
             <h3> {(sens.value? JSON.stringify(sens.value.value).replace(/"/g, ""): "") + " " + (sens.unit? Waziup.Units.getLabel(sens.unit): "")} </h3>
           </div>
           {!this.props.isDetails? 
-            <Link to={"/devices/" + this.props.deviceId + "/" + sens.id} > 
+            <Link to={"/devices/" + this.props.deviceId + "/sensor/" + sens.id} > 
               <div className="sensIcon">
                 <img src={sensorImage} height="75" title={"Go to sensor details"}/>
               </div>
