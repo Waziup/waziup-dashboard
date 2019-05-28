@@ -456,7 +456,7 @@ function permissionsReducer(state = {
 
 export default function rootReducer(state = {}, action) {
   if (action.type === types.USER_LOGOUT) {
-    state = undefined;
+    state = {};
   }
   return {
     routing: routerReducer(state.routing, action),
