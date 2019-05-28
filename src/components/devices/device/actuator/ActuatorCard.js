@@ -6,8 +6,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ActuatorForm from './ActuatorForm';
 import { Link } from 'react-router';
-import * as Waziup from 'waziup-js'
-import config from '../../../../config';
 
 export default class ActuatorCard extends Component {
   constructor(props) {
@@ -35,8 +33,13 @@ export default class ActuatorCard extends Component {
           </div>
         </div>
         <div className="cardContent">
+          {this.props.isDetails? 
+          <div className="sensIcon">
+            <img src={actuatorImage} height="75"/>
+          </div> : null
+          }
           {!this.props.isDetails? 
-            <Link to={"/devices/" + this.props.deviceId + "/" + actu.id} > 
+            <Link to={"/devices/" + this.props.deviceId + "/actuator/" + actu.id} > 
               <div className="actuIcon">
                 <img src={actuatorImage} height="75" title={"Go to actuator details"}/>
               </div>

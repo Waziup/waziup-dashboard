@@ -25,6 +25,8 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 const styles = () => ({
   button: {
@@ -116,10 +118,16 @@ class SensorDetail extends Component {
 
       return (
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
-          <h1 className="page-title">
-            <img src={sensorImage} height="50" />
-            Sensor: {this.props.sens.id}
-          </h1>
+
+          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+            <Toolbar>
+            <img src={sensorImage} height="50"/>
+              <Typography variant="h5" className="page-title">
+              Sensor: {this.props.sens.id}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+
           <Card className="deviceNode">
             <Typography>
               <span className="Typography"> Last value </span>

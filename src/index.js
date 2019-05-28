@@ -15,6 +15,7 @@ import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
 import DeviceDetail from './components/devices/device/DeviceDetail';
 import SensorDetail from './components/devices/device/sensor/SensorDetail';
+import ActuatorDetail from './components/devices/device/actuator/ActuatorDetail';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
 import Projects from './components/projects/Projects';
@@ -39,7 +40,8 @@ const routes = {
     { path: 'projects/:projectId', component: ProjectDetail },
     { path: 'devices', component: Devices },
     { path: 'devices/:deviceId', component: DeviceDetail },
-    { path: 'devices/:deviceId/:sensId', component: SensorDetail },
+    { path: 'devices/:deviceId/sensor/:sensId', component: SensorDetail },
+    { path: 'devices/:deviceId/actuator/:actuId', component: ActuatorDetail },
     { path: 'gateways', component: Gateways },
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },
