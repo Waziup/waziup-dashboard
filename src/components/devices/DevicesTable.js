@@ -43,7 +43,7 @@ export default class DevicesTable extends Component {
                   {device.sensors.map( sens => (
                     <TableRow>
                       <TableCell> 
-                        <Link to={"/devices/" + device.id + "/sensor/" + sens.id}>
+                        <Link to={"/devices/" + device.id + "/sensors/" + sens.id}>
                           {(sens.name? sens.name: sens.id) + ": " + (sens.value? JSON.stringify(sens.value.value).replace(/"/g, ""): "") + " " + (sens.unit? sens.unit: "")} 
                         </Link>
                       </TableCell> 

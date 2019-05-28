@@ -39,7 +39,7 @@ export default class ActuatorCard extends Component {
           </div> : null
           }
           {!this.props.isDetails? 
-            <Link to={"/devices/" + this.props.deviceId + "/actuator/" + actu.id} > 
+            <Link to={"/devices/" + this.props.deviceId + "/actuators/" + actu.id} > 
               <div className="actuIcon">
                 <img src={actuatorImage} height="75" title={"Go to actuator details"}/>
               </div>
