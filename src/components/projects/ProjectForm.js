@@ -141,7 +141,7 @@ class ProjectForm extends Component {
                   value={this.state.project.devices}
                   onChange={s => this.handleChange("devices", s)}
                 >
-                  {this.props.devices.map(s => (
+                  {this.state.devices.map(s => (
                     <MenuItem
                       key={s.id}
                       checked={this.state.project.devices.includes(s.id)}
@@ -274,7 +274,6 @@ class ProjectForm extends Component {
 
     let devices = myDevices.sort(this.compare);
     this.setState({ devices: devices });
-    console.log("dfsjj", this.state.devices);
   }
 
   getGateways() {
