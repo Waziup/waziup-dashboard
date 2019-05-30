@@ -15,11 +15,11 @@ import moment from 'moment';
 import DeviceChart from '../DeviceChart';
 import Grid from '@material-ui/core/Grid';
 import SensorCard from './SensorCard';
-// import CalibrationForm from './CalibrationForm';
+import CalibrationForm from './CalibrationForm';
 import NotifForm from '../../../notifs/NotifForm.js'
 import NotifCard from '../../../notifs/NotifCard.js'
 import sensorImage from '../../../../images/sensor.png';
-import { getValues, getDevice, addSensor, deleteSensor, createNotif } from "../../../../actions/actions.js"
+import { getValues, getDevice, addSensor, deleteSensor, createNotif, updateSensorCalibration } from "../../../../actions/actions.js"
 import config from '../../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -136,14 +136,14 @@ class SensorDetail extends Component {
                 <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
                 <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
                 </div> : null}
-
-              {/* <CalibrationForm modalOpen={this.state.modalAddCalib}
+              <CalibrationForm modalOpen={this.state.modalAddCalib}
                 handleClose={() => { this.setState({ modalAddCalib: false }) }}
                 onSubmit={(m) => {
-                  this.props.updateSensor(device.id, m);
+                  console.log(m);                  
+                  this.props.updateCalib(this.props.device.id,this.props.sens.id,m);
                   this.setState({ modalAddCalib: false });
                 }}
-                isEdit={false} />  */}
+                isEdit={false} /> 
               <NotifForm modalOpen={this.state.modalAddNotif}
                 notif={defaultNotif}
                 devices={this.props.devices}
@@ -236,6 +236,7 @@ function mapDispatchToProps(dispatch) {
     getValues: (opts) => {dispatch(getValues(opts)) },
     getDevice: (id) => {dispatch(getDevice(id)) },
     updateSensor: (id, m) => {dispatch(addSensor(id, m)) },
+    updateCalib: (did, sid, m) => {dispatch(updateSensorCalibration(did, sid, m)) },
     deleteSensor: (sid, mid) => {dispatch(deleteSensor(sid, mid)) },
     createNotif: (notif) => {dispatch(createNotif(notif)) }
   };

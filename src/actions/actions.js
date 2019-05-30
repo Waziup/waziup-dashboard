@@ -216,6 +216,20 @@ export function updateSensorName(deviceId, sensId, name) {
   };
 }
 
+export function updateSensorCalibration(deviceId, sensId, calib) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_DEVICE_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await sensorsApi.putSensorCalibration(deviceId, sensId, calib);
+      dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
+      dispatch(getDevices());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
+    }
+  };
+}
+
 /* Actuator actions */
 
 export function addActuator(deviceId, actu) {
