@@ -42,6 +42,7 @@ class ProjectDetail extends Component {
   }
   componentDidMount() {
     this.props.getDevices({ limit: 1000 });
+    this.props.getProjects({ full: true });
     this.props.getGateways();
     var self = this;
 
@@ -51,6 +52,7 @@ class ProjectDetail extends Component {
     this.setState({ fullProject: fullProject });
     const markers = [];
     const locations = [];
+    if(fullProject)
     fullProject.devices.forEach(device => {
       if (device.location) {
         locations.push([device.location.latitude, device.location.longitude]);

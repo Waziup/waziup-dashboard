@@ -40,7 +40,7 @@ export default class ProjectNodeCard extends Component {
     let project = this.props.fullProject;    
     var devices = [];
     var gateways = [];
-    if (project.devices)
+    if (project && project.devices)
       for (let d of project.devices) {
         let deviceNodeNew =
           new Date() < Date.parse(d.date_created) + config.delayDeviceNodeNew;
@@ -66,7 +66,7 @@ export default class ProjectNodeCard extends Component {
         );
         devices.push(card);
       }
-    if (project.gateways)
+    if (project && project.gateways)
       for (let d of project.gateways) {
         const card = (
           <Link to={"/gateways/" + d.id}>
@@ -193,7 +193,7 @@ export default class ProjectNodeCard extends Component {
           </Grid>
         </Grid>
 
-        <div className="contentCards">
+        { project ? <div className="contentCards">
           <div className="boardIcon">
             <img
               src={projectImage}
@@ -237,7 +237,7 @@ export default class ProjectNodeCard extends Component {
               ""
             )}
           </div>
-        </div>
+        </div> : ''}
       </Card>
     );
   }
