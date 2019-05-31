@@ -64,7 +64,7 @@ class DeviceDetail extends Component {
           <Toolbar>
           <img src={deviceImage} height="50"/>
             <Typography variant="h5" className="page-title">
-              Device Detail    
+              Device Details    
             </Typography>
           </Toolbar>
         </AppBar>
