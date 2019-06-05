@@ -7784,10 +7784,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typeface-roboto@^0.0.54:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/typeface-roboto/-/typeface-roboto-0.0.54.tgz#8f02c9a18d1cfa7f49381a6ff0d21ff061f38ad2"
-
 ua-parser-js@0.7.12:
   version "0.7.12"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
@@ -8036,9 +8032,10 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-waziup-js@2.0.0-alpha.3:
-  version "2.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.0-alpha.3.tgz#3ccb2683a1310ef09999918ef38090d54c925378"
+waziup-js@2.0.0-alpha.7:
+  version "2.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.0-alpha.7.tgz#8fe15e374e254fc73ff664a9fd066c116d30a78f"
+  integrity sha512-Dxx6tHjOlX/6vaWxJwsq7aPHfrcG3sPqX8v6WCf8LJsQ+SO3Rd/nXUH8RTMR1+Zj20PejeRMjiCRpJ0vqFdiOQ==
   dependencies:
     superagent "3.5.2"
 
