@@ -21,7 +21,7 @@ class settingsForm extends Component {
     const {reset, modalOpen, handleClose, onSubmit} = this.props;
     const actions = [ 
       <Button label="Cancel" primary={true} onTouchTap={()=>{handleClose();}}/>,
-      <Button label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}/>,
+      <Button label="Submit" primary={true} onTouchTap={()=>{this.props.onSubmit(this.state.device); handleClose();}}/>,
     ];
     return (
       <Dialog title={"User profile"} actions={actions} modal={true} open={modalOpen}>

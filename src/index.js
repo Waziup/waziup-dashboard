@@ -5,22 +5,22 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
-import * as Waziup from 'waziup-js';
 import configureStore from './store';
 import Layout from './components/Layout';
 import Map from './components/Map';
-import Sensors from './components/sensors/Sensors';
+import Devices from './components/devices/Devices';
 import Users from './components/users/Users';
 import UserDetail from './components/users/UserDetail';
 import UserPermissions from './components/users/Perms';
 import Gateways from './components/gateways/Gateways';
-import SensorDetail from './components/sensors/sensor/SensorDetail';
-import MeasurementDetail from './components/sensors/sensor/MeasurementDetail';
-import Settings from './components/profile/Settings.js';
+import DeviceDetail from './components/devices/device/DeviceDetail';
+import SensorDetail from './components/devices/device/sensor/SensorDetail';
+import ActuatorDetail from './components/devices/device/actuator/ActuatorDetail';
 import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
+import Projects from './components/projects/Projects';
+import ProjectDetail from './components/projects/ProjectDetail';
 import config from './config';
-import UTIL from './lib/utils.js';
 
 injectTapEventPlugin();
 
@@ -31,14 +31,17 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Sensors },
+  indexRoute: { component: Devices },
   childRoutes: [
     { path: 'map', component: Map },
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
-    { path: 'sensors', component: Sensors },
-    { path: 'sensors/:sensorId', component: SensorDetail },
-    { path: 'sensors/:sensorId/:measId', component: MeasurementDetail },
+    { path: 'projects', component: Projects },
+    { path: 'projects/:projectId', component: ProjectDetail },
+    { path: 'devices', component: Devices },
+    { path: 'devices/:deviceId', component: DeviceDetail },
+    { path: 'devices/:deviceId/sensors/:sensId', component: SensorDetail },
+    { path: 'devices/:deviceId/actuators/:actuId', component: ActuatorDetail },
     { path: 'gateways', component: Gateways },
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },
@@ -75,7 +78,7 @@ export function keycloakLogin() {
     realm: config.realm,
     clientId: config.clientId,
     credentials: {
-      secret: '261c186e-7084-4533-9c13-d2ae97e9a1ac',
+      secret: config.clientSecret 
     },
   });
 
@@ -83,8 +86,6 @@ export function keycloakLogin() {
     if (authenticated) {
       console.log(JSON.stringify(keycloak));
       store.getState().keycloak = { token: keycloak.token, logout: keycloak.logout };
-      console.log(`kc ${JSON.stringify(keycloak.idTokenParsed)}`);
-      // getUser(keycloak.idTokenParsed.sub)(store.dispatch)
       store.getState().current_user = getUser(keycloak.idTokenParsed);
       setInterval(() => {
         keycloak.updateToken(30).success((refreshed) => {

@@ -13,29 +13,29 @@ class GatewayForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-      sensor: this.props.sensor
+      device: this.props.device
     };
   }
   
   handleChange = (formData) => {
-    var sensor = this.state.sensor
-    sensor[formData.target.name] = formData.target.value;
-    this.setState({sensor: sensor})
+    var device = this.state.device
+    device[formData.target.name] = formData.target.value;
+    this.setState({device: device})
   }
 
   render() {
     const {modalOpen, handleClose, onSubmit} = this.props;
     const actions = [ 
       <Button color="primary" key='cancel' onTouchTap={()=>{handleClose();}}>Cancel</Button>,
-      <Button color="primary" key='submit' onTouchTap={()=>{this.props.onSubmit(this.state.sensor); handleClose();}}>Submit</Button>,
+      <Button color="primary" key='submit' onTouchTap={()=>{this.props.onSubmit(this.state.device); handleClose();}}>Submit</Button>,
     ];
 
     return (
         <Dialog modal={true} open={modalOpen}>
         <DialogTitle>Update Gateway ID</DialogTitle>
         <DialogContent>
-          <TextField disabled={true} name="id" label="Sensor ID" value={this.state.sensor.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
-          <TextField name="gateway_id"  label="Gateway ID" value={this.state.sensor.gateway_id} onChange={this.handleChange} title="ID of the gateway attached to the sensor"/>
+          <TextField disabled={true} name="id" label="Device ID" value={this.state.device.id} onChange={this.handleChange} title="ID used by the gateway to send data"/>
+          <TextField name="gateway_id"  label="Gateway ID" value={this.state.device.gateway_id} onChange={this.handleChange} title="ID of the gateway attached to the device"/>
         </DialogContent>
         <DialogActions>
             {actions}
@@ -45,7 +45,7 @@ class GatewayForm extends Component {
   }
 
   static propTypes = {
-    sensor: PropTypes.object.isRequired,
+    device: PropTypes.object.isRequired,
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,

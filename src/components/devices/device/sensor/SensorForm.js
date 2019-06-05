@@ -14,63 +14,63 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField'
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
-import sensorImage from '../../../images/gauge.png';
+import deviceImage from '../../../../images/gauge.png';
 
-class MeasurementForm extends Component {
+class SensorForm extends Component {
 
   constructor(props){
     super(props);
-    var defaultMeas = new Waziup.Measurement("TC")
-    defaultMeas.name = "My Temperature"
-    defaultMeas.sensing_device = "Thermometer"
-    defaultMeas.quantity_kind = "Temperature"
-    defaultMeas.unit = "DegreeCelsius"
+    var defaultSens = new Waziup.Sensor("TC")
+    defaultSens.name = "My Temperature"
+    defaultSens.sensor_kind = "Thermometer"
+    defaultSens.quantity_kind = "Temperature"
+    defaultSens.unit = "DegreeCelsius"
     this.state = {
-      meas: (this.props.measurement? this.props.measurement: defaultMeas)
+      sens: (this.props.sensor? this.props.sensor: defaultSens)
     };
   }
   
   handleChange = (formData) => {
-    var meas = this.state.meas
-    meas[formData.target.name] = formData.target.value;
-    this.setState({meas: meas})
+    var sens = this.state.sens
+    sens[formData.target.name] = formData.target.value;
+    this.setState({sens: sens})
   }
 
   handleSelect = (field) => {
     return event => {
-      var meas = this.state.meas
-      meas[field] = event.target.value;
-      this.setState({meas: meas});
+      var sens = this.state.sens
+      sens[field] = event.target.value;
+      this.setState({sens: sens});
     }
   }
 
   render() {
     const actions = [
       <Button color="primary" key='cancel' onTouchTap={()=>{this.props.handleClose();}}>Cancel</Button>,
-      <Button color="primary" key='submit' onTouchTap={()=>{this.props.onSubmit(this.state.meas); this.props.handleClose();}}>Submit</Button>,
+      <Button color="primary" key='submit' onTouchTap={()=>{this.props.onSubmit(this.state.sens); this.props.handleClose();}}>Submit</Button>,
     ];
 
     return (
       <Dialog actions={actions} modal={true} open={this.props.modalOpen} autoScrollBodyContent={true}>
-         <DialogTitle>{this.props.isEdit? "Edit Measurement": "Add measurement"}</DialogTitle>
+         <DialogTitle>{this.props.isEdit? "Edit Sensor": "Add sensor"}</DialogTitle>
          <DialogContent>
-         <img src={sensorImage} height="100"/>
+         <img src={deviceImage} height="100"/>
          <div className="locationCoords">
          <Grid container spacing={24}>
         <Grid item xs={6}>
-           <TextField name="id" disabled={this.props.isEdit} label="ID" value={this.state.meas.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the measure"/>
+           <TextField name="id" disabled={this.props.isEdit} label="ID" value={this.state.sens.id} onChange={this.handleChange} title="Short ID used by the Gateway to send the sensure"/>
            </Grid>
         <Grid item xs={6}>
-           <TextField name="name" label="Name" value={this.state.meas.name} onChange={this.handleChange} title="A name for this sensor measurement"/>
+           <TextField name="name" label="Name" value={this.state.sens.name} onChange={this.handleChange} title="A name for this device sensor"/>
            </Grid>
         <Grid item xs={6}>
 
           <FormControl>
-            <InputLabel htmlFor="sensor_kind">Sensor</InputLabel>
+            <InputLabel htmlFor="device_kind">Device</InputLabel>
             <Select 
-            input={<Input name="sensor_kind" id="sensor_kind" />}
-            value={this.state.meas.sensing_device} onChange={this.handleSelect("sensing_device")} title="The kind of sensor used for this measurement">
-              {Waziup.SensingDevices.getAll().map(s => <MenuItem key={s.id} value={s.id}>{s.label}</MenuItem>)}
+            input={<Input name="device_kind" id="device_kind" />}
+            value={this.state.sens.sensor_kind} onChange={this.handleSelect("sensor_kind")} title="The kind of device used for this sensor">
+              {Waziup.SensorKinds.getAll().map(s => <MenuItem key={s.id} value={s.id}>{s.label}</MenuItem>)}
             </Select>
           </FormControl>
            </Grid>
@@ -79,8 +79,8 @@ class MeasurementForm extends Component {
             <InputLabel htmlFor="dimension">Quantity kind</InputLabel>
             <Select 
             input={<Input name="dimension" id="dimension" />}
-            value={this.state.meas.quantity_kind} onChange={this.handleSelect("quantity_kind")} title="What does it measures?">
-              {Waziup.SensingDevices.getQKs(this.state.meas.sensing_device).map(qk => <MenuItem key={qk.id} value={qk.id}>{qk.label}</MenuItem>)}
+            value={this.state.sens.quantity_kind} onChange={this.handleSelect("quantity_kind")} title="What does it sensures?">
+              {Waziup.SensorKinds.getQKs(this.state.sens.sensor_kind).map(qk => <MenuItem key={qk.id} value={qk.id}>{qk.label}</MenuItem>)}
            </Select>
           </FormControl>
         </Grid>
@@ -89,8 +89,8 @@ class MeasurementForm extends Component {
             <InputLabel htmlFor="unit">Unit</InputLabel>
             <Select 
             input={<Input name="unit" id="unit" />}
-            value={this.state.meas.unit} onChange={this.handleSelect("unit")} title="The measurement unit">
-              {Waziup.QuantityKinds.getUnits(this.state.meas.quantity_kind).map(u => <MenuItem key={u.id} value={u.id}>{u.label}</MenuItem>)}
+            value={this.state.sens.unit} onChange={this.handleSelect("unit")} title="The sensor unit">
+              {Waziup.QuantityKinds.getUnits(this.state.sens.quantity_kind).map(u => <MenuItem key={u.id} value={u.id}>{u.label}</MenuItem>)}
            </Select>
           </FormControl>        
            </Grid>
@@ -105,7 +105,7 @@ class MeasurementForm extends Component {
   }
 
   static propTypes = {
-    measurement: PropTypes.object, //Waziup.Measurement
+    sensor: PropTypes.object, //Waziup.Sensor
     modalOpen: PropTypes.bool.isRequired,
     isEdit: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
@@ -116,4 +116,4 @@ class MeasurementForm extends Component {
 
 export default reduxForm({
     form: 'simple'
-})(MeasurementForm)
+})(SensorForm)

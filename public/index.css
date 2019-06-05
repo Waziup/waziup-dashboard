@@ -190,7 +190,7 @@ p {
     height: 400px;
     width: 100%;
 }
-.sensorform.leaflet-container{
+.deviceform.leaflet-container{
     height:150px;
 }
 .sk-fade-in {
@@ -298,7 +298,7 @@ ul {
       list-style-position: inside;
 }
 
-/* Sensors */
+/* Devices */
 
 .section {
   margin-top: 50px;
@@ -308,7 +308,7 @@ ul {
 .sectionTitle {
 }
 
-.sensorNodeTitle {
+.deviceNodeTitle {
   padding: 10px !important;
 }
 
@@ -322,17 +322,17 @@ ul {
   vertical-align: top;
 }
 
-.addSensorButton {
+.addDeviceButton {
   float: right;
 }
 
-.measurementButton {
+.sensorButton {
   margin: 20px;
 }
 
-/* Sensor details */
+/* Device details */
 
-.sensorMap {
+.deviceMap {
   padding: 10px;
   max-width: 500px;
   margin-top: 10px;
@@ -359,50 +359,54 @@ ul {
 }
 
 
-/* Sensor */
+/* Device */
 
-.sensorNodes {
+.deviceNodes {
   float: left;
 }
 
-.sensorNode {
+.deviceNode {
   overflow:hidden;
-  padding-bottom:10px;
+  padding-right:10px;
+  padding-top: 5px;
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .contentCards {
   clear:left;
   position: relative;
-  padding: 10px !important;
+  padding-left: 10px !important;
 }
 
 .boardIcon {
-  float: left;
-  margin: 35px;
+  text-align:center;
+  margin-top: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
   position: relative;
   z-index: 10;
 }
 
-/* Measurement */
+/* Sensor */
 
 .card {
   display: inline-block;
-  padding-left: 30px;
-  padding-right: 30px;
-  padding: 10px;
-  margin: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  /* padding: 10px; */
+  margin-left: 10px;
+  margin-bottom: 10px;
   min-width: 250px;
   float: left;
 }
 
-.measValue {
+.sensValue {
   padding: 5px;
   float: left
 }
 
-.measIcon {
+.sensIcon {
   display: inline-block;
   float: left;
 }
@@ -454,11 +458,11 @@ ul {
   margin-left: 10px;
 }
 
-.notifSensorAttrs {
+.notifDeviceAttrs {
   clear: both; 
 }
 
-.notifSensors {
+.notifDevices {
   text-align: right;
   width: 250px;
   float: left;
@@ -548,7 +552,7 @@ ul {
 
 /* Chart */
 
-.sensorChart {
+.deviceChart {
   margin: 10px;
 }
 
@@ -562,7 +566,7 @@ ul {
   margin: 10px;
 }
 
-.gatewaySensorNodes {
+.gatewayDeviceNodes {
   float: left;
   margin-left: 50px;
 }

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import gatewayImage from '../../images/RPI.png';
+import gatewayImage from '../../images/gateway.png';
 import loraImage from '../../images/lora.png';
-import GatewaySensor from './GatewaySensor.js'
+import GatewayDevice from './GatewayDevice.js'
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -22,7 +22,7 @@ export default class GatewayNetwork extends Component {
     let maxlimit = 20;
     
     return ( 
-      <Card className="sensorNode">
+      <Card className="deviceNode">
         <Typography>
         <Hidden mdUp implementation="css">
             <span className="Typography"> Gateway {((gatewayID).length > maxlimit) ? (((gatewayID).substring(0, maxlimit - 3)) + '...') : gatewayID} </span>
@@ -44,12 +44,12 @@ export default class GatewayNetwork extends Component {
           </div>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
-          <div className="gatewaySensorNodes">
-            {this.props.gateway.sensors.map((s,index) => 
+          <div className="gatewayDeviceNodes">
+            {this.props.gateway.devices.map((s,index) => 
                   
-              <GatewaySensor sensor={s}
+              <GatewayDevice device={s}
                              key={index}
-                             updateSensorGatewayId={this.props.updateSensorGatewayId}
+                             updateDeviceGatewayId={this.props.updateDeviceGatewayId}
                              permission={this.props.permissions.find(p => p.resource == s.id)}/>
                              ) }
           </div>
@@ -63,7 +63,7 @@ export default class GatewayNetwork extends Component {
   static propTypes = {
     gateway: PropTypes.object.isRequired,
     domainName: PropTypes.string.isRequired,
-    updateSensorGatewayId: PropTypes.func.isRequired,
+    updateDeviceGatewayId: PropTypes.func.isRequired,
     permissions: PropTypes.array
   }
 }
