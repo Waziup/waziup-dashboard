@@ -21,7 +21,7 @@ class DomainNameComponent extends Component {
     return (
       <div>
         <Hidden mdUp implementation="css">
-          <h2> Domain {((this.props.domain).length > maxlimit) ? (((this.props.domain).substring(0, maxlimit - 3)) + '...') : this.props.domain} </h2>
+          <h2> Domain {(this.props.domain && this.props.domain.length > maxlimit) ? (((this.props.domain).substring(0, maxlimit - 3)) + '...') : this.props.domain} </h2>
         </Hidden>
         <Hidden smDown implementation="css">
           <h2 > Domain {this.props.domain} </h2>
