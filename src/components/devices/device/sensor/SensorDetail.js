@@ -41,14 +41,14 @@ class SensorDetail extends Component {
       modalAddNotif: false,
       modalAddCalib: false,
       query: {
-        dateFrom: undefined,
-        dateTo: undefined,
-        sort: 'asc',
+        date_from: undefined,
+        date_to: undefined,
+        sort: 'dsc',
         calibrated: true,
-        limit: undefined,
+        limit: 100,
         offset: undefined,
-        deviceId: props.params.deviceId,
-        sensorId: props.params.sensId
+        device_id: props.params.deviceId,
+        sensor_id: props.params.sensId
       },
       timeAxis: 'device'
     };
@@ -70,19 +70,19 @@ class SensorDetail extends Component {
 
   handleDateFrom = (day) => {
     var myQuery = this.state.query
-    myQuery.dateFrom = moment(day).utc().format();
+    myQuery.date_from = moment(day).utc().format();
     this.setState({ query: myQuery});
   }
 
   handleDateTo = (day) => {
     var myQuery = this.state.query
-    myQuery.dateTo = moment(day).utc().format();
+    myQuery.date_to = moment(day).utc().format();
     this.setState({ query: myQuery});
   }
 
   handleLimitChange = (event) => {
     var myQuery = this.state.query
-    myQuery.lastN = event.target.value;
+    myQuery.limit = event.target.value;
     this.setState({ query: myQuery});
   }
 
@@ -115,6 +115,10 @@ class SensorDetail extends Component {
           notifications.push(card)
         }
       }
+     
+      //construct query for downloading data: remove undefined fields
+      let query = this.state.query;
+      Object.keys(query).forEach(key => query[key] === undefined ? delete query[key] : '');
 
       return (
         <Container fluid={true} style={{'padding-bottom':'100px'}}>
@@ -182,10 +186,10 @@ class SensorDetail extends Component {
               <h4> To:</h4>
               <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
             </Grid>
-            {/*<Grid item xs={3}>
-              <h4> Data Points:</h4>
-              <TextField name="dataPoints" value={this.state.query.lastN} onChange={this.handleLimitChange}/>
-            </Grid>*/}
+            *<Grid item xs={3}>
+              <h4> Number of Datapoints:</h4>
+              <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+            </Grid>
             <Grid item xs={12}>
               <FormControl>
                 <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
@@ -201,7 +205,7 @@ class SensorDetail extends Component {
             <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
           </Grid>
           <Grid item xs={2}>
-            <a href={config.APIServerUrl + "/v2/devices/" + this.props.device.id + "/sensors/" + this.props.sens.id + "/values?format=csv&" + querystring.stringify(this.state.query)} target="_blank">
+            <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
               <Button variant="contained" color="primary">download data</Button>
             </a>
           </Grid>
