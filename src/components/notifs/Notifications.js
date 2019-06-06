@@ -62,9 +62,7 @@ class Notifications extends Component {
           <Card className="deviceNode">
             <Typography>
               <span className="Typography">
-                {' '}
-Notifications
-                {' '}
+                Notifications
               </span>
               <Button
                 className="topRightButton"
@@ -81,9 +79,7 @@ Notifications
       );
     }
       <h1>
-        {' '}
-Notifications loading...
-        {' '}
+      Notifications loading...
       </h1>;
   }
 }

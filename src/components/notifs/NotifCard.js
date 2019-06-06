@@ -26,9 +26,16 @@ export default class NotifCard extends Component {
     let notif = this.props.notif
     let notifName = notif.condition.devices + '->' + notif.condition.sensors
     let maxlimit = 20;
+    let tooltip = (notif.status ? "status: " + notif.status + "\n" : "") + 
+                  (notif.times_sent ? "times sent: " + notif.times_sent + "\n" : "") + 
+                  (notif.last_success ? "last success: " + notif.last_success + "\n" : "") + 
+                  (notif.last_success_code ? "last success code: " + notif.last_success_code + "\n" : "") + 
+                  (notif.last_failure ? "last failure: " + notif.last_failure + "\n" : "") + 
+                  (notif.last_failure_reason ? "last failure reason: " + notif.last_failure_reason + "\n" : "") + 
+                  (notif.last_notif ? "last notification: " + notif.last_notif : "")
 
     return (
-      <Card className="card">
+      <Card className="card" title={tooltip}>
         <div className="TypographyDiv">
           <Hidden mdUp implementation="css">
             <pre className="Typography"> {((notifName).length > maxlimit) ? (((notifName).substring(0, maxlimit - 3)) + '...') : notifName} </pre>
