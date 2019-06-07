@@ -125,7 +125,7 @@ class NotifForm extends Component {
               <TextField name="expr" value={this.state.notif.condition.expression} onChange={(e) => this.handleChange("expr", e)}/>
             </Grid>
             <Grid item xs={12}>
-              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.action ? this.state.notif.action.message:null} onChange={(_1, m) => this.handleChange("message", m)}/>
+              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.action ? this.state.notif.action.message : null} onChange={(m) => this.handleChange("message", m)}/>
             </Grid>
             <Grid item xs={6}>
               <FormControl style={{display: 'flex'}}>
