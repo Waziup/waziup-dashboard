@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import PropTypes from "prop-types";
 import { Typography } from "@material-ui/core";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 class CalibrationForm extends Component {
   constructor(props) {
@@ -33,7 +35,7 @@ class CalibrationForm extends Component {
 
   handleChange = formData => {
     var calib = this.state.calib;
-    const value = parseFloat(formData.target.value);
+    const value = parseFloat(formData.target.value) || 0;
     if(formData.target.name == "realValueMax")
       calib.linear.value_max.real_value =  value;
     else if(formData.target.name == "sensValueMax")
@@ -41,7 +43,9 @@ class CalibrationForm extends Component {
     else if(formData.target.name == "realValueMin")
       calib.linear.value_min.real_value = value;  
     else if(formData.target.name == "sensValueMin")
-      calib.linear.value_min.sensor_value = value;    
+      calib.linear.value_min.sensor_value = value; 
+    else if(formData.target.name == "enabled")
+      calib.linear.enabled = !calib.linear.enabled;    
     this.setState({ calib: calib });
   };
 
@@ -123,6 +127,18 @@ class CalibrationForm extends Component {
                   onChange={this.handleChange}
                 />
               </Grid>
+              <FormControlLabel
+                    control={
+                      <Switch
+                        name="enabled"
+                        checked={this.state.calib.linear.enabled}
+                        onChange={this.handleChange}
+                        value={this.state.calib.linear.enabled}
+                        color="primary"
+                      />
+                    }
+                    label="Enabled"
+                  />
             </Grid>
           </div>
         </DialogContent>
