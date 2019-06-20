@@ -369,6 +369,8 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_PROJECT_SUCCESS: msg = 'Project created'; error = false; break;
     case types.UPDATE_PROJECT_SUCCESS: msg = 'Project updated'; error = false; break;
     case types.DELETE_PROJECT_SUCCESS: msg = 'Project deleted'; error = false; break;
+    case types.CREATE_GATEWAY_SUCCESS: msg = 'Gateway created'; error = false; break;
+    case types.DELETE_GATEWAY_SUCCESS: msg = 'Gateway deleted'; error = false; break;
 
     // Error cases
     case types.GET_DEVICES_ERROR: msg = 'Error when fetching devices'; error = true; break;
@@ -390,6 +392,8 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_PROJECT_ERROR: msg = 'Error when creating project'; error = true; break;
     case types.UPDATE_PROJECT_ERROR: msg = 'Error when updating project'; error = true; break;
     case types.DELETE_PROJECT_ERROR: msg = 'Error when deleting project'; error = true; break;
+    case types.CREATE_GATEWAY_ERROR: msg = 'Error when creating gateway'; error = true; break;
+    case types.DELETE_GATEWAY_ERROR: msg = 'Error when deleting gateway'; error = true; break;
 
     default: return state;
   }
@@ -425,6 +429,7 @@ function permissionsReducer(state = {
   isLoading: false,
   device: [],
   project: [],
+  gateway: [],
   error: false,
 }, action = null) {
   switch (action.type) {
@@ -446,6 +451,17 @@ function permissionsReducer(state = {
       error: false,
     });
     case types.GET_DEVICE_PERMS_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.GET_GATEWAY_PERMS_START: return Object.assign({}, state, { isLoading: true });
+    case types.GET_GATEWAY_PERMS_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      gateway: action.data,
+      error: false,
+    });
+    case types.GET_GATEWAY_PERMS_ERROR: return Object.assign({}, state, {
       isLoading: false,
       msg: action.data,
       error: true,

@@ -367,8 +367,7 @@ ul {
 
 .deviceNode {
   overflow:hidden;
-  padding-right:10px;
-  padding-top: 5px;
+  padding: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
@@ -565,11 +564,11 @@ ul {
   padding: 10px;
   margin: 10px;
 }
-
+/* 
 .gatewayDeviceNodes {
   float: left;
   margin-left: 50px;
-}
+} */
 
 .icon {
   float: left;
@@ -580,9 +579,9 @@ ul {
   /*margin-top: 65px;*/
 }
 
-.gatewayLine {
+/* .gatewayLine {
   border-top: 5px dashed orange !important;
-}
+} */
 
 a {
   color: #000 !important

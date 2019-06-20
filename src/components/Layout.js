@@ -15,7 +15,7 @@ import PropTypes from 'prop-types'
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ErrorBanner from './ErrorBanner';
 import { browserHistory } from 'react-router'
-import { getDevicePermissions, getProjectPermissions, logout } from "../actions/actions.js"
+import { getDevicePermissions, getProjectPermissions, getGatewayPermissions, logout } from "../actions/actions.js"
 import config from '../config';
 import { Container, Col } from 'react-grid-system'
 import Grid from '@material-ui/core/Grid';
@@ -130,6 +130,7 @@ class Layout extends Component {
   componentWillMount() {
     this.props.getDevicePermissions();
     this.props.getProjectPermissions();
+    this.props.getGatewayPermissions();
   }
   
   handleMenu = event => {
@@ -308,6 +309,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getDevicePermissions: () => {dispatch(getDevicePermissions()) }, 
     getProjectPermissions: () => {dispatch(getProjectPermissions()) }, 
+    getGatewayPermissions: () => {dispatch(getGatewayPermissions()) }, 
     logout: () => {dispatch(logout()) } 
   };
 }
