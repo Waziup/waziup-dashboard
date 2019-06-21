@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import EditIcon from "@material-ui/icons/Edit";
+import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddGatewayForm from "./AddGatewayForm.js";
 import Button from "@material-ui/core/Button";
@@ -19,6 +20,7 @@ export default class GatewayCard extends Component {
 
   render() {
     let gateway = this.props.gateway;
+    let maxlimit = 15;
 
     return (
       <Card className={"card"}>
@@ -48,7 +50,17 @@ export default class GatewayCard extends Component {
               }}
             />: null}
           </div>
-          <pre className="Typography"> {gateway.name ? gateway.name : ""}</pre>
+          <pre className="Typography"> 
+            {gateway.name && 
+              <Tooltip title={gateway.name}>
+                <span>
+                  {gateway.name.length > maxlimit
+                    ? gateway.name.substring(0, maxlimit - 3) + "..."
+                    : gateway.name}
+                </span>
+              </Tooltip>
+            }
+          </pre>
         </div>
         <div className="cardContent">
           <img src={gatewayImage} height="90" />
