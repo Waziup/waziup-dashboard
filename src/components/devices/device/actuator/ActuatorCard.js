@@ -13,6 +13,9 @@ import locale from "react-json-editor-ajrm/locale/en";
 import JSONInput from "react-json-editor-ajrm";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+
 
 const styles = {
   container: {
