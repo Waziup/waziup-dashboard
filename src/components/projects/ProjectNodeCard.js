@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import DeviceForm from "./../devices/device/DeviceForm";
+import GatewayForm from "./../gateways/AddGatewayForm";
 import config from "../../config";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ export default class ProjectNodeCard extends Component {
       modalSens: false,
       modalAdd: false,
       modalAddDevice: false,
+      modalAddGateway: false,
       modalEdit: false
     };
   }
@@ -34,6 +36,14 @@ export default class ProjectNodeCard extends Component {
     this.props.createDevice(s);    
     this.props.updateProjectDevices(this.props.project.id,devices);
     this.props.fullProject.devices.push(s);
+  }
+
+  addGateway(s) {
+    let gateways = this.props.project.gateways;
+    gateways.push(s.id)
+    this.props.createGateway(s);    
+    this.props.updateProjectGateways(this.props.project.id,gateways);
+    this.props.fullProject.gateways.push(s);
   }
 
   render() {
@@ -83,6 +93,7 @@ export default class ProjectNodeCard extends Component {
     return (
       <Card className="deviceNode">
         <DeviceForm
+          gateways={this.props.gateways}
           modalOpen={this.state.modalAddDevice}
           handleClose={() => {
             this.setState({ modalAddDevice: false });
@@ -94,9 +105,16 @@ export default class ProjectNodeCard extends Component {
           isEdit={false}
         />
         <DeviceForm
+          gateways={this.props.gateways}
           handleClose={() => this.setState({ modalAddDevice: false })}
           modalOpen={this.state.modalAddDevice}
           onSubmit={s => this.addDevice(s)}
+        />
+        <GatewayForm 
+          gateways={this.props.gateways}
+          handleClose={() => this.setState({ modalAddGateway: false })}
+          modalOpen={this.state.modalAddGateway}
+          onSubmit={s => this.addGateway(s)}
         />
         <ProjectForm
           isEdit={true}
@@ -104,6 +122,8 @@ export default class ProjectNodeCard extends Component {
           project={this.props.project}
           devices={this.props.devices}
           gateways={this.props.gateways}
+          createDevice={this.props.createDevice}
+          createGateway={this.props.createGateway}
           modalOpen={this.state.modalEdit}
           handleClose={() => this.setState({ modalEdit: false })}
           onSubmit={s => {
@@ -185,6 +205,26 @@ export default class ProjectNodeCard extends Component {
                       onTouchTap={() => this.setState({ modalAddDevice: true })}
                     >
                       Add a device
+                    </Button>
+                  </Hidden>
+                </div>
+              ) : null}
+              {this.props.permission &&
+              this.props.permission.scopes.includes("projects:update") ? (
+                <div className="cardTitleIcons">
+                  <Hidden mdUp implementation="css">
+                    <AddCircleIcon
+                      onClick={() => this.setState({ modalAddDevice: true })}
+                    />
+                  </Hidden>
+                  <Hidden smDown implementation="css">
+                    <Button
+                      className="topRightButton"
+                      variant="contained"
+                      color="primary"
+                      onTouchTap={() => this.setState({ modalAddGateway: true })}
+                    >
+                      Add a gateway
                     </Button>
                   </Hidden>
                 </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ProjectLineCard from './ProjectLineCard.js'
 import { Container } from 'react-grid-system';
-import { createProject, createDevice, getProjects, updateProjectDevices, 
+import { createProject, createDevice, createGateway, getProjects, updateProjectDevices, 
   getDevices, getGateways} from "../../actions/actions.js";
 import DOM from 'react-dom-factories';
 import { Link } from 'react-router';
@@ -46,6 +46,7 @@ class Projects extends Component {
           handleClose={() => this.setState({ modalAddProject: false })}
           modalOpen={this.state.modalAddProject}
           createDevice={this.props.createDevice}
+          createGateway={this.props.createGateway}
           onSubmit={s => this.props.createProject(s)}
         />
         <Button variant="contained" color="primary" className="addProjectButton" onTouchTap={() => this.setState({ modalAddProject: true })} >Create a project</Button>
@@ -90,6 +91,9 @@ function mapDispatchToProps(dispatch) {
     },
     createDevice: (device) => {
       dispatch(createDevice(device));
+    },
+    createGateway: (gateway) => {
+      dispatch(createGateway(gateway));
     },
     getProjects: (params) => {dispatch(getProjects(params)) },
     updateProjectDevices: (sid, gid) => {dispatch(updateProjectDevices(sid, gid)) },

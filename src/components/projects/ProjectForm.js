@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { getDevices } from "../../actions/actions.js";
+import { getDevices, getGateways } from "../../actions/actions.js";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -12,9 +12,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
@@ -25,8 +23,8 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
-import Switch from "@material-ui/core/Switch";
 import DeviceForm from "./../devices/device/DeviceForm.js";
+import GatewayForm from "./../gateways/AddGatewayForm";
 import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
@@ -56,6 +54,7 @@ class ProjectForm extends Component {
     this.state = {
       newDevice: false,
       modalAddDevice: false,
+      modalAddGateway: false,
       activeStep: 0,
       skipped: new Set(),
       devices: [],
@@ -71,6 +70,14 @@ class ProjectForm extends Component {
     this.state.project.devices.push(s.id);
     this.setState({ project: project });
     this.props.getDevices();
+  }
+
+  addGateway(s) {
+    this.props.createGateway(s);
+    var project = this.state.project;
+    this.state.project.gateways.push(s.id);
+    this.setState({ project: project });
+    this.props.getGateways();
   }
 
   getStepContent(step) {
@@ -109,6 +116,7 @@ class ProjectForm extends Component {
         return (
           <Grid container spacing={24}>
             <DeviceForm
+              gateways={this.state.gateways}
               handleClose={() => this.setState({ modalAddDevice: false })}
               modalOpen={this.state.modalAddDevice}
               onSubmit={s => this.addDevice(s)}
@@ -159,7 +167,31 @@ class ProjectForm extends Component {
       case 2:
         return (
           <Grid container spacing={24}>
-            <Grid item xs={12}>
+            <GatewayForm
+              handleClose={() => this.setState({ modalAddGateway: false })}
+              modalOpen={this.state.modalAddGateway}
+              onSubmit={s => this.addGateway(s)}
+            />
+            <Grid item xs={6}>
+              <Grid
+                row
+                container
+                direction="row"
+                justify="space-around"
+                alignItems="center"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="addDeviceButton"
+                  onTouchTap={() => this.setState({ modalAddGateway: true })}
+                >
+                  Create a new gateway
+                </Button>
+                <Chip label="Or"  />
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="gateways">Gateways</InputLabel>
                 <Select
@@ -174,10 +206,11 @@ class ProjectForm extends Component {
                       checked={this.state.project.gateways.includes(s.id)}
                       value={s.id}
                     >
-                      {s.name}
+                      {s.id}
                     </MenuItem>
                   ))}
                 </Select>
+                <FormHelperText>Select from existing gateways</FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
@@ -435,7 +468,8 @@ class ProjectForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    devices: state.devices.devices
+    devices: state.devices.devices,
+    gateways: state.gateways.gateways
   };
 }
 
@@ -443,6 +477,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getDevices: params => {
       dispatch(getDevices(params));
+    },
+    getGateways: params => {
+      dispatch(getGateways(params));
     }
   };
 }

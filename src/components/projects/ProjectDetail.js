@@ -18,7 +18,8 @@ import {
   updateProjectName,
   updateProjectDevices,
   updateProjectGateways,
-  createDevice
+  createDevice,
+  createGateway
 } from "../../actions/actions.js";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -98,6 +99,7 @@ class ProjectDetail extends Component {
           <ProjectNodeCard
             className="deviceNode"
             createDevice={this.props.createDevice}
+            createGateway={this.props.createGateway}
             deleteProject={sid => {
               this.props.deleteProject(sid);
               browserHistory.push("/projects");
@@ -167,6 +169,9 @@ function mapDispatchToProps(dispatch) {
     },
     createDevice: device => {
       dispatch(createDevice(device));
+    },
+    createGateway: device => {
+      dispatch(createGateway(device));
     },
     getDevicePermissions: () => {
       dispatch(getDevicePermissions());
