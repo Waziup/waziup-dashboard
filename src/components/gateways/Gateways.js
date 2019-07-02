@@ -4,16 +4,14 @@ import GatewayNetwork from "./GatewayNetwork.js";
 import { Container } from "react-grid-system";
 import { getDevices, createGateway, updateGateway, deleteGateway, getGateways } from "../../actions/actions.js";
 import gatewayImage from "../../images/gateway.png";
-import DOM from "react-dom-factories";
 import Hidden from "@material-ui/core/Hidden";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AddGatewayForm from "./AddGatewayForm.js";
-import GatewayCard from "./GatewayCard.js";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
+import { Link } from 'react-router';
+import GatewayLineCard from './GatewayLineCard'
 
 class DomainNameComponent extends Component {
   constructor(props) {
@@ -80,7 +78,7 @@ class Gateways extends Component {
 
   render() {    
     return (
-      <Container fluid={true}>
+      <Container fluid={true} style={{paddingBottom: '100px'}}>
         <AppBar
           position="static"
           style={{ marginBottom: "30px", background: "#e9edf2" }}
@@ -107,37 +105,42 @@ class Gateways extends Component {
           Add a gateway
         </Button>
         {this.props.gateways.length ?
-        <Card className="deviceNode">
-          <div>
-            <span className="Typography">Gateways </span>
-          </div>
+        // <Card className="deviceNode">
+        //   <div>
+        //     <span className="Typography">Gateways </span>
+        //   </div>
 
-          <div className="contentCards">
-            <Grid
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-              spacing={24}
-            >
+        //   <div className="contentCards">
+        //     <Grid
+        //       container
+        //       direction="row"
+        //       justify="flex-start"
+        //       alignItems="center"
+        //       spacing={24}
+        //     >
+        <div>
               {this.props.gateways
                 ? this.props.gateways.map((gateway, index) => {
                     return (
-                      <GatewayCard
-                      gateway={gateway}
-                      isDetails={true}
-                      updateGateway={this.props.createGateway}
-                      deleteGateway={this.props.deleteGateway}
-                      permission={this.props.gatewayPermissions.find(
-                        p => p.resource == gateway.id
-                      )}
-                    />
+                      <Link
+                      to={"/gateways/" + gateway.id}
+                      >
+                        <GatewayLineCard
+                        gateway={gateway}
+                        isDetails={true}
+                        updateGateway={this.props.createGateway}
+                        deleteGateway={this.props.deleteGateway}
+                        permission={this.props.gatewayPermissions.find(
+                          p => p.resource == gateway.id
+                        )}
+                        />
+                      </Link>
                     );
                   })
                 : null}
-            </Grid>
+        {/* //     </Grid> */}
           </div>
-        </Card>
+        // </Card>
         : ""}
         {/* {DOM.div(
           null,
