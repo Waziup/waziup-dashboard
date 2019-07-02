@@ -77,6 +77,7 @@ class DeviceDetail extends Component {
             }}
             permission={this.props.permission}
             device={device}
+            gateways={this.props.gateways}
             updateSensor={this.props.addSensor}
             updateActuator={this.props.addActuator}
             updateDeviceName={this.props.updateDeviceName}
@@ -152,6 +153,7 @@ class DeviceDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     device: state.device.device,
+    gateways: state.gateways.gateways,
     permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId),
     user: state.current_user,
   };

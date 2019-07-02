@@ -68,6 +68,7 @@ export default class DeviceNodeCard extends Component {
         }}
         isEdit={false} />
         <DeviceForm device={device}
+          gateways={this.props.gateways}
           isEdit={true}
           modalOpen={this.state.modalEdit}
           handleClose={() => this.setState({ modalEdit: false })}

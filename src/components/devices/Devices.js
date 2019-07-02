@@ -164,6 +164,7 @@ class Devices extends Component {
           </Toolbar>
         </AppBar>
         <DeviceForm
+          gateways={this.props.gateways}
           handleClose={() => this.setState({ modalAddDevice: false })}
           modalOpen={this.state.modalAddDevice}
           onSubmit={s => this.props.createDevice(s)}
@@ -261,6 +262,7 @@ class Devices extends Component {
 function mapStateToProps(state) {
   return {
     devices: state.devices.devices,
+    gateways: state.gateways.gateways,
     deviceAttributes: state.deviceAttributes.deviceAttributes,
     user: state.current_user,
   };

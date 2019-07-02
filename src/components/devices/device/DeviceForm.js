@@ -27,9 +27,20 @@ class DeviceForm extends Component {
     defaultDevice.visibility = "public"
     defaultDevice.sensors = []
     defaultDevice.actuators = []
+    defaultDevice.gateway_id = ""
     this.state = {
-      device: (this.props.device? this.props.device: defaultDevice)
+      device: (this.props.device? this.props.device: defaultDevice),
+      gateways: []
     };
+  }
+
+  getGateways() {
+    let gateways = this.props.gateways;
+    this.setState({ gateways: gateways });
+  }
+
+  componentWillMount() {
+    this.getGateways();
   }
 
   componentWillReceiveProps(){
@@ -48,6 +59,12 @@ class DeviceForm extends Component {
     device[formData.target.name] = formData.target.value;
     this.setState({device: device})
   }
+
+  handleGatewayChange = event => {
+    var device = this.state.device;
+    device.gateway_id = event.target.value;
+    this.setState({ device });
+  };
 
   handleChangeVisibility = event => {
     var device = this.state.device
@@ -76,6 +93,7 @@ class DeviceForm extends Component {
           value={this.state.device.id} 
           onChange={this.handleChange} 
           title="ID used by the gateway to send data"
+          fullWidth
           />
         </Grid>
         <Grid item xs={6}>
@@ -85,15 +103,36 @@ class DeviceForm extends Component {
           label="Device name"
           value={this.state.device.name}
           onChange={this.handleChange}
+          fullWidth
         />
         </Grid>
         <Grid item xs={6}>
-        <TextField name="domain"  label="Domain" value={this.state.device.domain} onChange={this.handleChange} title="Domain this device belongs to"/>
+        <TextField name="domain"  label="Domain" fullWidth value={this.state.device.domain} onChange={this.handleChange} title="Domain this device belongs to"/>
         </Grid>
         <Grid item xs={6}>
-        <FormControl>
+        <FormControl fullWidth>
+          <InputLabel htmlFor="gateway_id">Gateway</InputLabel>
+          <Select
+            input={<Input name="gateway_id" id="gateway_id" />}
+            value={this.state.device.gateway_id}
+            onChange={this.handleGatewayChange}
+          >
+            {this.state.gateways.map(s => (
+              <MenuItem
+                key={s.id}
+                checked={this.state.device.gateway_id == s.id}
+                value={s.id}
+              >
+                {s.id}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+        <FormControl fullWidth>
           <InputLabel htmlFor="visibility">Visibility</InputLabel>
-          <Select 
+          <Select
           input={<Input name="visibility" id="visibility" />}
           value={this.state.device.visibility} onChange={this.handleChangeVisibility} title="Public visibility of the device">
             <MenuItem value="public">Public</MenuItem>
