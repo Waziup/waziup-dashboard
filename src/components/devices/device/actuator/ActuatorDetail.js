@@ -8,6 +8,10 @@ import {
   getValues,
   getDevice,
   addActuator,
+  updateActuatorName,
+  updateActuatorKind,
+  updateActuatorValue,
+  updateActuatorValueType,
   deleteActuator
 } from "../../../../actions/actions.js";
 import AppBar from '@material-ui/core/AppBar';
@@ -46,6 +50,10 @@ class ActuatorDetail extends Component {
               actuator={this.props.actu}
               isDetails={true}
               updateActuator={this.props.updateActuator}
+              updateActuatorName={this.props.updateActuatorName}
+              updateActuatorKind={this.props.updateActuatorKind}
+              updateActuatorValue={this.props.updateActuatorValue}
+              updateActuatorValueType={this.props.updateActuatorValueType}
               deleteActuator={this.props.deleteActuator}
               deviceId={this.props.device.id}
               permission={this.props.permission}
@@ -87,6 +95,18 @@ function mapDispatchToProps(dispatch) {
     },
     updateActuator: (id, m) => {
       dispatch(addActuator(id, m));
+    },
+    updateActuatorName: (dId, aId, n) => {
+      dispatch(updateActuatorName(dId, aId, n));
+    },
+    updateActuatorKind: (dId, aId, k) => {
+      dispatch(updateActuatorKind(dId, aId, k));
+    },
+    updateActuatorValue: (dId, aId, v) => {
+      dispatch(updateActuatorValue(dId, aId, v));
+    },
+    updateActuatorValueType: (dId, aId, vt) => {
+      dispatch(updateActuatorValueType(dId, aId, vt));
     },
     deleteActuator: (sid, mid) => {
       dispatch(deleteActuator(sid, mid));

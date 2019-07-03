@@ -239,6 +239,7 @@ export function addActuator(deviceId, actu) {
     try {
       const data = await actuatorsApi.addActuator(deviceId, actu);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
+      dispatch(getDevice(deviceId));
       dispatch(getDevices());
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
@@ -266,6 +267,48 @@ export function updateActuatorName(deviceId, actuId, name) {
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
       const data = await actuatorsApi.putActuatorName(deviceId, actuId, name);
+      dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
+      dispatch(getDevices());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
+    }
+  };
+}
+
+export function updateActuatorKind(deviceId, actuId, kind) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_DEVICE_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await actuatorsApi.putActuatorKind(deviceId, actuId, kind);
+      dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
+      dispatch(getDevices());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
+    }
+  };
+}
+
+export function updateActuatorValue(deviceId, actuId, value) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_DEVICE_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await actuatorsApi.createActuatorValue(deviceId, actuId, value);
+      dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
+      dispatch(getDevices());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
+    }
+  };
+}
+
+export function updateActuatorValueType(deviceId, actuId, valueType) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_DEVICE_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await actuatorsApi.putActuatorVT(deviceId, actuId, valueType);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
       dispatch(getDevices());
     } catch (error) {
