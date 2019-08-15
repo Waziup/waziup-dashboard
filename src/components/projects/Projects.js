@@ -4,6 +4,7 @@ import ProjectLineCard from './ProjectLineCard.js'
 import { Container } from 'react-grid-system';
 import { createProject, createDevice, createGateway, getProjects, updateProjectDevices, 
   getDevices, getGateways} from "../../actions/actions.js";
+import config from '../../config';  
 import DOM from 'react-dom-factories';
 import { Link } from 'react-router';
 import ProjectForm from './ProjectForm.js';
@@ -21,11 +22,14 @@ class Projects extends Component {
       modalAddProject: false,
     };
   }
-  
-  componentDidMount() {
+
+  componentWillMount() {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProjects({ full: true });
+    this.interval = setInterval(() => {
+      this.props.getProjects({ full: true });
+    }, config.delayRefresh);
   }
 
   render() {
