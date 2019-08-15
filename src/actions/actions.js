@@ -510,6 +510,19 @@ export function getGateways() {
   };
 }
 
+export function getGateway(id) {
+  return async function (dispatch) {
+    dispatch({ type: types.GET_GATEWAY_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await gatewaysApi.getGateway(id);
+      dispatch({ type: types.GET_GATEWAY_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: types.GET_GATEWAY_ERROR, data: error });
+    }
+  };
+}
+
 export function createGateway(proj) {
   return async function (dispatch) {
     dispatch({ type: types.CREATE_GATEWAY_START });

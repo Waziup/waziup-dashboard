@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Container } from 'react-grid-system';
-import {
-  Map, Marker, Popup, TileLayer,
-} from 'react-leaflet';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
 import GatewayNodeCard from './GatewayNodeCard'
 import {
-  addSensor, deleteSensor, deleteGateway, getGateways, updateSensorName,
+  addSensor, deleteSensor, deleteGateway, getGateway, updateSensorName,
   addActuator, deleteActuator, updateActuatorName,
 } from '../../actions/actions.js';
 import gatewayImage from '../../images/gateway.png';
@@ -28,9 +22,9 @@ class GatewayDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.getGateways();
+    this.props.getGateway(this.props.params.gatewayId);
     this.interval = setInterval(() => {
-      this.props.getGateways();
+      this.props.getGateway(this.props.params.gatewayId);
     }, config.delayRefresh);
   }
 
@@ -95,7 +89,7 @@ class GatewayDetail extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    gateway : state.gateways ? state.gateways.gateways.find(g => g.id == ownProps.params.gatewayId) : null,
+    gateway: state.gateway.gateway,
     permission: state.permissions.gateway.find(p => p.resource == ownProps.params.gatewayId),
     user: state.current_user,
   };
@@ -103,8 +97,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getGateways: (id) => {
-      dispatch(getGateways(id));
+    getGateway: (id) => {
+      dispatch(getGateway(id));
     },
     addSensor: (id, m) => {
       dispatch(addSensor(id, m));

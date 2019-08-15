@@ -2,7 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import GatewayNetwork from "./GatewayNetwork.js";
 import { Container } from "react-grid-system";
-import { getDevices, createGateway, updateGateway, deleteGateway, getGateways } from "../../actions/actions.js";
+import {
+  getDevices,
+  createGateway,
+  updateGateway,
+  deleteGateway,
+  getGateways
+} from "../../actions/actions.js";
 import gatewayImage from "../../images/gateway.png";
 import Hidden from "@material-ui/core/Hidden";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,8 +16,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import AddGatewayForm from "./AddGatewayForm.js";
-import { Link } from 'react-router';
-import GatewayLineCard from './GatewayLineCard'
+import { Link } from "react-router";
+import GatewayLineCard from "./GatewayLineCard";
+import Card from "@material-ui/core/Card";
 
 class DomainNameComponent extends Component {
   constructor(props) {
@@ -44,7 +51,7 @@ class DomainNameComponent extends Component {
 class Gateways extends Component {
   constructor(props) {
     super(props);
-    this.state = { modalAddGateway: false, modalEditGateway: false};
+    this.state = { modalAddGateway: false, modalEditGateway: false };
   }
 
   componentDidMount() {
@@ -76,9 +83,9 @@ class Gateways extends Component {
     return domains;
   };
 
-  render() {    
+  render() {
     return (
-      <Container fluid={true} style={{paddingBottom: '100px'}}>
+      <Container fluid={true} style={{ paddingBottom: "100px" }}>
         <AppBar
           position="static"
           style={{ marginBottom: "30px", background: "#e9edf2" }}
@@ -104,28 +111,13 @@ class Gateways extends Component {
         >
           Add a gateway
         </Button>
-        {this.props.gateways.length ?
-        // <Card className="deviceNode">
-        //   <div>
-        //     <span className="Typography">Gateways </span>
-        //   </div>
-
-        //   <div className="contentCards">
-        //     <Grid
-        //       container
-        //       direction="row"
-        //       justify="flex-start"
-        //       alignItems="center"
-        //       spacing={24}
-        //     >
-        <div>
-              {this.props.gateways
-                ? this.props.gateways.map((gateway, index) => {
-                    return (
-                      <Link
-                      to={"/gateways/" + gateway.id}
-                      >
-                        <GatewayLineCard
+        {this.props.gateways.length ? (
+          <div style={{ marginTop: "20px" }}>
+            {this.props.gateways
+              ? this.props.gateways.map((gateway, index) => {
+                  return (
+                    <Link to={"/gateways/" + gateway.id}>
+                      <GatewayLineCard
                         gateway={gateway}
                         isDetails={true}
                         updateGateway={this.props.createGateway}
@@ -133,33 +125,15 @@ class Gateways extends Component {
                         permission={this.props.gatewayPermissions.find(
                           p => p.resource == gateway.id
                         )}
-                        />
-                      </Link>
-                    );
-                  })
-                : null}
-        {/* //     </Grid> */}
+                      />
+                    </Link>
+                  );
+                })
+              : null}
           </div>
-        // </Card>
-        : ""}
-        {/* {DOM.div(
-          null,
-          this.getDomains().map((d, index) => [
-            React.createElement(DomainNameComponent, {
-              key: { index },
-              domain: d.domainName
-            }),
-            d.gateways.map((g, index2) =>
-              React.createElement(GatewayNetwork, {
-                gateway: g,
-                domainName: d.domainName,
-                updateDeviceGatewayId: this.props.updateDeviceGatewayId,
-                permissions: this.props.devicePermissions,
-                key: index + index2
-              })
-            )
-          ])
-        )} */}
+        ) : (
+          ""
+        )}
       </Container>
     );
   }
@@ -179,15 +153,15 @@ function mapDispatchToProps(dispatch) {
     getDevices: params => {
       dispatch(getDevices(params));
     },
-    getGateways: (params) => {
+    getGateways: params => {
       dispatch(getGateways(params));
     },
     createGateway: gateway => {
       dispatch(createGateway(gateway));
     },
-    deleteGateway: (id) => {
+    deleteGateway: id => {
       dispatch(deleteGateway(id));
-    },
+    }
   };
 }
 export default connect(

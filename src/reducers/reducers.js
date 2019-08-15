@@ -242,6 +242,62 @@ function gatewaysReducer(state = {
   }
 }
 
+// Get a gateway
+function gatewayReducer(state = {
+  isLoading: false,
+  gateway: [],
+  error: false,
+  errMsg: '',
+}, action = null) {  
+  switch (action.type) {
+    case types.CREATE_GATEWAY_START: return Object.assign({}, state, { isLoading: true });
+    case types.CREATE_GATEWAY_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: false,
+    });
+    case types.CREATE_GATEWAY_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.GET_GATEWAY_START: return Object.assign({}, state, { isLoading: true });
+    case types.GET_GATEWAY_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      gateway: action.data,
+      error: false,
+    });
+    case types.GET_GATEWAY_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.UPDATE_GATEWAY_START: return Object.assign({}, state, { isLoading: true });
+    case types.UPDATE_GATEWAY_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: false,
+    });
+    case types.UPDATE_GATEWAY_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    case types.DELETE_GATEWAY_START: return Object.assign({}, state, { isLoading: true });
+    case types.DELETE_GATEWAY_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: false,
+    });
+    case types.DELETE_GATEWAY_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
 // Get all users
 function usersReducer(state = {
   isLoading: false,
@@ -492,6 +548,8 @@ export default function rootReducer(state = {}, action) {
     project: projectReducer(state.project, action),
     // List of gateways
     gateways: gatewaysReducer(state.gateways, action),
+    // A single gateway
+    gateway: gatewayReducer(state.gateway, action),
     // Current user
     user: userReducer(state.user, action),
     // List of users
