@@ -5,6 +5,7 @@ import gatewayNodeImage from "../../images/gateway.png";
 import deviceImage from "../../images/device.png";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
+import config from "../../config";
 
 export default class GatewayLineCard extends Component {
   constructor(props) {
@@ -16,10 +17,15 @@ export default class GatewayLineCard extends Component {
     let gateway = this.props.gateway;
     let gatewayName =
       (gateway.name ? gateway.name + " " : "") + "(" + gateway.id + ")";
-    let maxlimit = 20;
+    let maxlimit = 30;
+    let activeStyle =
+      gateway &&
+      new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive
+        ? "cardGreen"
+        : "cardRed";
 
     return (
-      <Card className="deviceNode">
+      <Card className={"card " + activeStyle} style={{minWidth:'350px'}}>
         <pre className="Typography">
           {gatewayName && (
             <Tooltip title={gatewayName}>
@@ -31,7 +37,6 @@ export default class GatewayLineCard extends Component {
             </Tooltip>
           )}
         </pre>
-
         <div className="contentCards">
           <Grid
             container
@@ -40,17 +45,18 @@ export default class GatewayLineCard extends Component {
             alignItems="center"
             spacing={24}
           >
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12}>
               <div className="boardIcon">
                 <img
                   src={gatewayNodeImage}
-                  height="64"
+                  height="54"
                   title={
-                    gateway.dateUpdated
-                      ? "Last update at " + gateway.dateUpdated
+                    gateway.date_modified
+                      ? "Last modified at " + gateway.date_modified
                       : "No data yet"
                   }
                 />
+
                 <pre>
                   {" "}
                   {gateway.owner

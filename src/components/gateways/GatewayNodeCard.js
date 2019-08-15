@@ -11,6 +11,7 @@ import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router";
+import config from '../../config';
 
 export default class GatewayNodeCard extends Component {
   constructor(props) {
@@ -21,10 +22,12 @@ export default class GatewayNodeCard extends Component {
   }
 
   render() {
-    let gateway = this.props.gateway;
+    let gateway = this.props.gateway;    
+    let activeStyle = (gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive)? "cardGreen": "cardRed"
+    let title = gateway.date_modified ? "Date modified: " + gateway.date_modified : "No data yet"
 
     return (
-      <Card className="deviceNode">
+      <Card className={"deviceNode " + activeStyle}>
         <AddGatewayForm
           gateway={gateway}
           isEdit={true}
@@ -97,7 +100,7 @@ export default class GatewayNodeCard extends Component {
         </Grid>
         <div className="cardContent">
           <div className="boardIcon">
-            <img src={gatewayImage} height="90" />
+            <img src={gatewayImage} height="90" title={title}/>
             <pre>
               {" "}
               {gateway.owner
