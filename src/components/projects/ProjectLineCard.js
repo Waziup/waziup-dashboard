@@ -16,7 +16,7 @@ export default class ProjectLineCard extends Component {
   render() {
     let project = this.props.project;
 
-    let projectName = (project.name ? project.name + " " : "");
+    let projectName = (project.name ? project.name + " " : "") + "(" + project.id + ")";
 
     return (
       <Card className="deviceNode">
@@ -24,7 +24,7 @@ export default class ProjectLineCard extends Component {
 
           <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
 
-            <Grid item xs={12} sm={6} md={3} lg={2} container justify = "center">
+            <Grid item xs={12} sm={6} md={3} lg={3} container justify = "center">
               <div className="boardIcon">
                 <img src={projectImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
                 {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
