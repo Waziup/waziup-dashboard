@@ -41,7 +41,7 @@ const styles = theme => ({
 });
 
 function getSteps() {
-  return ["Project details", "Add a device", "Add a gateway"];
+  return ["Project details", "Add some devices", "Add some gateways"];
 }
 
 class ProjectForm extends Component {
@@ -67,16 +67,20 @@ class ProjectForm extends Component {
   addDevice(s) {
     this.props.createDevice(s);
     var project = this.state.project;
+    var devices = this.state.devices;
     this.state.project.devices.push(s.id);
-    this.setState({ project: project });
+    this.state.devices.push(s);
+    this.setState({ project, devices });
     this.props.getDevices();
   }
 
   addGateway(s) {
     this.props.createGateway(s);
     var project = this.state.project;
+    var gateways = this.state.gateways;
     this.state.project.gateways.push(s.id);
-    this.setState({ project: project });
+    this.state.gateways.push(s);
+    this.setState({ project, gateways });
     this.props.getGateways();
   }
 
@@ -85,16 +89,17 @@ class ProjectForm extends Component {
       case 0:
         return (
           <Grid container spacing={24}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <TextField
                 id="standard-name"
                 name="name"
                 label="Project name"
                 value={this.state.project.name}
+                fullWidth
                 onChange={n => this.handleChange("name", n)}
               />
             </Grid>
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="gateways">Domain</InputLabel>
                 <Select
@@ -109,7 +114,7 @@ class ProjectForm extends Component {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
           </Grid>
         );
       case 1:
