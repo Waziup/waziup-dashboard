@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
-import DeviceForm from "./../devices/device/DeviceForm";
+import AddProjectDeviceForm from "./AddProjectDeviceForm";
+import AddProjectGatewayForm from "./AddProjectGatewayForm";
+import DeviceLineCard from "./../devices/DeviceLineCard";
 import GatewayForm from "./../gateways/AddGatewayForm";
 import config from "../../config";
 import Button from "@material-ui/core/Button";
@@ -56,22 +58,10 @@ export default class ProjectNodeCard extends Component {
           new Date() < Date.parse(d.date_created) + config.delayDeviceNodeNew;
         const card = (
           <Link to={"/devices/" + d.id}>
-            <div className="boardIcon">
-              <img
-                src={deviceImage}
-                height="64"
-                title={
-                  d.dateUpdated
-                    ? "Last update at " + d.dateUpdated
-                    : "No data yet"
-                }
-              />
-              {deviceNodeNew ? (
-                <img src={newImage} height="35" className="newIcon" />
-              ) : null}
-              <br />
-              <div className="Typography"> {d.name} </div>
-            </div>
+            <DeviceLineCard
+              device={d}
+              user={this.props.user}
+            />
           </Link>
         );
         devices.push(card);
@@ -92,30 +82,6 @@ export default class ProjectNodeCard extends Component {
     console.log("perms:" + JSON.stringify(this.props.permission));
     return (
       <Card className="deviceNode">
-        <DeviceForm
-          gateways={this.props.gateways}
-          modalOpen={this.state.modalAddDevice}
-          handleClose={() => {
-            this.setState({ modalAddDevice: false });
-          }}
-          onSubmit={m => {
-            this.props.updateSensor(device.id, m);
-            this.setState({ modalAddDevice: false });
-          }}
-          isEdit={false}
-        />
-        <DeviceForm
-          gateways={this.props.gateways}
-          handleClose={() => this.setState({ modalAddDevice: false })}
-          modalOpen={this.state.modalAddDevice}
-          onSubmit={s => this.addDevice(s)}
-        />
-        <GatewayForm 
-          gateways={this.props.gateways}
-          handleClose={() => this.setState({ modalAddGateway: false })}
-          modalOpen={this.state.modalAddGateway}
-          onSubmit={s => this.addGateway(s)}
-        />
         <ProjectForm
           isEdit={true}
           user={this.props.user}
@@ -130,6 +96,34 @@ export default class ProjectNodeCard extends Component {
             this.props.updateProjectName(project.id, '"' + s.name + '"'),
               this.props.updateProjectDevices(project.id, s.devices),
               this.props.updateProjectGateways(project.id, s.gateways);
+          }}
+        />
+        <AddProjectDeviceForm
+          isEdit={true}
+          user={this.props.user}
+          project={this.props.project}
+          devices={this.props.devices}
+          gateways={this.props.gateways}
+          createDevice={this.props.createDevice}
+          createGateway={this.props.createGateway}
+          modalOpen={this.state.modalAddDevice}
+          handleClose={() => this.setState({ modalAddDevice: false })}
+          onSubmit={s => {
+            this.props.updateProjectDevices(project.id, s.devices)
+          }}
+        />
+        <AddProjectGatewayForm
+          isEdit={true}
+          user={this.props.user}
+          project={this.props.project}
+          devices={this.props.devices}
+          gateways={this.props.gateways}
+          createGateway={this.props.createGateway}
+          createGateway={this.props.createGateway}
+          modalOpen={this.state.modalAddGateway}
+          handleClose={() => this.setState({ modalAddGateway: false })}
+          onSubmit={s => {
+            this.props.updateProjectGateways(project.id, s.gateways);
           }}
         />
         <Grid
@@ -234,6 +228,14 @@ export default class ProjectNodeCard extends Component {
         </Grid>
 
         { project ? <div className="contentCards">
+        <Grid
+          container
+          direction="row"
+          justify="flex-start"
+          alignItems="left"
+          spacing={24}
+        >
+          <Grid item md={12} lg={3}>
           <div className="boardIcon">
             <img
               src={projectImage}
@@ -256,9 +258,22 @@ export default class ProjectNodeCard extends Component {
             </pre>
             <span className="Typography">
               {" "}
-              {project.name ? project.name + " " : ""}{" "}
+              {(project.name ? project.name + " " : "") + "(" + project.id + ")"}
+              <pre>
+                  {" "}
+                  {project.owner
+                    ? "owner: " +
+                    project.owner +
+                      (this.props.user &&
+                        project.owner == this.props.user.username
+                        ? " (you)"
+                        : "")
+                    : ""}{" "}
+                </pre>
             </span>
           </div>
+          </Grid>
+          <Grid item md={12} lg={9}>
           <div class="gatewayDeviceNodes">
             {devices.length ? (
               <Card className="deviceNode">
@@ -277,6 +292,8 @@ export default class ProjectNodeCard extends Component {
               ""
             )}
           </div>
+          </Grid>
+          </Grid>
         </div> : ''}
       </Card>
     );
