@@ -26,9 +26,9 @@ class Projects extends Component {
   componentWillMount() {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
-    this.props.getProjects({ full: true });
+    this.props.getProjects({ full: false });
     this.interval = setInterval(() => {
-      this.props.getProjects({ full: true });
+      this.props.getProjects({ full: false });
     }, config.delayRefresh);
   }
 
