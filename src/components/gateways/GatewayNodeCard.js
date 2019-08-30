@@ -62,7 +62,7 @@ export default class GatewayNodeCard extends Component {
                     <DeleteIcon
                       onClick={() => {
                         if (window.confirm("Delete a gateway?"))
-                          this.props.deleteDevice(gateway.id);
+                          this.props.deleteGateway(gateway.id);
                       }}
                     />
                   </Hidden>
@@ -73,7 +73,7 @@ export default class GatewayNodeCard extends Component {
                       color="primary"
                       onTouchTap={() => {
                         if (window.confirm("Delete a gateway?"))
-                          this.props.deleteDevice(gateway.id);
+                          this.props.deleteGateway(gateway.id);
                       }}
                     >
                       Delete

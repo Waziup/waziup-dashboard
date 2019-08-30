@@ -37,38 +37,25 @@ const styles = theme => ({
 class AddProjectGatewayForm extends Component {
   constructor(props) {
     super(props);
-    const defaultProject = new Waziup.Project("MyProject");
-    defaultProject.name = "My project";
-    defaultProject.devices = [];
-    defaultProject.gateways = [];
     this.state = {
       newGateway: false,
       modalAddGateway: false,
       skipped: new Set(),
+      devices: [],
       gateways: [],
-      project: this.props.project ? this.props.project : defaultProject
+      projectGateways: props.project ? props.project.gateways.map((d) => d.id) : []
     };
   }
 
   addGateway(s) {
     this.props.createGateway(s);
-    var project = this.state.project;
-    var gateways = this.state.gateways;
-    this.state.project.gateways.push(s.id);
-    this.state.gateways.push(s);
-    this.setState({ project, gateways });
+    this.setState({ projectGateways : [...this.state.projectGateways, s.id], gateways: [...this.state.gateways, s] });
     this.props.getGateways();
   }
 
-  componentWillReceiveProps() {
-    if (this.props.isEdit) {
-      this.setState({ project: this.props.project });
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.project && nextProps.project !== this.state.project) {
-      this.setState({ project: nextProps.project });
+    if (nextProps.project && nextProps.project.gateways) {
+      this.setState({ projectGateways: nextProps.project.gateways.map((d) => d.id)});
     }
   }
 
@@ -95,13 +82,13 @@ class AddProjectGatewayForm extends Component {
 
   handleChange = (field, event) => {
     const value = event.target.value;
-    var project = this.state.project;
+    var projectGateways = this.state.projectGateways;
     switch (field) {
       case "gateways":
-        project.gateways = value;
+        projectGateways = value;
         break;
     }
-    this.setState({ project: project });
+    this.setState({ projectGateways: projectGateways });
   };
 
   render() {
@@ -122,7 +109,7 @@ class AddProjectGatewayForm extends Component {
         color="primary"
         key="submit"
         onTouchTap={() => {
-          this.props.onSubmit(this.state.project);
+          this.props.onSubmit(this.state.projectGateways);
           handleClose();
         }}
       >
@@ -173,13 +160,13 @@ class AddProjectGatewayForm extends Component {
                 <Select
                   multiple={true}
                   input={<Input name="gateways" id="gateways" />}
-                  value={this.state.project.gateways}
+                  value={this.state.projectGateways}
                   onChange={s => this.handleChange("gateways", s)}
                 >
                   {this.state.gateways.map(s => (
                     <MenuItem
                       key={s.id}
-                      checked={this.state.project.gateways.includes(s.id)}
+                      checked={this.state.projectGateways.includes(s.id)}
                       value={s.id}
                     >
                       {s.id}
@@ -207,7 +194,8 @@ class AddProjectGatewayForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    gateways: state.gateways.gateways
+    gateways: state.gateways.gateways,
+    project: state.project.project
   };
 }
 

@@ -32,24 +32,8 @@ export default class ProjectNodeCard extends Component {
     };
   }
 
-  addDevice(s) {
-    let devices = this.props.project.devices;
-    devices.push(s.id)
-    this.props.createDevice(s);    
-    this.props.updateProjectDevices(this.props.project.id,devices);
-    this.props.fullProject.devices.push(s);
-  }
-
-  addGateway(s) {
-    let gateways = this.props.project.gateways;
-    gateways.push(s.id)
-    this.props.createGateway(s);    
-    this.props.updateProjectGateways(this.props.project.id,gateways);
-    this.props.fullProject.gateways.push(s);
-  }
-
   render() {
-    let project = this.props.fullProject;    
+    let project = this.props.project;    
     var devices = [];
     var gateways = [];
     if (project && project.devices)
@@ -94,8 +78,8 @@ export default class ProjectNodeCard extends Component {
           handleClose={() => this.setState({ modalEdit: false })}
           onSubmit={s => {
             this.props.updateProjectName(project.id, '"' + s.name + '"'),
-              this.props.updateProjectDevices(project.id, s.devices),
-              this.props.updateProjectGateways(project.id, s.gateways);
+            this.props.updateProjectDevices(project.id, s.devices),
+            this.props.updateProjectGateways(project.id, s.gateways);
           }}
         />
         <AddProjectDeviceForm
@@ -108,8 +92,8 @@ export default class ProjectNodeCard extends Component {
           createGateway={this.props.createGateway}
           modalOpen={this.state.modalAddDevice}
           handleClose={() => this.setState({ modalAddDevice: false })}
-          onSubmit={s => {
-            this.props.updateProjectDevices(project.id, s.devices)
+          onSubmit={projectDevices => {
+            this.props.updateProjectDevices(project.id, projectDevices)
           }}
         />
         <AddProjectGatewayForm
@@ -122,8 +106,8 @@ export default class ProjectNodeCard extends Component {
           createGateway={this.props.createGateway}
           modalOpen={this.state.modalAddGateway}
           handleClose={() => this.setState({ modalAddGateway: false })}
-          onSubmit={s => {
-            this.props.updateProjectGateways(project.id, s.gateways);
+          onSubmit={projectGateways => {
+            this.props.updateProjectGateways(project.id, projectGateways);
           }}
         />
         <Grid

@@ -8051,10 +8051,10 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-waziup-js@2.0.0-alpha.9:
-  version "2.0.0-alpha.9"
-  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.0-alpha.9.tgz#3e9186b3932fa66eb4afb7afca78d18b340546b9"
-  integrity sha512-+C5VVClgwsL/s9oTO/Z7Hhe+TPslj+xmlMRMLI3n9BSnTe11oWoRO222nd3yKsHKgeeZz6ZU1kAf2pr3KtMuHw==
+waziup-js@2.0.0-alpha.13:
+  version "2.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.0-alpha.13.tgz#0145971d00a8534bbef25645b2edfc0466f5cec0"
+  integrity sha512-F9wgRFdsIjDPJAjQGn67eS/IsQYIBu41KvMjbW9LE9LCazdfwYUYsrpS5+hVdfOQCMZpcBjdY/1xRqwbpcXWUg==
   dependencies:
     superagent "3.5.2"
 

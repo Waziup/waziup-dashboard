@@ -398,7 +398,6 @@ export function getProjects(params) {
     params = { limit: 1000 };
   }
   return async function (dispatch) {
-    const  params = { full: true };
     dispatch({ type: types.GET_PROJECTS_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
@@ -411,12 +410,12 @@ export function getProjects(params) {
 }
 
 
-export function getProject(id) {
+export function getProject(id, params) {
   return async function (dispatch) {
     dispatch({ type: types.GET_PROJECT_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
-      const data = await projectsApi.getProject(id);
+      const data = await projectsApi.getProject(id, params);
       dispatch({ type: types.GET_PROJECT_SUCCESS, data });
     } catch (error) {
       dispatch({ type: types.GET_PROJECT_ERROR, data: error });

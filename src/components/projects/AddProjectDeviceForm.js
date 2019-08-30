@@ -37,39 +37,26 @@ const styles = theme => ({
 class AddProjectDeviceForm extends Component {
   constructor(props) {
     super(props);
-    const defaultProject = new Waziup.Project("MyProject");
-    defaultProject.name = "My project";
-    defaultProject.devices = [];
-    defaultProject.gateways = [];
     this.state = {
       newDevice: false,
       modalAddDevice: false,
       skipped: new Set(),
       devices: [],
       gateways: [],
-      project: this.props.project ? this.props.project : defaultProject
+      projectDevices: props.project ? props.project.devices.map((d) => d.id) : []
     };
   }
 
   addDevice(s) {
     this.props.createDevice(s);
-    var project = this.state.project;
-    var devices = this.state.devices;
-    this.state.project.devices.push(s.id);
-    this.state.devices.push(s);
-    this.setState({ project, devices });
+    //TODO: this cannot work because the device might not be created (for ex. error 422, 400...)
+    this.setState({ projectDevices : [...this.state.projectDevices, s.id], devices: [...this.state.devices, s] });
     this.props.getDevices();
   }
 
-  componentWillReceiveProps() {
-    if (this.props.isEdit) {
-      this.setState({ project: this.props.project });
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.project && nextProps.project !== this.state.project) {
-      this.setState({ project: nextProps.project });
+    if (nextProps.project && nextProps.project.devices) {
+      this.setState({ projectDevices: nextProps.project.devices.map((d) => d.id)});
     }
   }
 
@@ -96,13 +83,13 @@ class AddProjectDeviceForm extends Component {
 
   handleChange = (field, event) => {
     const value = event.target.value;
-    var project = this.state.project;
+    var projectDevices = this.state.projectDevices;
     switch (field) {
       case "devices":
-        project.devices = value;
+        projectDevices = value;
         break;
     }
-    this.setState({ project: project });
+    this.setState({ projectDevices: projectDevices });
   };
 
   render() {
@@ -123,14 +110,13 @@ class AddProjectDeviceForm extends Component {
         color="primary"
         key="submit"
         onTouchTap={() => {
-          this.props.onSubmit(this.state.project);
+          this.props.onSubmit(this.state.projectDevices);
           handleClose();
         }}
       >
         Submit
       </Button>
     ];
-
     return (
       <Dialog
         actions={actions}
@@ -175,13 +161,13 @@ class AddProjectDeviceForm extends Component {
                 <Select
                   multiple={true}
                   input={<Input name="devices" id="devices" />}
-                  value={this.state.project.devices}
+                  value={this.state.projectDevices}
                   onChange={s => this.handleChange("devices", s)}
                 >
                   {this.state.devices.map(s => (
                     <MenuItem
                       key={s.id}
-                      checked={this.state.project.devices.includes(s.id)}
+                      checked={this.state.projectDevices.includes(s.id)}
                       value={s.id}
                     >
                       {s.id}
@@ -209,7 +195,8 @@ class AddProjectDeviceForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    devices: state.devices.devices
+    devices: state.devices.devices,
+    project: state.project.project
   };
 }
 

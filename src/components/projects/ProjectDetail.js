@@ -10,7 +10,6 @@ import ProjectNodeCard from "./ProjectNodeCard";
 import {
   deleteProject,
   getProject,
-  getProjects,
   getDevices,
   getGateways,
   getDevicePermissions,
@@ -24,12 +23,12 @@ import {
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import projectImage from "../../images/project.png";
+import config from '../../config';
 
 class ProjectDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullProject: [],
       markers: [],
       position: [14.4974, 14.4524],
       locations: []
@@ -39,48 +38,46 @@ class ProjectDetail extends Component {
   componentWillMount() {
     this.props.getDevicePermissions();
     this.props.getProjectPermissions();
-    this.props.getProject(this.props.params.projectId);
-  }
-  componentDidMount() {
     this.props.getDevices({ limit: 1000 });
-    this.props.getProjects({ full: true });
     this.props.getGateways();
-    var self = this;
+    this.props.getProject(this.props.params.projectId, {full: true });
+    this.interval = setInterval(() => {
+      this.props.getProject(this.props.params.projectId, {full: true });
+    }, config.delayRefresh);
+  }
 
-    const fullProject = this.props.projects.find(function(project) {
-      return project.id == self.props.params.projectId;
-    });
-    this.setState({ fullProject: fullProject });
+  componentWillReceiveProps(nextProps) {
+
     const markers = [];
     const locations = [];
-    if(fullProject)
-    fullProject.devices.forEach(device => {
-      if (device.location) {
-        locations.push([device.location.latitude, device.location.longitude]);
-        markers.push(
-          <Marker
-            key={device.id}
-            position={[device.location.latitude, device.location.longitude]}
-          >
-            <Popup>
-              <span>
-                <a onClick={() => browserHistory.push(`/devices/${device.id}`)}>
-                  {" "}
-                  {device.id}
-                </a>
-              </span>
-            </Popup>
-          </Marker>
-        );
-      }
-    });
+    if(nextProps.project && nextProps.project.devices) {
+      nextProps.project.devices.forEach(device => {
+        if (device.location) {
+          locations.push([device.location.latitude, device.location.longitude]);
+          markers.push(
+            <Marker
+              key={device.id}
+              position={[device.location.latitude, device.location.longitude]}
+            >
+              <Popup>
+                <span>
+                  <a onClick={() => browserHistory.push(`/devices/${device.id}`)}>
+                    {" "}
+                    {device.id}
+                  </a>
+                </span>
+              </Popup>
+            </Marker>
+          );
+        }
+      });
+    }
     this.setState({ locations });
     this.setState({ markers });
   }
 
   render() {
     let renderElement = <h1> Project view is being loaded... </h1>;
-    console.log(`sens:${JSON.stringify(this.props.project)}`);
     const project = this.props.project;
     if (project) {
       renderElement = (
@@ -107,7 +104,6 @@ class ProjectDetail extends Component {
             permission={this.props.permission}
             project={project}
             devices={this.props.devices}
-            fullProject={this.state.fullProject}
             gateways={this.props.gateways}
             updateProjectName={this.props.updateProjectName}
             updateProjectDevices={this.props.updateProjectDevices}
@@ -149,7 +145,6 @@ class ProjectDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     project: state.project.project,
-    projects: state.projects.projects,
     permission: state.permissions.project.find(
       p => p.resource == ownProps.params.projectId
     ),
@@ -161,11 +156,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getProject: id => {
-      dispatch(getProject(id));
-    },
-    getProjects: params => {
-      dispatch(getProjects(params));
+    getProject: (id, options) => {
+      dispatch(getProject(id, options));
     },
     createDevice: device => {
       dispatch(createDevice(device));
