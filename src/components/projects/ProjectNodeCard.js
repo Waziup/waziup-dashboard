@@ -221,6 +221,10 @@ export default class ProjectNodeCard extends Component {
         >
           <Grid item md={12} lg={3}>
           <div className="boardIcon">
+            <span className="Typography">
+              {" "}
+              {(project.name ? project.name + " " : "") + "(" + project.id + ")"}
+            </span>
             <img
               src={projectImage}
               height="75"
@@ -240,21 +244,6 @@ export default class ProjectNodeCard extends Component {
                     : "")
                 : ""}{" "}
             </pre>
-            <span className="Typography">
-              {" "}
-              {(project.name ? project.name + " " : "") + "(" + project.id + ")"}
-              <pre>
-                  {" "}
-                  {project.owner
-                    ? "owner: " +
-                    project.owner +
-                      (this.props.user &&
-                        project.owner == this.props.user.username
-                        ? " (you)"
-                        : "")
-                    : ""}{" "}
-                </pre>
-            </span>
           </div>
           </Grid>
           <Grid item md={12} lg={9}>
