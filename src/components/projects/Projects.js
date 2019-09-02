@@ -16,6 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 class Projects extends Component {
+  interval = 0;
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +33,10 @@ class Projects extends Component {
     }, config.delayRefresh);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+  
   render() {
     return (
       <Container fluid={true} style={{paddingBottom: '100px'}}>

@@ -42,6 +42,7 @@ const styles = theme => ({
 });
 
 class Devices extends Component {
+  interval = 0;
   constructor(props) {
     super(props);
     let defaultFilter = {
@@ -74,7 +75,6 @@ class Devices extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
-
   }
   
   componentWillReceiveProps(nextProps) { 

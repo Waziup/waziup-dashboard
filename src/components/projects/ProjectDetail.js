@@ -26,6 +26,7 @@ import projectImage from "../../images/project.png";
 import config from '../../config';
 
 class ProjectDetail extends Component {
+  interval = 0;
   constructor(props) {
     super(props);
     this.state = {
@@ -46,8 +47,11 @@ class ProjectDetail extends Component {
     }, config.delayRefresh);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
 
+  componentWillReceiveProps(nextProps) {
     const markers = [];
     const locations = [];
     if(nextProps.project && nextProps.project.devices) {
