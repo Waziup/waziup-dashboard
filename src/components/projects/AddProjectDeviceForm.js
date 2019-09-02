@@ -43,7 +43,7 @@ class AddProjectDeviceForm extends Component {
       skipped: new Set(),
       devices: [],
       gateways: [],
-      projectDevices: props.project ? props.project.devices.map((d) => d.id) : []
+      projectDevices: props.project && props.project.devices ? props.project.devices.map((d) => d.id) : []
     };
   }
 

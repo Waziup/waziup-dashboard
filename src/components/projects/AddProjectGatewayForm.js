@@ -43,7 +43,7 @@ class AddProjectGatewayForm extends Component {
       skipped: new Set(),
       devices: [],
       gateways: [],
-      projectGateways: props.project ? props.project.gateways.map((d) => d.id) : []
+      projectGateways: props.project && props.project.gateways ? props.project.gateways.map((d) => d.id) : []
     };
   }
 
