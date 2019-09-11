@@ -40,10 +40,6 @@ const styles = theme => ({
   }
 });
 
-function getSteps() {
-  return ["Project details", "Add some devices", "Add some gateways"];
-}
-
 class ProjectForm extends Component {
   constructor(props) {
     super(props);
@@ -57,22 +53,24 @@ class ProjectForm extends Component {
       modalAddGateway: false,
       activeStep: 0,
       skipped: new Set(),
-      devices: [],
-      gateways: [],
+      devices: this.props.devices? this.props.devices.filter((dev) => dev.owner == this.props.user.username).sort(ProjectForm.compare): [],
+      gateways: this.props.gateways? this.props.gateways: [],
       domains: ["agriculture", "fishing", "poultry"],
       project: this.props.project ? this.props.project : defaultProject
     };
   }
 
-  componentWillMount() {
-    this.getDevices();
-    this.getGateways();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return({...prevState,
+            project: nextProps.isEdit && !nextProps.modalOpen ? nextProps.project: prevState.project,  //Update project from props only in edit mode and if modal closed
+            devices: nextProps.devices.filter((dev) => dev.owner == nextProps.user.username).sort(ProjectForm.compare), //Filter own devices
+            gateways: nextProps.gateways});
   }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.isEdit) {
-      this.setState({ project: this.props.project });
-    }
+  
+  static compare(a, b) {
+    if (a.id < b.id) return -1;
+    if (a.id > b.id) return 1;
+    return 0;
   }
 
   handleNext = () => {
@@ -129,28 +127,6 @@ class ProjectForm extends Component {
     return this.state.skipped.has(step);
   }
 
-  compare(a, b) {
-    if (a.id < b.id) return -1;
-    if (a.id > b.id) return 1;
-    return 0;
-  }
-
-  getDevices() {
-    let allDevices = this.props.devices;
-    var self = this;
-    let myDevices = allDevices.filter(function(device) {
-      return device.owner == self.props.user.username;
-    });
-
-    let devices = myDevices.sort(this.compare);
-    this.setState({ devices: devices });
-  }
-
-  getGateways() {
-    let gateways = this.props.gateways;
-    this.setState({ gateways: gateways });
-  }
-
   handleChange = (field, event) => {
     const value = event.target.value;
     var project = this.state.project;
@@ -168,26 +144,6 @@ class ProjectForm extends Component {
     this.setState({ project: project });
   };
 
-  addDevice(s) {
-    this.props.createDevice(s);
-    var project = this.state.project;
-    var devices = this.state.devices;
-    this.state.project.device_ids.push(s.id);
-    this.state.devices.push(s);
-    this.setState({ project, devices });
-    this.props.getDevices();
-  }
-
-  addGateway(s) {
-    this.props.createGateway(s);
-    var project = this.state.project;
-    var gateways = this.state.gateways;
-    this.state.project.gateway_ids.push(s.id);
-    this.state.gateways.push(s);
-    this.setState({ project, gateways });
-    this.props.getGateways();
-  }
-
   getStepContent(step) {
     switch (step) {
       case 0:
@@ -203,22 +159,6 @@ class ProjectForm extends Component {
                 onChange={n => this.handleChange("name", n)}
               />
             </Grid>
-            {/* <Grid item xs={6}>
-              <FormControl style={{ display: "flex" }}>
-                <InputLabel htmlFor="gateways">Domain</InputLabel>
-                <Select
-                  input={<Input name="gateways" id="gateways" />}
-                  value={this.state.project.gateways}
-                  // onChange={s => this.handleChange("gateways", s)}
-                >
-                  {this.state.domains.map(s => (
-                    <MenuItem key={s} value={s}>
-                      {s}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid> */}
           </Grid>
         );
       case 1:
@@ -228,7 +168,11 @@ class ProjectForm extends Component {
               gateways={this.state.gateways}
               handleClose={() => this.setState({ modalAddDevice: false })}
               modalOpen={this.state.modalAddDevice}
-              onSubmit={s => this.addDevice(s)}
+              onSubmit={s => {
+                this.props.createDevice(s);
+                this.setState({ project: {...this.state.project, device_ids: [...this.state.project.device_ids, s.id]}}), 
+                this.props.getDevices();
+              }}
             />
             <Grid item xs={6}>
               <Grid
@@ -279,7 +223,11 @@ class ProjectForm extends Component {
             <GatewayForm
               handleClose={() => this.setState({ modalAddGateway: false })}
               modalOpen={this.state.modalAddGateway}
-              onSubmit={s => this.addGateway(s)}
+              onSubmit={s => { 
+                this.props.createGateway(s);
+                this.setState({ project: {...this.state.project, gateway_ids: [...this.state.project.gateway_ids, s.id]}}), 
+                this.props.getGateways();
+              }}
             />
             <Grid item xs={6}>
               <Grid
@@ -332,9 +280,10 @@ class ProjectForm extends Component {
   isStepOptional = step => {
     return step === 1 || step === 2;
   };
+
   render() {
     const { classes } = this.props;
-    const steps = getSteps();
+    const steps = ["Project details", "Add some devices", "Add some gateways"];
     const { activeStep } = this.state;
 
     const { modalOpen, handleClose, onSubmit } = this.props;
@@ -404,7 +353,6 @@ class ProjectForm extends Component {
         fullWidth={true}
       >
         <DialogTitle>
-          {/* {this.props.isEdit ? "Update A Project" : "Add A Project"} */}
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const props = {};

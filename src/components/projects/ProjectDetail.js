@@ -42,7 +42,12 @@ class ProjectDetail extends Component {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
+
     this.interval = setInterval(() => {
+      this.props.getDevicePermissions();
+      this.props.getProjectPermissions();
+      this.props.getDevices({ limit: 1000 });
+      this.props.getGateways();
       this.props.getProject(this.props.params.projectId, {full: true });
     }, config.delayRefresh);
   }
