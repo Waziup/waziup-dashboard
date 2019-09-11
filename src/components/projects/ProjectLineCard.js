@@ -35,12 +35,12 @@ export default class ProjectLineCard extends Component {
             <div className="boardIcon" style={{'margin-right':'20px'}}>
               <img src={gatewayImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
               <br />
-              <span className="Typography"> {project.gateways.length} gateways</span>
+              <span className="Typography"> {project.gateway_ids? project.gateway_ids.length: 0} gateways</span>
             </div>  
             <div className="boardIcon">
               <img src={deviceImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
               <br />
-              <span className="Typography"> {project.devices.length} devices</span>
+              <span className="Typography"> {project.device_ids? project.device_ids.length: 0} devices</span>
             </div>             
           </Grid>
         </div>

@@ -457,7 +457,7 @@ export function updateProjectDevices(projectId, devices) {
     dispatch({ type: types.UPDATE_PROJECT_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
-      const data = await projectsApi.putDevices(projectId, devices);
+      const data = await projectsApi.putDevice_ids(projectId, devices);
       dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
       dispatch(getProjects());
     } catch (error) {
@@ -471,7 +471,7 @@ export function updateProjectGateways(projectId, gateways) {
     dispatch({ type: types.UPDATE_PROJECT_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
-      const data = await projectsApi.putGateways(projectId, gateways);
+      const data = await projectsApi.putGateway_ids(projectId, gateways);
       dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
       dispatch(getProjects());
     } catch (error) {
