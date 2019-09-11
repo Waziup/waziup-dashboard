@@ -78,36 +78,8 @@ export default class ProjectNodeCard extends Component {
           handleClose={() => this.setState({ modalEdit: false })}
           onSubmit={s => {
             this.props.updateProjectName(project.id, '"' + s.name + '"'),
-            this.props.updateProjectDevices(project.id, s.devices),
-            this.props.updateProjectGateways(project.id, s.gateways);
-          }}
-        />
-        <AddProjectDeviceForm
-          isEdit={true}
-          user={this.props.user}
-          project={this.props.project}
-          devices={this.props.devices}
-          gateways={this.props.gateways}
-          createDevice={this.props.createDevice}
-          createGateway={this.props.createGateway}
-          modalOpen={this.state.modalAddDevice}
-          handleClose={() => this.setState({ modalAddDevice: false })}
-          onSubmit={projectDevices => {
-            this.props.updateProjectDevices(project.id, projectDevices)
-          }}
-        />
-        <AddProjectGatewayForm
-          isEdit={true}
-          user={this.props.user}
-          project={this.props.project}
-          devices={this.props.devices}
-          gateways={this.props.gateways}
-          createGateway={this.props.createGateway}
-          createGateway={this.props.createGateway}
-          modalOpen={this.state.modalAddGateway}
-          handleClose={() => this.setState({ modalAddGateway: false })}
-          onSubmit={projectGateways => {
-            this.props.updateProjectGateways(project.id, projectGateways);
+            this.props.updateProjectDevices(project.id, s.device_ids),
+            this.props.updateProjectGateways(project.id, s.gateway_ids);
           }}
         />
         <Grid
@@ -163,46 +135,6 @@ export default class ProjectNodeCard extends Component {
                       }}
                     >
                       Edit
-                    </Button>
-                  </Hidden>
-                </div>
-              ) : null}
-              {this.props.permission &&
-              this.props.permission.scopes.includes("projects:update") ? (
-                <div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <AddCircleIcon
-                      onClick={() => this.setState({ modalAddDevice: true })}
-                    />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <Button
-                      className="topRightButton"
-                      variant="contained"
-                      color="primary"
-                      onTouchTap={() => this.setState({ modalAddDevice: true })}
-                    >
-                      Add a device
-                    </Button>
-                  </Hidden>
-                </div>
-              ) : null}
-              {this.props.permission &&
-              this.props.permission.scopes.includes("projects:update") ? (
-                <div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <AddCircleIcon
-                      onClick={() => this.setState({ modalAddDevice: true })}
-                    />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <Button
-                      className="topRightButton"
-                      variant="contained"
-                      color="primary"
-                      onTouchTap={() => this.setState({ modalAddGateway: true })}
-                    >
-                      Add a gateway
                     </Button>
                   </Hidden>
                 </div>
@@ -282,3 +214,71 @@ export default class ProjectNodeCard extends Component {
     user: PropTypes.object.isRequired
   };
 }
+//        <AddProjectDeviceForm
+//          isEdit={true}
+//          user={this.props.user}
+//          project={this.props.project}
+//          devices={this.props.devices}
+//          gateways={this.props.gateways}
+//          createDevice={this.props.createDevice}
+//          createGateway={this.props.createGateway}
+//          modalOpen={this.state.modalAddDevice}
+//          handleClose={() => this.setState({ modalAddDevice: false })}
+//          onSubmit={projectDevices => {
+//            this.props.updateProjectDevices(project.id, projectDevices)
+//          }}
+//        />
+//        <AddProjectGatewayForm
+//          isEdit={true}
+//          user={this.props.user}
+//          project={this.props.project}
+//          devices={this.props.devices}
+//          gateways={this.props.gateways}
+//          createGateway={this.props.createGateway}
+//          createGateway={this.props.createGateway}
+//          modalOpen={this.state.modalAddGateway}
+//          handleClose={() => this.setState({ modalAddGateway: false })}
+//          onSubmit={projectGateways => {
+//            this.props.updateProjectGateways(project.id, projectGateways);
+//          }}
+//        />
+//              {this.props.permission &&
+//              this.props.permission.scopes.includes("projects:update") ? (
+//                <div className="cardTitleIcons">
+//                  <Hidden mdUp implementation="css">
+//                    <AddCircleIcon
+//                      onClick={() => this.setState({ modalAddDevice: true })}
+//                    />
+//                  </Hidden>
+//                  <Hidden smDown implementation="css">
+//                    <Button
+//                      className="topRightButton"
+//                      variant="contained"
+//                      color="primary"
+//                      onTouchTap={() => this.setState({ modalAddDevice: true })}
+//                    >
+//                      Add a device
+//                    </Button>
+//                  </Hidden>
+//                </div>
+//              ) : null}
+//              {this.props.permission &&
+//              this.props.permission.scopes.includes("projects:update") ? (
+//                <div className="cardTitleIcons">
+//                  <Hidden mdUp implementation="css">
+//                    <AddCircleIcon
+//                      onClick={() => this.setState({ modalAddDevice: true })}
+//                    />
+//                  </Hidden>
+//                  <Hidden smDown implementation="css">
+//                    <Button
+//                      className="topRightButton"
+//                      variant="contained"
+//                      color="primary"
+//                      onTouchTap={() => this.setState({ modalAddGateway: true })}
+//                    >
+//                      Add a gateway
+//                    </Button>
+//                  </Hidden>
+//                </div>
+//              ) : null}

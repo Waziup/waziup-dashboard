@@ -49,8 +49,8 @@ class ProjectForm extends Component {
     super(props);
     const defaultProject = new Waziup.Project("MyProject");
     defaultProject.name = "My project";
-    defaultProject.devices = [];
-    defaultProject.gateways = [];
+    defaultProject.device_ids = [];
+    defaultProject.gateway_ids = [];
     this.state = {
       newDevice: false,
       modalAddDevice: false,
@@ -64,11 +64,115 @@ class ProjectForm extends Component {
     };
   }
 
+  componentWillMount() {
+    this.getDevices();
+    this.getGateways();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isEdit) {
+      this.setState({ project: this.props.project });
+    }
+  }
+
+  handleNext = () => {
+    const { activeStep } = this.state;
+    let { skipped } = this.state;
+    if (this.isStepSkipped(activeStep)) {
+      skipped = new Set(skipped.values());
+      skipped.delete(activeStep);
+    }
+    this.setState({
+      activeStep: activeStep + 1,
+      skipped
+    });
+  };
+
+  handleBack = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1
+    }));
+  };
+
+  handleSwitchChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
+  handleSkip = () => {
+    const { activeStep } = this.state;
+    if (!this.isStepOptional(activeStep)) {
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    this.setState(state => {
+      const skipped = new Set(state.skipped.values());
+      skipped.add(activeStep);
+      return {
+        activeStep: state.activeStep + 1,
+        skipped
+      };
+    });
+  };
+
+  handleReset = () => {
+    const defaultProject = new Waziup.Project("MyProject");
+    defaultProject.name = "My project";
+    defaultProject.devices = [];
+    defaultProject.gateways = [];
+    this.setState({
+      activeStep: 0,
+      project: defaultProject
+    });
+  };
+
+  isStepSkipped(step) {
+    return this.state.skipped.has(step);
+  }
+
+  compare(a, b) {
+    if (a.id < b.id) return -1;
+    if (a.id > b.id) return 1;
+    return 0;
+  }
+
+  getDevices() {
+    let allDevices = this.props.devices;
+    var self = this;
+    let myDevices = allDevices.filter(function(device) {
+      return device.owner == self.props.user.username;
+    });
+
+    let devices = myDevices.sort(this.compare);
+    this.setState({ devices: devices });
+  }
+
+  getGateways() {
+    let gateways = this.props.gateways;
+    this.setState({ gateways: gateways });
+  }
+
+  handleChange = (field, event) => {
+    const value = event.target.value;
+    var project = this.state.project;
+    switch (field) {
+      case "devices":
+        project.device_ids = value;
+        break;
+      case "gateways":
+        project.gateway_ids = value;
+        break;
+      case "name":
+        project.name = value;
+        break;
+    }
+    this.setState({ project: project });
+  };
+
   addDevice(s) {
     this.props.createDevice(s);
     var project = this.state.project;
     var devices = this.state.devices;
-    this.state.project.devices.push(s.id);
+    this.state.project.device_ids.push(s.id);
     this.state.devices.push(s);
     this.setState({ project, devices });
     this.props.getDevices();
@@ -78,7 +182,7 @@ class ProjectForm extends Component {
     this.props.createGateway(s);
     var project = this.state.project;
     var gateways = this.state.gateways;
-    this.state.project.gateways.push(s.id);
+    this.state.project.gateway_ids.push(s.id);
     this.state.gateways.push(s);
     this.setState({ project, gateways });
     this.props.getGateways();
@@ -151,13 +255,13 @@ class ProjectForm extends Component {
                 <Select
                   multiple={true}
                   input={<Input name="devices" id="devices" />}
-                  value={this.state.project.devices}
+                  value={this.state.project.device_ids}
                   onChange={s => this.handleChange("devices", s)}
                 >
                   {this.state.devices.map(s => (
                     <MenuItem
                       key={s.id}
-                      checked={this.state.project.devices.includes(s.id)}
+                      checked={this.state.project.device_ids.includes(s.id)}
                       value={s.id}
                     >
                       {s.id}
@@ -202,13 +306,13 @@ class ProjectForm extends Component {
                 <Select
                   multiple={true}
                   input={<Input name="gateways" id="gateways" />}
-                  value={this.state.project.gateways}
+                  value={this.state.project.gateway_ids}
                   onChange={s => this.handleChange("gateways", s)}
                 >
                   {this.state.gateways.map(s => (
                     <MenuItem
                       key={s.id}
-                      checked={this.state.project.gateways.includes(s.id)}
+                      checked={this.state.project.gateway_ids.includes(s.id)}
                       value={s.id}
                     >
                       {s.id}
@@ -228,119 +332,6 @@ class ProjectForm extends Component {
   isStepOptional = step => {
     return step === 1 || step === 2;
   };
-
-  handleNext = () => {
-    const { activeStep } = this.state;
-    let { skipped } = this.state;
-    if (this.isStepSkipped(activeStep)) {
-      skipped = new Set(skipped.values());
-      skipped.delete(activeStep);
-    }
-    this.setState({
-      activeStep: activeStep + 1,
-      skipped
-    });
-  };
-
-  handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1
-    }));
-  };
-
-  handleSwitchChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-
-  handleSkip = () => {
-    const { activeStep } = this.state;
-    if (!this.isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    this.setState(state => {
-      const skipped = new Set(state.skipped.values());
-      skipped.add(activeStep);
-      return {
-        activeStep: state.activeStep + 1,
-        skipped
-      };
-    });
-  };
-
-  handleReset = () => {
-    const defaultProject = new Waziup.Project("MyProject");
-    defaultProject.name = "My project";
-    defaultProject.devices = [];
-    defaultProject.gateways = [];
-    this.setState({
-      activeStep: 0,
-      project: defaultProject
-    });
-  };
-
-  isStepSkipped(step) {
-    return this.state.skipped.has(step);
-  }
-
-  componentWillReceiveProps() {
-    if (this.props.isEdit) {
-      this.setState({ project: this.props.project });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.project && nextProps.project !== this.state.project) {
-      this.setState({ project: nextProps.project });
-    }
-  }
-
-  compare(a, b) {
-    if (a.id < b.id) return -1;
-    if (a.id > b.id) return 1;
-    return 0;
-  }
-
-  getDevices() {
-    let allDevices = this.props.devices;
-    var self = this;
-    let myDevices = allDevices.filter(function(device) {
-      return device.owner == self.props.user.username;
-    });
-
-    let devices = myDevices.sort(this.compare);
-    this.setState({ devices: devices });
-  }
-
-  getGateways() {
-    let gateways = this.props.gateways;
-    this.setState({ gateways: gateways });
-  }
-
-  componentWillMount() {
-    this.getDevices();
-    this.getGateways();
-  }
-
-  handleChange = (field, event) => {
-    const value = event.target.value;
-    var project = this.state.project;
-    switch (field) {
-      case "devices":
-        project.devices = value;
-        break;
-      case "gateways":
-        project.gateways = value;
-        break;
-      case "name":
-        project.name = value;
-        break;
-    }
-    this.setState({ project: project });
-  };
-
   render() {
     const { classes } = this.props;
     const steps = getSteps();

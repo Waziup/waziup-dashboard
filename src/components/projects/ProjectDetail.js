@@ -82,8 +82,7 @@ class ProjectDetail extends Component {
 
   render() {
     let renderElement = <h1> Project view is being loaded... </h1>;
-    const project = this.props.project;
-    if (project) {
+    if (this.props.project) {
       renderElement = (
         <Container fluid>
           <AppBar
@@ -106,12 +105,21 @@ class ProjectDetail extends Component {
               browserHistory.push("/projects");
             }}
             permission={this.props.permission}
-            project={project}
+            project={this.props.project}
             devices={this.props.devices}
             gateways={this.props.gateways}
-            updateProjectName={this.props.updateProjectName}
-            updateProjectDevices={this.props.updateProjectDevices}
-            updateProjectGateways={this.props.updateProjectGateways}
+            updateProjectName={(id, name) => {
+              this.props.updateProjectName(id, name);
+              this.props.getProject(this.props.params.projectId, {full: true });
+            }}
+            updateProjectDevices={(id, devs) => {
+              this.props.updateProjectDevices(id, devs);
+              this.props.getProject(this.props.params.projectId, {full: true });
+            }}
+            updateProjectGateways={(id, gws) => {
+              this.props.updateProjectGateways(id, gws);
+              this.props.getProject(this.props.params.projectId, {full: true });
+            }}
             user={this.props.user}
           />
           <Card className="deviceMap">
