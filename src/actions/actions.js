@@ -33,9 +33,9 @@ export function getDeviceAttributes(params) {
     try {
       const result = await devicesApi.getDevices(params);
       const domains = [...new Set(result.map(s => s.domain))];
-      const owners = [...new Set(result.map(s => s.owner))];
-      const ids = [...new Set(result.map(s => s.id))];
-      const names = [...new Set(result.map(s => s.name))];
+      const owners =  [...new Set(result.map(s => s.owner))];
+      const ids =     [...new Set(result.map(s => s.id))];
+      const names =   [...new Set(result.map(s => s.name))];
       const data = {domains,owners,ids,names}
       dispatch({ type: types.GET_DEVICE_ATTRIBUTES_SUCCESS, data });
     } catch (error) {
