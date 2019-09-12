@@ -26,6 +26,8 @@ import Typography from "@material-ui/core/Typography";
 import DeviceForm from "./../devices/device/DeviceForm.js";
 import GatewayForm from "./../gateways/AddGatewayForm";
 import Chip from '@material-ui/core/Chip';
+import ErrorBanner from '../ErrorBanner';
+import { Link } from "react-router";
 
 const styles = theme => ({
   root: {
@@ -150,6 +152,9 @@ class ProjectForm extends Component {
         return (
           <Grid container spacing={24}>
             <Grid item xs={12}>
+              <a href="https://www.waziup.io/documentation/1-dashboard/">What is a project?</a>
+            </Grid>
+            <Grid item sm={6}>
               <TextField
                 id="standard-name"
                 name="name"
@@ -174,7 +179,10 @@ class ProjectForm extends Component {
                 this.props.getDevices();
               }}
             />
-            <Grid item xs={6}>
+            <Grid item xs={12}>
+              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a device?</a>
+            </Grid>
+            <Grid item sm={6}>
               <Grid
                 row
                 container
@@ -193,7 +201,7 @@ class ProjectForm extends Component {
                 <Chip label="Or"  />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
                 <Select
@@ -229,7 +237,10 @@ class ProjectForm extends Component {
                 this.props.getGateways();
               }}
             />
-            <Grid item xs={6}>
+            <Grid item xs={12}>
+              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a gateway?</a>
+            </Grid>
+            <Grid item sm={6}>
               <Grid
                 row
                 container
@@ -248,7 +259,7 @@ class ProjectForm extends Component {
                 <Chip label="Or"  />
               </Grid>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="gateways">Gateways</InputLabel>
                 <Select
@@ -375,6 +386,9 @@ class ProjectForm extends Component {
           <hr />
         </DialogTitle>
         <DialogContent>
+          <ErrorBanner/>
+          <br/>
+          <br/>
           <div>
             <div>
               {activeStep === steps.length ? (
@@ -395,6 +409,7 @@ class ProjectForm extends Component {
               )}
             </div>
           </div>
+          <br/>
         </DialogContent>
         <DialogActions>{actions}</DialogActions>
       </Dialog>
