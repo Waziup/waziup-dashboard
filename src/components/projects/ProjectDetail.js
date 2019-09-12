@@ -131,23 +131,21 @@ class ProjectDetail extends Component {
             <Typography>
               <span className="Typography">Device Locations </span>
             </Typography>
-            <CardMedia>
-              <LeafletMap
-                ref="map"
-                center={
-                  this.state.locations.length
-                    ? this.state.locations[0]
-                    : this.state.position
-                }
-                zoom={5}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                />
-                {this.state.markers}
-              </LeafletMap>
-            </CardMedia>
+            <LeafletMap
+              ref="map"
+              center={
+                this.state.locations.length
+                  ? this.state.locations[0]
+                  : this.state.position
+              }
+              zoom={5}
+            >
+              <TileLayer
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+              />
+              {this.state.markers}
+            </LeafletMap>
           </Card>
         </Container>
       );
