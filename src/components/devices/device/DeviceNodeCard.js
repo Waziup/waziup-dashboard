@@ -74,7 +74,8 @@ export default class DeviceNodeCard extends Component {
           handleClose={() => this.setState({ modalEdit: false })}
           onSubmit={s => {
             this.props.updateDeviceName(device.id, s.name),
-              this.props.updateDeviceVisibility(device.id, s.visibility)
+            this.props.updateDeviceVisibility(device.id, s.visibility)
+            this.props.updateDeviceGatewayId(device.id, s.gateway_id)
           }} />
         <Grid container direction="row" justify="flex-start" spacing={24}>
           <Grid item md={12} lg={6}>

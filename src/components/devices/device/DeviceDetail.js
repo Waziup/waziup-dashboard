@@ -13,7 +13,7 @@ import DeviceNodeCard from './DeviceNodeCard';
 import LocationForm from './LocationForm';
 import {
   addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
-  updateDeviceLocation, updateDeviceName, updateDeviceVisibility,
+  updateDeviceLocation, updateDeviceName, updateDeviceVisibility, updateDeviceGatewayId,
   addActuator, deleteActuator, updateActuatorName,
 } from '../../../actions/actions.js';
 import deviceImage from '../../../images/device.png';
@@ -78,6 +78,7 @@ class DeviceDetail extends Component {
             updateActuator={this.props.addActuator}
             updateDeviceName={this.props.updateDeviceName}
             updateDeviceVisibility={this.props.updateDeviceVisibility}
+            updateDeviceGatewayId={this.props.updateDeviceGatewayId}
             user={this.props.user}
           />
           <Card className="deviceMap">
@@ -181,6 +182,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateDeviceVisibility: (id, v) => {
       dispatch(updateDeviceVisibility(id, v));
+    },
+    updateDeviceGatewayId: (id, v) => {
+      dispatch(updateDeviceGatewayId(id, v));
     },
     updateSensorName: (deviceId, sensId, n) => {
       dispatch(updateSensorName(deviceId, sensId, n));
