@@ -52,11 +52,7 @@ class DeviceDetail extends Component {
     const device = this.props.device;
     console.log(device);
     if (device) {
-      const position = device.location ? [
-        device.location.latitude, device.location.longitude,
-      ] : [
-        12.238, -1.561,
-      ];
+      const position = device.location ? [device.location.latitude, device.location.longitude] : [12.238, -1.561];
       console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
@@ -85,37 +81,35 @@ class DeviceDetail extends Component {
             user={this.props.user}
           />
           <Card className="deviceMap">
-            <Typography>
-              <span className="Typography">
-                {' '}
-                Location
-                {' '}
-              </span>
-              {this.props.permission && this.props.permission.scopes.includes('devices:update')
-                ? 
-                (<div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                  <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
-                  </Hidden>
-                </div>) : null}
-              <LocationForm
-                handleClose={() => this.setState({ modalLocation: false })}
-                initialLocation={device.location}
-                modalOpen={this.state.modalLocation}
-                onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
-                permission={this.props.permission}
-              />
-            </Typography>
-            <CardMedia>
-              <Map
-                ref="map"
-                center={position}
-                zoom={5}
-              >
-                <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+            <span className="Typography">
+              {' '}
+              Location
+              {' '}
+            </span>
+            {this.props.permission && this.props.permission.scopes.includes('devices:update')
+              ? 
+              (<div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
+                </Hidden>
+              </div>) : null}
+            <LocationForm
+              handleClose={() => this.setState({ modalLocation: false })}
+              initialLocation={device.location}
+              modalOpen={this.state.modalLocation}
+              onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
+              permission={this.props.permission}
+            />
+            <Map
+              ref="map"
+              center={position}
+              zoom={5}
+            >
+              <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+              {device.location? 
                 <Marker position={position}>
                   <Popup>
                     <span>
@@ -133,8 +127,8 @@ class DeviceDetail extends Component {
                     </span>
                   </Popup>
                 </Marker>
-              </Map>
-            </CardMedia>
+              :null}
+            </Map>
           </Card>
         </Container>
       );

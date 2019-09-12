@@ -86,7 +86,6 @@ export function keycloakLogin() {
 
   keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).success((authenticated) => {
     if (authenticated) {
-      console.log(JSON.stringify(keycloak));
       store.getState().keycloak = { token: keycloak.token, logout: keycloak.logout };
       store.getState().current_user = getUser(keycloak.idTokenParsed);
       setInterval(() => {
@@ -104,8 +103,8 @@ export function keycloakLogin() {
       displayPage();
     }
   }).error((error) => {
-    console.log(error);
-    console.log('Authentication error. Check Keycloak params and cors issues.');
+    console.error(error);
+    console.error('Authentication error. Check Keycloak params and cors issues.');
   });
 }
 

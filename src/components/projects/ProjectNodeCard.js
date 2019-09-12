@@ -41,7 +41,7 @@ export default class ProjectNodeCard extends Component {
         let deviceNodeNew =
           new Date() < Date.parse(d.date_created) + config.delayDeviceNodeNew;
         const card = (
-          <Link to={"/devices/" + d.id}>
+          <Link to={"/devices/" + d.id} key={d.id}>
             <DeviceLineCard
               device={d}
               user={this.props.user}
@@ -53,7 +53,7 @@ export default class ProjectNodeCard extends Component {
     if (project && project.gateways)
       for (let d of project.gateways) {
         const card = (
-          <Link to={"/gateways/" + d.id}>
+          <Link to={"/gateways/" + d.id} key={d.id}>
             <div className="boardIcon">
               <img src={gatewayImage} height="90" />
               <br />
@@ -63,7 +63,6 @@ export default class ProjectNodeCard extends Component {
         );
         gateways.push(card);
       }
-    console.log("perms:" + JSON.stringify(this.props.permission));
     return (
       <Card className="deviceNode">
         <ProjectForm
@@ -86,60 +85,57 @@ export default class ProjectNodeCard extends Component {
           container
           direction="row"
           justify="flex-start"
-          alignItems="left"
           spacing={24}
         >
           <Grid item md={12} lg={12}>
-            <Typography>
-              {this.props.permission &&
-              this.props.permission.scopes.includes("projects:delete") ? (
-                <div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <DeleteIcon
-                      onClick={() => {
-                        if (window.confirm("Delete a project?"))
-                          this.props.deleteProject(project.id);
-                      }}
-                    />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <Button
-                      className="topRightButton"
-                      variant="contained"
-                      color="primary"
-                      onTouchTap={() => {
-                        if (window.confirm("Delete a project?"))
-                          this.props.deleteProject(project.id);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </Hidden>
-                </div>
-              ) : null}
-              {this.props.permission &&
-              this.props.permission.scopes.includes("projects:update") ? (
-                <div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <EditIcon
-                      onClick={() => this.setState({ modalEdit: true })}
-                    />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <Button
-                      className="topRightButton"
-                      variant="contained"
-                      color="primary"
-                      onTouchTap={() => {
-                        this.setState({ modalEdit: true });
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </Hidden>
-                </div>
-              ) : null}
-            </Typography>
+            {this.props.permission &&
+            this.props.permission.scopes.includes("projects:delete") ? (
+              <div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <DeleteIcon
+                    onClick={() => {
+                      if (window.confirm("Delete a project?"))
+                        this.props.deleteProject(project.id);
+                    }}
+                  />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                  <Button
+                    className="topRightButton"
+                    variant="contained"
+                    color="primary"
+                    onTouchTap={() => {
+                      if (window.confirm("Delete a project?"))
+                        this.props.deleteProject(project.id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </Hidden>
+              </div>
+            ) : null}
+            {this.props.permission &&
+            this.props.permission.scopes.includes("projects:update") ? (
+              <div className="cardTitleIcons">
+                <Hidden mdUp implementation="css">
+                  <EditIcon
+                    onClick={() => this.setState({ modalEdit: true })}
+                  />
+                </Hidden>
+                <Hidden smDown implementation="css">
+                  <Button
+                    className="topRightButton"
+                    variant="contained"
+                    color="primary"
+                    onTouchTap={() => {
+                      this.setState({ modalEdit: true });
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </Hidden>
+              </div>
+            ) : null}
           </Grid>
         </Grid>
 
@@ -148,7 +144,6 @@ export default class ProjectNodeCard extends Component {
           container
           direction="row"
           justify="flex-start"
-          alignItems="left"
           spacing={24}
         >
           <Grid item md={12} lg={3}>
@@ -179,7 +174,7 @@ export default class ProjectNodeCard extends Component {
           </div>
           </Grid>
           <Grid item md={12} lg={9}>
-          <div class="gatewayDeviceNodes">
+          <div className="gatewayDeviceNodes">
             {devices.length ? (
               <Card className="deviceNode">
                 <span className="Typography"> Devices </span>
@@ -205,7 +200,6 @@ export default class ProjectNodeCard extends Component {
   }
 
   static propTypes = {
-    device: PropTypes.object.isRequired, //Should be a Waziup.Project
     updateProject: PropTypes.func,
     deleteProject: PropTypes.func,
     updateSensor: PropTypes.func,
@@ -214,71 +208,3 @@ export default class ProjectNodeCard extends Component {
     user: PropTypes.object.isRequired
   };
 }
-//        <AddProjectDeviceForm
-//          isEdit={true}
-//          user={this.props.user}
-//          project={this.props.project}
-//          devices={this.props.devices}
-//          gateways={this.props.gateways}
-//          createDevice={this.props.createDevice}
-//          createGateway={this.props.createGateway}
-//          modalOpen={this.state.modalAddDevice}
-//          handleClose={() => this.setState({ modalAddDevice: false })}
-//          onSubmit={projectDevices => {
-//            this.props.updateProjectDevices(project.id, projectDevices)
-//          }}
-//        />
-//        <AddProjectGatewayForm
-//          isEdit={true}
-//          user={this.props.user}
-//          project={this.props.project}
-//          devices={this.props.devices}
-//          gateways={this.props.gateways}
-//          createGateway={this.props.createGateway}
-//          createGateway={this.props.createGateway}
-//          modalOpen={this.state.modalAddGateway}
-//          handleClose={() => this.setState({ modalAddGateway: false })}
-//          onSubmit={projectGateways => {
-//            this.props.updateProjectGateways(project.id, projectGateways);
-//          }}
-//        />
-//              {this.props.permission &&
-//              this.props.permission.scopes.includes("projects:update") ? (
-//                <div className="cardTitleIcons">
-//                  <Hidden mdUp implementation="css">
-//                    <AddCircleIcon
-//                      onClick={() => this.setState({ modalAddDevice: true })}
-//                    />
-//                  </Hidden>
-//                  <Hidden smDown implementation="css">
-//                    <Button
-//                      className="topRightButton"
-//                      variant="contained"
-//                      color="primary"
-//                      onTouchTap={() => this.setState({ modalAddDevice: true })}
-//                    >
-//                      Add a device
-//                    </Button>
-//                  </Hidden>
-//                </div>
-//              ) : null}
-//              {this.props.permission &&
-//              this.props.permission.scopes.includes("projects:update") ? (
-//                <div className="cardTitleIcons">
-//                  <Hidden mdUp implementation="css">
-//                    <AddCircleIcon
-//                      onClick={() => this.setState({ modalAddDevice: true })}
-//                    />
-//                  </Hidden>
-//                  <Hidden smDown implementation="css">
-//                    <Button
-//                      className="topRightButton"
-//                      variant="contained"
-//                      color="primary"
-//                      onTouchTap={() => this.setState({ modalAddGateway: true })}
-//                    >
-//                      Add a gateway
-//                    </Button>
-//                  </Hidden>
-//                </div>
-//              ) : null}

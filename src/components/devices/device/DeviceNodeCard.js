@@ -76,7 +76,7 @@ export default class DeviceNodeCard extends Component {
             this.props.updateDeviceName(device.id, s.name),
               this.props.updateDeviceVisibility(device.id, s.visibility)
           }} />
-        <Grid container direction="row" justify="flex-start" alignItems="left" spacing={24}>
+        <Grid container direction="row" justify="flex-start" spacing={24}>
           <Grid item md={12} lg={6}>
             <span className="Typography"> {(device.name ? device.name + " " : "") + "(" + device.id + ")"} </span>
           </Grid>

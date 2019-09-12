@@ -43,20 +43,18 @@ const styles = theme => ({
 });
 
 class ProjectForm extends Component {
+
+  defaultProject = new Waziup.Project.constructFromObject({name: "My Project", device_ids: [], gateway_ids: []});
+
   constructor(props) {
     super(props);
-    const defaultProject = new Waziup.Project("MyProject");
-    defaultProject.name = "My project";
-    defaultProject.device_ids = [];
-    defaultProject.gateway_ids = [];
     this.state = {
       modalAddDevice: false,
       modalAddGateway: false,
       activeStep: 0,
       devices: this.props.devices? this.props.devices.filter((dev) => dev.owner == this.props.user.username).sort(ProjectForm.compare): [],
       gateways: this.props.gateways? this.props.gateways: [],
-      domains: ["agriculture", "fishing", "poultry"],
-      project: this.props.project ? this.props.project : defaultProject
+      project: this.props.project ? this.props.project : this.defaultProject
     };
   }
 
@@ -245,53 +243,47 @@ class ProjectForm extends Component {
     const { classes } = this.props;
     const steps = ["Project details", "Add devices", "Add gateways"];
     const { activeStep } = this.state;
-
     const { modalOpen, handleClose, onSubmit } = this.props;
     const actions = [
       <Button
         key="cancel"
         variant="contained"
         color="primary"
-        onTouchTap={() => {
-          handleClose();
-        }}
+        onTouchTap={() => {handleClose();}}
         className={classes.button}
       >
         Cancel
       </Button>,
-      <div>
-        <Button
-          disabled={activeStep === 0}
-          onClick={this.handleBack}
-          className={classes.button}
-        >
-          Back
-        </Button>
-        {activeStep !== steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleNext}
-            className={classes.button}
-          >
-            Next
-          </Button>
-        )}
-        {activeStep === steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onTouchTap={() => {
-              this.props.onSubmit(this.state.project);
-              handleClose();
-              this.handleReset();
-            }}
-            className={classes.button}
-          >
-            Finish
-          </Button>
-        )}
-      </div>
+      <Button
+        key="back"
+        disabled={activeStep === 0}
+        onClick={this.handleBack}
+        className={classes.button}
+      >
+        Back
+      </Button>,
+      <Button
+        key="next"
+        variant="contained"
+        color="primary"
+        onClick={this.handleNext}
+        className={classes.button}
+      >
+        Next
+      </Button>,
+      <Button
+        key="finish"
+        variant="contained"
+        color="primary"
+        onTouchTap={() => {
+          this.props.onSubmit(this.state.project);
+          handleClose();
+          this.setState({activeStep: 0, project: this.defaultProject});
+        }}
+        className={classes.button}
+      >
+        Finish
+      </Button>
     ];
 
     return (
@@ -319,22 +311,7 @@ class ProjectForm extends Component {
           <br/>
           <br/>
           <div>
-            <div>
-              {activeStep === steps.length ? (
-                <div>
-                  <Typography className={classes.instructions}>
-                    You've successfully created a project
-                  </Typography>
-                  <Button onClick={this.handleReset} className={classes.button}>
-                    Add other project
-                  </Button>
-                </div>
-              ) : (
-                <div>
-                    {this.getStepContent(activeStep)}
-                </div>
-              )}
-            </div>
+            {this.getStepContent(activeStep)}
           </div>
           <br/>
         </DialogContent>
@@ -345,6 +322,8 @@ class ProjectForm extends Component {
 
   static propTypes = {
     project: PropTypes.object, //Should be a Waziup.Project
+    devices: PropTypes.array, //Should be an array of ids 
+    gateways: PropTypes.array, //Should be an array of ids
     modalOpen: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
