@@ -50,11 +50,9 @@ class ProjectForm extends Component {
     defaultProject.device_ids = [];
     defaultProject.gateway_ids = [];
     this.state = {
-      newDevice: false,
       modalAddDevice: false,
       modalAddGateway: false,
       activeStep: 0,
-      skipped: new Set(),
       devices: this.props.devices? this.props.devices.filter((dev) => dev.owner == this.props.user.username).sort(ProjectForm.compare): [],
       gateways: this.props.gateways? this.props.gateways: [],
       domains: ["agriculture", "fishing", "poultry"],
@@ -76,58 +74,13 @@ class ProjectForm extends Component {
   }
 
   handleNext = () => {
-    const { activeStep } = this.state;
-    let { skipped } = this.state;
-    if (this.isStepSkipped(activeStep)) {
-      skipped = new Set(skipped.values());
-      skipped.delete(activeStep);
-    }
-    this.setState({
-      activeStep: activeStep + 1,
-      skipped
-    });
+    this.setState({activeStep: this.state.activeStep + 1});
   };
 
   handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1
-    }));
+    this.setState(state => ({activeStep: this.state.activeStep - 1}));
   };
 
-  handleSwitchChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-
-  handleSkip = () => {
-    const { activeStep } = this.state;
-    if (!this.isStepOptional(activeStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    this.setState(state => {
-      const skipped = new Set(state.skipped.values());
-      skipped.add(activeStep);
-      return {
-        activeStep: state.activeStep + 1,
-        skipped
-      };
-    });
-  };
-
-  handleReset = () => {
-    const defaultProject = new Waziup.Project("MyProject");
-    defaultProject.name = "My project";
-    defaultProject.devices = [];
-    defaultProject.gateways = [];
-    this.setState({
-      activeStep: 0,
-      project: defaultProject
-    });
-  };
-
-  isStepSkipped(step) {
-    return this.state.skipped.has(step);
-  }
 
   handleChange = (field, event) => {
     const value = event.target.value;
@@ -288,13 +241,9 @@ class ProjectForm extends Component {
     }
   }
 
-  isStepOptional = step => {
-    return step === 1 || step === 2;
-  };
-
   render() {
     const { classes } = this.props;
-    const steps = ["Project details", "Add some devices", "Add some gateways"];
+    const steps = ["Project details", "Add devices", "Add gateways"];
     const { activeStep } = this.state;
 
     const { modalOpen, handleClose, onSubmit } = this.props;
@@ -318,16 +267,6 @@ class ProjectForm extends Component {
         >
           Back
         </Button>
-        {this.isStepOptional(activeStep) && activeStep !== steps.length - 1 && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={this.handleSkip}
-            className={classes.button}
-          >
-            Skip
-          </Button>
-        )}
         {activeStep !== steps.length - 1 && (
           <Button
             variant="contained"
@@ -366,19 +305,9 @@ class ProjectForm extends Component {
         <DialogTitle>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
-              const props = {};
-              const labelProps = {};
-              if (this.isStepOptional(index)) {
-                labelProps.optional = (
-                  <Typography variant="caption">Optional</Typography>
-                );
-              }
-              if (this.isStepSkipped(index)) {
-                props.completed = false;
-              }
               return (
-                <Step key={label} {...props}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
                 </Step>
               );
             })}
@@ -402,9 +331,7 @@ class ProjectForm extends Component {
                 </div>
               ) : (
                 <div>
-                  <Typography className={classes.instructions}>
                     {this.getStepContent(activeStep)}
-                  </Typography>
                 </div>
               )}
             </div>
