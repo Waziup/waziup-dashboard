@@ -456,28 +456,17 @@ function messagesReducer(state = [], action = null) {
   if (error) {
     let errorContext = null;
     if (action.data.response) {
-      console.log(action.data.response);
-      
+      console.error(action.data.response);
       errorContext = `${action.data.response.status} ${action.data.response.text}`;
+      return [...state, {msg: `${msg}: ${errorContext}`, error: true}];
     } else {
-      errorContext = 'Client error. Please check web console for details.';
+     // errorContext = 'Client error. Please check web console for details.';
       console.error(`client error: ${action.data}`);
+      return state;
     }
-    return [
-      ...state,
-      {
-        msg: `${msg}: ${errorContext}`,
-        error: true,
-      },
-    ];
+  } else {
+    return [...state, {msg, error: false}];
   }
-  return [
-    ...state,
-    {
-      msg,
-      error: false,
-    },
-  ];
 }
 
 // Get all permissions
