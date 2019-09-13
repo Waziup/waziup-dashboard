@@ -24,6 +24,15 @@ class Notifications extends Component {
     this.props.getDevices({ limit: 1000 });
     this.props.getNotifs();
     this.props.getUsers();
+    this.interval = setInterval(() => {
+      this.props.getDevices({ limit: 1000 });
+      this.props.getNotifs();
+      this.props.getUsers();
+    }, config.delayRefresh);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
