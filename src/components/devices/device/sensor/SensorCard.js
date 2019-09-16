@@ -25,20 +25,20 @@ export default class SensorCard extends Component {
     let title = sens.value ? "Date received: " + sens.value.date_received : "No data yet"
 
     return (
-      <Link to={"/devices/" + this.props.deviceId + "/sensors/" + sens.id} > 
-        <Card className={"card " + activeStyle}>
-          <SensorForm modalOpen={this.state.modalEdit}
-                           handleClose={()=>{this.setState({modalEdit: false})}}
-                           onSubmit={(m) => {this.props.updateSensor(this.props.deviceId, m); this.setState({modalEdit: false});}}
-                           isEdit={true}
-                           sensor={sens}/>
-          <div className="TypographyDiv">
-            <pre className="Typography"> {sens.name? sens.name : "(" + sens.id + ")"} </pre>
-            <div className="cardTitleIcons"> 
-              {this.props.permission.scopes.includes("devices:update")? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
-              {this.props.permission.scopes.includes("devices:update")? <DeleteIcon onClick={() => {if(window.confirm('Delete sensor?')) this.props.deleteSensor(this.props.deviceId, sens.id)}}/>: null}
-            </div>
+      <Card className={"card " + activeStyle}>
+        <SensorForm modalOpen={this.state.modalEdit}
+                         handleClose={()=>{this.setState({modalEdit: false})}}
+                         onSubmit={(m) => {this.props.updateSensor(this.props.deviceId, m); this.setState({modalEdit: false});}}
+                         isEdit={true}
+                         sensor={sens}/>
+        <div className="TypographyDiv">
+          <pre className="Typography"> {sens.name? sens.name : "(" + sens.id + ")"} </pre>
+          <div className="cardTitleIcons"> 
+            {this.props.permission.scopes.includes("devices:update")? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null}
+            {this.props.permission.scopes.includes("devices:update")? <DeleteIcon onClick={() => {if(window.confirm('Delete sensor?')) this.props.deleteSensor(this.props.deviceId, sens.id)}}/>: null}
           </div>
+        </div>
+        <Link to={"/devices/" + this.props.deviceId + "/sensors/" + sens.id} > 
           <div className="cardContent">
             <div className="sensIcon">
               <SensIcon sensor_kind={sens.sensor_kind} height="75" title={title}/>
@@ -47,8 +47,8 @@ export default class SensorCard extends Component {
               <h3> {(sens.value? JSON.stringify(sens.value.value).replace(/"/g, ""): "") + " " + (sens.unit? Waziup.Units.getLabel(sens.unit): "")} </h3>
             </div>
           </div>
-        </Card>
-      </Link>
+        </Link>
+      </Card>
     );
   }
   
