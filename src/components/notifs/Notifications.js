@@ -13,6 +13,7 @@ import {
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import notificationImage from '../../images/notification.png';
+import config from '../../config';
 
 class Notifications extends Component {
   constructor(props) {
