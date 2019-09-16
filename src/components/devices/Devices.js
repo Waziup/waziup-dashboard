@@ -268,18 +268,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    createDevice: (device) => {
-      dispatch(createDevice(device));
-    },
-    getDevices: (params) => {
-      dispatch(getDevices(params));
-    },
-    getDeviceAttributes: (params) => {
-      dispatch(getDeviceAttributes(params));
-    },
-  };
+const mapDispatchToProps= {
+  createDevice,
+  getDevices,
+  getDeviceAttributes
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Devices));

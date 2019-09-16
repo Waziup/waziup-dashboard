@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import GatewayNodeCard from './GatewayNodeCard'
 import {
   addSensor, deleteSensor, deleteGateway, getGateway, updateSensorName,
-  addActuator, deleteActuator, updateActuatorName,
+  addActuator, deleteActuator, updateActuatorName, getGatewayPermissions,
 } from '../../actions/actions.js';
 import gatewayImage from '../../images/gateway.png';
 import config from '../../config';
@@ -23,8 +23,10 @@ class GatewayDetail extends Component {
 
   componentWillMount() {
     this.props.getGateway(this.props.params.gatewayId);
+    this.props.getGatewayPermissions();
     this.interval = setInterval(() => {
       this.props.getGateway(this.props.params.gatewayId);
+      this.props.getGatewayPermissions();
     }, config.delayRefresh);
   }
 
@@ -95,33 +97,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getGateway: (id) => {
-      dispatch(getGateway(id));
-    },
-    addSensor: (id, m) => {
-      dispatch(addSensor(id, m));
-    },
-    deleteSensor: (sid, mid) => {
-      dispatch(deleteSensor(sid, mid));
-    },
-    addActuator: (id, m) => {
-      dispatch(addActuator(id, m));
-    },
-    deleteActuator: (aid, mid) => {
-      dispatch(deleteActuator(aid, mid));
-    },
-    deleteGateway: (id) => {
-      dispatch(deleteGateway(id));
-    },
-    updateSensorName: (gatewayId, sensId, n) => {
-      dispatch(updateSensorName(gatewayId, sensId, n));
-    },
-    updateActuatorName: (gatewayId, actuId, n) => {
-      dispatch(updateActuatorName(gatewayId, actuId, n));
-    },
-  };
+const mapDispatchToProps = {
+  getGateway,
+  getGatewayPermissions,
+  addSensor,
+  deleteSensor,
+  addActuator,
+  deleteActuator,
+  deleteGateway,
+  updateSensorName,
+  updateActuatorName
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GatewayDetail);

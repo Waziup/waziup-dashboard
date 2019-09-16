@@ -169,42 +169,18 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getProject: (id, options) => {
-      dispatch(getProject(id, options));
-    },
-    createDevice: device => {
-      dispatch(createDevice(device));
-    },
-    createGateway: device => {
-      dispatch(createGateway(device));
-    },
-    getDevicePermissions: () => {
-      dispatch(getDevicePermissions());
-    },
-    getProjectPermissions: () => {
-      dispatch(getProjectPermissions());
-    },
-    deleteProject: id => {
-      dispatch(deleteProject(id));
-    },
-    updateProjectName: (id, n) => {
-      dispatch(updateProjectName(id, n));
-    },
-    updateProjectDevices: (id, n) => {
-      dispatch(updateProjectDevices(id, n));
-    },
-    updateProjectGateways: (id, n) => {
-      dispatch(updateProjectGateways(id, n));
-    },
-    getDevices: params => {
-      dispatch(getDevices(params));
-    },
-    getGateways: params => {
-      dispatch(getGateways(params));
-    }
-  };
+const mapDispatchToProps = {
+  getProject,
+  createDevice,
+  createGateway,
+  getDevicePermissions,
+  getProjectPermissions,
+  deleteProject,
+  updateProjectName,
+  updateProjectDevices,
+  updateProjectGateways,
+  getDevices,
+  getGateways
 }
 
 export default connect(

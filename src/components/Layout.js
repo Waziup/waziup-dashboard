@@ -305,13 +305,12 @@ function mapStateToProps(state) {
     permissions: state.permissions.device
   };
 }
-function mapDispatchToProps(dispatch) {
-  return {
-    getDevicePermissions: () => {dispatch(getDevicePermissions()) }, 
-    getProjectPermissions: () => {dispatch(getProjectPermissions()) }, 
-    getGatewayPermissions: () => {dispatch(getGatewayPermissions()) }, 
-    logout: () => {dispatch(logout()) } 
-  };
+
+const mapDispatchToProps = {
+  getDevicePermissions,
+  getProjectPermissions,
+  getGatewayPermissions,
+  logout
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(Layout));

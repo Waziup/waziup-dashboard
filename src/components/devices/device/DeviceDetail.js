@@ -154,45 +154,19 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getDevice: (id) => {
-      dispatch(getDevice(id));
-    },
-    addSensor: (id, m) => {
-      dispatch(addSensor(id, m));
-    },
-    deleteSensor: (sid, mid) => {
-      dispatch(deleteSensor(sid, mid));
-    },
-    addActuator: (id, m) => {
-      dispatch(addActuator(id, m));
-    },
-    deleteActuator: (aid, mid) => {
-      dispatch(deleteActuator(aid, mid));
-    },
-    deleteDevice: (id) => {
-      dispatch(deleteDevice(id));
-    },
-    updateDeviceLocation: (id, l) => {
-      dispatch(updateDeviceLocation(id, l));
-    },
-    updateDeviceName: (id, n) => {
-      dispatch(updateDeviceName(id, n));
-    },
-    updateDeviceVisibility: (id, v) => {
-      dispatch(updateDeviceVisibility(id, v));
-    },
-    updateDeviceGatewayId: (id, v) => {
-      dispatch(updateDeviceGatewayId(id, v));
-    },
-    updateSensorName: (deviceId, sensId, n) => {
-      dispatch(updateSensorName(deviceId, sensId, n));
-    },
-    updateActuatorName: (deviceId, actuId, n) => {
-      dispatch(updateActuatorName(deviceId, actuId, n));
-    },
-  };
+const mapDispatchToProps = {
+  getDevice,
+  addSensor,
+  deleteSensor,
+  addActuator,
+  deleteActuator,
+  deleteDevice,
+  updateDeviceLocation,
+  updateDeviceName,
+  updateDeviceVisibility,
+  updateDeviceGatewayId,
+  updateSensorName,
+  updateActuatorName
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeviceDetail);

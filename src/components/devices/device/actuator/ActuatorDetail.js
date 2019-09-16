@@ -85,33 +85,15 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getValues: opts => {
-      dispatch(getValues(opts));
-    },
-    getDevice: id => {
-      dispatch(getDevice(id));
-    },
-    updateActuator: (id, m) => {
-      dispatch(addActuator(id, m));
-    },
-    updateActuatorName: (dId, aId, n) => {
-      dispatch(updateActuatorName(dId, aId, n));
-    },
-    updateActuatorKind: (dId, aId, k) => {
-      dispatch(updateActuatorKind(dId, aId, k));
-    },
-    updateActuatorValue: (dId, aId, v) => {
-      dispatch(updateActuatorValue(dId, aId, v));
-    },
-    updateActuatorValueType: (dId, aId, vt) => {
-      dispatch(updateActuatorValueType(dId, aId, vt));
-    },
-    deleteActuator: (sid, mid) => {
-      dispatch(deleteActuator(sid, mid));
-    }
-  };
+const mapDispatchToProps = {
+  getValues,
+  getDevice,
+  updateActuator,
+  updateActuatorName,
+  updateActuatorKind,
+  updateActuatorValue,
+  updateActuatorValueType,
+  deleteActuator
 }
 
 export default connect(

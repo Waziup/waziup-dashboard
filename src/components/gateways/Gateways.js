@@ -148,22 +148,13 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getDevices: params => {
-      dispatch(getDevices(params));
-    },
-    getGateways: params => {
-      dispatch(getGateways(params));
-    },
-    createGateway: gateway => {
-      dispatch(createGateway(gateway));
-    },
-    deleteGateway: id => {
-      dispatch(deleteGateway(id));
-    }
-  };
+const mapDispatchToProps = {
+  getDevices,
+  getGateways,
+  createGateway,
+  deleteGateway
 }
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

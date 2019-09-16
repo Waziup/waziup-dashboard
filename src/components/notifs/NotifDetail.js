@@ -65,15 +65,9 @@ function mapStateToProps(state, ownProps) {
   return { notif };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getNotifs: (user) => {
-      dispatch(getNotifs(user));
-    },
-    deleteNotif: (notifId) => {
-      dispatch(deleteNotif(notifId));
-    },
-  };
+const mapDispatchToProp = {
+  getNotifs,
+  deleteNotif
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotifDetail);

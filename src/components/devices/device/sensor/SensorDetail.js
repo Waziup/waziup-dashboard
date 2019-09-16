@@ -235,15 +235,13 @@ function mapStateToProps(state, ownProps) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getValues: (opts) => {dispatch(getValues(opts)) },
-    getDevice: (id) => {dispatch(getDevice(id)) },
-    updateSensor: (id, m) => {dispatch(addSensor(id, m)) },
-    updateCalib: (did, sid, m) => {dispatch(updateSensorCalibration(did, sid, m)) },
-    deleteSensor: (sid, mid) => {dispatch(deleteSensor(sid, mid)) },
-    createNotif: (notif) => {dispatch(createNotif(notif)) }
-  };
+const mapDispatchToProps = {
+  getValues,
+  getDevice,
+  updateSensor,
+  updateCalib,
+  deleteSensor,
+  createNotif
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);

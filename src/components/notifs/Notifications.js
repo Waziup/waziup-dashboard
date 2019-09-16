@@ -103,24 +103,12 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getNotifs: (user) => {
-      dispatch(getNotifs());
-    },
-    deleteNotif: (notifId) => {
-      dispatch(deleteNotif(notifId));
-    },
-    createNotif: (notif) => {
-      dispatch(createNotif(notif));
-    },
-    getDevices: (params) => {
-      dispatch(getDevices(params));
-    },
-    getUsers: () => {
-      dispatch(getUsers());
-    },
-  };
+const mapDispatchToProps = {
+  getNotifs,
+  deleteNotif,
+  createNotif,
+  getDevices,
+  getUsers
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
