@@ -7,7 +7,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Keycloak from 'keycloak-js';
 import configureStore from './store';
 import Layout from './components/Layout';
-import Map from './components/Map';
 import Devices from './components/devices/Devices';
 import Users from './components/users/Users';
 import UserDetail from './components/users/UserDetail';
@@ -34,7 +33,6 @@ const routes = {
   component: Layout,
   indexRoute: { component: Projects },
   childRoutes: [
-    { path: 'map', component: Map },
     { path: 'notifications', component: Notifications },
     { path: 'notifications/:notifId', component: NotifDetail },
     { path: 'projects', component: Projects },
