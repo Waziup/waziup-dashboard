@@ -144,7 +144,7 @@ class SensorDetail extends Component {
                 handleClose={() => { this.setState({ modalAddCalib: false }) }}
                 onSubmit={(m) => {
                   console.log(m);                  
-                  this.props.updateCalib(this.props.device.id,this.props.sens.id,m);
+                  this.props.updateSensorCalibration(this.props.device.id,this.props.sens.id,m);
                   this.setState({ modalAddCalib: false });
                 }}
                 isEdit={false} /> 
@@ -158,7 +158,7 @@ class SensorDetail extends Component {
             </Typography>
             <SensorCard sensor={this.props.sens}
               isDetails={true}
-              updateSensor={this.props.updateSensor}
+              updateSensor={this.props.addSensor}
               deleteSensor={this.props.deleteSensor}
               deviceId={this.props.device.id}
               permission={this.props.permission} />
@@ -238,8 +238,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   getValues,
   getDevice,
-  updateSensor,
-  updateCalib,
+  addSensor,
+  updateSensorCalibration,
   deleteSensor,
   createNotif
 }

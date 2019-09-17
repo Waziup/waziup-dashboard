@@ -49,7 +49,7 @@ class ActuatorDetail extends Component {
             <ActuatorCard
               actuator={this.props.actu}
               isDetails={true}
-              updateActuator={this.props.updateActuator}
+              updateActuator={this.props.addActuator}
               updateActuatorName={this.props.updateActuatorName}
               updateActuatorKind={this.props.updateActuatorKind}
               updateActuatorValue={this.props.updateActuatorValue}
@@ -88,7 +88,7 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   getValues,
   getDevice,
-  updateActuator,
+  addActuator,
   updateActuatorName,
   updateActuatorKind,
   updateActuatorValue,
