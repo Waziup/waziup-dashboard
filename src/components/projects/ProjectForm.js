@@ -28,6 +28,9 @@ import GatewayForm from "./../gateways/AddGatewayForm";
 import Chip from '@material-ui/core/Chip';
 import ErrorBanner from '../ErrorBanner';
 import { Link } from "react-router";
+import projectImage from '../../images/project.png';
+import deviceImage from '../../images/device.png';
+import gatewayImage from "../../images/gateway.png";
 
 const styles = theme => ({
   root: {
@@ -102,6 +105,7 @@ class ProjectForm extends Component {
       case 0:
         return (
           <Grid container spacing={24}>
+            <img src={projectImage} height="80" class="ProjectWizardIcon"/>
             <Grid item xs={12}>
               <a href="https://www.waziup.io/documentation/1-dashboard/">What is a project?</a>
             </Grid>
@@ -120,6 +124,7 @@ class ProjectForm extends Component {
       case 1:
         return (
           <Grid container spacing={24}>
+            <img src={deviceImage} height="80" class="ProjectWizardIcon"/>
             <DeviceForm
               gateways={this.state.gateways}
               handleClose={() => this.setState({ modalAddDevice: false })}
@@ -179,6 +184,7 @@ class ProjectForm extends Component {
       case 2:
         return (
           <Grid container spacing={24}>
+            <img src={gatewayImage} height="80" class="ProjectWizardIcon"/>
             <GatewayForm
               handleClose={() => this.setState({ modalAddGateway: false })}
               modalOpen={this.state.modalAddGateway}
@@ -266,6 +272,7 @@ class ProjectForm extends Component {
         key="next"
         variant="contained"
         color="primary"
+        disabled={activeStep >= steps.length - 1}
         onClick={this.handleNext}
         className={classes.button}
       >
@@ -308,8 +315,6 @@ class ProjectForm extends Component {
         </DialogTitle>
         <DialogContent>
           <ErrorBanner/>
-          <br/>
-          <br/>
           <div>
             {this.getStepContent(activeStep)}
           </div>
