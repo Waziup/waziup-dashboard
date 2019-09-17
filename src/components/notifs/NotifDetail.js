@@ -4,9 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import { Container } from 'react-grid-system';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { deleteNotif, getNotifs } from '../../actions/actions.js';
+import { deleteNotif, getNotif } from '../../actions/actions.js';
 import NotifCard from './NotifCard.js';
 import Hidden from '@material-ui/core/Hidden';
+import config from '../../config';
 
 class NotifDetail extends Component {
   constructor(props) {
@@ -15,7 +16,14 @@ class NotifDetail extends Component {
   }
 
   componentWillMount() {
-    this.props.getNotifs();
+    this.props.getNotif(this.props.params.notifId);
+    this.interval = setInterval(() => {
+      this.props.getNotif(this.props.params.notifId);
+    }, config.delayRefresh);
+  }
+
+componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
@@ -42,7 +50,7 @@ class NotifDetail extends Component {
             <Typography variant="h6">Notification</Typography>
             <NotifCard
               className="deviceNode"
-              deleteNotif={this.props.deleteNotif}
+              deleteNotif={(id) => {this.props.deleteNotif(id); browserHistory.push('/notifications');}}
               isEditable
               notif={this.props.notif}
             />
@@ -61,12 +69,11 @@ class NotifDetail extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const notif = state.notifications.notifications.find(n => n.id === ownProps.params.notifId);
-  return { notif };
+  return { notif : state.notification.notification};
 }
 
-const mapDispatchToProp = {
-  getNotifs,
+const mapDispatchToProps = {
+  getNotif,
   deleteNotif
 }
 

@@ -580,6 +580,19 @@ export function createNotif(notif) {
   };
 }
 
+export function getNotif(id) {
+  return async function (dispatch) {
+    dispatch({ type: types.GET_NOTIF_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await notifsApi.getNotification(id);
+      dispatch({ type: types.GET_NOTIF_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: types.GET_NOTIF_ERROR, data: error });
+    }
+  };
+}
+
 export function deleteNotif(notifId) {
   return async function (dispatch) {
     dispatch({ type: types.DELETE_NOTIF_START });

@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import NotifForm from './NotifForm.js';
 import NotifCard from './NotifCard.js';
 import {
-  createNotif, getNotifs, getDevices, getUsers,
+  createNotif, getNotifs, deleteNotif, getDevices, getUsers,
 } from '../../actions/actions.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';

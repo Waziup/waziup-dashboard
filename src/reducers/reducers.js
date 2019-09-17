@@ -364,12 +364,23 @@ function notificationsReducer(state = {
 }
 
 // Actions on one device
-function notifActionReducer(state = {
+function notificationReducer(state = {
   isLoading: false,
   msg: {},
   error: false,
 }, action = null) {
   switch (action.type) {
+    case types.GET_NOTIF_START: return Object.assign({}, state, { isLoading: true });
+    case types.GET_NOTIF_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      notification: action.data,
+      error: false,
+    });
+    case types.GET_NOTIF_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
     case types.CREATE_NOTIF_START: return Object.assign({}, state, { isLoading: true });
     case types.CREATE_NOTIF_SUCCESS: return Object.assign({}, state, {
       isLoading: false,
@@ -436,6 +447,7 @@ function messagesReducer(state = [], action = null) {
     case types.DELETE_DEVICE_ERROR: msg = 'Error when deleting device'; error = true; break;
     case types.GET_VALUES_ERROR: msg = 'Error when fetching device values'; error = true; break;
     case types.GET_NOTIFS_ERROR: msg = 'Error when fetching notifications'; error = true; break;
+    case types.GET_NOTIF_ERROR: msg = 'Error when fetching a notification'; error = true; break;
     case types.CREATE_NOTIF_ERROR: msg = 'Error when creating notification'; error = true; break;
     case types.UPDATE_NOTIF_ERROR: msg = 'Error when updating notification'; error = true; break;
     case types.DELETE_NOTIF_ERROR: msg = 'Error when deleting notification'; error = true; break;
@@ -460,7 +472,8 @@ function messagesReducer(state = [], action = null) {
       errorContext = `${action.data.response.status} ${action.data.response.text}`;
       return [...state, {msg: `${msg}: ${errorContext}`, error: true}];
     } else {
-     // errorContext = 'Client error. Please check web console for details.';
+      // errorContext = 'Client error. Please check web console for details.';
+      //Client errors (bugs in the code etc.) are reported in the console.
       console.error(`client error: ${action.data}`);
       return state;
     }
@@ -546,7 +559,7 @@ export default function rootReducer(state = {}, action) {
     // List of notifications
     notifications: notificationsReducer(state.notifications, action),
     // Notif CRUD operations
-    notifAction: notifActionReducer(state.notifAction, action),
+    notification: notificationReducer(state.notification, action),
     // global messages
     messages: messagesReducer(state.messages, action),
     // List of permissions
