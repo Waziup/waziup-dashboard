@@ -4,6 +4,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Container } from "react-grid-system";
 import { Map as LeafletMap, Marker, Popup, TileLayer } from "react-leaflet";
+import moment from 'moment';
 import { connect } from "react-redux";
 import { browserHistory } from "react-router";
 import ProjectNodeCard from "./ProjectNodeCard";
@@ -18,12 +19,23 @@ import {
   updateProjectDevices,
   updateProjectGateways,
   createDevice,
-  createGateway
+  createGateway,
+  getValues
 } from "../../actions/actions.js";
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import projectImage from "../../images/project.png";
 import config from '../../config';
+import ProjectChart from './ProjectChart';
 
 class ProjectDetail extends Component {
   interval = 0;
@@ -32,16 +44,30 @@ class ProjectDetail extends Component {
     this.state = {
       markers: [],
       position: [14.4974, 14.4524],
-      locations: []
+      locations: [],
+      sens: {id:'MB',value:{date_received: "2019-08-04T15:21:34Z",
+      timestamp: "2019-08-04T15:21:26Z",
+      value: "12.56"}},
+      query: {
+        date_from: undefined,
+        date_to: undefined,
+        sort: 'dsc',
+        calibrated: true,
+        limit: 100,
+        offset: undefined,
+        device_id: props.project.device_ids ? (props.project.device_ids).join() : []
+      },
+      timeAxis: 'device'
     };
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     this.props.getDevicePermissions();
     this.props.getProjectPermissions();
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
+    this.fetchValues();
 
     this.interval = setInterval(() => {
       this.props.getDevicePermissions();
@@ -49,6 +75,7 @@ class ProjectDetail extends Component {
       this.props.getDevices({ limit: 1000 });
       this.props.getGateways();
       this.props.getProject(this.props.params.projectId, {full: true });
+      this.fetchValues();
     }, config.delayRefresh);
   }
 
@@ -60,6 +87,11 @@ class ProjectDetail extends Component {
     const markers = [];
     const locations = [];
     if(nextProps.project && nextProps.project.devices) {
+
+      var myQuery = this.state.query
+      myQuery.device_id = (nextProps.project.device_ids).join();
+      this.setState({ query: myQuery});
+
       nextProps.project.devices.forEach(device => {
         if (device.location) {
           locations.push([device.location.latitude, device.location.longitude]);
@@ -83,6 +115,37 @@ class ProjectDetail extends Component {
     }
     this.setState({ locations });
     this.setState({ markers });
+  }
+
+  fetchValues = () => {
+    this.props.getValues(this.state.query);  
+  }
+
+  handleDateFrom = (day) => {
+    var myQuery = this.state.query
+    myQuery.date_from = moment(day).utc().format();
+    this.setState({ query: myQuery});
+  }
+
+  handleDateTo = (day) => {
+    var myQuery = this.state.query
+    myQuery.date_to = moment(day).utc().format();
+    this.setState({ query: myQuery});
+  }
+
+  handleLimitChange = (event) => {
+    var myQuery = this.state.query
+    myQuery.limit = event.target.value;
+    this.setState({ query: myQuery});
+  }
+
+  handleTimeAxis = (event) => {
+    this.setState({ timeAxis: event.target.value });
+  }
+  
+  handleApply = () => {
+    console.log('Query submit clicked: ' + JSON.stringify(this.state));
+    this.fetchValues();
   }
 
   render() {
@@ -147,6 +210,40 @@ class ProjectDetail extends Component {
               {this.state.markers}
             </LeafletMap>
           </Card>
+          <Card className="graphCard" style={{ marginTop: "10px", marginBottom: "70px" }}>
+            <Typography>
+              <span className="Typography"> Historical chart for sensors under this project</span>
+            </Typography>
+            <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
+              <Grid container spacing={24}>
+                <Grid item xs={3}>
+                      <h4>Range from: </h4>
+                      <DayPickerInput onDayChange={this.handleDateFrom} />
+                </Grid>
+                <Grid item xs={3}>
+                  <h4> To:</h4>
+                  <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+                </Grid>
+                *<Grid item xs={3}>
+                  <h4> Number of Datapoints:</h4>
+                  <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl>
+                    <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                    <Select 
+                    input={<Input name="timeAxis" id="timeAxis" />}
+                    value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                      <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                      <MenuItem value="device">Device timestamp</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+              <Grid item xs={2}>
+                <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
+              </Grid>
+            </Grid>
+          </Card>
         </Container>
       );
     } else {
@@ -160,6 +257,7 @@ class ProjectDetail extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     project: state.project.project,
+    values: state.values.values,
     permission: state.permissions.project.find(
       p => p.resource == ownProps.params.projectId
     ),
@@ -180,7 +278,8 @@ const mapDispatchToProps = {
   updateProjectDevices,
   updateProjectGateways,
   getDevices,
-  getGateways
+  getGateways,
+  getValues
 }
 
 export default connect(
