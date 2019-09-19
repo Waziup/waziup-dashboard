@@ -69,7 +69,7 @@ class ProjectDetail extends Component {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
-    this.fetchValues();
+    this.props.getValues(this.state.query);  
 
     this.interval = setInterval(() => {
       this.props.getDevicePermissions();
@@ -77,7 +77,7 @@ class ProjectDetail extends Component {
       this.props.getDevices({ limit: 1000 });
       this.props.getGateways();
       this.props.getProject(this.props.params.projectId, {full: true });
-      this.fetchValues();
+      this.props.getValues(this.state.query);  
     }, config.delayRefresh);
   }
 
@@ -121,10 +121,6 @@ class ProjectDetail extends Component {
     this.setState({ markers });
   }
 
-  fetchValues = () => {
-    this.props.getValues(this.state.query);      
-  }
-
   handleDateFrom = (day) => {
     var myQuery = this.state.query
     myQuery.date_from = moment(day).utc().format();
@@ -156,7 +152,7 @@ class ProjectDetail extends Component {
   
   handleApply = () => {
     console.log('Query submit clicked: ' + JSON.stringify(this.state));
-    this.fetchValues();
+    this.props.getValues(this.state.query);  
   }
 
   render() {
