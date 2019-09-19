@@ -27,6 +27,7 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from "@material-ui/core/FormHelperText";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -57,6 +58,7 @@ class ProjectDetail extends Component {
         offset: undefined,
         device_id: props.project.device_ids ? (props.project.device_ids).join() : []
       },
+      devices: props.project.device_ids? props.project.device_ids: [],
       timeAxis: 'device'
     };
   }
@@ -88,9 +90,11 @@ class ProjectDetail extends Component {
     const locations = [];
     if(nextProps.project && nextProps.project.devices) {
 
-      var myQuery = this.state.query
-      myQuery.device_id = (nextProps.project.device_ids).join();
-      this.setState({ query: myQuery});
+      if((nextProps.project.device_ids).join() !== (this.props.project.device_ids).join()){
+        var myQuery = this.state.query
+        myQuery.device_id = (nextProps.project.device_ids).join();
+        this.setState({ query: myQuery, devices: nextProps.project.device_ids});   
+      }
 
       nextProps.project.devices.forEach(device => {
         if (device.location) {
@@ -118,7 +122,7 @@ class ProjectDetail extends Component {
   }
 
   fetchValues = () => {
-    this.props.getValues(this.state.query);  
+    this.props.getValues(this.state.query);      
   }
 
   handleDateFrom = (day) => {
@@ -142,6 +146,13 @@ class ProjectDetail extends Component {
   handleTimeAxis = (event) => {
     this.setState({ timeAxis: event.target.value });
   }
+
+  handleDeviceChange = (event) => {
+    var myQuery = this.state.query;
+    var value = event.target.value;
+    myQuery.device_id = value.join();    
+    this.setState({ devices: value, query: myQuery });
+  };
   
   handleApply = () => {
     console.log('Query submit clicked: ' + JSON.stringify(this.state));
@@ -228,7 +239,7 @@ class ProjectDetail extends Component {
                   <h4> Number of Datapoints:</h4>
                   <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <FormControl>
                     <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
                     <Select 
@@ -237,6 +248,28 @@ class ProjectDetail extends Component {
                       <MenuItem value="cloud">Cloud timestamp</MenuItem>
                       <MenuItem value="device">Device timestamp</MenuItem>
                     </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl style={{ display: "flex" }}>
+                    <InputLabel htmlFor="devices">Devices</InputLabel>
+                    <Select
+                      multiple={true}
+                      input={<Input name="devices" id="devices" />}
+                      value={this.state.devices}
+                      onChange={s => this.handleDeviceChange(s)}
+                    >
+                      {this.props.project.device_ids.map(s => (
+                        <MenuItem
+                          key={s}
+                          checked={this.state.devices.includes(s)}
+                          value={s}
+                        >
+                          {s}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <FormHelperText>Filter devices</FormHelperText>
                   </FormControl>
                 </Grid>
               <Grid item xs={2}>
