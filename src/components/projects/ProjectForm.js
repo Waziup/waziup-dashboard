@@ -124,6 +124,65 @@ class ProjectForm extends Component {
       case 1:
         return (
           <Grid container spacing={24}>
+            <img src={gatewayImage} height="80" class="ProjectWizardIcon"/>
+            <GatewayForm
+              handleClose={() => this.setState({ modalAddGateway: false })}
+              modalOpen={this.state.modalAddGateway}
+              onSubmit={s => { 
+                this.props.createGateway(s);
+                this.setState({ project: {...this.state.project, gateway_ids: [...this.state.project.gateway_ids, s.id]}}), 
+                this.props.getGateways();
+              }}
+            />
+            <Grid item xs={12}>
+              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a gateway?</a>
+            </Grid>
+            <Grid item sm={6}>
+              <Grid
+                row
+                container
+                direction="row"
+                justify="space-around"
+                alignItems="center"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="addDeviceButton"
+                  onTouchTap={() => this.setState({ modalAddGateway: true })}
+                >
+                  Create a new gateway
+                </Button>
+                <Chip label="Or"  />
+              </Grid>
+            </Grid>
+            <Grid item sm={6}>
+              <FormControl style={{ display: "flex" }}>
+                <InputLabel htmlFor="gateways">Gateways</InputLabel>
+                <Select
+                  multiple={true}
+                  input={<Input name="gateways" id="gateways" />}
+                  value={this.state.project.gateway_ids}
+                  onChange={s => this.handleChange("gateways", s)}
+                >
+                  {this.state.gateways.map(s => (
+                    <MenuItem
+                      key={s.id}
+                      checked={this.state.project.gateway_ids.includes(s.id)}
+                      value={s.id}
+                    >
+                      {s.id}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>Select from existing gateways</FormHelperText>
+              </FormControl>
+            </Grid>
+          </Grid>
+        );
+      case 2:
+        return (
+          <Grid container spacing={24}>
             <img src={deviceImage} height="80" class="ProjectWizardIcon"/>
             <DeviceForm
               gateways={this.state.gateways}
@@ -181,65 +240,6 @@ class ProjectForm extends Component {
             </Grid>
           </Grid>
         );
-      case 2:
-        return (
-          <Grid container spacing={24}>
-            <img src={gatewayImage} height="80" class="ProjectWizardIcon"/>
-            <GatewayForm
-              handleClose={() => this.setState({ modalAddGateway: false })}
-              modalOpen={this.state.modalAddGateway}
-              onSubmit={s => { 
-                this.props.createGateway(s);
-                this.setState({ project: {...this.state.project, gateway_ids: [...this.state.project.gateway_ids, s.id]}}), 
-                this.props.getGateways();
-              }}
-            />
-            <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a gateway?</a>
-            </Grid>
-            <Grid item sm={6}>
-              <Grid
-                row
-                container
-                direction="row"
-                justify="space-around"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="addDeviceButton"
-                  onTouchTap={() => this.setState({ modalAddGateway: true })}
-                >
-                  Create a new gateway
-                </Button>
-                <Chip label="Or"  />
-              </Grid>
-            </Grid>
-            <Grid item sm={6}>
-              <FormControl style={{ display: "flex" }}>
-                <InputLabel htmlFor="gateways">Gateways</InputLabel>
-                <Select
-                  multiple={true}
-                  input={<Input name="gateways" id="gateways" />}
-                  value={this.state.project.gateway_ids}
-                  onChange={s => this.handleChange("gateways", s)}
-                >
-                  {this.state.gateways.map(s => (
-                    <MenuItem
-                      key={s.id}
-                      checked={this.state.project.gateway_ids.includes(s.id)}
-                      value={s.id}
-                    >
-                      {s.id}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>Select from existing gateways</FormHelperText>
-              </FormControl>
-            </Grid>
-          </Grid>
-        );
       default:
         return "Unknown step";
     }
@@ -247,7 +247,7 @@ class ProjectForm extends Component {
 
   render() {
     const { classes } = this.props;
-    const steps = ["Project details", "Add devices", "Add gateways"];
+    const steps = ["Project details", "Add gateways", "Add devices"];
     const { activeStep } = this.state;
     const { modalOpen, handleClose, onSubmit } = this.props;
     const actions = [
