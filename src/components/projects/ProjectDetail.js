@@ -37,6 +37,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import projectImage from "../../images/project.png";
 import config from '../../config';
 import ProjectChart from './ProjectChart';
+import { ProjectLoader } from './../Loaders';
 
 class ProjectDetail extends Component {
   interval = 0;
@@ -59,7 +60,8 @@ class ProjectDetail extends Component {
         device_id: props.project.device_ids ? (props.project.device_ids).join() : []
       },
       devices: props.project.device_ids? props.project.device_ids: [],
-      timeAxis: 'device'
+      timeAxis: 'device',
+      loading: true
     };
   }
 
@@ -90,10 +92,11 @@ class ProjectDetail extends Component {
     const locations = [];
     if(nextProps.project && nextProps.project.devices) {
 
-      if((nextProps.project.device_ids).join() !== (this.props.project.device_ids).join()){
+      if(nextProps.project !== this.props.project){
         var myQuery = this.state.query
-        myQuery.device_id = (nextProps.project.device_ids).join();
-        this.setState({ query: myQuery, devices: nextProps.project.device_ids});   
+        myQuery.device_id = nextProps.project.device_ids ? (nextProps.project.device_ids).join() : [];
+        this.setState({ query: myQuery, devices: nextProps.project.device_ids}); 
+        this.setState({ loading: false });  
       }
 
       nextProps.project.devices.forEach(device => {
@@ -171,108 +174,116 @@ class ProjectDetail extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
-          <ProjectNodeCard
-            className="deviceNode"
-            createDevice={this.props.createDevice}
-            createGateway={this.props.createGateway}
-            deleteProject={sid => {
-              this.props.deleteProject(sid);
-              browserHistory.push("/projects");
-            }}
-            permission={this.props.permission}
-            project={this.props.project}
-            devices={this.props.devices}
-            gateways={this.props.gateways}
-            updateProjectName={(id, name) => {
-              this.props.updateProjectName(id, name);
-              this.props.getProject(this.props.params.projectId, {full: true });
-            }}
-            updateProjectDevices={(id, devs) => {
-              this.props.updateProjectDevices(id, devs);
-              this.props.getProject(this.props.params.projectId, {full: true });
-            }}
-            updateProjectGateways={(id, gws) => {
-              this.props.updateProjectGateways(id, gws);
-              this.props.getProject(this.props.params.projectId, {full: true });
-            }}
-            user={this.props.user}
-          />
-          <Card className="deviceMap">
-            <Typography>
-              <span className="Typography">Device Locations </span>
-            </Typography>
-            <LeafletMap
-              ref="map"
-              center={
-                this.state.locations.length
-                  ? this.state.locations[0]
-                  : this.state.position
-              }
-              zoom={5}
-            >
-              <TileLayer
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-              />
-              {this.state.markers}
-            </LeafletMap>
-          </Card>
-          <Card className="graphCard" style={{ marginTop: "10px", marginBottom: "70px" }}>
-            <Typography>
-              <span className="Typography"> Historical chart for sensors under this project</span>
-            </Typography>
-            <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
-              <Grid container spacing={24}>
-                <Grid item xs={3}>
-                      <h4>Range from: </h4>
-                      <DayPickerInput onDayChange={this.handleDateFrom} />
+          { this.state.loading ? 
+          ProjectLoader()
+          :
+          <div>
+            <ProjectNodeCard
+              className="deviceNode"
+              createDevice={this.props.createDevice}
+              createGateway={this.props.createGateway}
+              deleteProject={sid => {
+                this.props.deleteProject(sid);
+                browserHistory.push("/projects");
+              }}
+              permission={this.props.permission}
+              project={this.props.project}
+              devices={this.props.devices}
+              gateways={this.props.gateways}
+              updateProjectName={(id, name) => {
+                this.props.updateProjectName(id, name);
+                this.props.getProject(this.props.params.projectId, {full: true });
+              }}
+              updateProjectDevices={(id, devs) => {
+                this.props.updateProjectDevices(id, devs);
+                this.props.getProject(this.props.params.projectId, {full: true });
+              }}
+              updateProjectGateways={(id, gws) => {
+                this.props.updateProjectGateways(id, gws);
+                this.props.getProject(this.props.params.projectId, {full: true });
+              }}
+              user={this.props.user}
+            />
+            <Card className="deviceMap">
+              <Typography>
+                <span className="Typography">Device Locations </span>
+              </Typography>
+              <LeafletMap
+                ref="map"
+                center={
+                  this.state.locations.length
+                    ? this.state.locations[0]
+                    : this.state.position
+                }
+                zoom={5}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                />
+                {this.state.markers}
+              </LeafletMap>
+            </Card>
+            <Card className="graphCard" style={{ marginTop: "10px", marginBottom: "70px" }}>
+              <Typography>
+                <span className="Typography"> Historical chart for sensors under this project</span>
+              </Typography>
+              <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
+                <Grid container spacing={24}>
+                  <Grid item xs={3}>
+                        <h4>Range from: </h4>
+                        <DayPickerInput onDayChange={this.handleDateFrom} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4> To:</h4>
+                    <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+                  </Grid>
+                  *<Grid item xs={3}>
+                    <h4> Number of Datapoints:</h4>
+                    <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl>
+                      <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                      <Select 
+                      input={<Input name="timeAxis" id="timeAxis" />}
+                      value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                        <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                        <MenuItem value="device">Device timestamp</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl style={{ display: "flex" }}>
+                      <InputLabel htmlFor="devices">Devices</InputLabel>
+                      <Select
+                        multiple={true}
+                        input={<Input name="devices" id="devices" />}
+                        value={this.state.devices}
+                        onChange={s => this.handleDeviceChange(s)}
+                      >
+                        {this.props.project.device_ids ? 
+                        this.props.project.device_ids.map(s => (
+                          <MenuItem
+                            key={s}
+                            checked={this.state.devices.includes(s)}
+                            value={s}
+                          >
+                            {s}
+                          </MenuItem>
+                        ))
+                        :null}
+                      </Select>
+                      <FormHelperText>Filter devices</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                <Grid item xs={2}>
+                  <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
                 </Grid>
-                <Grid item xs={3}>
-                  <h4> To:</h4>
-                  <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
-                </Grid>
-                *<Grid item xs={3}>
-                  <h4> Number of Datapoints:</h4>
-                  <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControl>
-                    <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
-                    <Select 
-                    input={<Input name="timeAxis" id="timeAxis" />}
-                    value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
-                      <MenuItem value="cloud">Cloud timestamp</MenuItem>
-                      <MenuItem value="device">Device timestamp</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControl style={{ display: "flex" }}>
-                    <InputLabel htmlFor="devices">Devices</InputLabel>
-                    <Select
-                      multiple={true}
-                      input={<Input name="devices" id="devices" />}
-                      value={this.state.devices}
-                      onChange={s => this.handleDeviceChange(s)}
-                    >
-                      {this.props.project.device_ids.map(s => (
-                        <MenuItem
-                          key={s}
-                          checked={this.state.devices.includes(s)}
-                          value={s}
-                        >
-                          {s}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    <FormHelperText>Filter devices</FormHelperText>
-                  </FormControl>
-                </Grid>
-              <Grid item xs={2}>
-                <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
               </Grid>
-            </Grid>
-          </Card>
+            </Card>
+          </div>
+          }
         </Container>
       );
     } else {
