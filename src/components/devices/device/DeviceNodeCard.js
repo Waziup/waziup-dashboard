@@ -25,6 +25,8 @@ export default class DeviceNodeCard extends Component {
     };
   }
 
+  deleteMsg = 'Delete a device?\nWARNING: all the data attached to that device will be lost (sensors, actuators, datapoints history)!'
+
   render() {
     let device = this.props.device;
     var sensors = [];
@@ -86,14 +88,14 @@ export default class DeviceNodeCard extends Component {
               {this.props.permission && this.props.permission.scopes.includes("devices:delete") ?
               (<div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <DeleteIcon onClick={() => { if (window.confirm('Delete a device?')) this.props.deleteDevice(device.id) }} />
+                  <DeleteIcon onClick={() => { if (window.confirm(this.deleteMsg)) this.props.deleteDevice(device.id) }} />
                 </Hidden>
                 <Hidden smDown implementation="css">
                 <Button
                   className="topRightButton"
                   variant="contained"
                   color="primary"
-                  onTouchTap={() => { if (window.confirm('Delete a device?')) this.props.deleteDevice(device.id) }}>Delete</Button>
+                  onTouchTap={() => { if (window.confirm(this.deleteMsg)) this.props.deleteDevice(device.id) }}>Delete</Button>
                 </Hidden>
               </div>) : null}
               {this.props.permission && this.props.permission.scopes.includes("devices:update") ?
