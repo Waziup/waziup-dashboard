@@ -14,11 +14,15 @@ import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import { GatewayLoader } from './../Loaders';
 
 class GatewayDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { modalLocation: false };
+    this.state = { 
+      modalLocation: false,
+      loading: true 
+    };
   }
 
   componentWillMount() {
@@ -28,6 +32,12 @@ class GatewayDetail extends Component {
       this.props.getGateway(this.props.params.gatewayId);
       this.props.getGatewayPermissions();
     }, config.delayRefresh);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.gateway !== this.props.gateway){
+      this.setState({ loading: false })
+    }
   }
 
   componentWillUnmount() {
@@ -62,19 +72,23 @@ class GatewayDetail extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-          <GatewayNodeCard
-            className="gatewayNode"
-            deleteSensor={this.props.deleteSensor}
-            deleteActuator={this.props.deleteActuator}
-            deleteGateway={(sid) => {
-              this.props.deleteGateway(sid); browserHistory.push('/gateways');
-            }}
-            permission={this.props.permission}
-            gateway={gateway}
-            updateSensor={this.props.addSensor}
-            updateActuator={this.props.addActuator}
-            user={this.props.user}
+          { this.state.loading ? 
+          GatewayLoader()
+          : (
+            <GatewayNodeCard
+              className="gatewayNode"
+              deleteSensor={this.props.deleteSensor}
+              deleteActuator={this.props.deleteActuator}
+              deleteGateway={(sid) => {
+                this.props.deleteGateway(sid); browserHistory.push('/gateways');
+              }}
+              permission={this.props.permission}
+              gateway={gateway}
+              updateSensor={this.props.addSensor}
+              updateActuator={this.props.addActuator}
+              user={this.props.user}
           />
+          )}
         </Container>
       );
     } else {
