@@ -21,6 +21,13 @@ export function logout() {
   };
 }
 
+/* Settings */
+export function putSettings(settings) {
+  return async function (dispatch) {
+      dispatch({ type: types.SET_SETTINGS, settings });
+  };
+}
+
 /* Device Actions */
 
 export function getDeviceAttributes(params) {

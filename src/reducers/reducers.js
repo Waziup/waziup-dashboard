@@ -528,6 +528,13 @@ function permissionsReducer(state = {
   }
 }
 
+function settingsReducer(state = {displayCreators: true}, action = null) {
+  switch (action.type) {
+    case types.SET_SETTINGS: return action.settings;
+    default: return state;
+  }
+}
+
 export default function rootReducer(state = {}, action) {
   if (action.type === types.USER_LOGOUT) {
     state = {};
@@ -536,6 +543,7 @@ export default function rootReducer(state = {}, action) {
     routing: routerReducer(state.routing, action),
     keycloak: state.keycloak,
     current_user: state.current_user,
+    settings: settingsReducer(state.settings, action),
     // List of device attributes
     deviceAttributes: deviceAttributesReducer(state.deviceAttributes, action),
     // List of devices
