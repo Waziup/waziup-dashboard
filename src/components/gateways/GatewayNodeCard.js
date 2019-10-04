@@ -34,7 +34,8 @@ export default class GatewayNodeCard extends Component {
           modalOpen={this.state.modalEditGateway}
           handleClose={() => this.setState({ modalEditGateway: false })}
           onSubmit={gateway => {
-            this.props.updateGateway(gateway);
+            console.log("yeet");
+            this.props.updateGatewayName(gateway.id, gateway.name);
           }}
         />
         <Grid
@@ -82,19 +83,20 @@ export default class GatewayNodeCard extends Component {
                 </div>
               ) : null}
 
-              {/* {this.props.permission && this.props.permission.scopes.includes("gateways:update") ?
+              {this.props.permission && 
+               this.props.permission.scopes.includes("gateways:update") ?
                 (<div className="cardTitleIcons">
                   <Hidden mdUp implementation="css">
-                    <EditIcon onClick={() => this.setState({ modalEdit: true })} />
+                    <EditIcon onClick={() => this.setState({ modalEditGateway: true })} />
                   </Hidden>
                   <Hidden smDown implementation="css">
                     <Button
                       className="topRightButton"
                       variant="contained"
                       color="primary"
-                      onTouchTap={() => { this.setState({ modalEdit: true }) }}>Edit</Button>
+                      onTouchTap={() => { this.setState({ modalEditGateway: true }) }}>Edit</Button>
                   </Hidden>
-                </div>) : null} */}
+                </div>) : null}
             </Typography>
           </Grid>
         </Grid>
@@ -141,10 +143,10 @@ export default class GatewayNodeCard extends Component {
   }
 
   static propTypes = {
-    gateway: PropTypes.object, //Should be a Waziup.Actuator
+    gateway: PropTypes.object, 
     isEditable: PropTypes.bool,
     isDetails: PropTypes.bool,
-    updateGateway: PropTypes.func,
+    updateGatewayName: PropTypes.func,
     deleteGateway: PropTypes.func,
     permission: PropTypes.object.isRequired
   };

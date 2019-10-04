@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import GatewayNodeCard from './GatewayNodeCard'
 import {
-  addSensor, deleteSensor, deleteGateway, getGateway, updateSensorName,
-  addActuator, deleteActuator, updateActuatorName, getGatewayPermissions,
+  deleteGateway, getGateway, updateGatewayName,
+  getGatewayPermissions,
 } from '../../actions/actions.js';
 import gatewayImage from '../../images/gateway.png';
 import config from '../../config';
@@ -51,7 +51,6 @@ class GatewayDetail extends Component {
       ] : [
         12.238, -1.561,
       ];
-      console.log(`pos:${JSON.stringify(position)}`);
       renderElement = (
         <Container fluid>
         <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
@@ -64,16 +63,12 @@ class GatewayDetail extends Component {
         </AppBar>
           <GatewayNodeCard
             className="gatewayNode"
-            deleteSensor={this.props.deleteSensor}
-            deleteActuator={this.props.deleteActuator}
             deleteGateway={(sid) => {
               this.props.deleteGateway(sid); browserHistory.push('/gateways');
             }}
+            updateGatewayName={this.props.updateGatewayName}
             permission={this.props.permission}
             gateway={gateway}
-            updateSensor={this.props.addSensor}
-            updateActuator={this.props.addActuator}
-            user={this.props.user}
           />
         </Container>
       );
@@ -100,13 +95,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = {
   getGateway,
   getGatewayPermissions,
-  addSensor,
-  deleteSensor,
-  addActuator,
-  deleteActuator,
   deleteGateway,
-  updateSensorName,
-  updateActuatorName
+  updateGatewayName
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GatewayDetail);

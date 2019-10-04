@@ -550,6 +550,21 @@ export function deleteGateway(projectId) {
   };
 }
 
+export function updateGatewayName(gatewayId, name) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_GATEWAY_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await gatewaysApi.putGatewayName(gatewayId, name);
+      dispatch({ type: types.UPDATE_GATEWAY_SUCCESS, data });
+      dispatch(getGateways());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_GATEWAY_ERROR, data: error });
+    }
+  };
+}
+
+
 /* Notification actions */
 
 export function getNotifs() {
