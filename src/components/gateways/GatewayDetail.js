@@ -14,11 +14,15 @@ import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import { GatewayLoader } from './../Loaders';
 
 class GatewayDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = { modalLocation: false };
+    this.state = { 
+      modalLocation: false,
+      loading: true 
+    };
   }
 
   componentWillMount() {
@@ -28,6 +32,12 @@ class GatewayDetail extends Component {
       this.props.getGateway(this.props.params.gatewayId);
       this.props.getGatewayPermissions();
     }, config.delayRefresh);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.gateway !== this.props.gateway){
+      this.setState({ loading: false })
+    }
   }
 
   componentWillUnmount() {
@@ -53,23 +63,27 @@ class GatewayDetail extends Component {
       ];
       renderElement = (
         <Container fluid>
-        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
-          <Toolbar>
-          <img src={gatewayImage} height="50"/>
-            <Typography variant="h5" className="page-title">
-              Gateway Details    
-            </Typography>
-          </Toolbar>
-        </AppBar>
-          <GatewayNodeCard
-            className="gatewayNode"
-            deleteGateway={(sid) => {
-              this.props.deleteGateway(sid); browserHistory.push('/gateways');
-            }}
-            updateGatewayName={this.props.updateGatewayName}
-            permission={this.props.permission}
-            gateway={gateway}
+          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+            <Toolbar>
+            <img src={gatewayImage} height="50"/>
+              <Typography variant="h5" className="page-title">
+                Gateway Details    
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          { this.state.loading ? 
+          GatewayLoader()
+          : (
+            <GatewayNodeCard
+              className="gatewayNode"
+              deleteGateway={(sid) => {
+                this.props.deleteGateway(sid); browserHistory.push('/gateways');
+              }}
+              updateGatewayName={this.props.updateGatewayName}
+              permission={this.props.permission}
+              gateway={gateway}
           />
+          )}
         </Container>
       );
     } else {
