@@ -251,6 +251,7 @@ class Devices extends Component {
               }}
               devices={this.state.devices}
               user={this.props.user}
+              settings={this.props.settings}
             />
           )
           : <DevicesTable devices={this.state.devices} />}
@@ -265,6 +266,7 @@ function mapStateToProps(state) {
     gateways: state.gateways.gateways,
     deviceAttributes: state.deviceAttributes.deviceAttributes,
     user: state.current_user,
+    settings: state.settings
   };
 }
 

@@ -51,7 +51,7 @@ export default class DevicesList extends Component {
     return (
       <div className="section">
         <h1 className="sectionTitle"> All devices </h1>
-        <Button variant="contained" color="primary" className="addDeviceButton" onTouchTap={() => this.props.addDevice()} >Add a device</Button>
+        {this.props.settings.displayCreators? <Button variant="contained" color="primary" className="addDeviceButton" onTouchTap={() => this.props.addDevice()} >Add a device</Button>: null}
         {this.getDomains().length != 0 ? this.getDomains().map((d, index) => [
           React.createElement(DomainNameComponent, { key: { index }, domain: d.domainName }),
           d.devices.map(s => [
@@ -67,6 +67,7 @@ export default class DevicesList extends Component {
   static propTypes = {
     devices: PropTypes.array.isRequired, //Should be a list of Waziup.Device
     user: PropTypes.object.isRequired,
-    addDevice: PropTypes.func
+    addDevice: PropTypes.func,
+    settings: PropTypes.object
   }
 }

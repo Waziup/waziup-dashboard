@@ -97,35 +97,28 @@ class Gateways extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <AddGatewayForm
-          modalOpen={this.state.modalAddGateway}
-          handleClose={() => this.setState({ modalAddGateway: false })}
-          onSubmit={gateway => {
-            this.props.createGateway(gateway);
-          }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onTouchTap={() => this.setState({ modalAddGateway: true })}
-        >
-          Add a gateway
-        </Button>
+        <AddGatewayForm modalOpen={this.state.modalAddGateway}
+                        handleClose={() => this.setState({ modalAddGateway: false })}
+                        onSubmit={gateway => {this.props.createGateway(gateway);}}/>
+        {this.props.settings.displayCreators?
+          <Button variant="contained"
+                  color="primary"
+                  onTouchTap={() => this.setState({ modalAddGateway: true })}>
+            Add a gateway
+          </Button> : null}
         {this.props.gateways.length ? (
           <div style={{ marginTop: "20px" }}>
             {this.props.gateways
               ? this.props.gateways.map((gateway, index) => {
                   return (
                     <Link to={"/gateways/" + gateway.id}>
-                      <GatewayLineCard
-                        gateway={gateway}
-                        isDetails={true}
-                        updateGateway={this.props.createGateway}
-                        deleteGateway={this.props.deleteGateway}
-                        permission={this.props.gatewayPermissions.find(
-                          p => p.resource == gateway.id
-                        )}
-                      />
+                      <GatewayLineCard gateway={gateway}
+                                       isDetails={true}
+                                       updateGateway={this.props.createGateway}
+                                       deleteGateway={this.props.deleteGateway}
+                                       permission={this.props.gatewayPermissions.find(
+                                         p => p.resource == gateway.id
+                                       )}/>
                     </Link>
                   );
                 })
@@ -144,7 +137,8 @@ function mapStateToProps(state) {
     devices: state.devices.devices,
     gateways: state.gateways.gateways,
     devicePermissions: state.permissions.device,
-    gatewayPermissions: state.permissions.gateway
+    gatewayPermissions: state.permissions.gateway,
+    settings: state.settings
   };
 }
 
