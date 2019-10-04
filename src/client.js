@@ -30,7 +30,7 @@ async function onLocationChange(location, action) {
   currentLocation = location;
 
   try {
-    appInstance = keycloakLogin();
+    keycloakLogin();
   } catch (error) {
     if (__DEV__) {
       throw error;
