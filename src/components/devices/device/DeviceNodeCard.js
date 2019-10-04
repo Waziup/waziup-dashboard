@@ -63,12 +63,12 @@ export default class DeviceNodeCard extends Component {
           }}
           isEdit={false} />
         <ActuatorForm modalOpen={this.state.modalAddActuator}
-        handleClose={() => { this.setState({ modalAddActuator: false }) }}
-        onSubmit={(m) => {
-          this.props.updateActuator(device.id, m);
-          this.setState({ modalAddActuator: false });
-        }}
-        isEdit={false} />
+          handleClose={() => { this.setState({ modalAddActuator: false }) }}
+          onSubmit={(m) => {
+            this.props.updateActuator(device.id, m);
+            this.setState({ modalAddActuator: false });
+          }}
+          isEdit={false} />
         <DeviceForm device={device}
           gateways={this.props.gateways}
           isEdit={true}
