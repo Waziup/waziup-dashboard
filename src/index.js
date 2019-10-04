@@ -20,6 +20,7 @@ import Notifications from './components/notifs/Notifications.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
 import Projects from './components/projects/Projects';
 import ProjectDetail from './components/projects/ProjectDetail';
+import Settings from './components/settings/Settings';
 import config from './config';
 
 injectTapEventPlugin();
@@ -46,6 +47,7 @@ const routes = {
     { path: 'users', component: Users },
     { path: 'users/:userId', component: UserDetail },
     { path: 'users/:userId/perms', component: UserPermissions },
+    { path: 'settings', component: Settings },
     { path: '*', component: () => <h2> Page not found!</h2> }
   ],
   onChange: (prevState, nextState) => {
