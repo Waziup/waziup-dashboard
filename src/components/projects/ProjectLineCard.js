@@ -20,6 +20,7 @@ export default class ProjectLineCard extends Component {
 
     return (
       <Card className="deviceNode">
+        <span className="Typography"> {projectName} </span>
         <div className="contentCards">
 
           <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
@@ -29,7 +30,6 @@ export default class ProjectLineCard extends Component {
                 <img src={projectImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
                 {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
                 <br />
-                <span className="Typography"> {projectName} </span>
                 <pre> {"ID: " + project.id} </pre>
               </div>
             </Grid>

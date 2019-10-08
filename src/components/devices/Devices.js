@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'react-grid-system';
 import DeviceForm from './device/DeviceForm.js';
+import DeviceLineCard from './DeviceLineCard.js';
 import DevicesTable from './DevicesTable.js';
-import DevicesList from './DevicesList.js';
 import {
   createDevice, getDevices, getDeviceAttributes
 } from '../../actions/actions.js';
@@ -26,6 +26,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import deviceImage from '../../images/device.png';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router';
 
 const styles = theme => ({
   root: {
@@ -155,9 +157,11 @@ class Devices extends Component {
 
     return (
       <Container fluid>
-        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+        <AppBar
+          position="static"
+          style={{marginBottom: '30px', background: '#e9edf2'}}>
           <Toolbar>
-          <img src={deviceImage} height="50"/>
+            <img src={deviceImage} height="50"/>
             <Typography variant="h5" className="page-title">
               Devices       
             </Typography>
@@ -167,12 +171,10 @@ class Devices extends Component {
           gateways={this.props.gateways}
           handleClose={() => this.setState({ modalAddDevice: false })}
           modalOpen={this.state.modalAddDevice}
-          onSubmit={s => this.props.createDevice(s)}
-        />
+          onSubmit={s => this.props.createDevice(s)}/>
         <pre
           className="tableSwitch"
-          onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}
-        >
+          onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
           {' '}
           {this.state.isCardsView ? 'Switch to table view' : 'Switch to cards view'}
           {' '}
@@ -242,19 +244,27 @@ class Devices extends Component {
             </Grid>
           </Grid>
         </Collapse>
+            {this.props.settings.allowManualCreateResources? 
+              <Button variant="contained"
+                      color="primary"
+                      className="addDeviceButton"
+                      onTouchTap={() => this.setState({ modalAddDevice: true })} >
+                Add a device
+              </Button>: null}
 
-        {this.state.isCardsView
-          ? (
-            <DevicesList
-              addDevice={() => {
-                console.log('test'); this.setState({ modalAddDevice: true });
-              }}
-              devices={this.state.devices}
-              user={this.props.user}
-              settings={this.props.settings}
-            />
-          )
-          : <DevicesTable devices={this.state.devices} />}
+        {this.state.isCardsView ? 
+          <div className="section">
+            <div style={{ marginTop: "20px" }}>
+              {this.state.devices.map(s => {return (
+                <Link to={"/devices/" + s.id}>
+                  <DeviceLineCard className="deviceNode"
+                                  device={s}
+                                  user={this.props.user}/>
+                </Link>)})}
+            </div>
+            }
+          </div>
+        : <DevicesTable devices={this.state.devices} />}
       </Container>
     );
   }
