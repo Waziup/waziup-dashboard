@@ -16,7 +16,7 @@ export default class ProjectLineCard extends Component {
   render() {
     let project = this.props.project;
 
-    let projectName = (project.name ? project.name + " " : "") + "(" + project.id + ")";
+    let projectName = project.name ? project.name + " " : "No name (" + project.id + ")";
 
     return (
       <Card className="deviceNode">
@@ -30,6 +30,7 @@ export default class ProjectLineCard extends Component {
                 {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
                 <br />
                 <span className="Typography"> {projectName} </span>
+                <pre> {"ID: " + project.id} </pre>
               </div>
             </Grid>
             <div className="boardIcon" style={{'margin-right':'20px'}}>
