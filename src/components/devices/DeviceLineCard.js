@@ -72,7 +72,7 @@ export default class DeviceLineCard extends Component {
               <div className="boardIcon">
                 <img
                   src={deviceNodeImage}
-                  height="64"
+                  height="60"
                   title={
                     device.dateUpdated
                       ? "Last update at " + device.dateUpdated
@@ -116,7 +116,7 @@ export default class DeviceLineCard extends Component {
                         <div className="sensIcon">
                           <SensIcon
                             sensor_kind={sens.sensor_kind}
-                            height="64"
+                            height="60"
                             title={title(sens)}
                           />
                         </div>
@@ -152,7 +152,7 @@ export default class DeviceLineCard extends Component {
                           <div className="actuIcon">
                             <img
                               src={actuatorImage}
-                              height="64"
+                              height="60"
                             />
                           </div>
                       </div>

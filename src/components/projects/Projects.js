@@ -58,9 +58,14 @@ class Projects extends Component {
           createGateway={this.props.createGateway}
           onSubmit={s => this.props.createProject(s)}
         />
-        <Button variant="contained" color="primary" className="addProjectButton" onTouchTap={() => this.setState({ modalAddProject: true })} >Create a project</Button>
-        <br />
-        <br />
+        <Button variant="contained"
+                color="primary"
+                className="addDeviceButton"
+                onTouchTap={() => this.setState({ modalAddProject: true })}>
+          Create a project
+        </Button>
+        <br/>
+        <br/>
         {
           this.props.projects.length != 0 ? DOM.div(null, 
             this.props.projects.map((p,index) => 

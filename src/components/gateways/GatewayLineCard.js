@@ -46,7 +46,7 @@ export default class GatewayLineCard extends Component {
               <div className="boardIcon">
                 <img
                   src={gatewayNodeImage}
-                  height="54"
+                  height="60"
                   title={
                     gateway.date_modified
                       ? "Last modified at " + gateway.date_modified
@@ -80,7 +80,8 @@ export default class GatewayLineCard extends Component {
                       </div>
                       <div className="cardContent">
                         <div className="actuIcon">
-                          <img src={deviceImage} height="64" />
+                          <img src={deviceImage}
+                               height="60" />
                         </div>
                       </div>
                     </Card>

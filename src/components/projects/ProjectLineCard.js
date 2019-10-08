@@ -27,21 +27,34 @@ export default class ProjectLineCard extends Component {
 
             <Grid item xs={12} sm={6} md={3} lg={3} container justify = "center">
               <div className="boardIcon">
-                <img src={projectImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+                <img src={projectImage}
+                     height="60"
+                     title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
                 {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
-                <br />
-                <pre> {"ID: " + project.id} </pre>
+                <br/>
+                <pre>
+                  {"ID: " + project.id}
+                </pre>
               </div>
             </Grid>
-            <div className="boardIcon" style={{'margin-right':'20px'}}>
-              <img src={gatewayImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
-              <br />
-              <span className="Typography"> {project.gateway_ids? project.gateway_ids.length: 0} gateways</span>
+            <div className="boardIcon"
+                 style={{'margin-right':'20px'}}>
+              <img src={gatewayImage}
+                   height="60"
+                   title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+              <br/>
+              <span className="Typography">
+                {project.gateway_ids? project.gateway_ids.length: 0} gateways
+              </span>
             </div>  
             <div className="boardIcon">
-              <img src={deviceImage} height="40" title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
-              <br />
-              <span className="Typography"> {project.device_ids? project.device_ids.length: 0} devices</span>
+              <img src={deviceImage}
+                   height="60"
+                   title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
+              <br/>
+              <span className="Typography">
+                {project.device_ids? project.device_ids.length: 0} devices
+              </span>
             </div>             
           </Grid>
         </div>
