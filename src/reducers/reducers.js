@@ -528,7 +528,7 @@ function permissionsReducer(state = {
   }
 }
 
-function settingsReducer(state = {displayCreators: false}, action = null) {
+function settingsReducer(state = {allowManualCreateResources: false}, action = null) {
   switch (action.type) {
     case types.SET_SETTINGS: return action.settings;
     default: return state;
