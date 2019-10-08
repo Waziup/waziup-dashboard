@@ -15,8 +15,7 @@ export default class GatewayLineCard extends Component {
 
   render() {
     let gateway = this.props.gateway;
-    let gatewayName =
-      (gateway.name ? gateway.name + " " : "") + "(" + gateway.id + ")";
+    let gatewayName = gateway.name ? gateway.name + " " : "No name " + "(" + gateway.id + ")";
     let maxlimit = 30;
     let activeStyle =
       gateway &&
@@ -25,14 +24,12 @@ export default class GatewayLineCard extends Component {
         : "cardRed";
 
     return (
-      <Card className={"card " + activeStyle} style={{minWidth:'350px'}}>
+      <Card className="card" style={{width:'100%'}}>
         <pre className="Typography">
           {gatewayName && (
             <Tooltip title={gatewayName}>
               <span>
-                {gatewayName.length > maxlimit
-                  ? gatewayName.substring(0, maxlimit - 3) + "..."
-                  : gatewayName}
+                {gatewayName}
               </span>
             </Tooltip>
           )}
@@ -67,6 +64,9 @@ export default class GatewayLineCard extends Component {
                         ? " (you)"
                         : "")
                     : ""}{" "}
+                </pre>
+                <pre>
+                  {"ID: " + gateway.id}
                 </pre>
               </div>
             </Grid>

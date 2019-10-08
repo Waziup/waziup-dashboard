@@ -27,14 +27,13 @@ export default class GatewayNodeCard extends Component {
     let title = gateway.date_modified ? "Date modified: " + gateway.date_modified : "No data yet"
 
     return (
-      <Card className={"deviceNode " + activeStyle}>
+      <Card className={"deviceNode"}>
         <AddGatewayForm
           gateway={gateway}
           isEdit={true}
           modalOpen={this.state.modalEditGateway}
           handleClose={() => this.setState({ modalEditGateway: false })}
           onSubmit={gateway => {
-            console.log("yeet");
             this.props.updateGatewayName(gateway.id, gateway.name);
           }}
         />
@@ -48,10 +47,8 @@ export default class GatewayNodeCard extends Component {
           <Grid item md={12} lg={6}>
             <span className="Typography">
               {" "}
-              {(gateway.name ? gateway.name + " " : "") +
-                "(" +
-                gateway.id +
-                ")"}{" "}
+              {gateway.name ? gateway.name : "No name (" + gateway.id +")"}
+              {" "}
             </span>
           </Grid>
           <Grid item md={12} lg={6}>
@@ -95,6 +92,12 @@ export default class GatewayNodeCard extends Component {
                       variant="contained"
                       color="primary"
                       onTouchTap={() => { this.setState({ modalEditGateway: true }) }}>Edit</Button>
+                    <Button
+                      className="topRightButton"
+                      variant="contained"
+                      color="primary"
+                      onTouchTap={() => { window.open("https://remote.waziup.io/" + gateway.id + "/admin/", '_blank'); 
+                                          return null;}}>Remote access</Button>
                   </Hidden>
                 </div>) : null}
             </Typography>
@@ -117,6 +120,10 @@ export default class GatewayNodeCard extends Component {
               {" "}
               {"visibility: " +
                 (gateway.visibility ? gateway.visibility : "public")}{" "}
+              {" "}
+            </pre>
+            <pre>
+              {"ID: " + gateway.id}
             </pre>
           </div>
           {gateway.devices
