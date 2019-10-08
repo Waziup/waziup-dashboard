@@ -21,11 +21,14 @@ import { DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import Card from "@material-ui/core/Card";
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
+import config from '../../config';
 
 class NotifForm extends Component {
   constructor(props) {
     super(props);
     console.log("notif before:" + JSON.stringify(props.notif))
+    var tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const defaultNotif = Waziup.Notification.constructFromObject({
       condition: { devices: [], sensors: [], expression: "SM1>40"},
       action: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
@@ -35,7 +38,7 @@ class NotifForm extends Component {
     this.state = {
       notif: props.notif? props.notif: defaultNotif,
       devices: [],
-      expDate: ""
+      expDate: moment(tomorrow).format("YYYY-MM-DD") 
     };
   }
 
@@ -50,7 +53,6 @@ class NotifForm extends Component {
   componentWillMount() {
     let devices =  this.props.devices.sort(this.compare);
     this.setState({devices:devices })
-    console.log(devices);
   }
 
   handleChange = (field, event) => {
@@ -84,8 +86,6 @@ class NotifForm extends Component {
       <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}>Submit</Button>,
     ];
 
-    console.log("open form" + JSON.stringify(this.state.notif))  
-    
     return (
       <Dialog
         actions={actions}
@@ -102,12 +102,11 @@ class NotifForm extends Component {
             </div>
             <CardContent>
               <FormControl style={{display: 'flex'}}>
-                <InputLabel htmlFor="devices">Devices:</InputLabel>
+                <InputLabel htmlFor="devices">Devices</InputLabel>
                 <Select multiple={true}
                   input={<Input name="devices" id="devices" />}
                   value={this.state.notif.condition.devices}
                   onChange={(s) => this.handleChange("devices", s)}
-                  label="Devices:"
                   title="Device to uses">
                   {this.state.devices.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.devices.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
                 </Select>
@@ -183,6 +182,10 @@ class NotifForm extends Component {
                        title="Expiration date for the notification">
               Expires
             </TextField>
+          </div>
+          <div className="notifInfo">
+            Attention: to receive messages on SMS or Twitter, you should register your account in {' '}
+            <a href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl}>your Profile</a>.
           </div>
         </DialogContent>
         <DialogActions>
