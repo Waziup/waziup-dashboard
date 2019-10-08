@@ -100,7 +100,10 @@ class Gateways extends Component {
         <AddGatewayForm modalOpen={this.state.modalAddGateway}
                         handleClose={() => this.setState({ modalAddGateway: false })}
                         onSubmit={gateway => {this.props.createGateway(gateway);}}/>
-        {this.props.settings.displayCreators?
+        <Typography>
+          <a href="https://www.waziup.io/documentation/dashboard/">How to connect a gateway?</a>
+        </Typography>
+        {this.props.settings.allowManualCreateResources?
           <Button variant="contained"
                   color="primary"
                   onTouchTap={() => this.setState({ modalAddGateway: true })}>

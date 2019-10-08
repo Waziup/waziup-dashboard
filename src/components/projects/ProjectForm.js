@@ -107,7 +107,7 @@ class ProjectForm extends Component {
           <Grid container spacing={24}>
             <img src={projectImage} height="80" class="ProjectWizardIcon"/>
             <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/1-dashboard/">What is a project?</a>
+              <a href="https://www.waziup.io/documentation/dashboard/">What is a project?</a>
             </Grid>
             <Grid item sm={6}>
               <TextField
@@ -135,27 +135,28 @@ class ProjectForm extends Component {
               }}
             />
             <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a gateway?</a>
+              <a href="https://www.waziup.io/documentation/dashboard/">How to connect a gateway?</a>
             </Grid>
-            <Grid item sm={6}>
-              <Grid
-                row
-                container
-                direction="row"
-                justify="space-around"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="addDeviceButton"
-                  onTouchTap={() => this.setState({ modalAddGateway: true })}
+            {this.props.settings.allowManualCreateResources ? 
+              <Grid item sm={6}>
+                <Grid
+                  row
+                  container
+                  direction="row"
+                  justify="space-around"
+                  alignItems="center"
                 >
-                  Create a new gateway
-                </Button>
-                <Chip label="Or"  />
-              </Grid>
-            </Grid>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="addDeviceButton"
+                    onTouchTap={() => this.setState({ modalAddGateway: true })}
+                  >
+                    Create a new gateway
+                  </Button>
+                  <Chip label="Or"  />
+                </Grid>
+              </Grid> : null}
             <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="gateways">Gateways</InputLabel>
@@ -197,25 +198,26 @@ class ProjectForm extends Component {
             <Grid item xs={12}>
               <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a device?</a>
             </Grid>
-            <Grid item sm={6}>
-              <Grid
-                row
-                container
-                direction="row"
-                justify="space-around"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="addDeviceButton"
-                  onTouchTap={() => this.setState({ modalAddDevice: true })}
+            {this.props.settings.allowManualCreateResources ? 
+              <Grid item sm={6}>
+                <Grid
+                  row
+                  container
+                  direction="row"
+                  justify="space-around"
+                  alignItems="center"
                 >
-                  Create a new device
-                </Button>
-                <Chip label="Or"  />
-              </Grid>
-            </Grid>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className="addDeviceButton"
+                    onTouchTap={() => this.setState({ modalAddDevice: true })}
+                  >
+                    Create a new device
+                  </Button>
+                  <Chip label="Or"  />
+                </Grid>
+              </Grid> : null}
             <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
@@ -339,7 +341,8 @@ class ProjectForm extends Component {
 function mapStateToProps(state) {
   return {
     devices: state.devices.devices,
-    gateways: state.gateways.gateways
+    gateways: state.gateways.gateways,
+    settings: state.settings
   };
 }
 
