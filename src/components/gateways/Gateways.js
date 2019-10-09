@@ -71,7 +71,7 @@ class Gateways extends Component {
                                  permission={this.props.gatewayPermissions.find(
                                    p => p.resource == gateway.id)}/>
               </Link>
-              );})} : null}
+              );})}
           </div>
         : null}
       </Container>

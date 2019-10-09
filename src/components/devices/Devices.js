@@ -262,7 +262,6 @@ class Devices extends Component {
                                   user={this.props.user}/>
                 </Link>)})}
             </div>
-            }
           </div>
         : <DevicesTable devices={this.state.devices} />}
       </Container>
