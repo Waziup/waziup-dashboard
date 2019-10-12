@@ -19,19 +19,24 @@ import AddGatewayForm from "./AddGatewayForm.js";
 import { Link } from "react-router";
 import GatewayLineCard from "./GatewayLineCard";
 import Card from "@material-ui/core/Card";
-
+import { ListLoader } from './../Loaders';
 
 class Gateways extends Component {
   constructor(props) {
     super(props);
     this.state = { 
       modalAddGateway: false,
-      modalEditGateway: false };
+      modalEditGateway: false,
+      loading: true };
   }
 
   componentDidMount() {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
+  }
+
+  componentWillReceiveProps() { 
+    this.setState({loading: false})
   }
 
   render() {
@@ -62,7 +67,9 @@ class Gateways extends Component {
           </Button> : null}
         {this.props.gateways && this.props.gateways.length ?
           <div style={{ marginTop: "20px" }}>
-            {this.props.gateways
+            { this.state.loading ? 
+              ListLoader()
+              :this.props.gateways
               ? this.props.gateways.map((gateway, index) => {
                   return (
                     this.props.settings.showPublicResources ?

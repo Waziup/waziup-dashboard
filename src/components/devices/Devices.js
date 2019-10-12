@@ -28,6 +28,7 @@ import deviceImage from '../../images/device.png';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router';
+import { ListLoader } from './../Loaders';
 
 const styles = theme => ({
   root: {
@@ -58,7 +59,8 @@ class Devices extends Component {
       modalAddDevice: false,
       isCardsView: true,
       filter: defaultFilter,
-      devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter))
+      devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
+      loading: true
     };
 
   }
@@ -80,7 +82,7 @@ class Devices extends Component {
   }
   
   componentWillReceiveProps(nextProps) { 
-    this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter))})
+    this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter)), loading: false})
   }
 
   compare(a, b) {
@@ -257,7 +259,10 @@ class Devices extends Component {
         {this.state.isCardsView ? 
           <div className="section">
             <div style={{ marginTop: "20px" }}>
-              {this.state.devices.map(s => {return (
+            { this.state.loading ? 
+              ListLoader()
+              :
+              this.state.devices.map(s => {return (
                 <Link to={"/devices/" + s.id}>
                   {this.props.settings.showPublicResources? 
                   <DeviceLineCard className="deviceNode"
