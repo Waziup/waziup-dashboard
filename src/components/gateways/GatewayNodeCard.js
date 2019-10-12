@@ -26,7 +26,6 @@ export default class GatewayNodeCard extends Component {
 
   render() {
     let gateway = this.props.gateway;    
-    let active = (gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive) ? true : false
     let title = gateway.date_modified ? "Date modified: " + gateway.date_modified : "No data yet"
 
     return (
@@ -42,17 +41,17 @@ export default class GatewayNodeCard extends Component {
               alignItems="left"
               spacing={24}>
           <Grid item md={12} lg={6}>
-            <span className="Typography">
+            <span className="Typography" style={{'vertical-align': "top"}}>
               {" "}
               {gateway.name ? gateway.name : "No name (" + gateway.id +")"}
               {" "}
             </span>
-            {active ? 
+            {gateway.connected ? 
               <Tooltip title="Your gateway is connected!">
-                <LinkOnIcon color="error" style={{ fontSize: 36, fill: 'green' }}/>
+                <LinkOnIcon style={{ fontSize: 32, fill: 'green', margin: '10px' }}/>
               </Tooltip>
             : <Tooltip title="Your gateway is not connected.">
-                <LinkOffIcon color="error" style={{ fontSize: 36 }}/>
+                <LinkOffIcon style={{ fontSize: 32, fill: 'red', margin: '10px' }}/>
               </Tooltip>}
           </Grid>
           <Grid item md={12} lg={6}>
