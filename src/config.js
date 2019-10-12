@@ -3,11 +3,10 @@ module.exports = {
   //In a production environment, those environment variables will be overitten at startup by webpack (see webpack.config.js). 
   serverUrl: process.env.SERVER_URL || `http://localhost:${process.env.SERVER_PORT || 3000}`,
   serverPort: process.env.SERVER_PORT || 3000,
-  keycloakUrl: process.env.KEYCLOAK_URL || 'http://localhost:8080/auth',
+  keycloakUrl: process.env.KEYCLOAK_URL || 'https://keycloak.waziup.io/auth',
   realm: 'waziup',
-  clientId: 'api-server',
-  clientSecret: '4e9dcb80-efcd-484c-b3d7-1e95a0096ac0',
-  APIServerUrl: process.env.API_SERVER_URL || 'http://localhost/api',
+  clientId: 'dashboard',
+  APIServerUrl: process.env.API_SERVER_URL || 'https://api.waziup.io/api',
   logLevel: process.env.LOG_LEVEL || 'INFO',  
   // Web analytics
   analytics: {

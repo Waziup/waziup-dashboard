@@ -342,6 +342,32 @@ function userReducer(state = {
   }
 }
 
+// Get socials
+function socialsReducer(state = {
+  isLoading: false,
+  socials: [],
+  error: false,
+  errMsg: '',
+}, action = null) {
+  switch (action.type) {
+    case types.GET_SOCIALS_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_SOCIALS_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      socials: (action.data).reverse(),
+      error: false,
+    });
+    case types.GET_SOCIALS_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
 function notificationsReducer(state = {
   isLoading: false,
   notifications: [],
@@ -528,7 +554,7 @@ function permissionsReducer(state = {
   }
 }
 
-function settingsReducer(state = {allowManualCreateResources: false}, action = null) {
+function settingsReducer(state = {allowManualCreateResources: false, showPublicResources: false}, action = null) {
   switch (action.type) {
     case types.SET_SETTINGS: return action.settings;
     default: return state;
@@ -564,6 +590,8 @@ export default function rootReducer(state = {}, action) {
     user: userReducer(state.user, action),
     // List of users
     users: usersReducer(state.users, action),
+    // List of socials
+    socials: socialsReducer(state.socials, action),
     // List of notifications
     notifications: notificationsReducer(state.notifications, action),
     // Notif CRUD operations

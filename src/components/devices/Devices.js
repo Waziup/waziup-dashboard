@@ -203,6 +203,7 @@ class Devices extends Component {
                 </Select>
               </FormControl>
             </Grid>
+            {this.props.settings.showPublicResources ? 
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="owner">Owner</InputLabel>
@@ -216,6 +217,7 @@ class Devices extends Component {
                 </Select>
               </FormControl>
             </Grid>
+            :null }
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="visibility">Visibility</InputLabel>
@@ -259,9 +261,14 @@ class Devices extends Component {
             <div style={{ marginTop: "20px" }}>
               {this.state.devices.map(s => {return (
                 <Link to={"/devices/" + s.id}>
+                  {this.props.settings.showPublicResources? 
                   <DeviceLineCard className="deviceNode"
                                   device={s}
                                   user={this.props.user}/>
+                  : (s.owner == this.props.user.username) && <DeviceLineCard className="deviceNode"
+                                  device={s}
+                                  user={this.props.user}/>
+                  }
                 </Link>)})}
             </div>
           </div>

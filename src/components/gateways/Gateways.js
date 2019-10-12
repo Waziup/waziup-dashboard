@@ -74,16 +74,32 @@ class Gateways extends Component {
           </Button> : null}
         {this.props.gateways && this.props.gateways.length ?
           <div style={{ marginTop: "20px" }}>
-            {this.props.gateways.map((gateway, index) => {return (
-              <Link to={"/gateways/" + gateway.id}>
-                <GatewayLineCard gateway={gateway}
-                                 isDetails={true}
-                                 updateGateway={this.props.createGateway}
-                                 deleteGateway={this.props.deleteGateway}
-                                 permission={this.props.gatewayPermissions.find(
-                                   p => p.resource == gateway.id)}/>
-              </Link>
-              );})}
+            {this.props.gateways
+              ? this.props.gateways.map((gateway, index) => {
+                  return (
+                    this.props.settings.showPublicResources ?
+                    <Link to={"/gateways/" + gateway.id}>
+                      <GatewayLineCard gateway={gateway}
+                                       isDetails={true}
+                                       updateGateway={this.props.createGateway}
+                                       deleteGateway={this.props.deleteGateway}
+                                       permission={this.props.gatewayPermissions.find(
+                                         p => p.resource == gateway.id
+                                       )}/>
+                    </Link>
+                    : (gateway.owner ==  this.props.user.username)
+                      && <Link to={"/gateways/" + gateway.id}>
+                      <GatewayLineCard gateway={gateway}
+                                      isDetails={true}
+                                      updateGateway={this.props.createGateway}
+                                      deleteGateway={this.props.deleteGateway}
+                                      permission={this.props.gatewayPermissions.find(
+                                        p => p.resource == gateway.id
+                                      )}/>
+                      </Link>
+                  );
+                })
+              : null}
           </div>
         : null}
       </Container>
@@ -97,7 +113,8 @@ function mapStateToProps(state) {
     gateways: state.gateways.gateways,
     devicePermissions: state.permissions.device,
     gatewayPermissions: state.permissions.gateway,
-    settings: state.settings
+    settings: state.settings,
+    user: state.current_user,
   };
 }
 

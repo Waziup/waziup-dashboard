@@ -14,6 +14,7 @@ const actuatorsApi = new WaziupApi.ActuatorsApi();
 const usersApi = new WaziupApi.UsersApi();
 const notifsApi = new WaziupApi.NotificationsApi();
 const authApi = new WaziupApi.AuthApi();
+const socialsApi = new WaziupApi.SocialsApi();
 
 export function logout() {
   return async function (dispatch) {
@@ -670,6 +671,33 @@ export function getGatewayPermissions() {
       dispatch({ type: types.GET_GATEWAY_PERMS_SUCCESS, data });
     } catch (error) {
       dispatch({ type: types.GET_GATEWAY_PERMS_ERROR, data: error });
+    }
+  };
+}
+
+export function getSocials() {
+  return async function (dispatch) {
+    dispatch({ type: types.GET_SOCIALS_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await socialsApi.getSocialMsgs();           
+      dispatch({ type: types.GET_SOCIALS_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: types.GET_SOCIALS_ERROR, data: error });
+    }
+  };
+}
+
+export function createSocial(social) {
+  return async function (dispatch) {
+    dispatch({ type: types.CREATE_SOCIAL_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await socialsApi.createSocialMsg(social);
+      dispatch({ type: types.CREATE_SOCIAL_SUCCESS, data });
+      dispatch(getSocials());
+    } catch (error) {
+      dispatch({ type: types.CREATE_SOCIAL_ERROR, data: error });
     }
   };
 }
