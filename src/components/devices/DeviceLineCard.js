@@ -44,8 +44,7 @@ export default class DeviceLineCard extends Component {
     };
     let deviceNodeNew =
       new Date() < Date.parse(device.date_created) + config.delayDeviceNew;
-    let deviceName =
-      (device.name ? device.name + " " : "") + "(" + device.id + ")";
+    let deviceName = device.name ? device.name + " " : "No name (" + device.id + ")";
     let maxlimit = 20;
 
     return (
@@ -53,15 +52,11 @@ export default class DeviceLineCard extends Component {
         <div>
           <Hidden mdUp implementation="css">
             <span className="Typography">
-              {" "}
-              Node{" "}
-              {deviceName.length > maxlimit
-                ? deviceName.substring(0, maxlimit - 3) + "..."
-                : deviceName}{" "}
+                {deviceName}
             </span>
           </Hidden>
           <Hidden smDown implementation="css">
-            <span className="Typography"> Node {deviceName} </span>
+            <span className="Typography"> {deviceName} </span>
           </Hidden>
         </div>
 
@@ -77,7 +72,7 @@ export default class DeviceLineCard extends Component {
               <div className="boardIcon">
                 <img
                   src={deviceNodeImage}
-                  height="64"
+                  height="60"
                   title={
                     device.dateUpdated
                       ? "Last update at " + device.dateUpdated
@@ -97,6 +92,9 @@ export default class DeviceLineCard extends Component {
                         ? " (you)"
                         : "")
                     : ""}{" "}
+                </pre>
+                <pre>
+                  {"ID: " + device.id}
                 </pre>
               </div>
             </Grid>
@@ -118,7 +116,7 @@ export default class DeviceLineCard extends Component {
                         <div className="sensIcon">
                           <SensIcon
                             sensor_kind={sens.sensor_kind}
-                            height="64"
+                            height="60"
                             title={title(sens)}
                           />
                         </div>
@@ -154,7 +152,7 @@ export default class DeviceLineCard extends Component {
                           <div className="actuIcon">
                             <img
                               src={actuatorImage}
-                              height="64"
+                              height="60"
                             />
                           </div>
                       </div>

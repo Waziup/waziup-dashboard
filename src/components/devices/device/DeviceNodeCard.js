@@ -81,7 +81,7 @@ export default class DeviceNodeCard extends Component {
           }} />
         <Grid container direction="row" justify="flex-start" spacing={24}>
           <Grid item md={12} lg={6}>
-            <span className="Typography"> {(device.name ? device.name + " " : "") + "(" + device.id + ")"} </span>
+            <span className="Typography"> {device.name ? device.name + " " : "No name (" + device.id + ")"} </span>
           </Grid>
           <Grid item md={12} lg={6}>
             <Typography>
@@ -147,6 +147,7 @@ export default class DeviceNodeCard extends Component {
             <pre> {device.owner ? "owner: " + device.owner + (this.props.user && device.owner == this.props.user.username ? " (you)" : "") : ""} </pre>
             <pre> {"visibility: " + (device.visibility ? device.visibility : "public")} </pre>
             <pre> {"domain: " + (device.domain ? device.domain : "none")} </pre>
+            <pre> {"ID: " + device.id} </pre>
           </div>
           {sensors}
           {actuators}

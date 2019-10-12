@@ -12,6 +12,9 @@ import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router";
 import config from '../../config';
+import LinkOnIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default class GatewayNodeCard extends Component {
   constructor(props) {
@@ -23,36 +26,34 @@ export default class GatewayNodeCard extends Component {
 
   render() {
     let gateway = this.props.gateway;    
-    let activeStyle = (gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive)? "cardGreen": "cardRed"
+    let active = (gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive) ? true : false
     let title = gateway.date_modified ? "Date modified: " + gateway.date_modified : "No data yet"
 
     return (
-      <Card className={"deviceNode " + activeStyle}>
-        <AddGatewayForm
-          gateway={gateway}
-          isEdit={true}
-          modalOpen={this.state.modalEditGateway}
-          handleClose={() => this.setState({ modalEditGateway: false })}
-          onSubmit={gateway => {
-            console.log("yeet");
-            this.props.updateGatewayName(gateway.id, gateway.name);
-          }}
-        />
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          alignItems="left"
-          spacing={24}
-        >
+      <Card className={"deviceNode"}>
+        <AddGatewayForm gateway={gateway}
+                        isEdit={true}
+                        modalOpen={this.state.modalEditGateway}
+                        handleClose={() => this.setState({ modalEditGateway: false })}
+                        onSubmit={gateway => {this.props.updateGatewayName(gateway.id, gateway.name);}}/>
+        <Grid container
+              direction="row"
+              justify="flex-start"
+              alignItems="left"
+              spacing={24}>
           <Grid item md={12} lg={6}>
             <span className="Typography">
               {" "}
-              {(gateway.name ? gateway.name + " " : "") +
-                "(" +
-                gateway.id +
-                ")"}{" "}
+              {gateway.name ? gateway.name : "No name (" + gateway.id +")"}
+              {" "}
             </span>
+            {active ? 
+              <Tooltip title="Your gateway is connected!">
+                <LinkOnIcon color="error" style={{ fontSize: 36, fill: 'green' }}/>
+              </Tooltip>
+            : <Tooltip title="Your gateway is not connected.">
+                <LinkOffIcon color="error" style={{ fontSize: 36 }}/>
+              </Tooltip>}
           </Grid>
           <Grid item md={12} lg={6}>
             <Typography>
@@ -95,6 +96,12 @@ export default class GatewayNodeCard extends Component {
                       variant="contained"
                       color="primary"
                       onTouchTap={() => { this.setState({ modalEditGateway: true }) }}>Edit</Button>
+                    <Button
+                      className="topRightButton"
+                      variant="contained"
+                      color="primary"
+                      onTouchTap={() => { window.open("https://remote.waziup.io/" + gateway.id + "/admin/", '_blank'); 
+                                          return null;}}>Remote access</Button>
                   </Hidden>
                 </div>) : null}
             </Typography>
@@ -117,6 +124,10 @@ export default class GatewayNodeCard extends Component {
               {" "}
               {"visibility: " +
                 (gateway.visibility ? gateway.visibility : "public")}{" "}
+              {" "}
+            </pre>
+            <pre>
+              {"ID: " + gateway.id}
             </pre>
           </div>
           {gateway.devices

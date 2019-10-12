@@ -6,6 +6,8 @@ import deviceImage from "../../images/device.png";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import config from "../../config";
+import LinkOnIcon from '@material-ui/icons/Link';
+import LinkOffIcon from '@material-ui/icons/LinkOff';
 
 export default class GatewayLineCard extends Component {
   constructor(props) {
@@ -15,48 +17,33 @@ export default class GatewayLineCard extends Component {
 
   render() {
     let gateway = this.props.gateway;
-    let gatewayName =
-      (gateway.name ? gateway.name + " " : "") + "(" + gateway.id + ")";
+    let gatewayName = gateway.name ? gateway.name + " " : "No name " + "(" + gateway.id + ")";
     let maxlimit = 30;
-    let activeStyle =
-      gateway &&
-      new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive
-        ? "cardGreen"
-        : "cardRed";
-
+    let active = gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive ? true : false;
     return (
-      <Card className={"card " + activeStyle} style={{minWidth:'350px'}}>
+      <Card className="card" style={{width:'100%'}}>
         <pre className="Typography">
-          {gatewayName && (
-            <Tooltip title={gatewayName}>
-              <span>
-                {gatewayName.length > maxlimit
-                  ? gatewayName.substring(0, maxlimit - 3) + "..."
-                  : gatewayName}
-              </span>
-            </Tooltip>
-          )}
+          {gatewayName}
         </pre>
+        {active ? 
+          <Tooltip title="Your gateway is connected!">
+            <LinkOnIcon color="error" style={{ fontSize: 36, fill: 'green' }}/>
+          </Tooltip>
+        : <Tooltip title="Your gateway is not connected.">
+            <LinkOffIcon color="error" style={{ fontSize: 36 }}/>
+          </Tooltip>}
+
         <div className="contentCards">
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="center"
-            spacing={24}
-          >
+          <Grid container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+                spacing={24}>
             <Grid item xs={12}>
               <div className="boardIcon">
-                <img
-                  src={gatewayNodeImage}
-                  height="54"
-                  title={
-                    gateway.date_modified
-                      ? "Last modified at " + gateway.date_modified
-                      : "No data yet"
-                  }
-                />
-
+                <img src={gatewayNodeImage}
+                     height="60"
+                     title={gateway.date_modified ? "Last modified at " + gateway.date_modified : "No data yet"}/>
                 <pre>
                   {" "}
                   {gateway.owner
@@ -67,6 +54,9 @@ export default class GatewayLineCard extends Component {
                         ? " (you)"
                         : "")
                     : ""}{" "}
+                </pre>
+                <pre>
+                  {"ID: " + gateway.id}
                 </pre>
               </div>
             </Grid>
@@ -80,7 +70,8 @@ export default class GatewayLineCard extends Component {
                       </div>
                       <div className="cardContent">
                         <div className="actuIcon">
-                          <img src={deviceImage} height="64" />
+                          <img src={deviceImage}
+                               height="60" />
                         </div>
                       </div>
                     </Card>

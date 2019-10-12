@@ -121,19 +121,14 @@ class Settings extends Component {
                   <Switch
                     id="boolValue"
                     name="boolValue"
-                    checked={this.props.settings.displayCreators}
-                    onChange={v => {
-                      console.log(v.target.checked);
-                      this.props.setSettings({
-                        ...this.props.settings,
-                        displayCreators: v.target.checked
-                      });
-                    }}
-                    value={this.props.settings.displayCreators}
+                    checked={this.props.settings.allowManualCreateResources}
+                    onChange={(v) => {console.log(v.target.checked); this.props.setSettings( {...this.props.settings, allowManualCreateResources : v.target.checked})}}
+                    value={this.props.settings.allowManualCreateResources}
                     color="primary"
                   />
                 }
-                label="Display creation forms for devices and gateways"
+              label="Allow manual creation of gateways and devices (recommended: off)"
+              title="The WAZIUP gateway will create everything automatically for you, so you normally don't need this option."
               />
               <FormControlLabel
                 control={

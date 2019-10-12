@@ -57,18 +57,6 @@ const routes = {
   }
 }
 
-// Render the page with the layout and routes
-function displayPage() {
-  console.info(`SERVER_URL: ${process.env.SERVER_URL}`);
-  console.info(`API_SERVER_URL: ${process.env.API_SERVER_URL}`);
-  console.info(`KEYCLOAK_URL: ${process.env.KEYCLOAK_URL}`);
-  ReactDOM.render(
-    <Provider store={store}>
-      <Router history={history} routes={routes} />
-    </Provider>,
-    document.getElementById('app'),
-  );
-}
 
 /*
  * Perform the keycloak authentication
@@ -106,6 +94,19 @@ export function keycloakLogin() {
     console.error(error);
     console.error('Authentication error. Check Keycloak params and cors issues.');
   });
+}
+
+// Render the page with the layout and routes
+function displayPage() {
+  console.info(`SERVER_URL: ${process.env.SERVER_URL}`);
+  console.info(`API_SERVER_URL: ${process.env.API_SERVER_URL}`);
+  console.info(`KEYCLOAK_URL: ${process.env.KEYCLOAK_URL}`);
+  ReactDOM.render(
+    <Provider store={store}>
+      <Router history={history} routes={routes} />
+    </Provider>,
+    document.getElementById('app'),
+  );
 }
 
 function getUser(keycloakId) {

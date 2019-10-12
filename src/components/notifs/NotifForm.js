@@ -18,11 +18,17 @@ import Socials from '@material-ui/icons/Share';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
 import { DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import Card from "@material-ui/core/Card";
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
+import config from '../../config';
 
 class NotifForm extends Component {
   constructor(props) {
     super(props);
     console.log("notif before:" + JSON.stringify(props.notif))
+    var tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const defaultNotif = Waziup.Notification.constructFromObject({
       condition: { devices: [], sensors: [], expression: "SM1>40"},
       action: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${SM1}", usernames: []},
@@ -32,9 +38,8 @@ class NotifForm extends Component {
     this.state = {
       notif: props.notif? props.notif: defaultNotif,
       devices: [],
-      expDate:""
+      expDate: moment(tomorrow).format("YYYY-MM-DD") 
     };
-    console.log("users:" + JSON.stringify(props.users))    
   }
 
   compare(a,b) {
@@ -48,7 +53,6 @@ class NotifForm extends Component {
   componentWillMount() {
     let devices =  this.props.devices.sort(this.compare);
     this.setState({devices:devices })
-    console.log(devices);
   }
 
   handleChange = (field, event) => {
@@ -82,80 +86,107 @@ class NotifForm extends Component {
       <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}>Submit</Button>,
     ];
 
-    console.log("open form" + JSON.stringify(this.state.notif))  
-    
     return (
       <Dialog
         actions={actions}
         modal={true}
         open={this.props.modalOpen}>
-        <DialogTitle>Create New Notification</DialogTitle>
+        <DialogTitle>
+          <Typography variant="h5"> Create a new notification </Typography>
+        </DialogTitle>
         <DialogContent>
-          <Grid container spacing={24}>
-            <Grid item xs={5}>
+          <Card className="notifBloc">
+            <div className="notifBlocTitle">
+              <img src={deviceImage} height="54"/>
+              <Typography variant="h6"> Condition </Typography>
+            </div>
+            <CardContent>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
                 <Select multiple={true}
                   input={<Input name="devices" id="devices" />}
-                  value={this.state.notif.condition.devices} onChange={(s) => this.handleChange("devices", s)} title="The kind of device used for this sensor">
+                  value={this.state.notif.condition.devices}
+                  onChange={(s) => this.handleChange("devices", s)}
+                  title="Device to uses">
                   {this.state.devices.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.devices.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={1}>
-              <img src={deviceArrow} width="30" height="30"/>
-            </Grid>
-            <Grid item xs={5}>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="sensors">Sensors</InputLabel>
                 <Select multiple={true}
                   input={<Input name="sensors" id="sensors" />}
-                  value={this.state.notif.condition.sensors} onChange={(a) => this.handleChange("sensors", a)}>
+                  value={this.state.notif.condition.sensors}
+                  onChange={(a) => this.handleChange("sensors", a)}
+                  title="The sensor that we'll observe">
                   {this.props.devices.filter(s => this.state.notif.condition.devices.includes(s.id)).map(s => s.sensors.map(m => <MenuItem key={m.id} checked={this.state.notif.condition.sensors.includes(m.id)} value={m.id} >{m.id}</MenuItem>))}
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={4}>
-              <div className="notifIcon">
-                <img src={deviceImage} height="100"/>
-                <img src={bellImage} height="24"/>
-              </div>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField name="expr" value={this.state.notif.condition.expression} onChange={(e) => this.handleChange("expr", e)}/>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField name="message" fullWidth={true} label="Message to send:" value={this.state.notif.action ? this.state.notif.action.message : null} onChange={(m) => this.handleChange("message", m)}/>
-            </Grid>
-            <Grid item xs={6}>
               <FormControl style={{display: 'flex'}}>
-              <InputLabel htmlFor="usernames">Users</InputLabel>
-              <Select multiple={true}
-                input={<Input name="usernames" id="usernames" />}
-                value={this.state.notif.action ? this.state.notif.action.usernames: null} onChange={(u) => this.handleChange("usernames", u)}>
-                {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
-                  <MenuItem key={u.username} value={u.username} checked={this.state.notif.action ? this.state.notif.action.usernames.includes(u.username): null}>
-                 
-                  {u.username}
-                  </MenuItem>): <br/>
-                }
-              </Select>
+                <TextField name="expr"
+                           value={this.state.notif.condition.expression}
+                           onChange={(e) => this.handleChange("expr", e)}
+                           label="Expression:"
+                           title="The expression that will trigger this notification. For example: 'TC>15' means that if the sensor 'TC' measures a temperature of more than 15°C, the notification will be triggered. ATTENTION: the sensor in the expression (here 'TC') MUST match the sensor selected above."/>
               </FormControl>
-            </Grid>
-            <Grid item xs={6}>
+            </CardContent>
+          </Card>
+          <Card className="notifBloc">
+            <div className="notifBlocTitle">
+              <img src={bellImage} height="48"/>
+              <Typography variant="h6"> Action </Typography>
+            </div>
+            <CardContent>
+              <div className="notifMsg">
+              <TextField name="message" 
+                         fullWidth={true}
+                         label="Message to send:"
+                         value={this.state.notif.action ? this.state.notif.action.message : null}
+                         onChange={(m) => this.handleChange("message", m)}
+                         title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
+              </div>
+              <FormControl style={{display: 'flex'}}>
+                <InputLabel htmlFor="usernames">Users</InputLabel>
+                <Select multiple={true}
+                  input={<Input name="usernames" id="usernames" />}
+                  value={this.state.notif.action ? this.state.notif.action.usernames: null}
+                  onChange={(u) => this.handleChange("usernames", u)}
+                  title="To whom this notification should be sent to?"
+                  >
+                  {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
+                    <MenuItem key={u.username} value={u.username} checked={this.state.notif.action ? this.state.notif.action.usernames.includes(u.username): null}>
+                   
+                    {u.username}
+                    </MenuItem>): <br/>
+                  }
+                </Select>
+              </FormControl>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="channels">Socials</InputLabel>
                 <Select multiple={true}
                   input={<Input name="channels" id="channels" />}
-                  value={this.state.notif.action ? this.state.notif.action.channels : null} onChange={(c) => this.handleChange("channels", c)}>
+                  value={this.state.notif.action ? this.state.notif.action.channels : null}
+                  onChange={(c) => this.handleChange("channels", c)}
+                  title="On which channels should we send this notification?">
                   {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.action ? this.state.notif.action.channels.includes(c) : null} leftIcon={<Socials/>}>{c}</MenuItem>)}
                 </Select>
               </FormControl> 
-            </Grid>
-            <Grid item xs={6}>
-            <TextField name="expires" type="date" value={this.state.expDate} onChange={(e) => this.handleChange("expires", e)} style={{display: 'flex'}}>Expires</TextField>
-            </Grid>
-          </Grid>
+            </CardContent>
+          </Card>
+          <div className="notifExpires">
+            <TextField name="expires"
+                       type="date"
+                       value={this.state.expDate}
+                       label="Expires"
+                       onChange={(e) => this.handleChange("expires", e)}
+                       style={{display: 'flex'}}
+                       title="Expiration date for the notification">
+              Expires
+            </TextField>
+          </div>
+          <div className="notifInfo">
+            Attention: to receive messages on SMS or Twitter, you should register your account in {' '}
+            <a href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl}>your Profile</a>.
+          </div>
         </DialogContent>
         <DialogActions>
           {actions}

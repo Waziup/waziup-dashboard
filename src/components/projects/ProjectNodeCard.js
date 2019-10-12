@@ -87,7 +87,13 @@ export default class ProjectNodeCard extends Component {
           justify="flex-start"
           spacing={24}
         >
-          <Grid item md={12} lg={12}>
+          <Grid item md={12} lg={6}>
+            <span className="Typography">
+              {" "}
+              {project.name ? project.name + " " : "No name (" + project.id + ")"}
+            </span>
+          </Grid>
+          <Grid item md={12} lg={6}>
             {this.props.permission &&
             this.props.permission.scopes.includes("projects:delete") ? (
               <div className="cardTitleIcons">
@@ -148,10 +154,6 @@ export default class ProjectNodeCard extends Component {
         >
           <Grid item md={12} lg={3}>
           <div className="boardIcon">
-            <span className="Typography">
-              {" "}
-              {(project.name ? project.name + " " : "") + "(" + project.id + ")"}
-            </span>
             <img
               src={projectImage}
               height="75"
@@ -170,6 +172,9 @@ export default class ProjectNodeCard extends Component {
                     ? " (you)"
                     : "")
                 : ""}{" "}
+            </pre>
+            <pre>
+              {"ID: " + project.id}
             </pre>
           </div>
           </Grid>

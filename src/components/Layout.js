@@ -174,7 +174,7 @@ class Layout extends Component {
             aria-haspopup="true"
             onClick={this.handleMenu}
             color="inherit">
-              {this.props.user.firstName + " " + this.props.user.lastName + " "}
+              {this.props.user ? (this.props.user.firstName + " " + this.props.user.lastName + " ") : ""}
               <AccountCircle className={classes.rightIcon}/>
             </Button>
           <Menu
