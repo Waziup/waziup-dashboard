@@ -6326,12 +6326,10 @@ rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-content-loader@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-4.3.0.tgz#c607cbe4415f7d9136c23f27c8505d1c5fbc3982"
-  integrity sha512-AoAuLwtkuswMLaAMdPnhsWJ1KuwXUZSxlR09bg5kxKEnQuCSPMjC20MILSnU+Htj+7m0NjFNQlqcarqMadAcMQ==
-  dependencies:
-    react-native-svg "9.6.4"
+react-content-loader@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-2.0.2.tgz#378a1b7dfaa2244943f94bdf2ec160cc4ab33baa"
+  integrity sha1-N4obffqiJElD+UvfLsFgzEqzO6o=
 
 react-datepicker@^0.56.0:
   version "0.56.0"
@@ -6460,11 +6458,6 @@ react-leaflet@^1.1.0:
 react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
-
-react-native-svg@9.6.4:
-  version "9.6.4"
-  resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-9.6.4.tgz#f9ceb228efd07317a5f9c378c6b9c5e13ff50cd0"
-  integrity sha512-6SlbGx0vlXHyDPQXSpX+8o6bNjxKFNJsISoboAkR7YWW6hdnkMg/HJXCgT6oJC0/ClKtSO7ZPrQcK4HR65kDNg==
 
 react-onclickoutside@^6.1.1:
   version "6.7.0"
@@ -8063,10 +8056,10 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-waziup-js@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.0.tgz#54e934d70ed6979a081b56b9abffdcc5b2bd5f8d"
-  integrity sha512-1fRppUE4tKtTY8suLG4l+06PKQIBh8ERyCVspC9zV3eRcJAp1ewtbFUxINSeMuGMNK/8Eo0ckO2HpmFaSqqRow==
+waziup-js@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/waziup-js/-/waziup-js-2.0.2.tgz#17d88e836f41756f218fd1a09938bf736bc2a026"
+  integrity sha512-9E5MEpKGkdcC8yNQ0kjR5IUnJe5hFrCQA/F9Q/h1MCvYehZsVZQfGolsD2zGhFXosE7QIgUqKNU5l8lKDKyb1w==
   dependencies:
     superagent "3.5.2"
 
