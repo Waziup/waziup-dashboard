@@ -46,4 +46,21 @@ const GatewayLoader = () => (
   </ContentLoader>
 )
 
-export { DeviceLoader, ProjectLoader, GatewayLoader };
+const ListLoader = () => (
+  <ContentLoader 
+    height={500}
+    width={400}
+    speed={2}
+    primaryColor="#f3f3f3"
+    secondaryColor="#ecebeb"
+  >
+    <rect x="15" y="20" rx="0" ry="0" width="0" height="0" /> 
+    <rect x="8" y="6" rx="0" ry="0" width="518" height="74" /> 
+    <rect x="97" y="68" rx="0" ry="0" width="0" height="0" /> 
+    <rect x="8" y="88" rx="0" ry="0" width="518" height="74" /> 
+    <rect x="9" y="169" rx="0" ry="0" width="518" height="74" /> 
+    <rect x="10" y="249" rx="0" ry="0" width="518" height="74" />
+  </ContentLoader>
+)
+
+export { DeviceLoader, ProjectLoader, GatewayLoader, ListLoader };

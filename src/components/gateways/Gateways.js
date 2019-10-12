@@ -20,7 +20,7 @@ import { Link } from "react-router";
 import GatewayLineCard from "./GatewayLineCard";
 import Card from "@material-ui/core/Card";
 import config from '../../config';
-
+import { ListLoader } from './../Loaders';
 
 class Gateways extends Component {
   
@@ -30,7 +30,8 @@ class Gateways extends Component {
     super(props);
     this.state = { 
       modalAddGateway: false,
-      modalEditGateway: false };
+      modalEditGateway: false,
+      loading: true };
   }
 
   componentWillMount() {
@@ -44,6 +45,10 @@ class Gateways extends Component {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+  componentWillReceiveProps() { 
+    this.setState({loading: false})
   }
 
   render() {
@@ -74,7 +79,9 @@ class Gateways extends Component {
           </Button> : null}
         {this.props.gateways && this.props.gateways.length ?
           <div style={{ marginTop: "20px" }}>
-            {this.props.gateways
+            { this.state.loading ? 
+              ListLoader()
+              :this.props.gateways
               ? this.props.gateways.map((gateway, index) => {
                   return (
                     this.props.settings.showPublicResources ?
