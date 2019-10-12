@@ -55,9 +55,13 @@ export default class DevicesList extends Component {
         {this.getDomains().length != 0 ? this.getDomains().map((d, index) => [
           React.createElement(DomainNameComponent, { key: { index }, domain: d.domainName }),
           d.devices.map(s => [
+            this.props.settings.showPublicResources ? 
             React.createElement(Link, { to: "/devices/" + s.id, key: { index } },
               React.createElement(DeviceLineCard, { className: "deviceNode", device: s, user: this.props.user, key: { index } })
             )
+            : (s.owner == this.props.user.username) && (React.createElement(Link, { to: "/devices/" + s.id, key: { index } },
+            React.createElement(DeviceLineCard, { className: "deviceNode", device: s, user: this.props.user, key: { index } })
+          ))
           ])
         ]) : 'Your filter did not match any devices'}
       </div>

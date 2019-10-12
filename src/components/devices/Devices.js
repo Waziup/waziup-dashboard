@@ -199,6 +199,7 @@ class Devices extends Component {
                 </Select>
               </FormControl>
             </Grid>
+            {this.props.settings.showPublicResources ? 
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="owner">Owner</InputLabel>
@@ -212,6 +213,7 @@ class Devices extends Component {
                 </Select>
               </FormControl>
             </Grid>
+            :null }
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="visibility">Visibility</InputLabel>

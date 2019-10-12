@@ -63,10 +63,15 @@ class Projects extends Component {
         <br />
         {
           this.props.projects.length != 0 ? DOM.div(null, 
-            this.props.projects.map((p,index) => 
-            React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
-            React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))
-        )) : 
+            this.props.projects.map((p,index) => [
+            this.props.settings.showPublicResources ? (
+              React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
+              React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
+            ):
+             ((p.owner == this.props.user.username) && 
+              React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
+              React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
+            )])) : 
         <div>
         <Paper style={{'padding':'20px'}}>
           <Typography variant="h5" component="h3">
@@ -90,6 +95,7 @@ function mapStateToProps(state) {
     devices: state.devices.devices,
     gateways: state.gateways.gateways,
     user: state.current_user,
+    settings: state.settings
   };
 }
 
