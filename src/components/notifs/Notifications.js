@@ -98,8 +98,8 @@ function mapStateToProps(state) {
   console.log(`state:${JSON.stringify(state.notifications)}`);
   return {
     notifications: state.notifications.notifications,
-    devices: state.devices.devices,
-    users: state.users.users,
+    devices: state.settings.showPublicResources ? state.devices.devices : state.devices.devices.filter(d => d.owner == state.current_user.username),
+    users: state.settings.showPublicResources ? state.users.users : [state.current_user]
   };
 }
 

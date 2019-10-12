@@ -284,7 +284,7 @@ class Devices extends Component {
 function mapStateToProps(state) {
   return {
     devices: state.devices.devices,
-    gateways: state.gateways.gateways,
+    gateways: state.settings.showPublicResources ? state.gateways.gateways : state.gateways.gateways.filter(d => d.owner == state.current_user.username),
     deviceAttributes: state.deviceAttributes.deviceAttributes,
     user: state.current_user,
     settings: state.settings

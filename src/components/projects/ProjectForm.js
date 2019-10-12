@@ -64,7 +64,7 @@ class ProjectForm extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     return({...prevState,
             project: nextProps.isEdit && !nextProps.modalOpen ? nextProps.project: prevState.project,  //Update project from props only in edit mode and if modal closed
-            devices: nextProps.devices.filter((dev) => dev.owner == nextProps.user.username).sort(ProjectForm.compare), //Filter own devices
+            devices: nextProps.devices.sort(ProjectForm.compare), //Filter own devices
             gateways: nextProps.gateways});
   }
   
@@ -340,8 +340,8 @@ class ProjectForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    devices: state.devices.devices,
-    gateways: state.gateways.gateways,
+    devices: state.settings.showPublicResources ? state.devices.devices : state.devices.devices.filter(d => d.owner == state.current_user.username),
+    gateways: state.settings.showPublicResources ? state.gateways.gateways : state.gateways.gateways.filter(d => d.owner == state.current_user.username),
     settings: state.settings
   };
 }
