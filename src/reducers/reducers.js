@@ -454,7 +454,7 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_DEVICE_SUCCESS: msg = 'Device created'; error = false; break;
     case types.UPDATE_DEVICE_SUCCESS: msg = 'Device updated'; error = false; break;
     case types.DELETE_DEVICE_SUCCESS: msg = 'Device deleted'; error = false; break;
-    case types.CREATE_NOTIF_SUCCESS: msg = 'Notification created'; error = false; break;
+    case types.CREATE_NOTIF_SUCCESS: msg = 'Notification created'; loc = '/notifications/' + action.data; error = false; break;
     case types.UPDATE_NOTIF_SUCCESS: msg = 'Notification updated'; error = false; break;
     case types.DELETE_NOTIF_SUCCESS: msg = 'Notification deleted'; error = false; break;
     case types.CREATE_USER_SUCCESS: msg = 'New user created'; error = false; break;
