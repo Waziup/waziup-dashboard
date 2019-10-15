@@ -446,7 +446,8 @@ function notificationReducer(state = {
 
 function messagesReducer(state = [], action = null) {
   let error = null,
-    msg;
+      msg = null,
+      loc = null;
   switch (action.type) {
     case types.CLEAR_MESSAGES: return [];
     // Positive messages
@@ -459,7 +460,7 @@ function messagesReducer(state = [], action = null) {
     case types.CREATE_USER_SUCCESS: msg = 'New user created'; error = false; break;
     case types.UPDATE_USER_SUCCESS: msg = 'User updated'; error = false; break;
     case types.DELETE_USER_SUCCESS: msg = 'User deleted'; error = false; break;
-    case types.CREATE_PROJECT_SUCCESS: msg = 'Project created'; error = false; break;
+    case types.CREATE_PROJECT_SUCCESS: msg = 'Project created'; loc = '/projects/' + action.data; error = false; break;
     case types.UPDATE_PROJECT_SUCCESS: msg = 'Project updated'; error = false; break;
     case types.DELETE_PROJECT_SUCCESS: msg = 'Project deleted'; error = false; break;
     case types.CREATE_GATEWAY_SUCCESS: msg = 'Gateway created'; error = false; break;
@@ -504,7 +505,7 @@ function messagesReducer(state = [], action = null) {
       return state;
     }
   } else {
-    return [...state, {msg, error: false}];
+    return [...state, {msg: msg, error: false, loc: loc}];
   }
 }
 

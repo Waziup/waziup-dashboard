@@ -18,6 +18,7 @@ class ErrorBanner extends Component {
   
   render() {
 
+    //return the messages as a list of messages, together with a count of similar messages
     var messages = this.props.messages.reduce(function(acc, m){
       let index = acc.findIndex(a => a.msg == m.msg)
       if (index>=0) {
@@ -28,28 +29,38 @@ class ErrorBanner extends Component {
       return acc;
     }, []);
 
+    //Display the mesasge line, with the count of similar messages in parenthesis
     function getLine(e,index) {
       if(e.error) {
         return <h4 key={index} style={{"color": "red"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
       } else {
-        return <h4 key={index} style={{"color": "green"}}> {e.msg + (e.count>1? " [" + e.count + "]": "")} </h4>
+        return ( 
+          <h4 key={index} style={{"color": "green"}}>
+            {e.msg + (e.count>1? " [" + e.count + "]": "")}
+            {e.loc?
+              <span>
+                {': '}
+                <a href={e.loc}>
+                  {"click here"}
+                </a>
+              </span>
+            : null}
+          </h4>
+        )
       }
     }
+
     if(this.props.messages.length !=0) {
       return (
         <Container fluid={true} className="errorBanner" >
-        <Grid
-          container
-          justify="space-between"
-          alignItems="flex-start"
-        >
-        <div>
-        {messages.map((a,index) => getLine(a,index))}
-        </div>
-        
-          <Button  className="errorBannerOK" variant="contained" color="primary" onTouchTap={() => { this.handleOK(); }}>Clear</Button>
-        </Grid>
-
+          <Grid container
+                justify="space-between"
+                alignItems="flex-start">
+            <div>
+              {messages.map((a,index) => getLine(a,index))}
+            </div>
+            <Button  className="errorBannerOK" variant="contained" color="primary" onTouchTap={() => { this.handleOK(); }}>Clear</Button>
+          </Grid>
         </Container>
         );
     } else {
