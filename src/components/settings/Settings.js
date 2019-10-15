@@ -147,13 +147,17 @@ class Settings extends Component {
                     color="primary"
                   />
                 }
-                label="Show public resources"
+                label="Show public resources (recommended: off)"
+                title="With this option activated, you will see all publicly shared resources (other users, gateways, devices and notifications)"
               />
             </FormGroup>
           </TabContainer>
         )}
         {value === 1 && (
           <TabContainer>
+            <h4>
+              "In this section you can test your social accounts and see which messages was sent ito you by the notifications."
+            </h4>
             <Button
               variant="contained"
               color="primary"
