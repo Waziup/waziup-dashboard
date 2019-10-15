@@ -71,7 +71,9 @@ class ProjectDetail extends Component {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
-    this.props.getValues(this.state.query);  
+    if(this.state.query.device_id.length > 0) {
+      this.props.getValues(this.state.query);  
+    }
 
     this.interval = setInterval(() => {
       this.props.getDevicePermissions();
