@@ -161,9 +161,8 @@ class Devices extends Component {
 
     return (
       <Container fluid>
-        <AppBar
-          position="static"
-          style={{marginBottom: '30px', background: '#e9edf2'}}>
+        <AppBar position="static"
+                style={{marginBottom: '30px', background: '#e9edf2'}}>
           <Toolbar>
             <img src={deviceImage} height="50"/>
             <Typography variant="h5" className="page-title">
@@ -171,14 +170,12 @@ class Devices extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <DeviceForm
-          gateways={this.props.gateways}
-          handleClose={() => this.setState({ modalAddDevice: false })}
-          modalOpen={this.state.modalAddDevice}
-          onSubmit={s => this.props.createDevice(s)}/>
-        <pre
-          className="tableSwitch"
-          onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
+        <DeviceForm gateways={this.props.gateways}
+                    handleClose={() => this.setState({ modalAddDevice: false })}
+                    modalOpen={this.state.modalAddDevice}
+                    onSubmit={s => this.props.createDevice(s)}/>
+        <pre className="tableSwitch"
+             onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
           {' '}
           {this.state.isCardsView ? 'Switch to table view' : 'Switch to cards view'}
           {' '}
@@ -195,39 +192,40 @@ class Devices extends Component {
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="domain">Domain</InputLabel>
-                <Select
-                  input={<Input name="domain" id="domain"
-                    value={this.state.filter.domain} onChange={(d) => this.handleFilter("domain", d)}
-                  />}
-                  title="Domain of the device">
-                  <MenuItem value="all">All</MenuItem>
+                <Select title="Domain of the device"
+                        input={<Input name="domain" id="domain"
+                                      value={this.state.filter.domain}
+                                      onChange={(d) => this.handleFilter("domain", d)}/>}>
+                  <MenuItem value="all">
+                    All
+                  </MenuItem>
                   {this.props.deviceAttributes.domains ? this.props.deviceAttributes.domains.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
                 </Select>
               </FormControl>
             </Grid>
             {this.props.settings.showPublicResources ? 
-            <Grid item sm={6} md={4} lg={3}>
-              <FormControl fullWidth className={classes.formControl}>
-                <InputLabel htmlFor="owner">Owner</InputLabel>
-                <Select
-                  input={<Input name="owner" id="owner"
-                    value={this.state.filter.owner}
-                    onChange={(a) => this.handleFilter("owner", a)} />}
-                  title="Owner of the device">
-                  <MenuItem value="all">All</MenuItem>
-                  {this.props.deviceAttributes.owners ? this.props.deviceAttributes.owners.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
-                </Select>
-              </FormControl>
-            </Grid>
+              <Grid item sm={6} md={4} lg={3}>
+                <FormControl fullWidth className={classes.formControl}>
+                  <InputLabel htmlFor="owner">Owner</InputLabel>
+                  <Select title="Owner of the device"
+                          input={<Input name="owner" id="owner"
+                                        value={this.state.filter.owner}
+                                        onChange={(a) => this.handleFilter("owner", a)} />}>
+                    <MenuItem value="all">
+                      All
+                    </MenuItem>
+                    {this.props.deviceAttributes.owners ? this.props.deviceAttributes.owners.sort(this.compare).map(s => <MenuItem key={s} value={s}>{s}</MenuItem>):''}
+                  </Select>
+                </FormControl>
+              </Grid>
             :null }
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="visibility">Visibility</InputLabel>
-                <Select
-                  input={<Input name="visibility" id="visibility"
-                    value={this.state.filter.visibility}
-                    onChange={(v) => this.handleFilter("visibility", v)} />}
-                  title="Public visibility of the device">
+                <Select title="Public visibility of the device"
+                        input={<Input name="visibility" id="visibility"
+                                      value={this.state.filter.visibility}
+                                      onChange={(v) => this.handleFilter("visibility", v)} />}>
                   <MenuItem value="all">All</MenuItem>
                   <MenuItem value="public">Public</MenuItem>
                   <MenuItem value="private">Private</MenuItem>
@@ -237,11 +235,10 @@ class Devices extends Component {
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="status">Status</InputLabel>
-                <Select
-                  input={<Input name="status" id="status"
-                    value={this.state.filter.status}
-                    onChange={(s) => this.handleFilter("status", s)} />}
-                  title="Status of the device">
+                <Select title="Status of the device"
+                        input={<Input name="status" id="status"
+                                      value={this.state.filter.status}
+                                      onChange={(s) => this.handleFilter("status", s)} />}>
                   <MenuItem value="all">All</MenuItem>
                   <MenuItem value="new">New</MenuItem>
                   <MenuItem value="active">Active</MenuItem>

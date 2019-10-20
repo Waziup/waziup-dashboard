@@ -54,9 +54,8 @@ class Gateways extends Component {
   render() {
     return (
       <Container fluid={true} style={{ paddingBottom: "100px" }}>
-        <AppBar
-          position="static"
-          style={{ marginBottom: "30px", background: "#e9edf2" }}>
+        <AppBar position="static"
+                style={{ marginBottom: "30px", background: "#e9edf2" }}>
           <Toolbar>
             <img src={gatewayImage} height="50" />
             <Typography variant="h5" className="page-title">

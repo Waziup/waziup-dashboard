@@ -61,37 +61,28 @@ export default class DeviceLineCard extends Component {
         </div>
 
         <div className="contentCards">
-          <Grid
-            container
-            direction="row"
-            justify="flex-start"
-            alignItems="center"
-            spacing={24}
-          >
+          <Grid container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+                spacing={24}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <div className="boardIcon">
-                <img
-                  src={deviceNodeImage}
-                  height="60"
-                  title={
-                    device.dateUpdated
-                      ? "Last update at " + device.dateUpdated
-                      : "No data yet"
-                  }
-                />
+                <img src={deviceNodeImage}
+                     height="60"
+                     title={device.dateUpdated ? "Last update at " + device.dateUpdated : "No data yet"}/>
                 {deviceNodeNew ? (
                   <img src={newImage} height="35" className="newIcon" />
                 ) : null}
                 <pre>
                   {" "}
-                  {device.owner
-                    ? "owner: " +
-                      device.owner +
+                  {device.owner ? "owner: " + device.owner +
                       (this.props.user &&
                       device.owner == this.props.user.username
                         ? " (you)"
                         : "")
-                    : ""}{" "}
+                   : null}
+                  {" "}
                 </pre>
                 <pre>
                   {"ID: " + device.id}

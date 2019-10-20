@@ -54,16 +54,14 @@ class Projects extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <ProjectForm
-          user={this.props.user}
-          devices={this.props.devices}
-          gateways={this.props.gateways}
-          handleClose={() => this.setState({ modalAddProject: false })}
-          modalOpen={this.state.modalAddProject}
-          createDevice={this.props.createDevice}
-          createGateway={this.props.createGateway}
-          onSubmit={s => this.props.createProject(s)}
-        />
+        <ProjectForm user={this.props.user}
+                     devices={this.props.devices}
+                     gateways={this.props.gateways}
+                     handleClose={() => this.setState({ modalAddProject: false })}
+                     modalOpen={this.state.modalAddProject}
+                     createDevice={this.props.createDevice}
+                     createGateway={this.props.createGateway}
+                     onSubmit={s => this.props.createProject(s)}/>
         <Button variant="contained"
                 color="primary"
                 className="addDeviceButton"
@@ -90,7 +88,7 @@ class Projects extends Component {
           <div>
           <Paper style={{'padding':'20px'}}>
             <Typography variant="h5" component="h3">
-            You don't have any projet.
+              You don't have any projet.
             </Typography>
             <Typography component="p">
               Get started by creating your own IoT project.

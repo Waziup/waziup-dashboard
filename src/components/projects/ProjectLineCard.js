@@ -15,7 +15,6 @@ export default class ProjectLineCard extends Component {
 
   render() {
     let project = this.props.project;
-
     let projectName = project.name ? project.name + " " : "No name (" + project.id + ")";
 
     return (
@@ -30,8 +29,10 @@ export default class ProjectLineCard extends Component {
                 <img src={projectImage}
                      height="60"
                      title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"} />
-                {/* <pre> {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} </pre> */}
                 <br/>
+                <pre>
+                  {project.owner ? "owner: " + project.owner + (this.props.user && project.owner == this.props.user.username ? " (you)" : "") : ""} 
+                </pre>
                 <pre>
                   {"ID: " + project.id}
                 </pre>
