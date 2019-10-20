@@ -6,13 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import NotifForm from './NotifForm.js';
-import NotifCard from './NotifCard.js';
+import NotifLineCard from './NotifLineCard.js';
 import {
   createNotif, getNotifs, deleteNotif, getDevices, getUsers,
 } from '../../actions/actions.js';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import notificationImage from '../../images/notification.png';
+import notificationImage from '../../images/bell-icon.png';
 import config from '../../config';
 
 class Notifications extends Component {
@@ -37,65 +37,44 @@ class Notifications extends Component {
   }
 
   render() {
-    console.log(`notifs:${JSON.stringify(this.props.notifications)}`);
-    const data = this.props.notifications;
-    const notifications = [];
-    if (this.props.notifications) {
-      for (const notif of this.props.notifications) {
-        const card = (
-          <Link to={`/notifications/${notif.id}`} key={notif.id}>
-            <NotifCard
-              className="deviceNode"
-              isEditable={false}
-              notif={notif}
-            />
-          </Link>
-        );
-        notifications.push(card);
-      }
-      console.log(`open${JSON.stringify(this.state.modalOpen)}`);
-      return (
-        <Container fluid={true} style={{'paddingBottom':'50px'}}>
-          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
-            <Toolbar>
+    return (
+      <Container fluid>
+        <AppBar position="static"
+                style={{marginBottom: '30px',background: '#e9edf2'}}>
+          <Toolbar>
             <img src={notificationImage} height="50"/>
-              <Typography variant="h5" className="page-title">
-              Notifications settings       
-              </Typography>
-            </Toolbar>
-          </AppBar>
-          <NotifForm modalOpen={this.state.modalOpen}
-                     devices={this.props.devices}
-                     users={this.props.users}
-                     handleClose={() => this.setState({ modalOpen: false })}
-                     onSubmit={this.props.createNotif} />
-          <Card className="deviceNode">
-            <Typography>
-              <span className="Typography">
-                Notifications
-              </span>
-              <Button
-                className="topRightButton"
+            <Typography variant="h5" className="page-title">
+              Notifications       
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <NotifForm modalOpen={this.state.modalOpen}
+                   devices={this.props.devices}
+                   users={this.props.users}
+                   handleClose={() => this.setState({ modalOpen: false })}
+                   onSubmit={this.props.createNotif} />
+        <Typography>
+          <a href="https://www.waziup.io/documentation/dashboard/"> How to create a notification? </a>
+        </Typography>
+        <Button className="addDeviceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}
                 color="primary"
-                variant="contained"
-              >Add notification</Button>
-            </Typography>
-            <div className="contentCards">
-              {notifications}
-            </div>
-          </Card>
-        </Container>
-      );
-    }
-      <h1>
-      Notifications loading...
-      </h1>;
+                variant="contained">
+          Add notification
+        </Button>
+        <div style={{marginTop: '20px', clear: 'both'}}>
+          {this.props.notifications.map((notif) => { return (
+            <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
+              <NotifLineCard notif={notif}/>
+            </Link>
+          )})}
+        </div>
+      </Container>
+    )
   }
 }
 
 function mapStateToProps(state) {
-  console.log(`state:${JSON.stringify(state.notifications)}`);
   return {
     notifications: state.notifications.notifications,
     devices: state.settings.showPublicResources ? state.devices.devices : state.devices.devices.filter(d => d.owner == state.current_user.username),
