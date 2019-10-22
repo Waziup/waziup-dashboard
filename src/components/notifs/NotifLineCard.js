@@ -19,15 +19,10 @@ import CardContent from '@material-ui/core/CardContent';
 export default class NotifLineCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalEdit: false
-    };
   }
 
   render() {
     let notif = this.props.notif
-    let maxlimit = 20;
-
     return (
       <Card className="deviceNode">
         <span className="Typography"> {notif.description} </span>

@@ -522,6 +522,8 @@ ul {
   clear: left;
   display: inline-block;
   margin-left: 5px;
+  margin-top: 25px;
+  margin-bottom: 20px;
 }
 
 .notifDesc {
@@ -546,7 +548,8 @@ ul {
 }
 
 .notifBlocTitle {
-  margin: 10px;
+  margin-top: 10px;
+  margin-left: 25px;
   display: flex;
   align-items: center;
 }

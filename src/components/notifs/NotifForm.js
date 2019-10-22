@@ -89,6 +89,16 @@ class NotifForm extends Component {
           <Typography variant="h5"> Create a new notification </Typography>
         </DialogTitle>
         <DialogContent>
+          <div className="notifExpires">
+            <TextField name="description"
+                       value={this.state.notif.description}
+                       label="Description:"
+                       onChange={(e) => this.handleChange("expires", e)}
+                       style={{display: 'flex'}}
+                       title="Short description for your notification">
+              Description
+            </TextField>
+          </div>
           <Card className="notifBloc">
             <div className="notifBlocTitle">
               <img src={deviceImage} height="54"/>
@@ -130,14 +140,12 @@ class NotifForm extends Component {
               <Typography variant="h6"> Action </Typography>
             </div>
             <CardContent>
-              <div className="notifMsg">
               <TextField name="message" 
                          fullWidth={true}
                          label="Message to send:"
                          value={this.state.notif.action ? this.state.notif.action.message : null}
                          onChange={(m) => this.handleChange("message", m)}
                          title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
-              </div>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="usernames">Users</InputLabel>
                 <Select multiple={true}
