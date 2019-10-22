@@ -66,7 +66,8 @@ class NotifForm extends Component {
       case "usernames"    : notif.action.usernames = value; break;
       case "description"  : notif.description = value; break;
       case "throttling"   : notif.throttling = value; break;
-      case "expires"      : notif.expires = moment(new Date(value)).format(); break;      
+      case "expires"      : notif.expires = moment(new Date(value)).format(); break;
+      case "description"  : notif.description = value; break;
     }
     this.setState({notif: notif})
   }
@@ -137,7 +138,7 @@ class NotifForm extends Component {
           <Card className="notifBloc">
             <div className="notifBlocTitle">
               <img src={bellImage} height="48"/>
-              <Typography variant="h6"> Action </Typography>
+              <Typography variant="h6" style={{'margin-left':'10px'}}> Action </Typography>
             </div>
             <CardContent>
               <TextField name="message" 
@@ -149,17 +150,15 @@ class NotifForm extends Component {
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="usernames">Users</InputLabel>
                 <Select multiple={true}
-                  input={<Input name="usernames" id="usernames" />}
-                  value={this.state.notif.action ? this.state.notif.action.usernames: null}
-                  onChange={(u) => this.handleChange("usernames", u)}
-                  title="To whom this notification should be sent to?"
-                  >
+                        input={<Input name="usernames" id="usernames" />}
+                        value={this.state.notif.action ? this.state.notif.action.usernames: null}
+                        onChange={(u) => this.handleChange("usernames", u)}
+                        title="To whom this notification should be sent to?">
                   {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
                     <MenuItem key={u.username} value={u.username} checked={this.state.notif.action ? this.state.notif.action.usernames.includes(u.username): null}>
-                   
-                    {u.username}
-                    </MenuItem>): <br/>
-                  }
+                      {u.username}
+                    </MenuItem>)
+                  : <br/>}
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
