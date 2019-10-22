@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import deviceImage from '../../images/gauge.png';
+import gaugeImage from '../../images/gauge.png';
 import bellImage from '../../images/bell-icon.png';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
@@ -49,18 +50,18 @@ export default class NotifLineCard extends Component {
               </div>
             </Grid>
             <Card className="notifBlock">
+              <div className="notifSubject">
+                <pre>
+                  {notif.condition.devices + ' -> ' + notif.condition.sensors}
+                </pre>
+              </div>
               <CardContent>
-                <div className="notifSubject">
-                  <pre>
-                    {notif.condition.devices + ' -> ' + notif.condition.sensors}
-                  </pre>
+                <div className='notifIcon'>
+                  <img src={gaugeImage} height="70"/>
                 </div>
                 <div className="notifExpr"> 
                   {notif.condition.expression? notif.condition.expression: ""}
                 </div>
-                <div className="notifMsg">
-                  {notif.action ? notif.action.message : null}
-                </div> 
               </CardContent>
             </Card>  
           </Grid>

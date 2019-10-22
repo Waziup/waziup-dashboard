@@ -127,7 +127,7 @@ class SensorDetail extends Component {
             <Toolbar>
             <img src={sensorImage} height="50"/>
               <Typography variant="h5" className="page-title">
-              Sensor: {this.props.sens.id}
+                Sensor: {this.props.sens.id}
               </Typography>
             </Toolbar>
           </AppBar>

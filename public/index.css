@@ -446,7 +446,7 @@ ul {
 }
 
 .notifSubject {
-  font-size: 18pt;
+  font-size: 14pt;
   margin: 10px;
   font-family: roboto;
 }
@@ -454,13 +454,15 @@ ul {
 .notifIcon {
   float: left;
   display: inline-block;
-  margin-bottom:30px;
+  margin-left: 20px;
 }
 
 .notifExpr {
-  font-size: 16pt;
-  text-decoration: underline;
-  font-weight: bold
+  font-size: 20pt;
+  font-family: 'courier new';
+  float: left;
+  margin-top: 15px;
+  margin-left: 10px;
 }
 
 .notifDeviceAttrs {

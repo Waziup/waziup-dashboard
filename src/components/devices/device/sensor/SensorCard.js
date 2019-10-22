@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import sensorImage from '../../../../images/sensor.png';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import EditIcon from '@material-ui/icons/Edit';
