@@ -15,7 +15,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import notificationImage from '../../images/bell-icon.png';
 import config from '../../config';
 
-class Notifications extends Component {
+class Notifs extends Component {
+  
+  interval = null;
+  
   constructor(props) {
     super(props);
     this.state = { modalOpen: false };
@@ -30,7 +33,7 @@ class Notifications extends Component {
       this.props.getNotifs();
       this.props.getUsers();
     }, config.delayRefresh);
-  }
+}
 
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -90,4 +93,4 @@ const mapDispatchToProps = {
   getUsers
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications);
+export default connect(mapStateToProps, mapDispatchToProps)(Notifs);

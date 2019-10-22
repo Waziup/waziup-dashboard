@@ -16,7 +16,7 @@ import GatewayDetail from './components/gateways/GatewayDetail';
 import DeviceDetail from './components/devices/device/DeviceDetail';
 import SensorDetail from './components/devices/device/sensor/SensorDetail';
 import ActuatorDetail from './components/devices/device/actuator/ActuatorDetail';
-import Notifications from './components/notifs/Notifications.js';
+import Notifs from './components/notifs/Notifs.js';
 import NotifDetail from './components/notifs/NotifDetail.js';
 import Projects from './components/projects/Projects';
 import ProjectDetail from './components/projects/ProjectDetail';
@@ -34,7 +34,7 @@ const routes = {
   component: Layout,
   indexRoute: { component: Projects },
   childRoutes: [
-    { path: 'notifications', component: Notifications },
+    { path: 'notifications', component: Notifs },
     { path: 'notifications/:notifId', component: NotifDetail },
     { path: 'projects', component: Projects },
     { path: 'projects/:projectId', component: ProjectDetail },
