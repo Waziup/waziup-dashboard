@@ -17,7 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import { ListLoader } from './../Loaders';
 
 class Projects extends Component {
-  interval = 0;
+  
+  interval = null;
+
   constructor(props) {
     super(props);
     this.state = {
