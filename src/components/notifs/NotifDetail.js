@@ -16,11 +16,20 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import NotifForm from './NotifForm.js';
+import PersonIcon from '@material-ui/icons/Person';
+import ShareIcon from '@material-ui/icons/Share';
+import MsgIcon from '@material-ui/icons/Textsms';
 
 class NotifDetail extends Component {
+  
+  interval = null;
+
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalEdit: false
+    };
   }
 
   componentWillMount() {
@@ -56,6 +65,11 @@ componentWillUnmount() {
               <Typography variant="h5" className="page-title">
                 Notification {notif.id}
               </Typography>
+              <NotifForm modalOpen={this.state.modalEdit}
+                         devices={this.props.devices}
+                         users={this.props.users}
+                         handleClose={() => this.setState({ modalEdit: false })}
+                         onSubmit={this.props.createNotif} />
               <div style={{'margin-left': 'auto'}}> 
                 <EditIcon onClick={() => this.setState({modalEdit: true})}/>
                 <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>
@@ -68,15 +82,15 @@ componentWillUnmount() {
               <Typography variant="h6"> Condition </Typography>
             </div>
             <CardContent>
-              <h4 title="Short description for your notification"> 
+              <p title="Short description for your notification"> 
                 {"Description: " + this.props.notif.description}
-              </h4>
-              <h4 title="The sensor that we'll observe"> 
+              </p>
+              <p title="The sensor that we'll observe"> 
                 {"Sensor: " + this.props.notif.condition.devices + " -> " + this.props.notif.condition.sensors}
-              </h4>
-              <h4 title="The expression that will trigger this notification. For example: 'TC>15' means that if the sensor 'TC' measures a temperature of more than 15°C, the notification will     be triggered. ATTENTION: the sensor in the expression (here 'TC') MUST match the sensor selected above."> 
+              </p>
+              <p title="The expression that will trigger this notification. For example: 'TC>15' means that if the sensor 'TC' measures a temperature of more than 15°C, the notification will     be triggered. ATTENTION: the sensor in the expression (here 'TC') MUST match the sensor selected above."> 
                 {notif.condition.expression? "Expression: " + notif.condition.expression : ""}
-              </h4>
+              </p>
             </CardContent>
           </Card>
           <Card className="notifBloc">
@@ -85,15 +99,18 @@ componentWillUnmount() {
               <Typography variant="h6"> Action </Typography>
             </div>
             <CardContent>
-              <h4 title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will in    sert the temperature value of your sensor 'TC'."> 
-                {"Message: " + notif.action.message}
-              </h4>
-              <h4 title="To whom this notification should be sent to?"> 
-                {"Users: " + notif.action.usernames}
-              </h4>
-              <h4 title="On which channels should we send this notification?">
-                {"Channels: " + notif.action.channels}
-              </h4>
+              <p title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will in    sert the temperature value of your sensor 'TC'."> 
+                <MsgIcon/>
+                {" Message: " + notif.action.message}
+              </p>
+              <p title="To whom this notification should be sent to?">
+                <PersonIcon/>
+                {" Users: " + notif.action.usernames}
+              </p>
+              <p title="On which channels should we send this notification?">
+                <ShareIcon/>
+                {" Channels: " + notif.action.channels}
+              </p>
             </CardContent>
           </Card>
           <Card className="notifBloc">
@@ -101,13 +118,13 @@ componentWillUnmount() {
               <Typography variant="h6"> Status </Typography>
             </div>
             <CardContent>
-                {notif.status ?              <h4> {"Status: "              + notif.status} </h4> : null}
-                {notif.times_sent ?          <h4> {"Times sent: "          + notif.times_sent} </h4> : <h4> Never sent </h4>}
-                {notif.last_success ?        <h4> {"Last success: "        + notif.last_success} </h4> : null}
-                {notif.last_success_code ?   <h4> {"Last success code: "   + notif.last_success_code} </h4> : null}
-                {notif.last_failure ?        <h4> {"Last failure: "        + notif.last_failure} </h4> : null}
-                {notif.last_failure_reason ? <h4> {"Last failure reason: " + notif.last_failure_reason} </h4> : null}
-                {notif.last_notif ?          <h4> {"Last notification: "   + notif.last_notif} </h4> : null}
+                {notif.status ?              <p> {"Status: "              + notif.status} </p> : null}
+                {notif.times_sent ?          <p> {"Times sent: "          + notif.times_sent} </p> : <p> Never sent </p>}
+                {notif.last_success ?        <p> {"Last success: "        + notif.last_success} </p> : null}
+                {notif.last_success_code ?   <p> {"Last success code: "   + notif.last_success_code} </p> : null}
+                {notif.last_failure ?        <p> {"Last failure: "        + notif.last_failure} </p> : null}
+                {notif.last_failure_reason ? <p> {"Last failure reason: " + notif.last_failure_reason} </p> : null}
+                {notif.last_notif ?          <p> {"Last notification: "   + notif.last_notif} </p> : null}
             </CardContent>
           </Card>
         </Container>
@@ -125,7 +142,9 @@ componentWillUnmount() {
 
 function mapStateToProps(state, ownProps) {
   return { 
-    notif : state.notification.notification
+    notif : state.notification.notification,
+    devices: state.settings.showPublicResources ? state.devices.devices : state.devices.devices.filter(d => d.owner == state.current_user.username),
+    users: state.settings.showPublicResources ? state.users.users : [state.current_user]
   };
 }
 

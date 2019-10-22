@@ -11,7 +11,9 @@ body,html{
   position:relative;
   height:100%!important
 }
-body,p{font-size:13px}
+body {
+  font-size: 13px
+  }
 
 #app{
    background: #34425A;
@@ -172,6 +174,7 @@ p {
     margin: 0 0 10px;
     font-style: normal;
     white-space: normal;
+    font-size: 14px;
 }
 .card-container{
   display:flex;
