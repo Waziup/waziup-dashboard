@@ -23,6 +23,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 import config from '../../config';
+import PersonIcon from '@material-ui/icons/Person';
+import ShareIcon from '@material-ui/icons/Share';
+import MsgIcon from '@material-ui/icons/Textsms';
 
 class NotifForm extends Component {
   constructor(props) {
@@ -162,14 +165,20 @@ class NotifForm extends Component {
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
-                <InputLabel htmlFor="channels">Socials</InputLabel>
-                <Select multiple={true}
-                  input={<Input name="channels" id="channels" />}
-                  value={this.state.notif.action ? this.state.notif.action.channels : null}
-                  onChange={(c) => this.handleChange("channels", c)}
-                  title="On which channels should we send this notification?">
-                  {this.channels.map((c,index) => <MenuItem value={c} key={index} checked={this.state.notif.action ? this.state.notif.action.channels.includes(c) : null} leftIcon={<Socials/>}>{c}</MenuItem>)}
-                </Select>
+                <ShareIcon/>
+                <div>
+                  <InputLabel htmlFor="channels">Socials</InputLabel>
+                  <Select multiple={true}
+                          input={<Input name="channels" id="channels" />}
+                          value={this.state.notif.action ? this.state.notif.action.channels : null}
+                          onChange={(c) => this.handleChange("channels", c)}
+                          title="On which channels should we send this notification?">
+                    {this.channels.map((c,index) => 
+                      <MenuItem value={c} key={index} checked={this.state.notif.action ? this.state.notif.action.channels.includes(c) : null} leftIcon={<ShareIcon/>}>
+                        {c}
+                      </MenuItem>)}
+                  </Select>
+                </div>
               </FormControl> 
             </CardContent>
           </Card>

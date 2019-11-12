@@ -174,6 +174,7 @@ class Devices extends Component {
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
+        <a href={config.docServerUrl + "/devices"}> How to connect a device? </a>
         <pre className="tableSwitch"
              onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
           {' '}

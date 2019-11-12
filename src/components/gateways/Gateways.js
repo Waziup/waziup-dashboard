@@ -67,7 +67,7 @@ class Gateways extends Component {
                         handleClose={() => this.setState({ modalAddGateway: false })}
                         onSubmit={gateway => {this.props.createGateway(gateway);}}/>
         <Typography>
-          <a href="https://www.waziup.io/documentation/dashboard/"> How to connect a gateway? </a>
+          <a href={config.docServerUrl + "/gateways"}> How to connect a gateway? </a>
         </Typography>
         {this.props.settings.allowManualCreateResources?
           <Button variant="contained"

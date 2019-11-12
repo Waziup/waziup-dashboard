@@ -100,6 +100,7 @@ export function keycloakLogin() {
 function displayPage() {
   console.info(`SERVER_URL: ${process.env.SERVER_URL}`);
   console.info(`API_SERVER_URL: ${process.env.API_SERVER_URL}`);
+  console.info(`DOC_SERVER_URL: ${process.env.DOC_SERVER_URL}`);
   console.info(`KEYCLOAK_URL: ${process.env.KEYCLOAK_URL}`);
   ReactDOM.render(
     <Provider store={store}>

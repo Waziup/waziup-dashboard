@@ -31,6 +31,7 @@ import { Link } from "react-router";
 import projectImage from '../../images/project.png';
 import deviceImage from '../../images/device.png';
 import gatewayImage from "../../images/gateway.png";
+import config from '../../config';
 
 const styles = theme => ({
   root: {
@@ -107,7 +108,7 @@ class ProjectForm extends Component {
           <Grid container spacing={24}>
             <img src={projectImage} height="80" class="ProjectWizardIcon"/>
             <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/dashboard/">What is a project?</a>
+              <a href={config.docServerUrl + "/projects"}>What is a project?</a>
             </Grid>
             <Grid item sm={6}>
               <TextField
@@ -135,7 +136,7 @@ class ProjectForm extends Component {
               }}
             />
             <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/dashboard/">How to connect a gateway?</a>
+              <a href={config.docServerUrl + "/gateways"}>How to connect a gateway?</a>
             </Grid>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>
@@ -196,7 +197,7 @@ class ProjectForm extends Component {
               }}
             />
             <Grid item xs={12}>
-              <a href="https://www.waziup.io/documentation/1-dashboard/">How to connect a device?</a>
+              <a href={config.docServerUrl + "/devices"}>How to connect a device?</a>
             </Grid>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>

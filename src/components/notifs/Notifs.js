@@ -57,7 +57,7 @@ class Notifs extends Component {
                    handleClose={() => this.setState({ modalOpen: false })}
                    onSubmit={this.props.createNotif} />
         <Typography>
-          <a href="https://www.waziup.io/documentation/dashboard/"> How to create a notification? </a>
+          <a href={config.docServerUrl + "/notifs"}> How to create a notification? </a>
         </Typography>
         <Button className="addDeviceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}

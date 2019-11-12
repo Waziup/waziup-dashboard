@@ -329,6 +329,7 @@ const clientConfig = {
       'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
       'process.env.BROWSER': true,
       'process.env.API_SERVER_URL': JSON.stringify(process.env.API_SERVER_URL),
+      'process.env.DOC_SERVER_URL': JSON.stringify(process.env.DOC_SERVER_URL),
       'process.env.KEYCLOAK_URL': JSON.stringify(process.env.KEYCLOAK_URL),
       'process.env.SERVER_URL': JSON.stringify(process.env.SERVER_URL),
       __DEV__: isDebug,
