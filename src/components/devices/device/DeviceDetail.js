@@ -14,7 +14,7 @@ import LocationForm from './LocationForm';
 import {
   addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
   updateDeviceLocation, updateDeviceName, updateDeviceVisibility, updateDeviceGatewayId,
-  addActuator, deleteActuator, updateActuatorName,
+  addActuator, deleteActuator, updateActuatorName, getDevicePermissions
 } from '../../../actions/actions.js';
 import deviceImage from '../../../images/device.png';
 import config from '../../../config';
@@ -34,8 +34,10 @@ class DeviceDetail extends Component {
   }
 
   componentWillMount() {
+    this.props.getDevicePermissions();
     this.props.getDevice(this.props.params.deviceId);
     this.interval = setInterval(() => {
+      this.props.getDevicePermissions();
       this.props.getDevice(this.props.params.deviceId);
     }, config.delayRefresh);
   }
@@ -182,7 +184,8 @@ const mapDispatchToProps = {
   updateDeviceVisibility,
   updateDeviceGatewayId,
   updateSensorName,
-  updateActuatorName
+  updateActuatorName,
+  getDevicePermissions
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeviceDetail);
