@@ -6,7 +6,7 @@ FROM node:alpine
 WORKDIR /usr/src/app
 COPY ./package.json .
 COPY ./yarn.lock .
-RUN yarn install --production 
+RUN yarn install 
 
 # Compile sources
 COPY . /usr/src/app
