@@ -96,6 +96,7 @@ class DeviceDetail extends Component {
               updateDeviceVisibility={this.props.updateDeviceVisibility}
               updateDeviceGatewayId={this.props.updateDeviceGatewayId}
               user={this.props.user}
+              settings={this.props.settings}
             />
             <Card className="deviceMap">
               <span className="Typography">
@@ -169,6 +170,7 @@ function mapStateToProps(state, ownProps) {
     gateways: state.gateways.gateways,
     permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId),
     user: state.current_user,
+    settings: state.settings
   };
 }
 
