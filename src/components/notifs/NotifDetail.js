@@ -72,7 +72,7 @@ componentWillUnmount() {
                          onSubmit={this.props.createNotif} />
               <div style={{'margin-left': 'auto'}}> 
                 <EditIcon onClick={() => this.setState({modalEdit: true})}/>
-                <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>
+                <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id); browserHistory.push('/notifications');}}/>
               </div>
             </Toolbar>
           </AppBar>

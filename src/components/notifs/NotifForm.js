@@ -88,7 +88,8 @@ class NotifForm extends Component {
       <Dialog
         actions={actions}
         modal={true}
-        open={this.props.modalOpen}>
+        open={this.props.modalOpen}
+        style={{"padding-right": "50px !important"}}>
         <DialogTitle>
           <Typography variant="h5"> Create a new notification </Typography>
         </DialogTitle>
