@@ -465,6 +465,7 @@ function messagesReducer(state = [], action = null) {
     case types.DELETE_PROJECT_SUCCESS: msg = 'Project deleted'; error = false; break;
     case types.CREATE_GATEWAY_SUCCESS: msg = 'Gateway created'; error = false; break;
     case types.DELETE_GATEWAY_SUCCESS: msg = 'Gateway deleted'; error = false; break;
+    case types.UPDATE_GATEWAY_SUCCESS: msg = 'Gateway updated'; error = false; break;
 
     // Error cases
     case types.GET_DEVICES_ERROR: msg = 'Error when fetching devices'; error = true; break;

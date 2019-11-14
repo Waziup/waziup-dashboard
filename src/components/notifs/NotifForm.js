@@ -165,7 +165,6 @@ class NotifForm extends Component {
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
-                <ShareIcon/>
                 <div>
                   <InputLabel htmlFor="channels">Socials</InputLabel>
                   <Select multiple={true}

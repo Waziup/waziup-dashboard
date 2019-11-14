@@ -156,7 +156,7 @@ class Settings extends Component {
         {value === 1 && (
           <TabContainer>
             <h4>
-              "In this section you can test your social accounts and see which messages was sent ito you by the notifications."
+              In this section you can test your social accounts and see which messages was sent to you.
             </h4>
             <Button
               variant="contained"

@@ -449,9 +449,10 @@ ul {
 }
 
 .notifSubject {
-  font-size: 14pt;
+  font-size: 18px;
   margin: 10px;
   font-family: roboto;
+  font-weight: bold;
 }
 
 .notifIcon {
