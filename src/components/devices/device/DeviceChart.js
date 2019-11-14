@@ -29,7 +29,8 @@ class DeviceChart extends Component {
     
     if(this.props.values && this.props.sens) {
       const sens = this.props.sens
-      const data = this.props.values.map(datapoint => {return {time: moment(datapoint[timeKey]).valueOf(), value: datapoint.value }});
+      const data = this.props.values.map(datapoint => {return {time: moment(datapoint[timeKey]).valueOf(), value: datapoint.value }})
+                                    .sort((a, b) => {return a.time - b.time;});
       const QK = Waziup.QuantityKinds.getLabel(sens.quantity_kind)
       const unit = Waziup.Units.getLabel(sens.unit)
       return (
