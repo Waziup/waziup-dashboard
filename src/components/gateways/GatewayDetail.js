@@ -9,14 +9,17 @@ import {
   getGatewayPermissions,
 } from '../../actions/actions.js';
 import gatewayImage from '../../images/gateway.png';
-import config from '../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { GatewayLoader } from './../Loaders';
+import config from '../../config';
 
 class GatewayDetail extends Component {
+
+  interval = null;
+
   constructor(props) {
     super(props);
     this.state = { 

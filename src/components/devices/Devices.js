@@ -45,7 +45,9 @@ const styles = theme => ({
 });
 
 class Devices extends Component {
-  interval = 0;
+
+  interval = null;
+
   constructor(props) {
     super(props);
     let defaultFilter = {

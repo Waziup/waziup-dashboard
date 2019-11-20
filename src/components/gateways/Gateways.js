@@ -19,9 +19,13 @@ import AddGatewayForm from "./AddGatewayForm.js";
 import { Link } from "react-router";
 import GatewayLineCard from "./GatewayLineCard";
 import Card from "@material-ui/core/Card";
+import config from '../../config';
 import { ListLoader } from './../Loaders';
 
 class Gateways extends Component {
+  
+  interval = 0;
+  
   constructor(props) {
     super(props);
     this.state = { 
@@ -30,9 +34,17 @@ class Gateways extends Component {
       loading: true };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
+    this.interval = setInterval(() => {
+      this.props.getDevices({ limit: 1000 });
+      this.props.getGateways();
+    }, config.delayRefresh);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   componentWillReceiveProps() { 

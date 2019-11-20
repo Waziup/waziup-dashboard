@@ -22,15 +22,15 @@ export default class GatewayLineCard extends Component {
     let active = gateway && new Date() < Date.parse(gateway.date_modified) + config.delayDeviceActive ? true : false;
     return (
       <Card className="card" style={{width:'100%'}}>
-        <pre className="Typography">
+        <pre className="Typography" style={{'vertical-align': "top"}}>
           {gatewayName}
         </pre>
-        {active ? 
+        {gateway.connected ? 
           <Tooltip title="Your gateway is connected!">
-            <LinkOnIcon color="error" style={{ fontSize: 36, fill: 'green' }}/>
+            <LinkOnIcon style={{ fontSize: 32, fill: 'green', margin: '10px' }}/>
           </Tooltip>
         : <Tooltip title="Your gateway is not connected.">
-            <LinkOffIcon color="error" style={{ fontSize: 36 }}/>
+            <LinkOffIcon style={{ fontSize: 32, fill: 'red', margin: '10px' }}/>
           </Tooltip>}
 
         <div className="contentCards">
