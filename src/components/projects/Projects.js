@@ -90,7 +90,7 @@ class Projects extends Component {
           <div>
           <Paper style={{'padding':'20px'}}>
             <Typography variant="h5" component="h3">
-              You don't have any projet.
+              You don't have any project.
             </Typography>
             <Typography component="p">
               Get started by creating your own IoT project.
