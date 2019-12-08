@@ -44,6 +44,13 @@ const styles = theme => ({
   },
 });
 
+function buildFileSelector(){
+  const fileSelector = document.createElement('input');
+  fileSelector.setAttribute('type', 'file');
+  fileSelector.setAttribute('multiple', 'multiple');
+  return fileSelector;
+}
+
 class Devices extends Component {
 
   interval = null;
@@ -85,6 +92,10 @@ class Devices extends Component {
   
   componentWillReceiveProps(nextProps) { 
     this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter)), loading: false})
+  }
+
+  componentDidMount(){
+    this.fileSelector = buildFileSelector();
   }
 
   compare(a, b) {
@@ -154,6 +165,11 @@ class Devices extends Component {
 
     //all checks passed, device is OK
     return true;
+  }
+
+  handleFileSelect = (e) => {
+    e.preventDefault();
+    this.fileSelector.click();
   }
 
   render() {
@@ -248,7 +264,7 @@ class Devices extends Component {
             </Grid>
           </Grid>
         </Collapse>
-            {this.props.settings.allowManualCreateResources? 
+          {this.props.settings.allowManualCreateResources? 
               <Button variant="contained"
                       color="primary"
                       className="addDeviceButton"
@@ -256,6 +272,13 @@ class Devices extends Component {
                 Add a device
               </Button>: null}
 
+              {this.props.settings.allowManualCreateResources? 
+              <Button variant="contained"
+                      color="primary"
+                      className="addDeviceButton"
+                      onClick={this.handleFileSelect} >
+                Scan Device QR code
+              </Button>: null}
         {this.state.isCardsView ? 
           <div className="section">
             <div style={{ marginTop: "20px" }}>
