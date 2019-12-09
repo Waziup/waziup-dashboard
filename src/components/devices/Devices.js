@@ -64,6 +64,7 @@ class Devices extends Component {
       status: 'all'
     }
     this.state = {
+      selectedFile: null,
       open: false,
       modalAddDevice: false,
       isCardsView: true,
@@ -169,7 +170,13 @@ class Devices extends Component {
 
   handleFileSelect = (e) => {
     e.preventDefault();
-    this.fileSelector.click();
+    this.fileSelector.click();//e.target.value.files
+    console.log(`Selected Image:`,e.target.value);//.target.files[0]
+    // this.setState({
+      // selectedFile: e.target.value.files[0]
+    // })
+    
+        // console.log(`File Selector:`,this.state.selectedFile);//.target.files[0]
   }
 
   render() {
@@ -272,13 +279,12 @@ class Devices extends Component {
                 Add a device
               </Button>: null}
 
-              {this.props.settings.allowManualCreateResources? 
               <Button variant="contained"
                       color="primary"
                       className="addDeviceButton"
                       onClick={this.handleFileSelect} >
                 Scan Device QR code
-              </Button>: null}
+              </Button>
         {this.state.isCardsView ? 
           <div className="section">
             <div style={{ marginTop: "20px" }}>
@@ -286,7 +292,7 @@ class Devices extends Component {
               ListLoader()
               :
               this.state.devices.map(s => {return (
-                <Link to={"/devices/" + s.id}>
+                <Link key={s.id} to={"/devices/" + s.id}>
                   {this.props.settings.showPublicResources? 
                   <DeviceLineCard className="deviceNode"
                                   device={s}
