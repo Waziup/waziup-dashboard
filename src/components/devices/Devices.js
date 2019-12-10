@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'react-grid-system';
 import DeviceForm from './device/DeviceForm.js';
+import DeviceQRScan from './device/DeviceQRScan.js';
 import DeviceLineCard from './DeviceLineCard.js';
 import DevicesTable from './DevicesTable.js';
 import {
@@ -197,8 +198,11 @@ handleChangeFile = (e) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <DeviceForm gateways={this.props.gateways}
+        {/* <DeviceForm gateways={this.props.gateways}
                     handleClose={() => this.setState({ modalAddDevice: false })}
+                    modalOpen={this.state.modalAddDevice}
+                    onSubmit={s => this.props.createDevice(s)}/> */}
+        <DeviceQRScan handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
         <a href={config.docServerUrl + "/devices"}> How to connect a device? </a>
