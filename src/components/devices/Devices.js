@@ -44,13 +44,6 @@ const styles = theme => ({
   },
 });
 
-function buildFileSelector(){
-  const fileSelector = document.createElement('input');
-  fileSelector.setAttribute('type', 'file');
-  fileSelector.setAttribute('multiple', 'multiple');
-  return fileSelector;
-}
-
 class Devices extends Component {
 
   interval = null;
@@ -64,7 +57,6 @@ class Devices extends Component {
       status: 'all'
     }
     this.state = {
-      selectedFile: null,
       open: false,
       modalAddDevice: false,
       isCardsView: true,
@@ -72,7 +64,8 @@ class Devices extends Component {
       devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
       loading: true
     };
-
+    this.selectedFile = null;
+    this.upload = React.createRef();
   }
 
   handleClick = () => {
@@ -93,10 +86,6 @@ class Devices extends Component {
   
   componentWillReceiveProps(nextProps) { 
     this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter)), loading: false})
-  }
-
-  componentDidMount(){
-    this.fileSelector = buildFileSelector();
   }
 
   compare(a, b) {
@@ -168,16 +157,31 @@ class Devices extends Component {
     return true;
   }
 
-  handleFileSelect = (e) => {
-    e.preventDefault();
-    this.fileSelector.click();//e.target.value.files
-    console.log(`Selected Image:`,e.target.value);//.target.files[0]
-    // this.setState({
-      // selectedFile: e.target.value.files[0]
-    // })
+  // handleFileSelect = (e) => {
+  //   console.log(`Selected Image:`,e);//.target.files[0]
+  //   // e.preventDefault();
+  //   this.fileSelector.click();
+  //   // console.log(`after click:`,e);//.target.files[0]
+  //   // this.fileSelector.addEventListener('input', this.onChangeHandler(e) );
     
-        // console.log(`File Selector:`,this.state.selectedFile);//.target.files[0]
-  }
+  // }
+
+// onChangeHandler=event=>{
+//   console.log(`inside the onChange:`,event);//.target.files[0]
+//   this.setState({    
+//     // selectedFile: event.target.files[0],//[event.target.files[0]]
+//     // loaded: 0
+//   })
+  
+//       // console.log(`Selected Image:`,this.event);//.target.files[0]
+//       // console.log(`File Selector:`,this.selectedFile);//.target.files[0]
+// }
+
+handleChangeFile = (e) => {
+  this.selectedFile = e.target.files[0];
+  console.log(this.selectedFile)
+  e.persist()
+}
 
   render() {
     const { classes } = this.props;
@@ -279,10 +283,15 @@ class Devices extends Component {
                 Add a device
               </Button>: null}
 
+              <input id="myInput" type="file" 
+                  ref={this.upload} 
+                  onChange={this.handleChangeFile} 
+                  style={{ display: 'none' }} />
+              
               <Button variant="contained"
                       color="primary"
                       className="addDeviceButton"
-                      onClick={this.handleFileSelect} >
+                      onClick={(e) => this.upload.current.click()} >
                 Scan Device QR code
               </Button>
         {this.state.isCardsView ? 
