@@ -49,6 +49,7 @@ class DeviceQRScan extends Component {
         ];
 
         const videoConstraints = {
+            // https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
             facingMode: { exact: "user" }//if changed to "user" then the camer works for webcam.
           };
 
