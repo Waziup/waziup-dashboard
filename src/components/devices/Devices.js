@@ -158,26 +158,6 @@ class Devices extends Component {
     return true;
   }
 
-  // handleFileSelect = (e) => {
-  //   console.log(`Selected Image:`,e);//.target.files[0]
-  //   // e.preventDefault();
-  //   this.fileSelector.click();
-  //   // console.log(`after click:`,e);//.target.files[0]
-  //   // this.fileSelector.addEventListener('input', this.onChangeHandler(e) );
-    
-  // }
-
-// onChangeHandler=event=>{
-//   console.log(`inside the onChange:`,event);//.target.files[0]
-//   this.setState({    
-//     // selectedFile: event.target.files[0],//[event.target.files[0]]
-//     // loaded: 0
-//   })
-  
-//       // console.log(`Selected Image:`,this.event);//.target.files[0]
-//       // console.log(`File Selector:`,this.selectedFile);//.target.files[0]
-// }
-
 handleChangeFile = (e) => {
   this.selectedFile = e.target.files[0];
   console.log(this.selectedFile)

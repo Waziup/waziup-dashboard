@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import Camera from 'react-html5-camera-photo';
-import 'react-html5-camera-photo/build/css/index.css';
+import Webcam from "react-webcam";
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -19,11 +18,24 @@ class DeviceQRScan extends Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            screenshot: null,
+            tab: 0
+          };
       }
-
+      handleClick = () => {
+        const screenshot = this.webcam.getScreenshot();
+        this.setState({ screenshot });
+      }
     handleTakePhoto (dataUri) {
         // Do stuff with the photo...
         console.log('takePhoto');
+      }
+
+      handleClick = () => {
+        const screenshot = this.webcam.getScreenshot();
+        this.setState({ screenshot });
+        console.log("Screenshot ", this.screenshot)
       }
 
     render() {
@@ -33,15 +45,30 @@ class DeviceQRScan extends Component {
             <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.device); handleClose();}}>Submit</Button>
         ];
 
+        const videoConstraints = {
+            facingMode: { exact: "environment" }//if changed to "user" then the camer works for webcam.
+          };
+
         return (
             <Dialog actions={actions} modal="true" open={modalOpen}>
                 <DialogTitle>{this.props.isEdit? "Update A Device": "Add A Device"}</DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={24}>
-                        <Grid item xs={6}>
-                        {/* <TextField name="domain"  label="Domain" fullWidth value={this.state.device.domain} onChange={this.handleChange} title="Domain this device belongs to"/> */}
-                        </Grid>
-                    </Grid>
+                <div>
+                    <h1>react-webcam</h1>
+                    <Webcam
+                        audio={false}
+                        videoConstraints={videoConstraints}
+                        ref={node => this.webcam = node}/>
+                    <div>
+                        <h2>Screenshots</h2>
+                        <div className='screenshots'>
+                            <div className='controls'>
+                                <button onClick={this.handleClick}>capture</button>
+                            </div>
+                            {this.state.screenshot ? <img src={this.state.screenshot} /> : null}
+                        </div>
+                    </div>
+                </div>
                 </DialogContent>
                 <DialogActions>
                         {actions}
@@ -53,8 +80,7 @@ class DeviceQRScan extends Component {
     static propTypes = {
         modalOpen: PropTypes.bool.isRequired,
         handleClose: PropTypes.func.isRequired,
-        onSubmit: PropTypes.func.isRequired,
-        isEdit: PropTypes.bool
+        onSubmit: PropTypes.func.isRequired
       }
 }
 
