@@ -35,18 +35,21 @@ class DeviceQRScan extends Component {
       handleClick = () => {
         const screenshot = this.webcam.getScreenshot();
         this.setState({ screenshot });
-        console.log("Screenshot ", this.screenshot)
+      }
+
+      handleSubmit = () => {
+        console.log("Screenshot ", this.state.screenshot)
       }
 
     render() {
         const {modalOpen, handleClose, onSubmit} = this.props;
         const actions = [ 
             <Button color="primary" key="cancel" onTouchTap={()=>{handleClose();}}>Cancel</Button>,
-            <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.device); handleClose();}}>Submit</Button>
+            <Button color="primary" key="submit" onTouchTap={this.handleSubmit}>Console Log</Button>
         ];
 
         const videoConstraints = {
-            facingMode: { exact: "environment" }//if changed to "user" then the camer works for webcam.
+            facingMode: { exact: "user" }//if changed to "user" then the camer works for webcam.
           };
 
         return (
@@ -57,7 +60,7 @@ class DeviceQRScan extends Component {
                     <h1>react-webcam</h1>
                     <Webcam
                         audio={false}
-                        videoConstraints={videoConstraints}
+                        // videoConstraints={videoConstraints}
                         ref={node => this.webcam = node}/>
                     <div>
                         <h2>Screenshots</h2>
