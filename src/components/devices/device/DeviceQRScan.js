@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import QrReader from 'react-qr-reader'
 import Webcam from "react-webcam";
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -19,6 +20,7 @@ class DeviceQRScan extends Component {
     constructor(props){
         super(props);
         this.state = {
+            result: 'No result',
             screenshot: null,
             tab: 0
           };
@@ -41,6 +43,18 @@ class DeviceQRScan extends Component {
         console.log("Screenshot ", this.state.screenshot)
       }
 
+      handleScan = data => {
+        if (data) {
+          this.setState({
+            result: data
+          })
+        }
+      }
+
+      handleError = err => {
+        console.error(err)
+      }
+
     render() {
         const {modalOpen, handleClose, onSubmit} = this.props;
         const actions = [ 
@@ -60,7 +74,7 @@ class DeviceQRScan extends Component {
             <Dialog actions={actions} modal="true" open={modalOpen}>
                 <DialogTitle>{this.props.isEdit? "Update A Device": "Add A Device"}</DialogTitle>
                 <DialogContent>
-                <div>
+                {/* <div>
                     <h1>react-webcam</h1>
                     <Webcam
                         audio={false}
@@ -75,7 +89,16 @@ class DeviceQRScan extends Component {
                             {this.state.screenshot ? <img src={this.state.screenshot} /> : null}
                         </div>
                     </div>
-                </div>
+                </div> */}
+                  <div>
+                    <QrReader
+                      delay={300}
+                      onError={this.handleError}
+                      onScan={this.handleScan}
+                      style={{ width: '100%' }}
+                    />
+                    <p>{this.state.result}</p>
+                  </div>
                 </DialogContent>
                 <DialogActions>
                         {actions}
