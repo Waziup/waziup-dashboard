@@ -47,6 +47,9 @@ class DeviceQRScan extends Component {
             <Button color="primary" key="cancel" onTouchTap={()=>{handleClose();}}>Cancel</Button>,
             <Button color="primary" key="submit" onTouchTap={this.handleSubmit}>Console Log</Button>
         ];
+            
+            // for adding circular button for later taking photo shot
+            // https://github.com/MABelanger/react-html5-camera-photo/blob/master/src/lib/components/Camera/index.js
 
         const videoConstraints = {
             // https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode
