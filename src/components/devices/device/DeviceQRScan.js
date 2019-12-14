@@ -29,7 +29,8 @@ class DeviceQRScan extends Component {
         const screenshot = this.webcam.getScreenshot();
         this.setState({ screenshot });
       }
-    handleTakePhoto (dataUri) {
+    
+      handleTakePhoto (dataUri) {
         // Do stuff with the photo...
         console.log('takePhoto');
       }
@@ -59,7 +60,7 @@ class DeviceQRScan extends Component {
         const {modalOpen, handleClose, onSubmit} = this.props;
         const actions = [ 
             <Button color="primary" key="cancel" onTouchTap={()=>{handleClose();}}>Cancel</Button>,
-            <Button color="primary" key="submit" onTouchTap={this.handleSubmit}>Console Log</Button>
+            <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.result); handleClose();}}>Submit</Button>
         ];
             
             // for adding circular button for later taking photo shot

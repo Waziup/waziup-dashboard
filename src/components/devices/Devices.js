@@ -60,6 +60,8 @@ class Devices extends Component {
     this.state = {
       open: false,
       modalAddDevice: false,
+      result: 'No result',
+      scanDevice: false,
       isCardsView: true,
       filter: defaultFilter,
       devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
@@ -178,13 +180,14 @@ handleChangeFile = (e) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        {/* <DeviceForm gateways={this.props.gateways}
+        <DeviceForm gateways={this.props.gateways}
+                    deviceName={this.state.result}
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
-                    onSubmit={s => this.props.createDevice(s)}/> */}
-        <DeviceQRScan handleClose={() => this.setState({ modalAddDevice: false })}
-                    modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
+        <DeviceQRScan handleClose={() => this.setState({ scanDevice: false })}
+                    modalOpen={this.state.scanDevice}
+                    onSubmit={s => this.setState({ modalAddDevice: true, result: s })}/>
         <a href={config.docServerUrl + "/devices"}> How to connect a device? </a>
         <pre className="tableSwitch"
              onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
@@ -276,6 +279,13 @@ handleChangeFile = (e) => {
                       color="primary"
                       className="addDeviceButton"
                       onClick={(e) => this.upload.current.click()} >
+                Select Qr Code from file
+              </Button>
+
+              <Button variant="contained"
+                      color="primary"
+                      className="addDeviceButton"
+                      onTouchTap={() => this.setState({ scanDevice: true })}  >
                 Scan Device QR code
               </Button>
         {this.state.isCardsView ? 
