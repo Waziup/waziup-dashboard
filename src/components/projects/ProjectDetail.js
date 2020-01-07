@@ -37,7 +37,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import projectImage from "../../images/project.png";
 import config from '../../config';
 import ProjectChart from './ProjectChart';
-import { ProjectLoader } from './../Loaders';
+import { ProjectLoader, GraphLoader } from './../Loaders';
 
 class ProjectDetail extends Component {
   interval = 0;
@@ -61,7 +61,8 @@ class ProjectDetail extends Component {
       },
       devices: props.project.device_ids? props.project.device_ids: [],
       timeAxis: 'device',
-      loading: true
+      loading: true,
+      chartLoading: true
     };
   }
 
@@ -98,7 +99,11 @@ class ProjectDetail extends Component {
         var myQuery = this.state.query
         myQuery.device_id = nextProps.project.device_ids ? (nextProps.project.device_ids).join() : [];
         this.setState({ query: myQuery, devices: nextProps.project.device_ids}); 
-        this.setState({ loading: false });  
+        this.setState({ loading: false }); 
+      }
+
+      if(!this.props.loading && nextProps.isLoading === false && this.props.isLoading === true ){
+        this.setState({ chartLoading: false }); 
       }
 
       nextProps.project.devices.forEach(device => {
@@ -230,7 +235,7 @@ class ProjectDetail extends Component {
               <Typography>
                 <span className="Typography"> Historical chart for sensors under this project</span>
               </Typography>
-              <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
+              {this.state.chartLoading ? GraphLoader() : <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />}
                 <Grid container spacing={24}>
                   <Grid item xs={3}>
                         <h4>Range from: </h4>
@@ -300,6 +305,7 @@ function mapStateToProps(state, ownProps) {
   return {
     project: state.project.project,
     values: state.values.values,
+    isLoading: state.values.isLoading,
     permission: state.permissions.project.find(
       p => p.resource == ownProps.params.projectId
     ),

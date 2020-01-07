@@ -63,4 +63,18 @@ const ListLoader = () => (
   </ContentLoader>
 )
 
-export { DeviceLoader, ProjectLoader, GatewayLoader, ListLoader };
+const GraphLoader = () => (
+  <ContentLoader 
+    height={200}
+    width={400}
+    speed={2}
+    primaryColor="#f3f3f3"
+    secondaryColor="#ecebeb"
+  >
+    <rect x="15" y="20" rx="0" ry="0" width="0" height="0" /> 
+    <rect x="1" y="2" rx="0" ry="0" width="391" height="193" /> 
+    <rect x="97" y="68" rx="0" ry="0" width="0" height="0" />
+  </ContentLoader>
+)
+
+export { DeviceLoader, ProjectLoader, GatewayLoader, ListLoader, GraphLoader };

@@ -3,14 +3,21 @@ import { Legend, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Responsi
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import * as Waziup from 'waziup-js'
+import { GraphLoader } from './../Loaders';
 
 class DeviceChart extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      chartLoading: true
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('cwrp', nextProps.time);
+    if(!(nextProps.values.every((value, index) => value === this.props.values[index]))){
+      this.setState({ chartLoading: false }); 
+    }
   }
 
   getLabels(data) {
@@ -78,7 +85,9 @@ class DeviceChart extends Component {
       
     
       return (
-        <ResponsiveContainer  height={500} style={{margin: 30,width: '100px'}}>
+        this.state.chartLoading ? 
+        GraphLoader()
+        : <ResponsiveContainer  height={500} style={{margin: 30,width: '100px'}}>
           <LineChart data={converted} margin={{ top: 5, right: 60, left: 0, bottom: 15 }}>
             <XAxis interval={0} domain={['dataMin', 'dataMax']} type="number" dataKey="time" tickFormatter={xFormatter} />
             <YAxis label={{ value: QK + (unit? " (" + unit + ")": ""), angle: -90, position: 'insideLeft' }}/>
