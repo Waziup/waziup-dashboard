@@ -29,6 +29,7 @@ class DeviceForm extends Component {
     defaultDevice.actuators = []
     defaultDevice.gateway_id = ""
     this.state = {
+      scanName: "",
       device: (this.props.device? this.props.device: defaultDevice),
       gateways: []
     };
@@ -41,6 +42,14 @@ class DeviceForm extends Component {
 
   componentWillMount() {
     this.getGateways();
+  }
+
+  componentDidMount(){
+    this.getDeviceName();
+  }
+
+  getDeviceName() {
+    this.setState({ scanName: this.props.deviceName });
   }
 
   componentWillReceiveProps(){
@@ -86,6 +95,8 @@ class DeviceForm extends Component {
 
           <Grid container spacing={24}>
         <Grid item xs={6}>
+          {/* the scanName from the state contains the result of the qr code scan */}
+        {console.log("=====",this.state.scanName)}
         <TextField 
           name="id" 
           disabled={this.props.isEdit} 

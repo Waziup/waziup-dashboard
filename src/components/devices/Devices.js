@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container } from 'react-grid-system';
 import DeviceForm from './device/DeviceForm.js';
+import DeviceQRScan from './device/DeviceQRScan.js';
 import DeviceLineCard from './DeviceLineCard.js';
 import DevicesTable from './DevicesTable.js';
 import {
@@ -59,12 +60,15 @@ class Devices extends Component {
     this.state = {
       open: false,
       modalAddDevice: false,
+      result: 'No result',
+      scanDevice: false,
       isCardsView: true,
       filter: defaultFilter,
       devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
       loading: true
     };
-
+    this.selectedFile = null;
+    this.upload = React.createRef();
   }
 
   handleClick = () => {
@@ -156,6 +160,12 @@ class Devices extends Component {
     return true;
   }
 
+handleChangeFile = (e) => {
+  this.selectedFile = e.target.files[0];
+  console.log(this.selectedFile)
+  e.persist()
+}
+
   render() {
     const { classes } = this.props;
 
@@ -171,9 +181,13 @@ class Devices extends Component {
           </Toolbar>
         </AppBar>
         <DeviceForm gateways={this.props.gateways}
+                    deviceName={this.state.result}
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
+        <DeviceQRScan handleClose={() => this.setState({ scanDevice: false })}
+                    modalOpen={this.state.scanDevice}
+                    onSubmit={s => this.setState({ modalAddDevice: true, result: s })}/>
         <a href={config.docServerUrl + "/devices"}> How to connect a device? </a>
         <pre className="tableSwitch"
              onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
@@ -248,7 +262,7 @@ class Devices extends Component {
             </Grid>
           </Grid>
         </Collapse>
-            {this.props.settings.allowManualCreateResources? 
+          {this.props.settings.allowManualCreateResources? 
               <Button variant="contained"
                       color="primary"
                       className="addDeviceButton"
@@ -256,6 +270,24 @@ class Devices extends Component {
                 Add a device
               </Button>: null}
 
+              <input id="myInput" type="file" 
+                  ref={this.upload} 
+                  onChange={this.handleChangeFile} 
+                  style={{ display: 'none' }} />
+              
+              <Button variant="contained"
+                      color="primary"
+                      className="addDeviceButton"
+                      onClick={(e) => this.upload.current.click()} >
+                Select Qr Code from file
+              </Button>
+
+              <Button variant="contained"
+                      color="primary"
+                      className="addDeviceButton"
+                      onTouchTap={() => this.setState({ scanDevice: true })}  >
+                Scan Device QR code
+              </Button>
         {this.state.isCardsView ? 
           <div className="section">
             <div style={{ marginTop: "20px" }}>
@@ -263,7 +295,7 @@ class Devices extends Component {
               ListLoader()
               :
               this.state.devices.map(s => {return (
-                <Link to={"/devices/" + s.id}>
+                <Link key={s.id} to={"/devices/" + s.id}>
                   {this.props.settings.showPublicResources? 
                   <DeviceLineCard className="deviceNode"
                                   device={s}
