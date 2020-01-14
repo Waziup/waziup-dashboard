@@ -193,7 +193,7 @@ class Layout extends Component {
             open={open}
             onClose={this.handleClose}
           >
-            <MenuItem component="a" href="http://www.waziup.io/documentation" target="_blank"> Help</MenuItem>
+            <MenuItem component="a" href="http://www.waziup.io/documentation/wazicloud" target="_blank"> Help</MenuItem>
             <MenuItem component="a" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl}>Profile</MenuItem>
             <MenuItem onClick={() => { this.props.logout(); this.props.keycloak.logout() }}>Sign Out</MenuItem>
           </Menu>
