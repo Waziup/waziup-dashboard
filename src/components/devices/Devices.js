@@ -29,6 +29,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router';
 import { ListLoader } from './../Loaders';
+import HelpIcon from '@material-ui/icons/Help';
 
 const styles = theme => ({
   root: {
@@ -168,13 +169,15 @@ class Devices extends Component {
             <Typography variant="h5" className="page-title">
               Devices       
             </Typography>
+            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#devices"} target="_blank">
+              <HelpIcon />
+            </a>
           </Toolbar>
         </AppBar>
         <DeviceForm gateways={this.props.gateways}
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
-        <a href={config.docServerUrl + "/devices"}> How to connect a device? </a>
         <pre className="tableSwitch"
              onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
           {' '}

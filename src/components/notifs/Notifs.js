@@ -14,6 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import notificationImage from '../../images/bell-icon.png';
 import config from '../../config';
+import HelpIcon from '@material-ui/icons/Help';
 
 class Notifs extends Component {
   
@@ -49,6 +50,9 @@ class Notifs extends Component {
             <Typography variant="h5" className="page-title">
               Notifications       
             </Typography>
+            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#notifications"} target="_blank">
+              <HelpIcon />
+            </a>
           </Toolbar>
         </AppBar>
         <NotifForm modalOpen={this.state.modalOpen}

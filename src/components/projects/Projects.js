@@ -15,6 +15,7 @@ import projectImage from '../../images/project.png';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { ListLoader } from './../Loaders';
+import HelpIcon from '@material-ui/icons/Help';
 
 class Projects extends Component {
   
@@ -54,6 +55,9 @@ class Projects extends Component {
             <Typography variant="h5" className="page-title">
               Projects       
             </Typography>
+            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#projects"} target="_blank">
+              <HelpIcon />
+            </a>
           </Toolbar>
         </AppBar>
         <ProjectForm user={this.props.user}

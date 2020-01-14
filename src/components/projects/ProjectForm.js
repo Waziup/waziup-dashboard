@@ -107,9 +107,6 @@ class ProjectForm extends Component {
         return (
           <Grid container spacing={24}>
             <img src={projectImage} height="80" class="ProjectWizardIcon"/>
-            <Grid item xs={12}>
-              <a href={config.docServerUrl + "/projects"}>What is a project?</a>
-            </Grid>
             <Grid item sm={6}>
               <TextField
                 id="standard-name"
@@ -135,9 +132,6 @@ class ProjectForm extends Component {
                 this.props.getGateways();
               }}
             />
-            <Grid item xs={12}>
-              <a href={config.docServerUrl + "/gateways"}>How to connect a gateway?</a>
-            </Grid>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>
                 <Grid
@@ -196,9 +190,6 @@ class ProjectForm extends Component {
                 this.props.getDevices();
               }}
             />
-            <Grid item xs={12}>
-              <a href={config.docServerUrl + "/devices"}>How to connect a device?</a>
-            </Grid>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>
                 <Grid

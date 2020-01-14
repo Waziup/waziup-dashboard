@@ -21,6 +21,7 @@ import GatewayLineCard from "./GatewayLineCard";
 import Card from "@material-ui/core/Card";
 import config from '../../config';
 import { ListLoader } from './../Loaders';
+import HelpIcon from '@material-ui/icons/Help';
 
 class Gateways extends Component {
   
@@ -61,14 +62,14 @@ class Gateways extends Component {
             <Typography variant="h5" className="page-title">
               Gateways
             </Typography>
+            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#gateways"} target="_blank">
+              <HelpIcon />
+            </a>
           </Toolbar>
         </AppBar>
         <AddGatewayForm modalOpen={this.state.modalAddGateway}
                         handleClose={() => this.setState({ modalAddGateway: false })}
                         onSubmit={gateway => {this.props.createGateway(gateway);}}/>
-        <Typography>
-          <a href={config.docServerUrl + "/gateways"}> How to connect a gateway? </a>
-        </Typography>
         {this.props.settings.allowManualCreateResources?
           <Button variant="contained"
                   color="primary"
