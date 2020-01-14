@@ -266,7 +266,7 @@ class Devices extends Component {
               ListLoader()
               :
               this.state.devices.map(s => {return (
-                <Link to={"/devices/" + s.id}>
+                <Link key={s.id} to={"/devices/" + s.id}>
                   {this.props.settings.showPublicResources? 
                   <DeviceLineCard className="deviceNode"
                                   device={s}
