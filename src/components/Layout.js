@@ -34,6 +34,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import PlaceIcon from '@material-ui/icons/Place';
 import CloudIcon from '@material-ui/icons/Cloud';
 import AlarmIcon from '@material-ui/icons/Alarm';
+import SettingsIcon from '@material-ui/icons/Settings';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import SettingsRemoteIcon from '@material-ui/icons/SettingsRemote';
 
@@ -163,7 +164,8 @@ class Layout extends Component {
       { name: "Projects", icon: (<AssignmentIcon />)},
       { name: "Devices", icon: (<SettingsRemoteIcon />)},
       { name: "Gateways", icon: (<CloudIcon />)},
-      { name: "Notifications", icon: (<AlarmIcon />)}
+      { name: "Notifications", icon: (<AlarmIcon />)},
+      { name: "Settings", icon: (<SettingsIcon />)}
     ]
 
       const renderMenu = (
@@ -193,7 +195,6 @@ class Layout extends Component {
           >
             <MenuItem component="a" href="http://www.waziup.io/documentation" target="_blank"> Help</MenuItem>
             <MenuItem component="a" href={config.keycloakUrl + '/realms/' + config.realm + '/account?referrer=Dashboard&referrer_uri=' + config.serverUrl}>Profile</MenuItem>
-            <MenuItem component={Link} to={"/Settings"}>Settings</MenuItem>
             <MenuItem onClick={() => { this.props.logout(); this.props.keycloak.logout() }}>Sign Out</MenuItem>
           </Menu>
         </div>
