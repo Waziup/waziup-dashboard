@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Container } from 'react-grid-system';
 import DeviceForm from './device/DeviceForm.js';
 import DeviceLineCard from './DeviceLineCard.js';
-import DevicesTable from './DevicesTable.js';
 import {
   createDevice, getDevices, getDeviceAttributes
 } from '../../actions/actions.js';
@@ -60,7 +59,6 @@ class Devices extends Component {
     this.state = {
       open: false,
       modalAddDevice: false,
-      isCardsView: true,
       filter: defaultFilter,
       devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
       loading: true
@@ -178,12 +176,6 @@ class Devices extends Component {
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
-        <pre className="tableSwitch"
-             onClick={() => this.setState({ isCardsView: !this.state.isCardsView })}>
-          {' '}
-          {this.state.isCardsView ? 'Switch to table view' : 'Switch to cards view'}
-          {' '}
-        </pre>
         <ListItem button onClick={this.handleClick}>
           <ListItemIcon>
             <FilterList />
@@ -222,7 +214,7 @@ class Devices extends Component {
                   </Select>
                 </FormControl>
               </Grid>
-            :null }
+            : null }
             <Grid item sm={6} md={4} lg={3}>
               <FormControl fullWidth className={classes.formControl}>
                 <InputLabel htmlFor="visibility">Visibility</InputLabel>
@@ -251,34 +243,32 @@ class Devices extends Component {
             </Grid>
           </Grid>
         </Collapse>
-            {this.props.settings.allowManualCreateResources? 
-              <Button variant="contained"
-                      color="primary"
-                      className="addDeviceButton"
-                      onTouchTap={() => this.setState({ modalAddDevice: true })} >
-                Add a device
-              </Button>: null}
-
-        {this.state.isCardsView ? 
-          <div className="section">
-            <div style={{ marginTop: "20px" }}>
-            { this.state.loading ? 
+        {this.props.settings.allowManualCreateResources ? 
+          <Button variant="contained"
+                  color="primary"
+                  className="addDeviceButton"
+                  onTouchTap={() => this.setState({ modalAddDevice: true })} >
+            Add a device
+          </Button>
+        : null}
+        <div className="section">
+          <div style={{ marginTop: "20px" }}>
+            {this.state.loading ? 
               ListLoader()
-              :
-              this.state.devices.map(s => {return (
-                <Link key={s.id} to={"/devices/" + s.id}>
-                  {this.props.settings.showPublicResources? 
+            : this.state.devices.map(s => {return (
+              <Link key={s.id} to={"/devices/" + s.id}>
+                {this.props.settings.showPublicResources ? 
                   <DeviceLineCard className="deviceNode"
                                   device={s}
                                   user={this.props.user}/>
-                  : (s.owner == this.props.user.username) && <DeviceLineCard className="deviceNode"
-                                  device={s}
-                                  user={this.props.user}/>
-                  }
-                </Link>)})}
-            </div>
+                : (s.owner == this.props.user.username) 
+                    && <DeviceLineCard className="deviceNode"
+                                       device={s}
+                                       user={this.props.user}/>}
+              </Link>)})
+            }
           </div>
-        : <DevicesTable devices={this.state.devices} />}
+        </div>
       </Container>
     );
   }
