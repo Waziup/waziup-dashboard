@@ -15,5 +15,5 @@ module.exports = {
   },
   delayDeviceNew: 24 * 60 * 60 * 1000, // 24 hours (in milliseconds)
   delayDeviceActive: 12 * 60 * 60 * 1000, // 12 hours (in milliseconds)
-  delayRefresh: 10*1000 // 10 seconds
+  delayRefresh: process.env.DELAY_REFRESH || 60*1000 // 60 seconds
 };
