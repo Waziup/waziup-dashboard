@@ -161,11 +161,11 @@ class Layout extends Component {
     const open = Boolean(anchorEl);
     const Logo = require("../images/logo-waziup-white.png");
     const listItems = [
-      { name: "Projects", icon: (<AssignmentIcon />)},
-      { name: "Devices", icon: (<SettingsRemoteIcon />)},
-      { name: "Gateways", icon: (<CloudIcon />)},
+      { name: "Projects",      icon: (<AssignmentIcon />)},
+      { name: "Devices",       icon: (<SettingsRemoteIcon />)},
+      { name: "Gateways",      icon: (<CloudIcon />)},
       { name: "Notifications", icon: (<AlarmIcon />)},
-      { name: "Settings", icon: (<SettingsIcon />)}
+      { name: "Settings",      icon: (<SettingsIcon />)}
     ]
 
       const renderMenu = (
@@ -226,11 +226,9 @@ class Layout extends Component {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
-            <IconButton
-              aria-label="Open drawer"
-              onClick={this.handleDrawerToggle}
-              className={classes.menuButton}
-            >
+            <IconButton aria-label="Open drawer"
+                        onClick={this.handleDrawerToggle}
+                        className={classes.menuButton}>
               <MenuIcon />
             </IconButton>
             <div className={classes.grow} />
@@ -238,7 +236,6 @@ class Layout extends Component {
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swap with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}

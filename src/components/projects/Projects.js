@@ -24,8 +24,7 @@ class Projects extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalAddProject: false,
-      loading: true
+      modalAddProject: false
     };
   }
 
@@ -43,10 +42,10 @@ class Projects extends Component {
   }
 
   componentWillReceiveProps() { 
-    this.setState({loading: false})
   }
   
   render() {
+    let projects = this.props.projects.projects;
     return (
       <Container fluid={true} style={{paddingBottom: '100px'}}>
         <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
@@ -77,31 +76,29 @@ class Projects extends Component {
         <br/>
         <br/>
         <div style={{marginTop: '20px'}}>
-          {
-            this.state.loading ? 
+          {this.props.projects.isLoading && projects.length == 0 ? 
             ListLoader()
-            :
-            this.props.projects.length != 0 ? DOM.div(null, 
-              this.props.projects.map((p,index) => [
-              this.props.settings.showPublicResources ? (
-                React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
-                React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
-              ):
-              ((p.owner == this.props.user.username) && 
-                React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
-                React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
-              )])) : 
-          <div>
-          <Paper style={{'padding':'20px'}}>
-            <Typography variant="h5" component="h3">
-              You don't have any project.
-            </Typography>
-            <Typography component="p">
-              Get started by creating your own IoT project.
-            </Typography>
-          </Paper>
-        </div>
-        }
+          : projects.length != 0 ? DOM.div(null, 
+              projects.map((p,index) => [
+                this.props.settings.showPublicResources ? (
+                  React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
+                  React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
+                ) :
+                ((p.owner == this.props.user.username) && 
+                  React.createElement(Link, { to: "/projects/" + p.id, key: { index } },
+                  React.createElement(ProjectLineCard, {project: p, updateProjectDevices: this.props.updateProjectDevices, permissions: this.props.permissions, key: (index)}))  
+                )])) : 
+            <div>
+              <Paper style={{'padding':'20px'}}>
+                <Typography variant="h5" component="h3">
+                  You don't have any project.
+                </Typography>
+                <Typography component="p">
+                  Get started by creating your own IoT project.
+                </Typography>
+              </Paper>
+            </div>
+          }
         </div>
       </Container>
     );
@@ -110,7 +107,7 @@ class Projects extends Component {
 
 function mapStateToProps(state) {
   return {
-    projects: state.projects.projects,
+    projects: state.projects,
     permissions: state.permissions.project,
     devices: state.devices.devices,
     gateways: state.gateways.gateways,

@@ -60,8 +60,7 @@ class Devices extends Component {
       open: false,
       modalAddDevice: false,
       filter: defaultFilter,
-      devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter)),
-      loading: true
+      devices: props.devices.filter(dev => this.isFilteredDevice(dev, defaultFilter))
     };
 
   }
@@ -83,7 +82,7 @@ class Devices extends Component {
   }
   
   componentWillReceiveProps(nextProps) { 
-    this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter)), loading: false})
+    this.setState({devices: nextProps.devices.filter(dev => this.isFilteredDevice(dev, this.state.filter))})
   }
 
   compare(a, b) {
@@ -253,7 +252,7 @@ class Devices extends Component {
         : null}
         <div className="section">
           <div style={{ marginTop: "20px" }}>
-            {this.state.loading ? 
+            {this.state.devices.length == 0 ? 
               ListLoader()
             : this.state.devices.map(s => {return (
               <Link key={s.id} to={"/devices/" + s.id}>
