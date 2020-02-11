@@ -252,8 +252,11 @@ class Devices extends Component {
         : null}
         <div className="section">
           <div style={{ marginTop: "20px" }}>
-            {this.state.devices.length == 0 ? 
+            {this.props.devices.length == 0 ?
+              //Show a loader when the unfiltered device list is empty.
               ListLoader()
+            : this.state.devices.length == 0 ? 
+              <h3> No devices to be displayed. </h3>
             : this.state.devices.map(s => {return (
               <Link key={s.id} to={"/devices/" + s.id}>
                 {this.props.settings.showPublicResources ? 

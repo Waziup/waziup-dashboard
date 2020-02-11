@@ -212,39 +212,41 @@ class Gateways extends Component {
                   className="addDeviceButton"
                   onTouchTap={() => this.setState({ modalAddGateway: true })}>
             Add a gateway
-          </Button> : null}
-        {this.state.gateways && this.state.gateways.length ?
-          <div style={{ marginTop: "20px" }}>
-            { this.state.loading ? 
-              ListLoader()
-              : this.state.gateways
-              ? this.state.gateways.map((gateway, index) => {
-                  return (
-                    this.props.settings.showPublicResources ?
-                    <Link to={"/gateways/" + gateway.id}>
-                      <GatewayLineCard gateway={gateway}
-                                       isDetails={true}
-                                       updateGateway={this.props.createGateway}
-                                       deleteGateway={this.props.deleteGateway}
-                                       permission={this.props.gatewayPermissions.find(
-                                         p => p.resource == gateway.id
-                                       )}/>
-                    </Link>
-                    : (gateway.owner ==  this.props.user.username)
-                      && <Link to={"/gateways/" + gateway.id}>
-                      <GatewayLineCard gateway={gateway}
-                                      isDetails={true}
-                                      updateGateway={this.props.createGateway}
-                                      deleteGateway={this.props.deleteGateway}
-                                      permission={this.props.gatewayPermissions.find(
-                                        p => p.resource == gateway.id
-                                      )}/>
-                      </Link>
-                  );
-                })
-              : null}
-          </div>
+          </Button> 
         : null}
+        <div className="section">
+          <div style={{ marginTop: "20px" }}>
+            {this.props.gateways.length == 0 ? 
+              ListLoader()
+            : this.state.gateways.length == 0 ? 
+              <h3> No gateways to be displayed. </h3>
+            : this.state.gateways.map((gateway, index) => {
+              return (
+                this.props.settings.showPublicResources ?
+                <Link to={"/gateways/" + gateway.id}>
+                  <GatewayLineCard gateway={gateway}
+                                   isDetails={true}
+                                   updateGateway={this.props.createGateway}
+                                   deleteGateway={this.props.deleteGateway}
+                                   permission={this.props.gatewayPermissions.find(
+                                     p => p.resource == gateway.id
+                                   )}/>
+                </Link>
+                : (gateway.owner ==  this.props.user.username)
+                  && <Link to={"/gateways/" + gateway.id}>
+                  <GatewayLineCard gateway={gateway}
+                                  isDetails={true}
+                                  updateGateway={this.props.createGateway}
+                                  deleteGateway={this.props.deleteGateway}
+                                  permission={this.props.gatewayPermissions.find(
+                                    p => p.resource == gateway.id
+                                  )}/>
+                  </Link>
+              )
+            })}
+          </div>
+        </div>
+
       </Container>
     );
   }
