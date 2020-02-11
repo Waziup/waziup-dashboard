@@ -23,6 +23,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { DeviceLoader } from './../../Loaders';
+import QRCode from 'qrcode.react';
 
 class DeviceDetail extends Component {
   constructor(props) {
@@ -53,6 +54,17 @@ class DeviceDetail extends Component {
   }
 
   render() {
+  let downloadQR = () => {
+    const canvas = document.getElementById("QRCodeId");
+    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    let downloadLink = document.createElement("a");
+    downloadLink.href = pngUrl;
+    downloadLink.download = "QRCode.png";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
     let renderElement = (
       <h1>
         {' '}
@@ -150,6 +162,23 @@ class DeviceDetail extends Component {
             </Card>
           </div>
         }
+        <Card className="deviceMap">
+          <span className="Typography">
+            {' '}
+            Device QR code
+            {' '}
+          </span>
+          <div>
+            <a onClick={downloadQR}> 
+              <QRCode id="QRCodeId"
+                      value={window.location.href}
+                      size={290}
+                      level={"L"}
+                      includeMargin={true}/>
+              <h4> Download me, print me and stick me on your devices! </h4>
+            </a>
+          </div>
+        </Card>
         </Container>
       );
     } else {
