@@ -24,6 +24,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { DeviceLoader } from './../../Loaders';
 import QRCode from 'qrcode.react';
+import { Link } from 'react-router';
 
 class DeviceDetail extends Component {
   constructor(props) {
@@ -162,20 +163,20 @@ class DeviceDetail extends Component {
             </Card>
           </div>
         }
-        <Card className="deviceMap">
+        <Card className="QRCode">
           <span className="Typography">
             {' '}
             Device QR code
             {' '}
           </span>
-          <div>
-            <a onClick={downloadQR}> 
+          <div style={{cursor: 'pointer'}}>
+            <a onClick={downloadQR}>
               <QRCode id="QRCodeId"
                       value={window.location.href}
                       size={290}
                       level={"L"}
                       includeMargin={true}/>
-              <h4> Download me, print me and stick me on your devices! </h4>
+              <h3> Download me, print me <br/>and stick me on your devices! </h3>
             </a>
           </div>
         </Card>

@@ -630,3 +630,11 @@ a, a:visited, a:focus, a:active, a:hover{
 pre{
   white-space: pre-wrap;
 }
+
+.QRCode {
+  padding: 10px;
+  width: max-content;
+  margin-top: 10px;
+  overflow: hidden;
+  text-align: center;
+}
