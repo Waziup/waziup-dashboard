@@ -223,15 +223,15 @@ class Gateways extends Component {
             : this.state.gateways.map((gateway, index) => {
               return (
                 this.props.settings.showPublicResources ?
-                <Link to={"/gateways/" + gateway.id}>
-                  <GatewayLineCard gateway={gateway}
-                                   isDetails={true}
-                                   updateGateway={this.props.createGateway}
-                                   deleteGateway={this.props.deleteGateway}
-                                   permission={this.props.gatewayPermissions.find(
-                                     p => p.resource == gateway.id
-                                   )}/>
-                </Link>
+                  <Link to={"/gateways/" + gateway.id}>
+                    <GatewayLineCard gateway={gateway}
+                                     isDetails={true}
+                                     updateGateway={this.props.createGateway}
+                                     deleteGateway={this.props.deleteGateway}
+                                     permission={this.props.gatewayPermissions.find(
+                                       p => p.resource == gateway.id
+                                     )}/>
+                  </Link>
                 : (gateway.owner ==  this.props.user.username)
                   && <Link to={"/gateways/" + gateway.id}>
                   <GatewayLineCard gateway={gateway}
