@@ -504,6 +504,24 @@ export function updateProjectName(projectId, name) {
 
 /* Gateway actions */
 
+export function getGatewayAttributes() {
+  return async function (dispatch) {
+    dispatch({ type: types.GET_GATEWAY_ATTRIBUTES_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const result = await gatewaysApi.getGateways();
+      const owners =  [...new Set(result.map(s => s.owner))];
+      const ids =     [...new Set(result.map(s => s.id))];
+      const names =   [...new Set(result.map(s => s.name))];
+      const connecteds =   [...new Set(result.map(s => s.connected))];
+      const data = {owners, ids, names, connecteds}
+      dispatch({ type: types.GET_GATEWAY_ATTRIBUTES_SUCCESS, data });
+    } catch (error) {
+      dispatch({ type: types.GET_GATEWAY_ATTRIBUTES_ERROR, data: error });
+    }
+  };
+}
+
 export function getGateways() {
   return async function (dispatch) {
     dispatch({ type: types.GET_GATEWAYS_START });

@@ -216,6 +216,32 @@ function projectReducer(state = {
   }
 }
 
+// Get all devices attributes
+function gatewayAttributesReducer(state = {
+  isLoading: false,
+  gatewayAttributes: [],
+  error: false,
+  errMsg: '',
+}, action = null) {
+  switch (action.type) {
+    case types.GET_GATEWAY_ATTRIBUTES_START: return Object.assign({}, state, {
+      isLoading: true,
+      error: false,
+    });
+    case types.GET_GATEWAY_ATTRIBUTES_SUCCESS: return Object.assign({}, state, {
+      isLoading: false,
+      gatewayAttributes: action.data,
+      error: false,
+    });
+    case types.GET_GATEWAY_ATTRIBUTES_ERROR: return Object.assign({}, state, {
+      isLoading: false,
+      msg: action.data,
+      error: true,
+    });
+    default: return state;
+  }
+}
+
 // Get all gateways
 function gatewaysReducer(state = {
   isLoading: false,
@@ -584,6 +610,8 @@ export default function rootReducer(state = {}, action) {
     projects: projectsReducer(state.projects, action),
     // List of project
     project: projectReducer(state.project, action),
+    // List of gateway attributes
+    gatewayAttributes: gatewayAttributesReducer(state.gatewayAttributes, action),
     // List of gateways
     gateways: gatewaysReducer(state.gateways, action),
     // A single gateway
