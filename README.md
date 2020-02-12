@@ -11,11 +11,17 @@ The dashboard can be run standalone with:
 yarn start
 ```
 
+You can also run it against the Cloud instance:
+```
+API_SERVER_URL=https://api.waziup.io/api KEYCLOAK_URL=https://keycloak.waziup.io/auth yarn start
+```
+
+
 
 Copyright
 ---------
 
-Copyright 2016.
+Copyright 2016-2020 WAZIUP.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
