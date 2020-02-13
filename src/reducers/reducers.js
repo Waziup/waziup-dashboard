@@ -515,6 +515,7 @@ function messagesReducer(state = [], action = null) {
     case types.UPDATE_PROJECT_ERROR: msg = 'Error when updating project'; error = true; break;
     case types.DELETE_PROJECT_ERROR: msg = 'Error when deleting project'; error = true; break;
     case types.CREATE_GATEWAY_ERROR: msg = 'Error when creating gateway'; error = true; break;
+    case types.UPDATE_GATEWAY_ERROR: msg = 'Error when updating gateway'; error = true; break;
     case types.DELETE_GATEWAY_ERROR: msg = 'Error when deleting gateway'; error = true; break;
 
     default: return state;

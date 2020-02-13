@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
 import DeviceNodeCard from './DeviceNodeCard';
-import LocationForm from './LocationForm';
+import LocationForm from '../../LocationForm';
 import {
   addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
   updateDeviceLocation, updateDeviceName, updateDeviceVisibility, updateDeviceGatewayId,
@@ -24,7 +24,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { DeviceLoader } from './../../Loaders';
 import QRCode from 'qrcode.react';
-import { Link } from 'react-router';
 
 class DeviceDetail extends Component {
   constructor(props) {
@@ -89,28 +88,25 @@ class DeviceDetail extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-          { this.state.loading ? 
-          DeviceLoader()
-          :
-          <div>
-            <DeviceNodeCard
-              className="deviceNode"
-              deleteSensor={this.props.deleteSensor}
-              deleteActuator={this.props.deleteActuator}
-              deleteDevice={(sid) => {
-                this.props.deleteDevice(sid); browserHistory.push('/devices');
-              }}
-              permission={this.props.permission}
-              device={device}
-              gateways={this.props.gateways}
-              updateSensor={this.props.addSensor}
-              updateActuator={this.props.addActuator}
-              updateDeviceName={this.props.updateDeviceName}
-              updateDeviceVisibility={this.props.updateDeviceVisibility}
-              updateDeviceGatewayId={this.props.updateDeviceGatewayId}
-              user={this.props.user}
-              settings={this.props.settings}
-            />
+        { this.state.loading ? 
+            DeviceLoader()
+          : <div>
+            <DeviceNodeCard className="deviceNode"
+                            deleteSensor={this.props.deleteSensor}
+                            deleteActuator={this.props.deleteActuator}
+                            deleteDevice={(sid) => {
+                              this.props.deleteDevice(sid); browserHistory.push('/devices');
+                            }}
+                            permission={this.props.permission}
+                            device={device}
+                            gateways={this.props.gateways}
+                            updateSensor={this.props.addSensor}
+                            updateActuator={this.props.addActuator}
+                            updateDeviceName={this.props.updateDeviceName}
+                            updateDeviceVisibility={this.props.updateDeviceVisibility}
+                            updateDeviceGatewayId={this.props.updateDeviceGatewayId}
+                            user={this.props.user}
+                            settings={this.props.settings}/>
             <Card className="deviceMap">
               <span className="Typography">
                 {' '}
@@ -127,18 +123,14 @@ class DeviceDetail extends Component {
                   <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
                   </Hidden>
                 </div>) : null}
-              <LocationForm
-                handleClose={() => this.setState({ modalLocation: false })}
-                initialLocation={device.location}
-                modalOpen={this.state.modalLocation}
-                onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
-                permission={this.props.permission}
-              />
-              <Map
-                ref="map"
-                center={position}
-                zoom={5}
-              >
+              <LocationForm handleClose={() => this.setState({ modalLocation: false })}
+                            initialLocation={device.location}
+                            modalOpen={this.state.modalLocation}
+                            onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
+                            permission={this.props.permission}/>
+              <Map ref="map"
+                   center={position}
+                   zoom={5}>
                 <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                 {device.location? 
                   <Marker position={position}>
@@ -158,7 +150,7 @@ class DeviceDetail extends Component {
                       </span>
                     </Popup>
                   </Marker>
-                :null}
+                : null}
               </Map>
             </Card>
           </div>
@@ -173,7 +165,7 @@ class DeviceDetail extends Component {
             <a onClick={downloadQR}>
               <QRCode id="QRCodeId"
                       value={window.location.href}
-                      size={290}
+                      size={200}
                       level={"L"}
                       includeMargin={true}/>
               <h3> Download me, print me <br/>and stick me on your devices! </h3>

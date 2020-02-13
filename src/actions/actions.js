@@ -590,6 +590,20 @@ export function updateGatewayName(gatewayId, name) {
   };
 }
 
+export function updateGatewayLocation(gatewayId, location) {
+  return async function (dispatch) {
+    dispatch({ type: types.UPDATE_GATEWAY_START });
+    defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
+    try {
+      const data = await gatewaysApi.putGatewayLocation(gatewayId, location);
+      dispatch({ type: types.UPDATE_GATEWAY_SUCCESS, data });
+      dispatch(getGateways());
+    } catch (error) {
+      dispatch({ type: types.UPDATE_GATEWAY_ERROR, data: error });
+    }
+  };
+}
+
 
 /* Notification actions */
 
