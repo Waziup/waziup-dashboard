@@ -103,7 +103,7 @@ export function updateDeviceLocation(deviceId, location) {
     try {
       const data = await devicesApi.putDeviceLocation(deviceId, location);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -117,7 +117,7 @@ export function updateDeviceOwner(deviceId, owner) {
     try {
       const data = await devicesApi.putDeviceOwner(deviceId, owner);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -131,7 +131,7 @@ export function updateDeviceName(deviceId, name) {
     try {
       const data = await devicesApi.putDeviceName(deviceId, name);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -145,7 +145,7 @@ export function updateDeviceVisibility(deviceId, visibility) {
     try {
       const data = await devicesApi.putDeviceVisibility(deviceId, visibility);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -159,7 +159,7 @@ export function updateDeviceGatewayId(deviceId, gateway_id) {
     try {
       const data = await devicesApi.putDeviceGatewayId(deviceId, gateway_id);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -189,7 +189,7 @@ export function addSensor(deviceId, sens) {
     try {
       const data = await sensorsApi.addSensor(deviceId, sens);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -203,7 +203,7 @@ export function deleteSensor(deviceId, sensId) {
     try {
       const data = await sensorsApi.deleteSensor(deviceId, sensId);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -217,7 +217,7 @@ export function updateSensorName(deviceId, sensId, name) {
     try {
       const data = await sensorsApi.putSensorName(deviceId, sensId, name);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -231,7 +231,7 @@ export function updateSensorCalibration(deviceId, sensId, calib) {
     try {
       const data = await sensorsApi.putSensorCalibration(deviceId, sensId, calib);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -248,7 +248,6 @@ export function addActuator(deviceId, actu) {
       const data = await actuatorsApi.addActuator(deviceId, actu);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
       dispatch(getDevice(deviceId));
-      dispatch(getDevices());
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -262,7 +261,7 @@ export function deleteActuator(deviceId, actuId) {
     try {
       const data = await actuatorsApi.deleteActuator(deviceId, actuId);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -276,7 +275,7 @@ export function updateActuatorName(deviceId, actuId, name) {
     try {
       const data = await actuatorsApi.putActuatorName(deviceId, actuId, name);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -290,7 +289,7 @@ export function updateActuatorKind(deviceId, actuId, kind) {
     try {
       const data = await actuatorsApi.putActuatorKind(deviceId, actuId, kind);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -304,7 +303,7 @@ export function updateActuatorValue(deviceId, actuId, value) {
     try {
       const data = await actuatorsApi.createActuatorValue(deviceId, actuId, value);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -318,7 +317,7 @@ export function updateActuatorValueType(deviceId, actuId, valueType) {
     try {
       const data = await actuatorsApi.putActuatorVT(deviceId, actuId, valueType);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices());
+      dispatch(getDevice(deviceId));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -467,7 +466,7 @@ export function updateProjectDevices(projectId, devices) {
     try {
       const data = await projectsApi.putDeviceIds(projectId, devices);
       dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
-      dispatch(getProjects());
+      dispatch(getProject(projectId, {full: true }));
     } catch (error) {
       dispatch({ type: types.UPDATE_PROJECT_ERROR, data: error });
     }
@@ -481,7 +480,7 @@ export function updateProjectGateways(projectId, gateways) {
     try {
       const data = await projectsApi.putGatewayIds(projectId, gateways);
       dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
-      dispatch(getProjects());
+      dispatch(getProject(projectId, {full: true }));
     } catch (error) {
       dispatch({ type: types.UPDATE_PROJECT_ERROR, data: error });
     }
@@ -495,7 +494,7 @@ export function updateProjectName(projectId, name) {
     try {
       const data = await projectsApi.putProjectName(projectId, name);
       dispatch({ type: types.UPDATE_PROJECT_SUCCESS, data });
-      dispatch(getProjects());
+      dispatch(getProject(projectId, {full: true }));
     } catch (error) {
       dispatch({ type: types.UPDATE_DEVICE_ERROR, data: error });
     }
@@ -583,7 +582,7 @@ export function updateGatewayName(gatewayId, name) {
     try {
       const data = await gatewaysApi.putGatewayName(gatewayId, name);
       dispatch({ type: types.UPDATE_GATEWAY_SUCCESS, data });
-      dispatch(getGateways());
+      dispatch(getGateway(gatewayId));
     } catch (error) {
       dispatch({ type: types.UPDATE_GATEWAY_ERROR, data: error });
     }
@@ -597,7 +596,7 @@ export function updateGatewayLocation(gatewayId, location) {
     try {
       const data = await gatewaysApi.putGatewayLocation(gatewayId, location);
       dispatch({ type: types.UPDATE_GATEWAY_SUCCESS, data });
-      dispatch(getGateways());
+      dispatch(getGateway(gatewayId));
     } catch (error) {
       dispatch({ type: types.UPDATE_GATEWAY_ERROR, data: error });
     }

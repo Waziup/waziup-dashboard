@@ -120,7 +120,7 @@ class GatewayDetail extends Component {
                      <LocationForm handleClose={() => this.setState({ modalLocation: false })}
                                    initialLocation={gateway.location}
                                    modalOpen={this.state.modalLocation}
-                                   onSubmit={l => this.props.updateGatewayLocation(gateway.id, l)}
+                                   onSubmit={l => {this.props.updateGatewayLocation(gateway.id, l)}}
                                    permission={this.props.permission}/>
                      <Map ref="map"
                           center={position}

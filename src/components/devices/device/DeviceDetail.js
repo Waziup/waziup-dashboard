@@ -94,9 +94,7 @@ class DeviceDetail extends Component {
             <DeviceNodeCard className="deviceNode"
                             deleteSensor={this.props.deleteSensor}
                             deleteActuator={this.props.deleteActuator}
-                            deleteDevice={(sid) => {
-                              this.props.deleteDevice(sid); browserHistory.push('/devices');
-                            }}
+                            deleteDevice={(sid) => {this.props.deleteDevice(sid); browserHistory.push('/devices');}}
                             permission={this.props.permission}
                             device={device}
                             gateways={this.props.gateways}
@@ -120,13 +118,18 @@ class DeviceDetail extends Component {
                     <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
                   </Hidden>
                   <Hidden smDown implementation="css">
-                  <Button className="topRightButton" onTouchTap={() => { this.setState({ modalLocation: true }); }} variant="contained" color="primary" >Change</Button>
+                    <Button className="topRightButton"
+                            onTouchTap={() => { this.setState({ modalLocation: true }); }}
+                            variant="contained"
+                            color="primary">
+                      Change
+                    </Button>
                   </Hidden>
                 </div>) : null}
               <LocationForm handleClose={() => this.setState({ modalLocation: false })}
                             initialLocation={device.location}
                             modalOpen={this.state.modalLocation}
-                            onSubmit={l => this.props.updateDeviceLocation(device.id, l)}
+                            onSubmit={l => {this.props.updateDeviceLocation(device.id, l)}}
                             permission={this.props.permission}/>
               <Map ref="map"
                    center={position}
