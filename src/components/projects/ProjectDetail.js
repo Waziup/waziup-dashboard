@@ -54,9 +54,8 @@ class ProjectDetail extends Component {
         calibrated: true,
         limit: 100,
         offset: undefined,
-        device_id: props.project.device_ids ? (props.project.device_ids).join() : []
+        device_ids: props.project.device_ids ? props.project.device_ids : []
       },
-      devices: props.project.device_ids? props.project.device_ids: [],
       timeAxis: 'device',
       loading: true,
       chartLoading: true
@@ -69,8 +68,9 @@ class ProjectDetail extends Component {
     this.props.getDevices({ limit: 1000 });
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
-    if(this.state.query.device_id.length > 0) {
-      this.props.getValues(this.state.query);  
+    if(this.state.query.device_ids.length > 0) {
+      let q = {...this.state.query, device_id: this.state.query.device_ids.join()}
+      this.props.getValues(q);  
     }
 
     this.interval = setInterval(() => {
@@ -79,7 +79,10 @@ class ProjectDetail extends Component {
       this.props.getDevices({ limit: 1000 });
       this.props.getGateways();
       this.props.getProject(this.props.params.projectId, {full: true });
-      this.props.getValues(this.state.query);  
+      if(this.state.query.device_ids.length > 0) {
+        let q = {...this.state.query, device_id: this.state.query.device_ids.join()}
+        this.props.getValues(q);  
+      }
     }, config.delayRefresh);
   }
 
@@ -94,14 +97,10 @@ class ProjectDetail extends Component {
 
       if(nextProps.project !== this.props.project){
         var myQuery = this.state.query
-        myQuery.device_id = nextProps.project.device_ids ? (nextProps.project.device_ids).join() : [];
-        this.setState({ query: myQuery, devices: nextProps.project.device_ids}); 
+        myQuery.device_ids = nextProps.project.device_ids ? nextProps.project.device_ids : [];
+        this.setState({ query: myQuery}); 
         this.setState({ loading: false }); 
       }
-
-      //if(!this.props.loading && nextProps.isLoading === false && this.props.isLoading === true ){
-      //  this.setState({ chartLoading: false }); 
-      //}
 
       nextProps.project.devices.forEach(device => {
         if (device.location) {
@@ -153,16 +152,18 @@ class ProjectDetail extends Component {
   handleDeviceChange = (event) => {
     var myQuery = this.state.query;
     var value = event.target.value;
-    myQuery.device_id = value.join();    
-    this.setState({ devices: value, query: myQuery });
+    myQuery.device_ids = value;    
+    this.setState({query: myQuery });
   };
   
   handleApply = () => {
     console.log('Query submit clicked: ' + JSON.stringify(this.state));
-    this.props.getValues(this.state.query);  
+    let q = {...this.state.query, device_id: this.state.query.device_ids.join()}
+    this.props.getValues(q);  
   }
 
   render() {
+    console.log("ids:" + this.state.query.device_ids)
     let renderElement = <h1> Project view is being loaded... </h1>;
     if (this.props.project) {
       renderElement = (
@@ -261,14 +262,14 @@ class ProjectDetail extends Component {
                       <Select
                         multiple={true}
                         input={<Input name="devices" id="devices" />}
-                        value={this.state.devices}
+                        value={this.state.query.device_ids}
                         onChange={s => this.handleDeviceChange(s)}
                       >
                         {this.props.project.device_ids ? 
                         this.props.project.device_ids.map(s => (
                           <MenuItem
                             key={s}
-                            checked={this.state.devices.includes(s)}
+                            checked={this.state.query.device_ids.includes(s)}
                             value={s}
                           >
                             {s}
