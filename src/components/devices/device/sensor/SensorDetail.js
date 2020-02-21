@@ -12,7 +12,7 @@ import { Container } from 'react-grid-system'
 import querystring from 'querystring';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import moment from 'moment';
-import DeviceChart from '../DeviceChart';
+import DataChart from '../../../DataChart';
 import Grid from '@material-ui/core/Grid';
 import SensorCard from './SensorCard';
 import CalibrationForm from './CalibrationForm';
@@ -175,7 +175,9 @@ class SensorDetail extends Component {
               <Typography>
                 <span className="Typography"> Historical chart </span>
               </Typography>
-              <DeviceChart sens={this.props.sens} values={this.props.values} timeAxis={this.state.timeAxis} />
+              <DataChart sens={this.props.sens}
+                         values={this.props.values}
+                         timeAxis={this.state.timeAxis} />
               {/* <Card className="graphForm"> */}
               <Grid container spacing={24}>
             <Grid item xs={3}>

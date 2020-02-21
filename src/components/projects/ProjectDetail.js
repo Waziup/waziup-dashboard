@@ -36,7 +36,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import projectImage from "../../images/project.png";
 import config from '../../config';
-import ProjectChart from './ProjectChart';
+import DataChart from '../DataChart';
 import { ProjectLoader, GraphLoader } from './../Loaders';
 
 class ProjectDetail extends Component {
@@ -47,9 +47,6 @@ class ProjectDetail extends Component {
       markers: [],
       position: [14.4974, 14.4524],
       locations: [],
-      sens: {id:'MB',value:{date_received: "2019-08-04T15:21:34Z",
-      timestamp: "2019-08-04T15:21:26Z",
-      value: "12.56"}},
       query: {
         date_from: undefined,
         date_to: undefined,
@@ -102,9 +99,9 @@ class ProjectDetail extends Component {
         this.setState({ loading: false }); 
       }
 
-      if(!this.props.loading && nextProps.isLoading === false && this.props.isLoading === true ){
-        this.setState({ chartLoading: false }); 
-      }
+      //if(!this.props.loading && nextProps.isLoading === false && this.props.isLoading === true ){
+      //  this.setState({ chartLoading: false }); 
+      //}
 
       nextProps.project.devices.forEach(device => {
         if (device.location) {
@@ -199,15 +196,12 @@ class ProjectDetail extends Component {
               gateways={this.props.gateways}
               updateProjectName={(id, name) => {
                 this.props.updateProjectName(id, name);
-                this.props.getProject(this.props.params.projectId, {full: true });
               }}
               updateProjectDevices={(id, devs) => {
                 this.props.updateProjectDevices(id, devs);
-                this.props.getProject(this.props.params.projectId, {full: true });
               }}
               updateProjectGateways={(id, gws) => {
                 this.props.updateProjectGateways(id, gws);
-                this.props.getProject(this.props.params.projectId, {full: true });
               }}
               user={this.props.user}
             />
@@ -235,7 +229,8 @@ class ProjectDetail extends Component {
               <Typography>
                 <span className="Typography"> Historical chart for sensors under this project</span>
               </Typography>
-              {this.state.chartLoading ? GraphLoader() : <ProjectChart sens={this.state.sens} values={this.props.values} timeAxis={this.state.timeAxis} />}
+               <DataChart values={this.props.values}
+                          timeAxis={this.state.timeAxis}/>
                 <Grid container spacing={24}>
                   <Grid item xs={3}>
                         <h4>Range from: </h4>
@@ -245,7 +240,7 @@ class ProjectDetail extends Component {
                     <h4> To:</h4>
                     <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
                   </Grid>
-                  *<Grid item xs={3}>
+                  <Grid item xs={3}>
                     <h4> Number of Datapoints:</h4>
                     <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
                   </Grid>
