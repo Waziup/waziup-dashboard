@@ -188,7 +188,7 @@ class SensorDetail extends Component {
               <h4> To:</h4>
               <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
             </Grid>
-            *<Grid item xs={3}>
+            <Grid item xs={3}>
               <h4> Number of Datapoints:</h4>
               <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
             </Grid>
