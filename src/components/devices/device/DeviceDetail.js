@@ -54,16 +54,7 @@ class DeviceDetail extends Component {
   }
 
   render() {
-  let downloadQR = () => {
-    const canvas = document.getElementById("QRCodeId");
-    const pngUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    let downloadLink = document.createElement("a");
-    downloadLink.href = pngUrl;
-    downloadLink.download = "QRCode.png";
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  };
+
 
     let renderElement = (
       <h1>
@@ -165,10 +156,12 @@ class DeviceDetail extends Component {
             {' '}
           </span>
           <div style={{cursor: 'pointer'}}>
-            <a onClick={downloadQR}>
+            <a onClick={() => downloadQR(document.getElementById("QRCodeId"), 
+                                         "Device Id:", 
+                                         this.props.device.id)}>
               <QRCode id="QRCodeId"
                       value={window.location.href}
-                      size={200}
+                      size={250}
                       level={"L"}
                       includeMargin={true}/>
               <h3> Download me, print me <br/>and stick me on your devices! </h3>
