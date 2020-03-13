@@ -178,40 +178,39 @@ class SensorDetail extends Component {
               <DataChart sens={this.props.sens}
                          values={this.props.values}
                          timeAxis={this.state.timeAxis} />
-              {/* <Card className="graphForm"> */}
               <Grid container spacing={24}>
-            <Grid item xs={3}>
+                <Grid item xs={3}>
                   <h4>Range from: </h4>
                   <DayPickerInput onDayChange={this.handleDateFrom} />
-            </Grid>
-            <Grid item xs={3}>
-              <h4> To:</h4>
-              <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
-            </Grid>
-            <Grid item xs={3}>
-              <h4> Number of Datapoints:</h4>
-              <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl>
-                <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
-                <Select 
-                input={<Input name="timeAxis" id="timeAxis" />}
-                value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
-                  <MenuItem value="cloud">Cloud timestamp</MenuItem>
-                  <MenuItem value="device">Device timestamp</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-          <Grid item xs={2}>
-            <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
-          </Grid>
-          <Grid item xs={2}>
-            <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
-              <Button variant="contained" color="primary">download data</Button>
-            </a>
-          </Grid>
-        </Grid>
+                </Grid>
+                <Grid item xs={3}>
+                  <h4> To:</h4>
+                  <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+                </Grid>
+                <Grid item xs={3}>
+                  <h4> Number of Datapoints:</h4>
+                  <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl>
+                    <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                    <Select 
+                    input={<Input name="timeAxis" id="timeAxis" />}
+                    value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                      <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                      <MenuItem value="device">Device timestamp</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
+                    <Button variant="contained" color="primary">download data</Button>
+                  </a>
+                </Grid>
+              </Grid>
             </Card> : null}
         </Container>
       );
