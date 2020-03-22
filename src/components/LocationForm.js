@@ -38,7 +38,10 @@ class LocationForm extends Component {
         latitude: position.coords.latitude, 
         longitude: position.coords.longitude};
       this.setState({ location: loc, center: loc});
-    }, err => console.log(err)
+    }, err => {
+      console.log(err);
+      alert(err.message + "\nCheck your browser settings");
+    }
     );
     console.log(this.state.position)
   }
