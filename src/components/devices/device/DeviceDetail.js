@@ -54,137 +54,127 @@ class DeviceDetail extends Component {
   }
 
   render() {
-
-
-    let renderElement = (
-      <h1>
-        {' '}
-        Device view is being loaded...
-        {' '}
-      </h1>
-    );
-    console.log(`sens:${JSON.stringify(this.props.device)}`);
-    const device = this.props.device;
-    console.log(device);
-    if (device) {
+    if (this.props.device.device && this.props.device.error == false) {
+      const device = this.props.device.device;
       const position = device.location ? [device.location.latitude, device.location.longitude] : [12.238, -1.561];
       console.log(`pos:${JSON.stringify(position)}`);
-      renderElement = (
-        <Container fluid>
-        <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
-          <Toolbar>
-          <img src={deviceImage} height="50"/>
-            <Typography variant="h5" className="page-title">
-              Device Details    
-            </Typography>
-          </Toolbar>
-        </AppBar>
-        { this.state.loading ? 
-            DeviceLoader()
-          : <div>
-            <DeviceNodeCard className="deviceNode"
-                            deleteSensor={this.props.deleteSensor}
-                            deleteActuator={this.props.deleteActuator}
-                            deleteDevice={(sid) => {this.props.deleteDevice(sid); browserHistory.push('/devices');}}
-                            permission={this.props.permission}
-                            device={device}
-                            gateways={this.props.gateways}
-                            updateSensor={this.props.addSensor}
-                            updateActuator={this.props.addActuator}
-                            updateDeviceName={this.props.updateDeviceName}
-                            updateDeviceVisibility={this.props.updateDeviceVisibility}
-                            updateDeviceGatewayId={this.props.updateDeviceGatewayId}
-                            user={this.props.user}
-                            settings={this.props.settings}/>
-            <Card className="deviceMap">
-              <span className="Typography">
-                {' '}
-                Location
-                {' '}
-              </span>
-              {this.props.permission && this.props.permission.scopes.includes('devices:update')
-                ? 
-                (<div className="cardTitleIcons">
-                  <Hidden mdUp implementation="css">
-                    <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
-                  </Hidden>
-                  <Hidden smDown implementation="css">
-                    <Button className="topRightButton"
-                            onTouchTap={() => { this.setState({ modalLocation: true }); }}
-                            variant="contained"
-                            color="primary">
-                      Change
-                    </Button>
-                  </Hidden>
-                </div>) : null}
-              <LocationForm handleClose={() => this.setState({ modalLocation: false })}
-                            initialLocation={device.location}
-                            modalOpen={this.state.modalLocation}
-                            onSubmit={l => {this.props.updateDeviceLocation(device.id, l)}}
-                            permission={this.props.permission}/>
-              <Map ref="map"
-                   center={position}
-                   zoom={5}>
-                <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-                {device.location? 
-                  <Marker position={position}>
-                    <Popup>
-                      <span>
-                        Device Position
-                        <br />
-                        {' '}
-                        Latitude:
-                        {position[0]}
-                        {' '}
-                        <br />
-                        {' '}
-                        Longitude:
-                        {' '}
-                        {position[1]}
-                      </span>
-                    </Popup>
-                  </Marker>
-                : null}
-              </Map>
-            </Card>
-          </div>
-        }
-        <Card className="QRCode">
-          <span className="Typography">
-            {' '}
-            Device QR code
-            {' '}
-          </span>
-          <div style={{cursor: 'pointer'}}>
-            <a onClick={() => downloadQR(document.getElementById("QRCodeId"), 
-                                         "Device Id:", 
-                                         this.props.device.id)}>
-              <QRCode id="QRCodeId"
-                      value={window.location.href}
-                      size={250}
-                      level={"L"}
-                      includeMargin={true}/>
-              <h3> Download me, print me <br/>and stick me on your devices! </h3>
-            </a>
-          </div>
-        </Card>
-        </Container>
+
+      return (
+        <div className="device">
+          <Container fluid>
+          <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
+            <Toolbar>
+            <img src={deviceImage} height="50"/>
+              <Typography variant="h5" className="page-title">
+                Device Details    
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          { this.state.loading ? 
+              DeviceLoader()
+            : <div>
+              <DeviceNodeCard className="deviceNode"
+                              deleteSensor={this.props.deleteSensor}
+                              deleteActuator={this.props.deleteActuator}
+                              deleteDevice={(sid) => {this.props.deleteDevice(sid); browserHistory.push('/devices');}}
+                              permission={this.props.permission}
+                              device={device}
+                              gateways={this.props.gateways}
+                              updateSensor={this.props.addSensor}
+                              updateActuator={this.props.addActuator}
+                              updateDeviceName={this.props.updateDeviceName}
+                              updateDeviceVisibility={this.props.updateDeviceVisibility}
+                              updateDeviceGatewayId={this.props.updateDeviceGatewayId}
+                              user={this.props.user}
+                              settings={this.props.settings}/>
+              <Card className="deviceMap">
+                <span className="Typography">
+                  {' '}
+                  Location
+                  {' '}
+                </span>
+                {this.props.permission && this.props.permission.scopes.includes('devices:update')
+                  ? 
+                  (<div className="cardTitleIcons">
+                    <Hidden mdUp implementation="css">
+                      <EditIcon onClick={() => { this.setState({ modalLocation: true }); }} />
+                    </Hidden>
+                    <Hidden smDown implementation="css">
+                      <Button className="topRightButton"
+                              onTouchTap={() => { this.setState({ modalLocation: true }); }}
+                              variant="contained"
+                              color="primary">
+                        Change
+                      </Button>
+                    </Hidden>
+                  </div>) : null}
+                <LocationForm handleClose={() => this.setState({ modalLocation: false })}
+                              initialLocation={device.location}
+                              modalOpen={this.state.modalLocation}
+                              onSubmit={l => {this.props.updateDeviceLocation(device.id, l)}}
+                              permission={this.props.permission}/>
+                <Map ref="map"
+                     center={position}
+                     zoom={5}>
+                  <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                  {device.location? 
+                    <Marker position={position}>
+                      <Popup>
+                        <span>
+                          Device Position
+                          <br />
+                          {' '}
+                          Latitude:
+                          {position[0]}
+                          {' '}
+                          <br />
+                          {' '}
+                          Longitude:
+                          {' '}
+                          {position[1]}
+                        </span>
+                      </Popup>
+                    </Marker>
+                  : null}
+                </Map>
+              </Card>
+            </div>
+          }
+          <Card className="QRCode">
+            <span className="Typography">
+              {' '}
+              Device QR code
+              {' '}
+            </span>
+            <div style={{cursor: 'pointer'}}>
+              <a onClick={() => downloadQR(document.getElementById("QRCodeId"), 
+                                           "Device Id:", 
+                                           device.id)}>
+                <QRCode id="QRCodeId"
+                        value={window.location.href}
+                        size={250}
+                        level={"L"}
+                        includeMargin={true}/>
+                <h3> Download me, print me <br/>and stick me on your devices! </h3>
+              </a>
+            </div>
+          </Card>
+          </Container>
+        </div>
       );
     } else {
-      browserHistory.push('/devices');
-    }
-
-    return (
+      return (
       <div className="device">
-        {renderElement}
+        <DeviceLoader/>
       </div>
-    );
+      )
+    }
   }
 }
 
 function mapStateToProps(state, ownProps) {
   return {
-    device: state.device.device,
+    device: state.device,
     gateways: state.gateways.gateways,
     permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId),
     user: state.current_user,

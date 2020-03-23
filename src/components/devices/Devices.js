@@ -203,7 +203,8 @@ class Devices extends Component {
                 <FormControl fullWidth className={classes.formControl}>
                   <InputLabel htmlFor="owner">Owner</InputLabel>
                   <Select title="Owner of the device"
-                          input={<Input name="owner" id="owner"
+                          input={<Input name="owner"
+                                        id="owner"
                                         value={this.state.filter.owner}
                                         onChange={(a) => this.handleFilter("owner", a)} />}>
                     <MenuItem value="all">
