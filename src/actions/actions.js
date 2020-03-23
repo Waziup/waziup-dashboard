@@ -33,9 +33,6 @@ export function putSettings(settings) {
 
 export function getDeviceAttributes(params) {
   return async function (dispatch) {
-    if (!params) {
-      params = { limit: 1000 };
-    }
     dispatch({ type: types.GET_DEVICE_ATTRIBUTES_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
@@ -54,9 +51,6 @@ export function getDeviceAttributes(params) {
 
 export function getDevices(params) {
   return async function (dispatch) {
-    if (!params) {
-      params = { limit: 1000 };
-    }
     dispatch({ type: types.GET_DEVICES_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
@@ -75,7 +69,7 @@ export function createDevice(device) {
     try {
       const data = await devicesApi.createDevice(device);
       dispatch({ type: types.CREATE_DEVICE_SUCCESS, data });
-      dispatch(getDevices({ limit: 1000 }));
+      dispatch(getDevices());
       dispatch(getDevicePermissions());
     } catch (error) {
       dispatch({ type: types.CREATE_DEVICE_ERROR, data: error });

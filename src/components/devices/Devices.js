@@ -70,10 +70,10 @@ class Devices extends Component {
   };
 
   componentWillMount() {
-    this.props.getDevices({ limit: 1000 });
-    this.props.getDeviceAttributes({ limit: 1000 });
+    this.props.getDevices();
+    this.props.getDeviceAttributes();
     this.interval = setInterval(() => {
-      this.props.getDevices({ limit: 1000 });
+      this.props.getDevices();
     }, config.delayRefresh);
   }
 

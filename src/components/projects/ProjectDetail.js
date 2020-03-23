@@ -65,7 +65,7 @@ class ProjectDetail extends Component {
   async componentWillMount() {
     this.props.getDevicePermissions();
     this.props.getProjectPermissions();
-    this.props.getDevices({ limit: 1000 });
+    this.props.getDevices();
     this.props.getGateways();
     this.props.getProject(this.props.params.projectId, {full: true });
     if(this.state.query.device_ids.length > 0) {
@@ -76,7 +76,7 @@ class ProjectDetail extends Component {
     this.interval = setInterval(() => {
       this.props.getDevicePermissions();
       this.props.getProjectPermissions();
-      this.props.getDevices({ limit: 1000 });
+      this.props.getDevices();
       this.props.getGateways();
       this.props.getProject(this.props.params.projectId, {full: true });
       if(this.state.query.device_ids.length > 0) {

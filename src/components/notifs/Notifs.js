@@ -26,11 +26,11 @@ class Notifs extends Component {
   }
 
   componentWillMount() {
-    this.props.getDevices({ limit: 1000 });
+    this.props.getDevices();
     this.props.getNotifs();
     this.props.getUsers();
     this.interval = setInterval(() => {
-      this.props.getDevices({ limit: 1000 });
+      this.props.getDevices();
       this.props.getNotifs();
       this.props.getUsers();
     }, config.delayRefresh);

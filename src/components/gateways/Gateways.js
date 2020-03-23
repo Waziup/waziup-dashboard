@@ -59,11 +59,11 @@ class Gateways extends Component {
   }
 
   componentWillMount() {
-    this.props.getDevices({ limit: 1000 });
+    this.props.getDevices();
     this.props.getGatewayAttributes();
     this.props.getGateways();
     this.interval = setInterval(() => {
-      this.props.getDevices({ limit: 1000 });
+      this.props.getDevices();
       this.props.getGateways();
     }, config.delayRefresh);
   }

@@ -29,7 +29,7 @@ class Projects extends Component {
   }
 
   componentWillMount() {
-    this.props.getDevices({ limit: 1000 });
+    this.props.getDevices();
     this.props.getGateways();
     this.props.getProjects({ full: false });
     this.interval = setInterval(() => {
