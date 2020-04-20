@@ -6,8 +6,14 @@ The WAZIUP dashboard is the web front-end for [Waziup](www.waziup.io).
 Install
 -------
 
-The dashboard can be run standalone with:
+First install Yarn:
 ```
+https://classic.yarnpkg.com/en/docs/install
+```
+
+Then, the dashboard can be run standalone with:
+```
+yarn install
 yarn start
 ```
 
