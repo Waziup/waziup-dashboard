@@ -278,7 +278,7 @@ class Layout extends Component {
    <div className="page-footer">
    <Container>
        <Col md={6} className="footer-left">
-         <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2017 <a href="">Waziup.io</a></p>
+         <p className="text">Code licensed under <a type="application/rss+xml" href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache 2</a> © 2017-2020 <a href="">Waziup.io</a></p>
        </Col>
        </Container>
    </div>
