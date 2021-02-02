@@ -166,7 +166,7 @@ class Devices extends Component {
             <Typography variant="h5" className="page-title">
               Devices       
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#devices"} target="_blank">
+            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#devices"} target="_blank">
               <HelpIcon />
             </a>
           </Toolbar>

@@ -54,7 +54,7 @@ class Projects extends Component {
             <Typography variant="h5" className="page-title">
               Projects       
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#projects"} target="_blank">
+            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#projects"} target="_blank">
               <HelpIcon />
             </a>
           </Toolbar>

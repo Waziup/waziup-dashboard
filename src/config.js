@@ -7,7 +7,8 @@ module.exports = {
   realm: 'waziup',
   clientId: 'dashboard',
   APIServerUrl: process.env.API_SERVER_URL || 'https://api.waziup.io/api',
-  docServerUrl: process.env.DOC_SERVER_URL || 'https://www.waziup.io/documentation/wazicloud',
+  docDashboardUrl: process.env.DOC_DASHBOARD_URL || 'https://www.waziup.io/documentation/wazicloud/dashboard',
+  docAPIUrl: process.env.DOC_API_URL || 'https://www.waziup.io/documentation/wazicloud/api/v2',
   logLevel: process.env.LOG_LEVEL || 'INFO',  
   // Web analytics
   analytics: {

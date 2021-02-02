@@ -50,7 +50,7 @@ class Notifs extends Component {
             <Typography variant="h5" className="page-title">
               Notifications       
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#notifications"} target="_blank">
+            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#notifications"} target="_blank">
               <HelpIcon />
             </a>
           </Toolbar>
@@ -61,7 +61,7 @@ class Notifs extends Component {
                    handleClose={() => this.setState({ modalOpen: false })}
                    onSubmit={this.props.createNotif} />
         <Typography>
-          <a href={config.docServerUrl + "/notifs"}> How to create a notification? </a>
+          <a href={config.docDashboardUrl + "/notifs"}> How to create a notification? </a>
         </Typography>
         <Button className="addDeviceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}

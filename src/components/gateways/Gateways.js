@@ -145,7 +145,7 @@ class Gateways extends Component {
             <Typography variant="h5" className="page-title">
               Gateways
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docServerUrl + "/#gateways"} target="_blank">
+            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#gateways"} target="_blank">
               <HelpIcon />
             </a>
           </Toolbar>
