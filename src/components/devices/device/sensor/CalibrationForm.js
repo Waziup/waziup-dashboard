@@ -17,7 +17,7 @@ class CalibrationForm extends Component {
     super(props);
     var defaultCalib = {
       linear: {
-        enabled: true,
+        enabled: false,
         value_max: {
           sensor_value: 300,
           real_value: 0
