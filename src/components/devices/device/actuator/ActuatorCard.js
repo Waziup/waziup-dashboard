@@ -178,9 +178,8 @@ export default class ActuatorCard extends Component {
             ) : null}
           </div>
         </div>
-        <div className="cardContent">
-          {this.props.isDetails ? (
-            <div>
+        {this.props.isDetails ? (
+          <div className="cardContent">
               <div className="sensIcon">
                 <img src={actuatorImage} height="75" />
               </div>
@@ -317,22 +316,23 @@ export default class ActuatorCard extends Component {
                   </Grid>
                 </CardActions>
               ) : null}
-            </div>
-          ) : null}
-          {!this.props.isDetails ? (
-            <Link
-              to={"/devices/" + this.props.deviceId + "/actuators/" + actu.id}
-            >
-              <div className="actuIcon">
-                <img
-                  src={actuatorImage}
-                  height="75"
-                  title={"Go to actuator details"}
-                />
+            </div>)
+          :
+            <div className="cardContent">
+              <Link to={"/devices/" + this.props.deviceId + "/actuators/" + actu.id}>
+                <div className="actuIcon">
+                  <img
+                    src={actuatorImage}
+                    height="75"
+                    title={"Go to actuator details"}
+                  />
+                </div>
+              </Link>
+              <div className="sensValue"> 
+                <h3> {this.state.actu.value} </h3>
               </div>
-            </Link>
-          ) : null}
-        </div>
+            </div>
+          }
       </Card>
     );
   }

@@ -60,9 +60,6 @@ class Notifs extends Component {
                    users={this.props.users}
                    handleClose={() => this.setState({ modalOpen: false })}
                    onSubmit={this.props.createNotif} />
-        <Typography>
-          <a href={config.docDashboardUrl + "/notifs"}> How to create a notification? </a>
-        </Typography>
         <Button className="addDeviceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}
                 color="primary"

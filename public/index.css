@@ -414,6 +414,11 @@ ul {
   float: left;
 }
 
+.actuIcon {
+  display: inline-block;
+  float: left;
+}
+
 .cardRed {
   background-color: #ff4141 !important;
   box-shadow: rgb(0, 0, 0) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px !important;
@@ -629,6 +634,10 @@ a, a:visited, a:focus, a:active, a:hover{
 
 pre{
   white-space: pre-wrap;
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
 .QRCode {
@@ -637,4 +646,31 @@ pre{
   margin-top: 10px;
   overflow: hidden;
   text-align: center;
+}
+
+.help {
+  cursor: pointer;
+  box-shadow: 5px 10px 8px #888888;
+  border-radius: 10px;
+  background-color: aliceblue;
+  position: fixed; /* Stay in place */
+  z-index: 10000; /* Sit on top */
+  padding: 10px; /* Location of the box */
+  width: 70%; /* Full width */
+  height: 70%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
 }

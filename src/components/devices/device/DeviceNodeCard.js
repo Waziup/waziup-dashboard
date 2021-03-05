@@ -69,16 +69,6 @@ export default class DeviceNodeCard extends Component {
                         this.setState({ modalAddActuator: false });
                       }}
                       isEdit={false} />
-        <DeviceForm device={device}
-                    gateways={this.props.gateways}
-                    isEdit={true}
-                    modalOpen={this.state.modalEdit}
-                    handleClose={() => this.setState({ modalEdit: false })}
-                    onSubmit={s => {
-                      this.props.updateDeviceName(device.id, s.name),
-                      this.props.updateDeviceVisibility(device.id, s.visibility)
-                      this.props.updateDeviceGatewayId(device.id, s.gateway_id)
-                    }} />
         <Grid container direction="row" justify="flex-start" spacing={24}>
           <Grid item md={12} lg={6}>
             <span className="Typography"> {device.name ? device.name + " " : "No name (" + device.id + ")"} </span>
@@ -162,8 +152,6 @@ export default class DeviceNodeCard extends Component {
 
   static propTypes = {
     device: PropTypes.object.isRequired, //Should be a Waziup.Device
-    updateDevice: PropTypes.func,
-    deleteDevice: PropTypes.func,
     updateSensor: PropTypes.func,
     deleteSensor: PropTypes.func,
     updateActuator: PropTypes.func,

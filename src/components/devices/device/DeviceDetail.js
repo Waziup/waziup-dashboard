@@ -10,13 +10,16 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { browserHistory } from 'react-router';
 import DeviceNodeCard from './DeviceNodeCard';
+import DeviceForm from './DeviceForm';
 import LocationForm from '../../LocationForm';
+import DeviceHelp from './DeviceHelp';
 import {
   addSensor, deleteSensor, deleteDevice, getDevice, updateSensorName, 
   updateDeviceLocation, updateDeviceName, updateDeviceVisibility, updateDeviceGatewayId,
   addActuator, deleteActuator, updateActuatorName, getDevicePermissions
 } from '../../../actions/actions.js';
 import deviceImage from '../../../images/device.png';
+import apiImage from '../../../images/api.png';
 import config from '../../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
@@ -29,7 +32,9 @@ class DeviceDetail extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      modalHelp: false,
       modalLocation: false,
+      modalEdit: false,
       loading: true
      };
   }
@@ -58,9 +63,10 @@ class DeviceDetail extends Component {
       const device = this.props.device.device;
       const position = device.location ? [device.location.latitude, device.location.longitude] : [12.238, -1.561];
       console.log(`pos:${JSON.stringify(position)}`);
-
+      const apiUrl = config.APIServerUrl + "/v2/devices/" + device.id
       return (
         <div className="device">
+          <DeviceHelp device={device} show={this.state.modalHelp} onClose={() => this.setState({ modalHelp: false })}/>
           <Container fluid>
           <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
             <Toolbar>
@@ -70,6 +76,15 @@ class DeviceDetail extends Component {
               </Typography>
             </Toolbar>
           </AppBar>
+          <div>
+          <Button variant="contained"
+                  color="primary"
+                  className="addDeviceButton"
+                  onTouchTap={() => this.setState({ modalHelp: true })} >
+            API...
+          </Button>
+          </div>
+          <div className="section">
           { this.state.loading ? 
               DeviceLoader()
             : <div>
@@ -82,11 +97,18 @@ class DeviceDetail extends Component {
                               gateways={this.props.gateways}
                               updateSensor={this.props.addSensor}
                               updateActuator={this.props.addActuator}
-                              updateDeviceName={this.props.updateDeviceName}
-                              updateDeviceVisibility={this.props.updateDeviceVisibility}
-                              updateDeviceGatewayId={this.props.updateDeviceGatewayId}
                               user={this.props.user}
                               settings={this.props.settings}/>
+              <DeviceForm device={device}
+                          gateways={this.props.gateways}
+                          isEdit={true}
+                          modalOpen={this.state.modalEdit}
+                          handleClose={() => this.setState({ modalEdit: false })}
+                          onSubmit={s => {
+                            this.props.updateDeviceName(device.id, s.name),
+                            this.props.updateDeviceVisibility(device.id, s.visibility)
+                            this.props.updateDeviceGatewayId(device.id, s.gateway_id)
+                          }} />
               <Card className="deviceMap">
                 <span className="Typography">
                   {' '}
@@ -159,6 +181,14 @@ class DeviceDetail extends Component {
               </a>
             </div>
           </Card>
+          <Card>
+            <span className="Typography">
+              {' '}
+              API
+              {' '}
+            </span>
+          </Card>
+          </div>
           </Container>
         </div>
       );

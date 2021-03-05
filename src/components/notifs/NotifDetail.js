@@ -93,26 +93,47 @@ componentWillUnmount() {
               </p>
             </CardContent>
           </Card>
-          <Card className="notifBloc">
-            <div className="notifBlocTitle">
-              <img src={bellImage} height="48"/>
-              <Typography variant="h6"> Action </Typography>
-            </div>
-            <CardContent>
-              <p title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will in    sert the temperature value of your sensor 'TC'."> 
-                <MsgIcon/>
-                {" Message: " + notif.action.message}
-              </p>
-              <p title="To whom this notification should be sent to?">
-                <PersonIcon/>
-                {" Users: " + notif.action.usernames}
-              </p>
-              <p title="On which channels should we send this notification?">
-                <ShareIcon/>
-                {" Channels: " + notif.action.channels}
-              </p>
-            </CardContent>
-          </Card>
+
+          {notif.action ?
+            <Card className="notifBloc">
+              <div className="notifBlocTitle">
+                <img src={bellImage} height="48"/>
+                <Typography variant="h6"> Social action </Typography>
+              </div>
+              <CardContent>
+                <p title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will in    sert the temperature value of your sensor 'TC'."> 
+                  <MsgIcon/>
+                  {" Message: " + notif.action.message}
+                </p>
+                <p title="To whom this notification should be sent to?">
+                  <PersonIcon/>
+                  {" Users: " + notif.action.usernames}
+                </p>
+                <p title="On which channels should we send this notification?">
+                  <ShareIcon/>
+                  {" Channels: " + notif.action.channels}
+                </p>
+              </CardContent>
+            </Card>
+          :
+            <Card className="notifBloc">
+              <div className="notifBlocTitle">
+                <img src={bellImage} height="48"/>
+                <Typography variant="h6"> Actuation action </Typography>
+              </div>
+              <CardContent>
+                <p title=""> 
+                  {" Device: " + notif.actuation_action.device_id}
+                </p>
+                <p title="">
+                  {" Actuator: " + notif.actuation_action.actuator_id}
+                </p>
+                <p title="">
+                  {" Actuator value: " + notif.actuation_action.actuator_value}
+                </p>
+              </CardContent>
+            </Card>
+          }
           <Card className="notifBloc">
             <div className="notifBlocTitle">
               <Typography variant="h6"> Status </Typography>
