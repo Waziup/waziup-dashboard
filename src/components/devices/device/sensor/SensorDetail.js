@@ -97,12 +97,6 @@ class SensorDetail extends Component {
 
   render() {
     if (this.props.sens) {
-     const defaultNotif = Waziup.Notification.constructFromObject({
-        condition: { devices: [this.props.device.id], sensors: [this.props.sens.id], expression: "TC>30" },
-        action: { channels: [], message: "Waziup: High temperature warning. ${id} value is ${TC}", usernames: [] },
-        description: "Send message",
-        throttling: 1
-      })
       var notifications = []
       if (this.props.notifs) {
         for (var notif of this.props.notifs) {
@@ -149,7 +143,6 @@ class SensorDetail extends Component {
                 }}
                 isEdit={false} /> 
               <NotifForm modalOpen={this.state.modalAddNotif}
-                notif={defaultNotif}
                 devices={this.props.devices}
                 users={this.props.users}
                 onSubmit={this.props.createNotif}
