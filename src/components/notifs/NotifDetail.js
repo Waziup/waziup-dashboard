@@ -94,7 +94,7 @@ componentWillUnmount() {
             </CardContent>
           </Card>
 
-          {notif.action ?
+          {notif.action.type == "SocialAction" ?
             <Card className="notifBloc">
               <div className="notifBlocTitle">
                 <img src={bellImage} height="48"/>
@@ -103,15 +103,15 @@ componentWillUnmount() {
               <CardContent>
                 <p title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will in    sert the temperature value of your sensor 'TC'."> 
                   <MsgIcon/>
-                  {" Message: " + notif.action.message}
+                  {" Message: " + notif.action.value.message}
                 </p>
                 <p title="To whom this notification should be sent to?">
                   <PersonIcon/>
-                  {" Users: " + notif.action.usernames}
+                  {" Users: " + notif.action.value.usernames}
                 </p>
                 <p title="On which channels should we send this notification?">
                   <ShareIcon/>
-                  {" Channels: " + notif.action.channels}
+                  {" Channels: " + notif.action.value.channels}
                 </p>
               </CardContent>
             </Card>
@@ -123,13 +123,13 @@ componentWillUnmount() {
               </div>
               <CardContent>
                 <p title=""> 
-                  {" Device: " + notif.actuation_action.device_id}
+                  {" Device: " + notif.action.value.device_id}
                 </p>
                 <p title="">
-                  {" Actuator: " + notif.actuation_action.actuator_id}
+                  {" Actuator: " + notif.action.value.actuator_id}
                 </p>
                 <p title="">
-                  {" Actuator value: " + notif.actuation_action.actuator_value}
+                  {" Actuator value: " + notif.action.value.actuator_value}
                 </p>
               </CardContent>
             </Card>
