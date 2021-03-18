@@ -302,31 +302,16 @@ ul {
       list-style-position: inside;
 }
 
-/* Devices */
-
 .section {
   margin-top: 50px;
   margin-bottom: 100px;
 }
 
-.sectionTitle {
-}
-
-.deviceNodeTitle {
-  padding: 10px !important;
-}
-
-.tableSwitch {
-  color: blue;
-  font-family: Roboto, sans-serif;
-  text-decoration: underline;
-}
-
-.newIcon {
+.topIcon {
   vertical-align: top;
 }
 
-.addDeviceButton {
+.addResourceButton {
   float: right;
 }
 
@@ -336,7 +321,7 @@ ul {
 
 /* Device details */
 
-.deviceMap {
+.mapCard {
   padding: 10px;
   max-width: 500px;
   margin-top: 10px;
@@ -362,17 +347,10 @@ ul {
   margin: 5px;
 }
 
-
-/* Device */
-
-.deviceNodes {
-  float: left;
-}
-
-.deviceNode {
-  overflow:hidden;
+.longCard {
+  overflow: hidden;
   padding: 5px;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 5px;
 }
 
@@ -409,12 +387,7 @@ ul {
   float: left
 }
 
-.sensIcon {
-  display: inline-block;
-  float: left;
-}
-
-.actuIcon {
+.leftIcon {
   display: inline-block;
   float: left;
 }
@@ -596,20 +569,10 @@ ul {
   margin: 10px;
 }
 
-.graphCard {
-  clear: both;
-  padding: 10px;
-}
-
 .graphForm {
   padding: 10px;
   margin: 10px;
 }
-/* 
-.gatewayDeviceNodes {
-  float: left;
-  margin-left: 50px;
-} */
 
 .icon {
   float: left;

@@ -183,110 +183,86 @@ class ProjectDetail extends Component {
           ProjectLoader()
           :
           <div>
-            <ProjectNodeCard
-              className="deviceNode"
-              createDevice={this.props.createDevice}
-              createGateway={this.props.createGateway}
-              deleteProject={sid => {
-                this.props.deleteProject(sid);
-                browserHistory.push("/projects");
-              }}
-              permission={this.props.permission}
-              project={this.props.project}
-              devices={this.props.devices}
-              gateways={this.props.gateways}
-              updateProjectName={(id, name) => {
-                this.props.updateProjectName(id, name);
-              }}
-              updateProjectDevices={(id, devs) => {
-                this.props.updateProjectDevices(id, devs);
-              }}
-              updateProjectGateways={(id, gws) => {
-                this.props.updateProjectGateways(id, gws);
-              }}
-              user={this.props.user}
-            />
-            <Card className="deviceMap">
+            <ProjectNodeCard className="longCard"
+                             createDevice={this.props.createDevice}
+                             createGateway={this.props.createGateway}
+                             deleteProject={sid => { this.props.deleteProject(sid); browserHistory.push("/projects");}}
+                             permission={this.props.permission}
+                             project={this.props.project}
+                             devices={this.props.devices}
+                             gateways={this.props.gateways}
+                             updateProjectName={(id, name) => {this.props.updateProjectName(id, name);}}
+                             updateProjectDevices={(id, devs) => {this.props.updateProjectDevices(id, devs);}}
+                             updateProjectGateways={(id, gws) => {this.props.updateProjectGateways(id, gws);}}
+                             user={this.props.user}/>
+            <Card className="mapCard">
               <Typography>
                 <span className="Typography">Device Locations </span>
               </Typography>
-              <LeafletMap
-                ref="map"
-                center={
-                  this.state.locations.length
-                    ? this.state.locations[0]
-                    : this.state.position
-                }
-                zoom={5}
-              >
-                <TileLayer
-                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                  url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                />
+              <LeafletMap ref="map"
+                          center={this.state.locations.length ? this.state.locations[0] : this.state.position}
+                          zoom={5}>
+                <TileLayer attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                           url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                 {this.state.markers}
               </LeafletMap>
             </Card>
-            <Card className="graphCard" style={{ marginTop: "10px", marginBottom: "70px" }}>
+            <Card className="longCard" style={{ marginTop: "10px", marginBottom: "70px" }}>
               <Typography>
                 <span className="Typography"> Historical chart for sensors under this project</span>
               </Typography>
-               <DataChart values={this.props.values}
-                          timeAxis={this.state.timeAxis}/>
-                <Grid container spacing={24}>
-                  <Grid item xs={3}>
-                        <h4>Range from: </h4>
-                        <DayPickerInput onDayChange={this.handleDateFrom} />
+              <CardContent>
+                <DataChart values={this.props.values}
+                           timeAxis={this.state.timeAxis}/>
+                  <Grid container spacing={24}>
+                    <Grid item xs={3}>
+                          <h4>Range from: </h4>
+                          <DayPickerInput onDayChange={this.handleDateFrom} />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <h4> To:</h4>
+                      <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+                    </Grid>
+                    <Grid item xs={3}>
+                      <h4> Number of Datapoints:</h4>
+                      <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl>
+                        <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                        <Select input={<Input name="timeAxis" id="timeAxis" />}
+                                value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                          <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                          <MenuItem value="device">Device timestamp</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <FormControl style={{ display: "flex" }}>
+                        <InputLabel htmlFor="devices">Devices</InputLabel>
+                        <Select multiple={true}
+                                input={<Input name="devices" id="devices" />}
+                                value={this.state.query.device_ids}
+                                onChange={s => this.handleDeviceChange(s)}>
+                          {this.props.project.device_ids ? 
+                          this.props.project.device_ids.map(s => (
+                            <MenuItem key={s}
+                                      checked={this.state.query.device_ids.includes(s)}
+                                      value={s}>
+                              {s}
+                            </MenuItem>))
+                          : null}
+                        </Select>
+                        <FormHelperText>Filter devices</FormHelperText>
+                      </FormControl>
+                    </Grid>
+                  <Grid item xs={2}>
+                    <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
                   </Grid>
-                  <Grid item xs={3}>
-                    <h4> To:</h4>
-                    <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
-                  </Grid>
-                  <Grid item xs={3}>
-                    <h4> Number of Datapoints:</h4>
-                    <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl>
-                      <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
-                      <Select 
-                      input={<Input name="timeAxis" id="timeAxis" />}
-                      value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
-                        <MenuItem value="cloud">Cloud timestamp</MenuItem>
-                        <MenuItem value="device">Device timestamp</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl style={{ display: "flex" }}>
-                      <InputLabel htmlFor="devices">Devices</InputLabel>
-                      <Select
-                        multiple={true}
-                        input={<Input name="devices" id="devices" />}
-                        value={this.state.query.device_ids}
-                        onChange={s => this.handleDeviceChange(s)}
-                      >
-                        {this.props.project.device_ids ? 
-                        this.props.project.device_ids.map(s => (
-                          <MenuItem
-                            key={s}
-                            checked={this.state.query.device_ids.includes(s)}
-                            value={s}
-                          >
-                            {s}
-                          </MenuItem>
-                        ))
-                        :null}
-                      </Select>
-                      <FormHelperText>Filter devices</FormHelperText>
-                    </FormControl>
-                  </Grid>
-                <Grid item xs={2}>
-                  <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
                 </Grid>
-              </Grid>
+              </CardContent>
             </Card>
-          </div>
-          }
+          </div>}
         </Container>
       );
     } else {

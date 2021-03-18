@@ -91,7 +91,7 @@ class GatewayDetail extends Component {
                                     updateGatewayName={this.props.updateGatewayName}
                                     permission={this.props.permission}
                                     gateway={gateway}/>
-                   <Card className="deviceMap">
+                   <Card className="mapCard">
                      <span className="Typography">
                        {' '}
                        Location

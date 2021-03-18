@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Container } from 'react-grid-system'
@@ -52,7 +53,8 @@ class SensorDetail extends Component {
         sensor_id: props.params.sensId
       },
       timeAxis: 'device',
-      newValue: ''
+      newValue: 0,
+      newValueValid: true
     };
   }
 
@@ -98,13 +100,16 @@ class SensorDetail extends Component {
   }
 
   submitValue() {
-    let val = {"value": this.state.newValue,
-               "timestamp": moment(new Date()).format()}
-    console.log("val" + JSON.stringify(this.state.newValue));
-    this.props.pushSensorValue(
-      this.props.device.id,
-      this.props.sens.id,
-      val);
+
+    if(isNaN(this.state.newValue)) {
+      this.setState({newValueValid: false});
+    } else {
+      this.setState({newValueValid: true});
+      let val = {"value": Number(this.state.newValue),
+                 "timestamp": moment(new Date()).format()}
+      console.log("val" + JSON.stringify(this.state.newValue));
+      this.props.pushSensorValue( this.props.device.id, this.props.sens.id, val);
+    }
   }
 
   render() {
@@ -126,9 +131,9 @@ class SensorDetail extends Component {
         for (var notif of this.props.notifs) {
           const card =
             <Link to={"/notifications/" + notif.id} >
-              <NotifCard className="deviceNode"
-                notif={notif}
-                isEditable={false} />
+              <NotifCard className="longCard"
+                         notif={notif}
+                         isEditable={false} />
             </Link>
           notifications.push(card)
         }
@@ -150,7 +155,7 @@ class SensorDetail extends Component {
             </Toolbar>
           </AppBar>
 
-          <Card className="deviceNode">
+          <Card className="longCard">
             <Typography>
               <span className="Typography"> Last value </span>
               {this.props.permission.scopes.includes("devices:update") ? 
@@ -182,65 +187,67 @@ class SensorDetail extends Component {
               permission={this.props.permission} />
           </Card>
           {notifications.length > 0 ?
-            <Card className="deviceNode">
+            <Card className="longCard">
               <Typography>
                 <h2 className="Typography"> Notifications </h2>
               </Typography>
               {notifications}
             </Card> : null}
           {this.props.permission.scopes.includes("devices-data:view") ?
-            <Card className="graphCard">
+            <Card className="longCard">
               <Typography>
                 <span className="Typography"> Historical chart </span>
               </Typography>
-              <DataChart sens={this.props.sens}
-                         values={this.props.values}
-                         timeAxis={this.state.timeAxis} />
-              <Grid container spacing={24}>
-                <Grid item xs={3}>
-                  <h4>Range from: </h4>
-                  <DayPickerInput onDayChange={this.handleDateFrom} />
+              <CardContent>
+                <DataChart sens={this.props.sens}
+                           values={this.props.values}
+                           timeAxis={this.state.timeAxis} />
+                <Grid container spacing={24}>
+                  <Grid item xs={3}>
+                    <h4>Range from: </h4>
+                    <DayPickerInput onDayChange={this.handleDateFrom} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4> To:</h4>
+                    <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <h4> Number of Datapoints:</h4>
+                    <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl>
+                      <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
+                      <Select 
+                      input={<Input name="timeAxis" id="timeAxis" />}
+                      value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                        <MenuItem value="cloud">Cloud timestamp</MenuItem>
+                        <MenuItem value="device">Device timestamp</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Button type='submit' onClick={this.handleApply} variant="contained" color="primary">Update graph</Button>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
+                      <Button variant="contained" color="primary">Download data</Button>
+                    </a>
+                  </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                  <h4> To:</h4>
-                  <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
-                </Grid>
-                <Grid item xs={3}>
-                  <h4> Number of Datapoints:</h4>
-                  <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl>
-                    <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
-                    <Select 
-                    input={<Input name="timeAxis" id="timeAxis" />}
-                    value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
-                      <MenuItem value="cloud">Cloud timestamp</MenuItem>
-                      <MenuItem value="device">Device timestamp</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={2}>
-                  <Button type='submit' onClick={this.handleApply} className="sensorButton" variant="contained" color="primary">Update graph</Button>
-                </Grid>
-                <Grid item xs={2}>
-                  <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
-                    <Button variant="contained" color="primary">download data</Button>
-                  </a>
-                </Grid>
-              </Grid>
+              </CardContent>
             </Card> : null}
-            <Card className="deviceNode">
+            <Card className="longCard">
               <Typography>
                 <span className="Typography"> Testing zone </span>
               </Typography>
                 <CardActions>
-                    <TextField id="stringValue"
-                               name="stringValue"
+                    <TextField id="numberValue"
+                               name="numberValue"
                                label="Value"
-                               fullWidth
                                onChange={(a) => this.setState({ newValue: a.target.value})}
-                               helperText="Provide a string"/>
+                               helperText={this.state.validNumber ? "Provide a number" : "Please enter a number value"}
+                               error={!this.state.newValueValid}/>
                     <Button variant="contained"
                             size="small"
                             color="primary"

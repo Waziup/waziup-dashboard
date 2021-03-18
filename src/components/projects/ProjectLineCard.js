@@ -18,7 +18,7 @@ export default class ProjectLineCard extends Component {
     let projectName = project.name ? project.name + " " : "No name (" + project.id + ")";
 
     return (
-      <Card className="deviceNode">
+      <Card className="longCard">
         <span className="Typography"> {projectName} </span>
         <div className="contentCards">
 

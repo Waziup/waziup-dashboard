@@ -40,26 +40,22 @@ User view is being loaded...
       renderElement = (
         <Container fluid>
           <h1 className="page-title">
-            <img
-              height="40"
-              src={userImage}
-            />
+            <img height="40"
+                 src={userImage}/>
             User
           </h1>
           <div>
             <a href={`/users/${this.props.user.id}/perms`}>
               {' '}
-view permissions
+              view permissions
               {' '}
             </a>
           </div>
-          <UserCard
-            className="deviceNode"
-            deleteUser={this.props.deleteUser}
-            isEditable
-            updateUser={this.props.updateUser}
-            user={user}
-          />
+          <UserCard className="longCard"
+                    deleteUser={this.props.deleteUser}
+                    isEditable
+                    updateUser={this.props.updateUser}
+                    user={user}/>
         </Container>
       );
     } else {

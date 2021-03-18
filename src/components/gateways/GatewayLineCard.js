@@ -69,7 +69,7 @@ export default class GatewayLineCard extends Component {
                         <pre className="Typography"> {dev.name} </pre>
                       </div>
                       <div className="cardContent">
-                        <div className="actuIcon">
+                        <div className="leftIcon">
                           <img src={deviceImage}
                                height="60" />
                         </div>

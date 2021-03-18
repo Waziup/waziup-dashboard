@@ -123,30 +123,24 @@ class ProjectForm extends Component {
         return (
           <Grid container spacing={24}>
             <img src={gatewayImage} height="80" class="ProjectWizardIcon"/>
-            <GatewayForm
-              handleClose={() => this.setState({ modalAddGateway: false })}
-              modalOpen={this.state.modalAddGateway}
-              onSubmit={s => { 
-                this.props.createGateway(s);
-                this.setState({ project: {...this.state.project, gateway_ids: [...this.state.project.gateway_ids, s.id]}}), 
-                this.props.getGateways();
-              }}
-            />
+            <GatewayForm handleClose={() => this.setState({ modalAddGateway: false })}
+                         modalOpen={this.state.modalAddGateway}
+                         onSubmit={s => { 
+                           this.props.createGateway(s);
+                           this.setState({ project: {...this.state.project, gateway_ids: [...this.state.project.gateway_ids, s.id]}}), 
+                           this.props.getGateways();
+                         }}/>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>
-                <Grid
-                  row
-                  container
-                  direction="row"
-                  justify="space-around"
-                  alignItems="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="addDeviceButton"
-                    onTouchTap={() => this.setState({ modalAddGateway: true })}
-                  >
+                <Grid row
+                      container
+                      direction="row"
+                      justify="space-around"
+                      alignItems="center">
+                  <Button variant="contained"
+                          color="primary"
+                          className="addResourceButton"
+                          onTouchTap={() => this.setState({ modalAddGateway: true })}>
                     Create a new gateway
                   </Button>
                   <Chip label="Or"  />
@@ -155,18 +149,14 @@ class ProjectForm extends Component {
             <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="gateways">Gateways</InputLabel>
-                <Select
-                  multiple={true}
-                  input={<Input name="gateways" id="gateways" />}
-                  value={this.state.project.gateway_ids}
-                  onChange={s => this.handleChange("gateways", s)}
-                >
+                <Select multiple={true}
+                        input={<Input name="gateways" id="gateways" />}
+                        value={this.state.project.gateway_ids}
+                        onChange={s => this.handleChange("gateways", s)}>
                   {this.state.gateways.map(s => (
-                    <MenuItem
-                      key={s.id}
-                      checked={this.state.project.gateway_ids.includes(s.id)}
-                      value={s.id}
-                    >
+                    <MenuItem key={s.id}
+                              checked={this.state.project.gateway_ids.includes(s.id)}
+                              value={s.id}>
                       {s.id}
                     </MenuItem>
                   ))}
@@ -180,31 +170,25 @@ class ProjectForm extends Component {
         return (
           <Grid container spacing={24}>
             <img src={deviceImage} height="80" class="ProjectWizardIcon"/>
-            <DeviceForm
-              gateways={this.state.gateways}
-              handleClose={() => this.setState({ modalAddDevice: false })}
-              modalOpen={this.state.modalAddDevice}
-              onSubmit={s => {
-                this.props.createDevice(s);
-                this.setState({ project: {...this.state.project, device_ids: [...this.state.project.device_ids, s.id]}}), 
-                this.props.getDevices();
-              }}
-            />
+            <DeviceForm gateways={this.state.gateways}
+                        handleClose={() => this.setState({ modalAddDevice: false })}
+                        modalOpen={this.state.modalAddDevice}
+                        onSubmit={s => {
+                          this.props.createDevice(s);
+                          this.setState({ project: {...this.state.project, device_ids: [...this.state.project.device_ids, s.id]}}), 
+                          this.props.getDevices();
+                        }}/>
             {this.props.settings.allowManualCreateResources ? 
               <Grid item sm={6}>
-                <Grid
-                  row
-                  container
-                  direction="row"
-                  justify="space-around"
-                  alignItems="center"
-                >
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    className="addDeviceButton"
-                    onTouchTap={() => this.setState({ modalAddDevice: true })}
-                  >
+                <Grid row
+                      container
+                      direction="row"
+                      justify="space-around"
+                      alignItems="center">
+                  <Button variant="contained"
+                          color="primary"
+                          className="addResourceButton"
+                          onTouchTap={() => this.setState({ modalAddDevice: true })}>
                     Create a new device
                   </Button>
                   <Chip label="Or"  />
@@ -213,18 +197,14 @@ class ProjectForm extends Component {
             <Grid item sm={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
-                <Select
-                  multiple={true}
-                  input={<Input name="devices" id="devices" />}
-                  value={this.state.project.device_ids}
-                  onChange={s => this.handleChange("devices", s)}
-                >
+                <Select multiple={true}
+                        input={<Input name="devices" id="devices" />}
+                        value={this.state.project.device_ids}
+                        onChange={s => this.handleChange("devices", s)}>
                   {this.state.devices.map(s => (
-                    <MenuItem
-                      key={s.id}
-                      checked={this.state.project.device_ids.includes(s.id)}
-                      value={s.id}
-                    >
+                    <MenuItem key={s.id}
+                              checked={this.state.project.device_ids.includes(s.id)}
+                              value={s.id}>
                       {s.id}
                     </MenuItem>
                   ))}
@@ -245,56 +225,46 @@ class ProjectForm extends Component {
     const { activeStep } = this.state;
     const { modalOpen, handleClose, onSubmit } = this.props;
     const actions = [
-      <Button
-        key="cancel"
-        variant="contained"
-        color="primary"
-        onTouchTap={() => {handleClose();}}
-        className={classes.button}
-      >
+      <Button key="cancel"
+              variant="contained"
+              color="primary"
+              onTouchTap={() => {handleClose();}}
+              className={classes.button}>
         Cancel
       </Button>,
-      <Button
-        key="back"
-        disabled={activeStep === 0}
-        onClick={this.handleBack}
-        className={classes.button}
-      >
+      <Button key="back"
+              disabled={activeStep === 0}
+              onClick={this.handleBack}
+              className={classes.button}>
         Back
       </Button>,
-      <Button
-        key="next"
-        variant="contained"
-        color="primary"
-        disabled={activeStep >= steps.length - 1}
-        onClick={this.handleNext}
-        className={classes.button}
-      >
+      <Button key="next"
+              variant="contained"
+              color="primary"
+              disabled={activeStep >= steps.length - 1}
+              onClick={this.handleNext}
+              className={classes.button}>
         Next
       </Button>,
-      <Button
-        key="finish"
-        variant="contained"
-        color="primary"
-        onTouchTap={() => {
-          this.props.onSubmit(this.state.project);
-          handleClose();
-          this.setState({activeStep: 0, project: this.defaultProject});
-        }}
-        className={classes.button}
-      >
+      <Button key="finish"
+              variant="contained"
+              color="primary"
+              onTouchTap={() => {
+                this.props.onSubmit(this.state.project);
+                handleClose();
+                this.setState({activeStep: 0, project: this.defaultProject});
+              }}
+              className={classes.button}>
         Finish
       </Button>
     ];
 
     return (
-      <Dialog
-        actions={actions}
-        modal="true"
-        open={modalOpen}
-        maxWidth="sm"
-        fullWidth={true}
-      >
+      <Dialog actions={actions}
+              modal="true"
+              open={modalOpen}
+              maxWidth="sm"
+              fullWidth={true}>
         <DialogTitle>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {

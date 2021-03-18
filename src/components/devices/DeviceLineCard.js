@@ -48,7 +48,7 @@ export default class DeviceLineCard extends Component {
     let maxlimit = 20;
 
     return (
-      <Card className="deviceNode">
+      <Card className="longCard">
         <div>
           <Hidden mdUp implementation="css">
             <span className="Typography">
@@ -72,7 +72,7 @@ export default class DeviceLineCard extends Component {
                      height="60"
                      title={device.dateUpdated ? "Last update at " + device.dateUpdated : "No data yet"}/>
                 {deviceNodeNew ? (
-                  <img src={newImage} height="35" className="newIcon" />
+                  <img src={newImage} height="35" className="topIcon" />
                 ) : null}
                 <pre>
                   {" "}
@@ -104,26 +104,16 @@ export default class DeviceLineCard extends Component {
                         </pre>
                       </div>
                       <div className="cardContent">
-                        <div className="sensIcon">
-                          <SensIcon
-                            sensor_kind={sens.sensor_kind}
-                            height="60"
-                            title={title(sens)}
-                          />
+                        <div className="leftIcon">
+                          <SensIcon sensor_kind={sens.sensor_kind}
+                                    height="60"
+                                    title={title(sens)}/>
                         </div>
                         <div className="sensValue">
                           <h3>
                             {" "}
-                            {(sens.value
-                              ? JSON.stringify(sens.value.value).replace(
-                                  /"/g,
-                                  ""
-                                )
-                              : "") +
-                              " " +
-                              (sens.unit
-                                ? Waziup.Units.getLabel(sens.unit)
-                                : "")}{" "}
+                            {(sens.value? JSON.stringify(sens.value.value).replace(/"/g, "") : "") + " " + (sens.unit ? Waziup.Units.getLabel(sens.unit) : "")}
+                            {" "}
                           </h3>
                         </div>
                       </div>
@@ -140,12 +130,16 @@ export default class DeviceLineCard extends Component {
                         <pre className="Typography"> {actu.name} </pre>
                       </div>
                       <div className="cardContent">
-                          <div className="actuIcon">
-                            <img
-                              src={actuatorImage}
-                              height="60"
-                            />
-                          </div>
+                        <div className="leftIcon">
+                          <img src={actuatorImage} height="60"/>
+                        </div>
+                        <div className="sensValue">
+                          <h3>
+                            {" "}
+                            {(actu.value? JSON.stringify(actu.value).replace(/"/g, "") : "")}
+                            {" "}
+                          </h3>
+                        </div>
                       </div>
                     </Card>
                   );

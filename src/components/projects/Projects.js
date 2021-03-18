@@ -69,7 +69,7 @@ class Projects extends Component {
                      onSubmit={s => this.props.createProject(s)}/>
         <Button variant="contained"
                 color="primary"
-                className="addDeviceButton"
+                className="addResourceButton"
                 onTouchTap={() => this.setState({ modalAddProject: true })}>
           Create a project
         </Button>

@@ -246,7 +246,7 @@ class Devices extends Component {
         {this.props.settings.allowManualCreateResources ? 
           <Button variant="contained"
                   color="primary"
-                  className="addDeviceButton"
+                  className="addResourceButton"
                   onTouchTap={() => this.setState({ modalAddDevice: true })} >
             Add a device
           </Button>
@@ -261,11 +261,11 @@ class Devices extends Component {
             : this.state.devices.map(s => {return (
               <Link key={s.id} to={"/devices/" + s.id}>
                 {this.props.settings.showPublicResources ? 
-                  <DeviceLineCard className="deviceNode"
+                  <DeviceLineCard className="longCard"
                                   device={s}
                                   user={this.props.user}/>
                 : (s.owner == this.props.user.username) 
-                    && <DeviceLineCard className="deviceNode"
+                    && <DeviceLineCard className="longCard"
                                        device={s}
                                        user={this.props.user}/>}
               </Link>)})

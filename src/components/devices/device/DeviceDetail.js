@@ -79,7 +79,7 @@ class DeviceDetail extends Component {
           <div>
           <Button variant="contained"
                   color="primary"
-                  className="addDeviceButton"
+                  className="addResourceButton"
                   onTouchTap={() => this.setState({ modalHelp: true })} >
             API...
           </Button>
@@ -88,7 +88,7 @@ class DeviceDetail extends Component {
           { this.state.loading ? 
               DeviceLoader()
             : <div>
-              <DeviceNodeCard className="deviceNode"
+              <DeviceNodeCard className="longCard"
                               deleteSensor={this.props.deleteSensor}
                               deleteActuator={this.props.deleteActuator}
                               deleteDevice={(sid) => {this.props.deleteDevice(sid); browserHistory.push('/devices');}}
@@ -109,7 +109,7 @@ class DeviceDetail extends Component {
                             this.props.updateDeviceVisibility(device.id, s.visibility)
                             this.props.updateDeviceGatewayId(device.id, s.gateway_id)
                           }} />
-              <Card className="deviceMap">
+              <Card className="mapCard">
                 <span className="Typography">
                   {' '}
                   Location

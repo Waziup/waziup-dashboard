@@ -209,7 +209,7 @@ class Gateways extends Component {
         {this.props.settings.allowManualCreateResources?
           <Button variant="contained"
                   color="primary"
-                  className="addDeviceButton"
+                  className="addResourceButton"
                   onTouchTap={() => this.setState({ modalAddGateway: true })}>
             Add a gateway
           </Button> 

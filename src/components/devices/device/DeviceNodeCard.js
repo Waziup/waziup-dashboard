@@ -54,20 +54,14 @@ export default class DeviceNodeCard extends Component {
     }
     console.log("perms:" + JSON.stringify(this.props.permission))
     return (
-      <Card className="deviceNode">
+      <Card className="longCard">
         <SensorForm modalOpen={this.state.modalAddSensor}
                     handleClose={() => { this.setState({ modalAddSensor: false }) }}
-                    onSubmit={(m) => {
-                      this.props.updateSensor(device.id, m);
-                      this.setState({ modalAddSensor: false });
-                    }}
+                    onSubmit={(m) => {this.props.updateSensor(device.id, m); this.setState({ modalAddSensor: false });}}
                     isEdit={false} />
         <ActuatorForm modalOpen={this.state.modalAddActuator}
                       handleClose={() => { this.setState({ modalAddActuator: false }) }}
-                      onSubmit={(m) => {
-                        this.props.updateActuator(device.id, m);
-                        this.setState({ modalAddActuator: false });
-                      }}
+                      onSubmit={(m) => {this.props.updateActuator(device.id, m); this.setState({ modalAddActuator: false });}}
                       isEdit={false} />
         <Grid container direction="row" justify="flex-start" spacing={24}>
           <Grid item md={12} lg={6}>

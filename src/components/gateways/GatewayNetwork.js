@@ -21,7 +21,7 @@ export default class GatewayNetwork extends Component {
     let maxlimit = 15;
 
     return (
-      <Card className="deviceNode">
+      <Card className="longCard">
         <Typography>
           <Tooltip title={gatewayID}>
             <span className="Typography">

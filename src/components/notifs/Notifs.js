@@ -60,7 +60,7 @@ class Notifs extends Component {
                    users={this.props.users}
                    handleClose={() => this.setState({ modalOpen: false })}
                    onSubmit={this.props.createNotif} />
-        <Button className="addDeviceButton"
+        <Button className="addResourceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}
                 color="primary"
                 variant="contained">

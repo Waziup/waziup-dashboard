@@ -29,7 +29,7 @@ export default class GatewayNodeCard extends Component {
     let title = gateway.date_modified ? "Date modified: " + gateway.date_modified : "No data yet"
 
     return (
-      <Card className={"deviceNode"}>
+      <Card className={"longCard"}>
         <AddGatewayForm gateway={gateway}
                         isEdit={true}
                         modalOpen={this.state.modalEditGateway}
@@ -138,7 +138,7 @@ export default class GatewayNodeCard extends Component {
                         <pre className="Typography"> {dev.name} </pre>
                       </div>
                       <div className="cardContent">
-                        <div className="actuIcon">
+                        <div className="leftIcon">
                           <img src={deviceImage} height="64" />
                         </div>
                       </div>

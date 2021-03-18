@@ -40,24 +40,22 @@ class ActuatorDetail extends Component {
           <Toolbar>
           <img src={actuatorImage} height="50"/>
             <Typography variant="h5" className="page-title">
-            Actuator: {this.props.actu.id}
+              Actuator: {this.props.actu.id}
             </Typography>
           </Toolbar>
         </AppBar>
 
-          <Card className="deviceNode">
-            <ActuatorCard
-              actuator={this.props.actu}
-              isDetails={true}
-              updateActuator={this.props.addActuator}
-              updateActuatorName={this.props.updateActuatorName}
-              updateActuatorKind={this.props.updateActuatorKind}
-              updateActuatorValue={this.props.updateActuatorValue}
-              updateActuatorValueType={this.props.updateActuatorValueType}
-              deleteActuator={this.props.deleteActuator}
-              deviceId={this.props.device.id}
-              permission={this.props.permission}
-            />
+          <Card className="longCard">
+            <ActuatorCard actuator={this.props.actu}
+                          isDetails={true}
+                          updateActuator={this.props.addActuator}
+                          updateActuatorName={this.props.updateActuatorName}
+                          updateActuatorKind={this.props.updateActuatorKind}
+                          updateActuatorValue={this.props.updateActuatorValue}
+                          updateActuatorValueType={this.props.updateActuatorValueType}
+                          deleteActuator={this.props.deleteActuator}
+                          deviceId={this.props.device.id}
+                          permission={this.props.permission}/>
           </Card>
         </Container>
       );

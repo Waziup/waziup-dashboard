@@ -64,29 +64,24 @@ export default class ProjectNodeCard extends Component {
         gateways.push(card);
       }
     return (
-      <Card className="deviceNode">
-        <ProjectForm
-          isEdit={true}
-          user={this.props.user}
-          project={this.props.project}
-          devices={this.props.devices}
-          gateways={this.props.gateways}
-          createDevice={this.props.createDevice}
-          createGateway={this.props.createGateway}
-          modalOpen={this.state.modalEdit}
-          handleClose={() => this.setState({ modalEdit: false })}
-          onSubmit={s => {
-            this.props.updateProjectName(project.id, '"' + s.name + '"'),
-            this.props.updateProjectDevices(project.id, s.device_ids),
-            this.props.updateProjectGateways(project.id, s.gateway_ids);
-          }}
-        />
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          spacing={24}
-        >
+      <Card className="longCard">
+        <ProjectForm isEdit={true}
+                     user={this.props.user}
+                     project={this.props.project}
+                     devices={this.props.devices}
+                     gateways={this.props.gateways}
+                     createDevice={this.props.createDevice}
+                     createGateway={this.props.createGateway}
+                     modalOpen={this.state.modalEdit}
+                     handleClose={() => this.setState({ modalEdit: false })}
+                     onSubmit={s => {
+                       this.props.updateProjectName(project.id, '"' + s.name + '"'),
+                       this.props.updateProjectDevices(project.id, s.device_ids),
+                       this.props.updateProjectGateways(project.id, s.gateway_ids);}}/>
+        <Grid container
+              direction="row"
+              justify="flex-start"
+              spacing={24}>
           <Grid item md={12} lg={6}>
             <span className="Typography">
               {" "}
@@ -98,108 +93,83 @@ export default class ProjectNodeCard extends Component {
             this.props.permission.scopes.includes("projects:delete") ? (
               <div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <DeleteIcon
-                    onClick={() => {
-                      if (window.confirm("Delete a project?"))
-                        this.props.deleteProject(project.id);
-                    }}
-                  />
+                  <DeleteIcon onClick={() => {if (window.confirm("Delete a project?")) this.props.deleteProject(project.id);}}/>
                 </Hidden>
                 <Hidden smDown implementation="css">
-                  <Button
-                    className="topRightButton"
-                    variant="contained"
-                    color="primary"
-                    onTouchTap={() => {
-                      if (window.confirm("Delete a project?"))
-                        this.props.deleteProject(project.id);
-                    }}
-                  >
+                  <Button className="topRightButton"
+                          variant="contained"
+                          color="primary"
+                          onTouchTap={() => {if (window.confirm("Delete a project?")) this.props.deleteProject(project.id);}}>
                     Delete
                   </Button>
                 </Hidden>
               </div>
             ) : null}
             {this.props.permission &&
-            this.props.permission.scopes.includes("projects:update") ? (
+            this.props.permission.scopes.includes("projects:update") ? 
               <div className="cardTitleIcons">
                 <Hidden mdUp implementation="css">
-                  <EditIcon
-                    onClick={() => this.setState({ modalEdit: true })}
-                  />
+                  <EditIcon onClick={() => this.setState({ modalEdit: true })}/>
                 </Hidden>
                 <Hidden smDown implementation="css">
-                  <Button
-                    className="topRightButton"
-                    variant="contained"
-                    color="primary"
-                    onTouchTap={() => {
-                      this.setState({ modalEdit: true });
-                    }}
-                  >
+                  <Button className="topRightButton"
+                          variant="contained"
+                          color="primary"
+                          onTouchTap={() => {this.setState({ modalEdit: true });}}>
                     Edit
                   </Button>
                 </Hidden>
               </div>
-            ) : null}
+            : null}
           </Grid>
         </Grid>
 
         { project ? <div className="contentCards">
-        <Grid
-          container
-          direction="row"
-          justify="flex-start"
-          spacing={24}
-        >
-          <Grid item md={12} lg={3}>
-          <div className="boardIcon">
-            <img
-              src={projectImage}
-              height="75"
-              title={
-                project.dateUpdated
-                  ? "Last update at " + project.dateUpdated
-                  : "No data yet"
-              }
-            />
-            <pre>
-              {" "}
-              {project.owner
-                ? "owner: " +
-                  project.owner +
-                  (this.props.user && project.owner == this.props.user.username
-                    ? " (you)"
-                    : "")
-                : ""}{" "}
-            </pre>
-            <pre>
-              {"ID: " + project.id}
-            </pre>
-          </div>
+          <Grid container
+              direction="row"
+              justify="flex-start"
+              spacing={24}>
+            <Grid item md={12} lg={3}>
+              <div className="boardIcon">
+                <img src={projectImage}
+                     height="75"
+                     title={project.dateUpdated ? "Last update at " + project.dateUpdated : "No data yet"}/>
+                <pre>
+                  {" "}
+                  {project.owner
+                    ? "owner: " +
+                      project.owner +
+                      (this.props.user && project.owner == this.props.user.username
+                        ? " (you)"
+                        : "")
+                    : ""}{" "}
+                </pre>
+                <pre>
+                  {"ID: " + project.id}
+                </pre>
+              </div>
+            </Grid>
+            <Grid item md={12} lg={9}>
+              <div className="gatewayDeviceNodes">
+                {devices.length ? (
+                  <Card className="longCard">
+                    <span className="Typography"> Devices </span>
+                    <div className="contentCards">{devices}</div>
+                  </Card>
+                ) : (
+                  ""
+                )}
+                {gateways.length ? 
+                  <Card className="longCard">
+                    <span className="Typography"> Gateways </span>
+                    <div className="contentCards">{gateways}</div>
+                  </Card>
+                : null}
+              </div>
+            </Grid>
           </Grid>
-          <Grid item md={12} lg={9}>
-          <div className="gatewayDeviceNodes">
-            {devices.length ? (
-              <Card className="deviceNode">
-                <span className="Typography"> Devices </span>
-                <div className="contentCards">{devices}</div>
-              </Card>
-            ) : (
-              ""
-            )}
-            {gateways.length ? (
-              <Card className="deviceNode">
-                <span className="Typography"> Gateways </span>
-                <div className="contentCards">{gateways}</div>
-              </Card>
-            ) : (
-              ""
-            )}
-          </div>
-          </Grid>
-          </Grid>
-        </div> : ''}
+        </div>
+        : null}
       </Card>
     );
   }

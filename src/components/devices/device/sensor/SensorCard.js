@@ -39,7 +39,7 @@ export default class SensorCard extends Component {
         </div>
         <Link to={"/devices/" + this.props.deviceId + "/sensors/" + sens.id} > 
           <div className="cardContent">
-            <div className="sensIcon">
+            <div className="leftIcon">
               <SensIcon sensor_kind={sens.sensor_kind} height="75" title={title}/>
             </div>
             <div className="sensValue"> 

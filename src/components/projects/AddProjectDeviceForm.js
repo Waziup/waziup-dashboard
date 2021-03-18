@@ -137,19 +137,15 @@ class AddProjectDeviceForm extends Component {
               onSubmit={s => this.addDevice(s)}
             />
             <Grid item xs={6}>
-              <Grid
-                row
-                container
-                direction="row"
-                justify="space-around"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="addDeviceButton"
-                  onTouchTap={() => this.setState({ modalAddDevice: true })}
-                >
+              <Grid row
+                    container
+                    direction="row"
+                    justify="space-around"
+                    alignItems="center">
+                <Button variant="contained"
+                        color="primary"
+                        className="addResourceButton"
+                        onTouchTap={() => this.setState({ modalAddDevice: true })}>
                   Create a new device
                 </Button>
                 <Chip label="Or" />
@@ -158,18 +154,14 @@ class AddProjectDeviceForm extends Component {
             <Grid item xs={6}>
               <FormControl style={{ display: "flex" }}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
-                <Select
-                  multiple={true}
-                  input={<Input name="devices" id="devices" />}
-                  value={this.state.projectDevices}
-                  onChange={s => this.handleChange("devices", s)}
-                >
+                <Select multiple={true}
+                        input={<Input name="devices" id="devices" />}
+                        value={this.state.projectDevices}
+                        onChange={s => this.handleChange("devices", s)}>
                   {this.state.devices.map(s => (
-                    <MenuItem
-                      key={s.id}
-                      checked={this.state.projectDevices.includes(s.id)}
-                      value={s.id}
-                    >
+                    <MenuItem key={s.id}
+                              checked={this.state.projectDevices.includes(s.id)}
+                              value={s.id}>
                       {s.id}
                     </MenuItem>
                   ))}

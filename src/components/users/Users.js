@@ -20,11 +20,9 @@ class Users extends Component {
       for (const user of this.props.users) {
         const card = (
           <Link to={`/users/${user.id}`}>
-            <UserCard
-              className="deviceNode"
-              isEditable={false}
-              user={user}
-            />
+            <UserCard className="longCard"
+                      isEditable={false}
+                      user={user}/>
           </Link>
         );
         users.push(card);

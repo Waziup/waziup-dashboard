@@ -68,9 +68,7 @@ export default class ActuatorCard extends Component {
     if (this.state.actu.actuator_value_type == "bool") {
       actu["value"] = Boolean(this.state.actu.value);
     } else if (this.state.actu.actuator_value_type == "number") {
-      actu["value"] = isNaN(this.state.actu.value)
-        ? 0
-        : Number(this.state.actu.value);
+      actu["value"] = isNaN(this.state.actu.value) ? 0 : Number(this.state.actu.value);
     } else if (this.state.actu.actuator_value_type == "string") {
       actu["value"] = String(this.state.actu.value) || "";
     }
@@ -96,10 +94,8 @@ export default class ActuatorCard extends Component {
   }
 
   submitValue() {
-    if (
-      this.state.actu.actuator_value_type === "number" &&
-      isNaN(this.state.actu.value)
-    ) {
+    if ( this.state.actu.actuator_value_type === "number" &&
+         isNaN(this.state.actu.value)) {
       this.setState({ validNumber: false });
     } else {
       this.setState({ validNumber: true });
@@ -180,135 +176,94 @@ export default class ActuatorCard extends Component {
         </div>
         {this.props.isDetails ? (
           <div className="cardContent">
-              <div className="sensIcon">
+              <div className="leftIcon">
                 <img src={actuatorImage} height="75" />
               </div>
               {this.props.permission.scopes.includes("devices:update") ? (
                 <CardActions>
-                  <Grid
-                    container
-                    spacing={24}
-                    justify="flex-end"
-                    direction="row"
-                  >
+                  <Grid container
+                        spacing={24}
+                        justify="flex-end"
+                        direction="row">
                     <Grid item xs={12}>
-                      {this.state.actu.actuator_value_type == "string" ? (
-                        <TextField
-                          id="stringValue"
-                          name="stringValue"
-                          label="Value"
-                          fullWidth
-                          value={this.state.actu.value}
-                          onChange={this.handleChange}
-                          helperText="Provide a string"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {this.state.actu.actuator_value_type == "number" ? (
-                        <TextField
-                          error={!this.state.validNumber}
-                          id="numberValue"
-                          name="numberValue"
-                          label="Value"
-                          fullWidth
-                          value={this.state.actu.value}
-                          onChange={this.handleChange}
-                          helperText={
-                            this.state.validNumber
-                              ? "Provide a number"
-                              : "Please enter a number value"
-                          }
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {this.state.actu.actuator_value_type == "bool" ? (
+                      {this.state.actu.actuator_value_type == "string" ?
+                        <TextField id="stringValue"
+                                   name="stringValue"
+                                   label="Value"
+                                   fullWidth
+                                   value={this.state.actu.value}
+                                   onChange={this.handleChange}
+                                   helperText="Provide a string"/>
+                      : null}
+                      {this.state.actu.actuator_value_type == "number" ?
+                        <TextField error={!this.state.validNumber}
+                                   id="numberValue"
+                                   name="numberValue"
+                                   label="Value"
+                                   fullWidth
+                                   value={this.state.actu.value}
+                                   onChange={this.handleChange}
+                                   helperText={this.state.validNumber ? "Provide a number" : "Please enter a number value"}/>
+                      : null}
+                      {this.state.actu.actuator_value_type == "bool" ? 
                         <FormControlLabel
-                          control={
-                            <Switch
-                              id="boolValue"
-                              name="boolValue"
-                              checked={this.state.actu.value}
-                              onChange={this.handleSwitchChange}
-                              value={this.state.actu.value}
-                              color="primary"
-                            />
-                          }
                           label="Actuator Value"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {this.state.actu.actuator_value_type == "null" ? (
-                        <Button
-                          variant="contained"
-                          onTouchTap={() => {
-                            this.onActuateClick();
-                          }}
-                        >
+                          control={<Switch id="boolValue"
+                                           name="boolValue"
+                                           checked={this.state.actu.value}
+                                           onChange={this.handleSwitchChange}
+                                           value={this.state.actu.value}
+                                           color="primary"/>}/>
+                      : null}
+                      {this.state.actu.actuator_value_type == "null" ? 
+                        <Button variant="contained"
+                                onTouchTap={() => {this.onActuateClick();}}>
                           Actuate
                         </Button>
-                      ) : (
-                        ""
-                      )}
-                      {this.state.actu.actuator_value_type == "object" ? (
+                      : null}
+                      {this.state.actu.actuator_value_type == "object" ? 
                         <Paper>
                           <div style={{ maxWidth: "100%", maxHeight: "100%" }}>
-                            <JSONInput
-                              id="objectValue"
-                              name="objectValue"
-                              placeholder={sampleObject}
-                              onChange={this.handleJSONInputChange}
-                              theme="light_mitsuketa_tribute"
-                              locale={locale}
-                              colors={colors}
-                              height="150px"
-                              style={styles}
-                            />
+                            <JSONInput id="objectValue"
+                                       name="objectValue"
+                                       placeholder={sampleObject}
+                                       onChange={this.handleJSONInputChange}
+                                       theme="light_mitsuketa_tribute"
+                                       locale={locale}
+                                       colors={colors}
+                                       height="150px"
+                                       style={styles}/>
                           </div>
                         </Paper>
-                      ) : (
-                        ""
-                      )}
-                      {this.state.actu.actuator_value_type == "array" ? (
+                      : null}
+                      {this.state.actu.actuator_value_type == "array" ?
                         <Paper>
                           <div style={{ maxWidth: "100%", maxHeight: "100%" }}>
-                            <JSONInput
-                              id="arrayValue"
-                              name="arrayValue"
-                              placeholder={sampleArray}
-                              onChange={this.handleJSONInputChange}
-                              theme="light_mitsuketa_tribute"
-                              locale={locale}
-                              colors={colors}
-                              height="150px"
-                              style={styles}
-                            />
+                            <JSONInput id="arrayValue"
+                                       name="arrayValue"
+                                       placeholder={sampleArray}
+                                       onChange={this.handleJSONInputChange}
+                                       theme="light_mitsuketa_tribute"
+                                       locale={locale}
+                                       colors={colors}
+                                       height="150px"
+                                       style={styles}/>
                           </div>
                         </Paper>
-                      ) : (
-                        ""
-                      )}
+                      : null}
                     </Grid>
                     {this.state.actu.actuator_value_type != "null" &&
-                      this.state.actu.actuator_value_type != "bool" && (
-                        <Grid
-                          item
-                          xs={12}
-                          container
-                          justify="flex-end"
-                          direction="row"
-                        >
-                          <Button
-                            variant="contained"
-                            size="small"
-                            color="primary"
-                            disabled={!this.state.valid}
-                            onTouchTap={() => {
-                              this.submitValue();
-                            }}
-                          >
+                     this.state.actu.actuator_value_type != "bool" && (
+                        <Grid item
+                              xs={12}
+                              container
+                              justify="flex-end"
+                              direction="row">
+                          <Button variant="contained"
+                                  size="small"
+                                  color="primary"
+                                  disabled={!this.state.valid}
+                                  onTouchTap={() => {this.submitValue();}}>
                             Submit
                           </Button>
                         </Grid>
@@ -320,12 +275,10 @@ export default class ActuatorCard extends Component {
           :
             <div className="cardContent">
               <Link to={"/devices/" + this.props.deviceId + "/actuators/" + actu.id}>
-                <div className="actuIcon">
-                  <img
-                    src={actuatorImage}
-                    height="75"
-                    title={"Go to actuator details"}
-                  />
+                <div className="leftIcon">
+                  <img src={actuatorImage}
+                       height="75"
+                       title={"Go to actuator details"}/>
                 </div>
               </Link>
               <div className="sensValue"> 
