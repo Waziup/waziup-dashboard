@@ -55,7 +55,7 @@ componentWillUnmount() {
     let maxlimit = 20;
     let notif = this.props.notif;
 
-    if (this.props.notif) {
+    if (notif) {
       renderElement = (
         <Container fluid>
           <AppBar position="static"

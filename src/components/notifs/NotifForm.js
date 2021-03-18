@@ -57,7 +57,7 @@ class NotifForm extends Component {
 
   componentWillMount() {
     let devices =  this.props.devices.sort(this.compare);
-    this.setState({devices:devices })
+    this.setState({devices: devices })
   }
 
   handleChange = (field, event) => {
@@ -88,7 +88,7 @@ class NotifForm extends Component {
     
     const actions = [
       <Button color="primary" key="cancel" onTouchTap={()=>{this.props.handleClose(); }}>Cancel</Button>,
-      <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(); this.props.handleClose();}}>Submit</Button>,
+      <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}>Submit</Button>,
     ];
 
     return (
@@ -121,21 +121,21 @@ class NotifForm extends Component {
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
                 <Select multiple={true}
-                  input={<Input name="devices" id="devices" />}
-                  value={this.state.notif.condition.devices}
-                  onChange={(s) => this.handleChange("devices", s)}
-                  title="Device to uses">
-                  {this.state.devices.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.devices.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
+                        input={<Input name="devices" id="devices" />}
+                        value={this.state.notif.condition.devices}
+                        onChange={(s) => this.handleChange("devices", s)}
+                        title="Device to uses">
+                        {this.state.devices.map(s => <MenuItem key={s.id} checked={this.state.notif.condition.devices.includes(s.id)} value={s.id}>{s.id}</MenuItem>)}
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="sensors">Sensors</InputLabel>
                 <Select multiple={true}
-                  input={<Input name="sensors" id="sensors" />}
-                  value={this.state.notif.condition.sensors}
-                  onChange={(a) => this.handleChange("sensors", a)}
-                  title="The sensor that we'll observe">
-                  {this.props.devices.filter(s => this.state.notif.condition.devices.includes(s.id)).map(s => s.sensors.map(m => <MenuItem key={m.id} checked={this.state.notif.condition.sensors.includes(m.id)} value={m.id} >{m.id}</MenuItem>))}
+                        input={<Input name="sensors" id="sensors" />}
+                        value={this.state.notif.condition.sensors}
+                        onChange={(a) => this.handleChange("sensors", a)}
+                        title="The sensor that we'll observe">
+                        {this.props.devices.filter(s => this.state.notif.condition.devices.includes(s.id)).map(s => s.sensors.map(m => <MenuItem key={m.id} checked={this.state.notif.condition.sensors.includes(m.id)} value={m.id} >{m.id}</MenuItem>))}
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
@@ -173,18 +173,18 @@ class NotifForm extends Component {
                   <TextField name="message" 
                              fullWidth={true}
                              label="Message to send:"
-                             value={this.state.notif.action ? this.state.notif.action.value.message : null}
+                             value={this.state.notif.action.value.message}
                              onChange={(m) => this.handleChange("act_message", m)}
                              title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
                   <FormControl style={{display: 'flex'}}>
                     <InputLabel htmlFor="usernames">Users</InputLabel>
                     <Select multiple={true}
                             input={<Input name="usernames" id="usernames" />}
-                            value={this.state.notif.action ? this.state.notif.action.value.usernames: null}
+                            value={this.state.notif.action.value.usernames}
                             onChange={(u) => this.handleChange("act_usernames", u)}
                             title="To whom this notification should be sent to?">
                       {this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
-                        <MenuItem key={u.username} value={u.username} checked={this.state.notif.action ? this.state.notif.action.value.usernames.includes(u.username): null}>
+                        <MenuItem key={u.username} value={u.username} checked={this.state.notif.action.value.usernames ? this.state.notif.action.value.usernames.includes(u.username): null}>
                           {u.username}
                         </MenuItem>)
                       : <br/>}
@@ -194,11 +194,11 @@ class NotifForm extends Component {
                     <InputLabel htmlFor="channels">Socials</InputLabel>
                     <Select multiple={true}
                             input={<Input name="channels" id="channels" />}
-                            value={this.state.notif.action ? this.state.notif.action.value.channels : null}
+                            value={this.state.notif.action.value.channels}
                             onChange={(c) => this.handleChange("act_channels", c)}
                             title="On which channels should we send this notification?">
                       {this.channels.map((c,index) => 
-                        <MenuItem value={c} key={index} checked={this.state.notif.action ? this.state.notif.action.value.channels.includes(c) : null} leftIcon={<ShareIcon/>}>
+                        <MenuItem value={c} key={index} checked={this.state.notif.action.value.channels ? this.state.notif.action.value.channels.includes(c) : null} leftIcon={<ShareIcon/>}>
                           {c}
                         </MenuItem>)}
                     </Select>
@@ -215,7 +215,7 @@ class NotifForm extends Component {
                       <InputLabel htmlFor="act_device_id">Device</InputLabel>
                       <Select multiple={false}
                               input={<Input name="act_device_id" id="act_device_id" />}
-                              value={this.state.notif.action ? this.state.notif.action.value.device_id: null}
+                              value={this.state.notif.action.value.device_id}
                               onChange={(u) => this.handleChange("act_device_id", u)}
                               title="On which device the actuator is?">
                         {this.state.devices.map(s => <MenuItem key={s.id} checked={this.state.notif.action.value.device_id == s.id} value={s.id}>{s.id}</MenuItem>)}
@@ -225,8 +225,8 @@ class NotifForm extends Component {
                       <InputLabel htmlFor="channels">Actuator</InputLabel>
                       <Select multiple={false}
                               input={<Input name="act_actuator_id" id="actuator_id" />}
-                              value={this.state.notif.action ? this.state.notif.action.value.actuator_id : null}
-                              onChange={(c) => this.handleChange("actuator_id", c)}
+                              value={this.state.notif.action.value.actuator_id}
+                              onChange={(c) => this.handleChange("act_actuator_id", c)}
                               title="On which actuator should we send this?">
                         {this.props.devices.filter(s => this.state.notif.action.value.device_id == s.id).map(s => s.actuators.map(m => <MenuItem key={m.id} checked={this.state.notif.action.value.actuator_id == m.id} value={m.id} >{m.id}</MenuItem>))}
                       </Select>
@@ -234,7 +234,7 @@ class NotifForm extends Component {
                     <TextField name="actuator_value" 
                                fullWidth={true}
                                label="Actuator value:"
-                               value={this.state.notif.action ? this.state.notif.action.value.actuator_value : null}
+                               value={this.state.notif.action.value.actuator_value}
                                onChange={(m) => this.handleChange("act_actuator_value", m)}
                                title="The actuation value. You can use ${<sensorID>} to mention the sensor measurement in the value. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
                   </CardContent>

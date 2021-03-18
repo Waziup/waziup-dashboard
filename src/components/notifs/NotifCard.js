@@ -60,19 +60,19 @@ export default class NotifCard extends Component {
               </div>
             </div>  
             <div className="notifMsg">
-              <pre> {notif.action ? notif.action.message : null} </pre>
+              <pre> {notif.action.value.message} </pre>
             </div> 
             <div className="notifUsersChannels">
               <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                   <List className="notifUsers">
-                      {notif.action ? notif.action.usernames.map((u,index) => <ListItem key={index}>
+                      {notif.action.value.usernames ? notif.action.value.usernames.map((u,index) => <ListItem key={index}>
                       <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>): null}
                   </List>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4} lg={3}>
                   <List className="notifChannels">
-                      {notif.action ? notif.action.channels.map((c,index) => <ListItem key={index}>
+                      {notif.action.value.channels ? notif.action.value.channels.map((c,index) => <ListItem key={index}>
                         <ListItemIcon><Share/></ListItemIcon>
                           {c}</ListItem>): null}
                   </List>

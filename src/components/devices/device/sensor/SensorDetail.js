@@ -19,7 +19,7 @@ import CalibrationForm from './CalibrationForm';
 import NotifForm from '../../../notifs/NotifForm.js'
 import NotifCard from '../../../notifs/NotifCard.js'
 import sensorImage from '../../../../images/sensor.png';
-import { getValues, getDevice, addSensor, deleteSensor, createNotif, updateSensorCalibration } from "../../../../actions/actions.js"
+import { getValues, getDevice, addSensor, deleteSensor, createNotif, updateSensorCalibration, pushSensorValue } from "../../../../actions/actions.js"
 import config from '../../../../config';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -27,6 +27,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import CardActions from "@material-ui/core/CardActions";
 
 const styles = () => ({
   button: {
@@ -50,7 +51,8 @@ class SensorDetail extends Component {
         device_id: props.params.deviceId,
         sensor_id: props.params.sensId
       },
-      timeAxis: 'device'
+      timeAxis: 'device',
+      newValue: ''
     };
   }
 
@@ -95,9 +97,31 @@ class SensorDetail extends Component {
     this.fetchValues();
   }
 
+  submitValue() {
+    let val = {"value": this.state.newValue,
+               "timestamp": moment(new Date()).format()}
+    console.log("val" + JSON.stringify(this.state.newValue));
+    this.props.pushSensorValue(
+      this.props.device.id,
+      this.props.sens.id,
+      val);
+  }
+
   render() {
     if (this.props.sens) {
       var notifications = []
+      const defaultNotif = {
+        condition: { devices: [this.props.device.id],
+                     sensors: [this.props.sens.id],
+                     expression: this.props.sens.id + ">30" },
+        action: { type: "SocialAction",
+                  value: {channels: [], 
+                          message: "Waziup: High temperature warning. ${id} value is ${" + this.props.sens.id + "}",
+                          usernames: [],
+                          device_id: this.props.device.id,
+                          actuator_value: "${" + this.props.sens.id + "}"}},
+        description: "Send message",
+        throttling: 1}
       if (this.props.notifs) {
         for (var notif of this.props.notifs) {
           const card =
@@ -143,6 +167,7 @@ class SensorDetail extends Component {
                 }}
                 isEdit={false} /> 
               <NotifForm modalOpen={this.state.modalAddNotif}
+                notif={defaultNotif}
                 devices={this.props.devices}
                 users={this.props.users}
                 onSubmit={this.props.createNotif}
@@ -205,6 +230,25 @@ class SensorDetail extends Component {
                 </Grid>
               </Grid>
             </Card> : null}
+            <Card className="deviceNode">
+              <Typography>
+                <span className="Typography"> Testing zone </span>
+              </Typography>
+                <CardActions>
+                    <TextField id="stringValue"
+                               name="stringValue"
+                               label="Value"
+                               fullWidth
+                               onChange={(a) => this.setState({ newValue: a.target.value})}
+                               helperText="Provide a string"/>
+                    <Button variant="contained"
+                            size="small"
+                            color="primary"
+                            onTouchTap={() => {this.submitValue()}}>
+                      Submit
+                    </Button>
+                </CardActions>
+            </Card>
         </Container>
       );
     } else {
@@ -235,7 +279,8 @@ const mapDispatchToProps = {
   addSensor,
   updateSensorCalibration,
   deleteSensor,
-  createNotif
+  createNotif,
+  pushSensorValue
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SensorDetail);
