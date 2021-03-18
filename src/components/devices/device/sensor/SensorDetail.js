@@ -227,7 +227,12 @@ class SensorDetail extends Component {
                     </FormControl>
                   </Grid>
                   <Grid item xs={2}>
-                    <Button type='submit' onClick={this.handleApply} variant="contained" color="primary">Update graph</Button>
+                    <Button type='submit'
+                            onClick={this.handleApply}
+                            variant="contained" 
+                            color="primary">
+                      Update graph
+                    </Button>
                   </Grid>
                   <Grid item xs={2}>
                     <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
@@ -241,20 +246,23 @@ class SensorDetail extends Component {
               <Typography>
                 <span className="Typography"> Testing zone </span>
               </Typography>
-                <CardActions>
+                <CardContent>
+                  <InputLabel htmlFor="numberValue">Push a value on this sensor:</InputLabel>
+                  <div>
                     <TextField id="numberValue"
                                name="numberValue"
                                label="Value"
                                onChange={(a) => this.setState({ newValue: a.target.value})}
                                helperText={this.state.validNumber ? "Provide a number" : "Please enter a number value"}
                                error={!this.state.newValueValid}/>
-                    <Button variant="contained"
-                            size="small"
+                    <Button type='submit'
+                            variant="contained"
                             color="primary"
                             onTouchTap={() => {this.submitValue()}}>
                       Submit
                     </Button>
-                </CardActions>
+                  </div>
+                </CardContent>
             </Card>
         </Container>
       );

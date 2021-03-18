@@ -156,10 +156,10 @@ class NotifForm extends Component {
             <CardContent>
               <InputLabel htmlFor="actionType">Action type:  &nbsp;&nbsp; </InputLabel>
               <Select multiple={false}
-                input={<Input name="actionType" id="actionType" />}
-                value={this.state.notif.action.type}
-                onChange={(a) => this.handleChange("act_type", a)}
-                title="The type of action to perform">
+                      input={<Input name="actionType" id="actionType" />}
+                      value={this.state.notif.action.type}
+                      onChange={(a) => this.handleChange("act_type", a)}
+                      title="The type of action to perform">
                 <MenuItem key="SocialAction" checked={this.state.notif.action.type == "SocialAction"} value="SocialAction" > Social Network</MenuItem>
                 <MenuItem key="ActuationAction" checked={this.state.notif.action.type == "ActuationAction"} value="ActuationAction" > Actuation</MenuItem>
               </Select>
