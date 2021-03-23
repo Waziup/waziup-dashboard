@@ -247,7 +247,7 @@ class SensorDetail extends Component {
                 <span className="Typography"> Testing zone </span>
               </Typography>
                 <CardContent>
-                  <InputLabel htmlFor="numberValue">Push a value on this sensor:</InputLabel>
+                  <InputLabel htmlFor="numberValue">Push a value to this sensor:</InputLabel>
                   <div>
                     <TextField id="numberValue"
                                name="numberValue"

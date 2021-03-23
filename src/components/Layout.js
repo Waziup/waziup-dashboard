@@ -161,10 +161,10 @@ class Layout extends Component {
     const open = Boolean(anchorEl);
     const Logo = require("../images/logo-waziup-white.png");
     const listItems = [
-      { name: "Projects",      icon: (<AssignmentIcon />)},
       { name: "Devices",       icon: (<SettingsRemoteIcon />)},
       { name: "Gateways",      icon: (<CloudIcon />)},
       { name: "Notifications", icon: (<AlarmIcon />)},
+      { name: "Projects",      icon: (<AssignmentIcon />)},
       { name: "Settings",      icon: (<SettingsIcon />)}
     ]
 
