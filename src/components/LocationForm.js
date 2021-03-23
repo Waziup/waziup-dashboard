@@ -27,12 +27,13 @@ class LocationForm extends Component {
     //setting center of map and pointer location
     this.state = {
       location: initialLocation,
-      center: initialLocation
+      center: initialLocation,
+      zoom: 5
     };
   }
 
   //Get position from the browser
-  getBrowserPosition = () => {
+  setBrowserPosition = () => {
     navigator.geolocation.getCurrentPosition(position => {
       let loc = { 
         latitude: position.coords.latitude, 
@@ -45,19 +46,34 @@ class LocationForm extends Component {
     );
     console.log(this.state.position)
   }
+  
+  centerOnMarker = () => {
+    this.setState({center: this.state.location});
+  }
 
-  choosePosition = (formData) => {
-    var location = this.state.location
+  onMarkerMove = (formData) => {
     location.longitude = formData.latlng.lng
     location.latitude = formData.latlng.lat
     this.setState({location: location})
   }
   
-  handleChange = (formData) => {
+  onFieldChange = (formData) => {
     var location = this.state.location
-    location[formData.target.name] = parseFloat(formData.target.value);
-    this.setState({location: location})
+    let val = parseFloat(formData.target.value);
+    //Check if val is a real number
+    if (Number(val) === val) {
+      location[formData.target.name] = val 
+      this.setState({location: location})
+      this.centerOnMarker();
+    }
   }
+
+  onMapMove = (e: LeafletEvent) => {
+    const { lat, lng: lon } = e.target.getCenter()
+    const zoom = e.target.getZoom()
+    this.setState({center: {latitude: lat, longitude: lon}, zoom: zoom})
+  }
+
 
   render() {
     const actions = [
@@ -67,14 +83,19 @@ class LocationForm extends Component {
     return (
       <Dialog actions={actions} modal open={this.props.modalOpen} autoScrollBodyContent={true}>
         <DialogTitle> Change location... 
-          <Button className="cardTitleIcons" onTouchTap={() => { this.getBrowserPosition() }} variant="contained" color="primary">
+          <Button className="cardTitleIcons" onTouchTap={() => { this.setBrowserPosition() }} variant="contained" color="primary">
             Get your location
           </Button>
         </DialogTitle>
         <DialogContent>
-          <Map className="map" center={[this.state.center.latitude, this.state.center.longitude]} zoom={5}>
+          <Map className="map"
+               center={[this.state.center.latitude, this.state.center.longitude]}
+               zoom={this.state.zoom}
+               onmoveend={this.onMapMove}>
             <TileLayer url='http://{s}.tile.osm.org/{z}/{x}/{y}.png' attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-            <Marker onDrag={(e)=>{this.choosePosition(e)}} position={[this.state.location.latitude, this.state.location.longitude]} draggable={true}>
+            <Marker onDrag={(e)=>{this.onMarkerMove(e)}}
+                    position={[this.state.location.latitude, this.state.location.longitude]}
+                    draggable={true}>
               <Popup>
                 <span>Your device position !</span>
               </Popup>
@@ -86,10 +107,10 @@ class LocationForm extends Component {
             </Typography> 
             <Grid container spacing={24}>
               <Grid item xs={6}>
-                <TextField name="longitude" label="Longitude" value={this.state.location.longitude} onChange={this.handleChange}/>
+                <TextField name="longitude" label="Longitude" value={this.state.location.longitude} onChange={this.onFieldChange}/>
               </Grid>
               <Grid item xs={6}>
-                <TextField name="latitude"  label="Latitude"  value={this.state.location.latitude}  onChange={this.handleChange}/>
+                <TextField name="latitude"  label="Latitude"  value={this.state.location.latitude}  onChange={this.onFieldChange}/>
               </Grid>
             </Grid>
           </div>
