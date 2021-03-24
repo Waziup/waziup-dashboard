@@ -19,7 +19,6 @@ import {
   addActuator, deleteActuator, updateActuatorName, getDevicePermissions
 } from '../../../actions/actions.js';
 import deviceImage from '../../../images/device.png';
-import apiImage from '../../../images/API.png';
 import config from '../../../config';
 import Hidden from '@material-ui/core/Hidden';
 import EditIcon from '@material-ui/icons/Edit';
@@ -27,6 +26,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { DeviceLoader } from './../../Loaders';
 import QRCode from 'qrcode.react';
+import HelpIcon from '@material-ui/icons/Help';
 
 class DeviceDetail extends Component {
   constructor(props) {
@@ -62,11 +62,9 @@ class DeviceDetail extends Component {
     if (this.props.device.device && this.props.device.error == false) {
       const device = this.props.device.device;
       const position = device.location ? [device.location.latitude, device.location.longitude] : [12.238, -1.561];
-      console.log(`pos:${JSON.stringify(position)}`);
       const apiUrl = config.APIServerUrl + "/v2/devices/" + device.id
       return (
         <div className="device">
-          <DeviceHelp device={this.props.device.device} show={this.state.modalHelp} onClose={() => this.setState({ modalHelp: false })}/>
           <Container fluid>
             <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
               <Toolbar>
@@ -74,7 +72,12 @@ class DeviceDetail extends Component {
                 <Typography variant="h5" className="page-title">
                   Device details    
                 </Typography>
-                <img src={apiImage} height="50" onClick={() => this.setState({ modalHelp: true })} style={{"margin-left":"auto"}}/>
+                  <DeviceHelp device={this.props.device.device} />
+                  <div>
+                  <a href={config.docDashboardUrl + "/#devices"} target="_blank">
+                    <HelpIcon style={{ fontSize: 32 }}/>
+                  </a>
+                  </div>
               </Toolbar>
             </AppBar>
             <div className="section">

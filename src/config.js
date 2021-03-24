@@ -9,6 +9,7 @@ module.exports = {
   APIServerUrl: process.env.API_SERVER_URL || 'https://api.waziup.io/api',
   docDashboardUrl: process.env.DOC_DASHBOARD_URL || 'https://www.waziup.io/documentation/wazicloud/dashboard',
   docAPIUrl: process.env.DOC_API_URL || 'https://www.waziup.io/documentation/wazicloud/api/v2',
+  docUrl: process.env.DOC_DASHBOARD_URL || 'https://www.waziup.io/documentation',
   logLevel: process.env.LOG_LEVEL || 'INFO',  
   // Web analytics
   analytics: {
