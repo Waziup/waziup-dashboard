@@ -32,7 +32,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = {
   path: '/',
   component: Layout,
-  indexRoute: { component: Projects },
+  indexRoute: { component: Devices },
   childRoutes: [
     { path: 'notifications', component: Notifs },
     { path: 'notifications/:notifId', component: NotifDetail },

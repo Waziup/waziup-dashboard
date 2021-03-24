@@ -148,7 +148,7 @@ class SensorDetail extends Component {
 
           <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
             <Toolbar>
-            <img src={sensorImage} height="50"/>
+              <img src={sensorImage} height="50"/>
               <Typography variant="h5" className="page-title">
                 Sensor: {this.props.sens.id}
               </Typography>

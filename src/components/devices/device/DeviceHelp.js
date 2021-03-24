@@ -11,27 +11,39 @@ export default class DeviceHelp extends Component {
   render() {
     const device = this.props.device;
     const apiUrl = config.APIServerUrl + "/v2/devices/" + device.id
-    if(!this.props.show){
-          return null;
-      }
+    if (this.props.show == false){
+      return null;
+    }
     return (
       <div class='help'>
-        <span class="close" onClick={this.props.onClose()}>&times;</span>
+        <span class="close" onClick={this.props.onClose}>&times;</span>
         <span>
           <h1> This is your device!</h1>
+          
+          It's ID is <b>{device.id}</b>.
+          The WaziGate will push informations on this device automatically, provided that the device on the gateway has the <b>same ID</b>.<br/>
           You can access this device through the API in various ways.<br/>
           More information in the <a href={config.docAPIUrl} target="_blank">API documentation</a>.
-          <h5> HTTP </h5>
-          <a href={apiUrl} target="_blank">{apiUrl}</a>
-          <h4> cURL </h4>
-          <pre> curl {apiUrl} </pre>
-          <h4> Python </h4>
-          <pre> <code>
-            {"import requests\n resp = requests.get('" + apiUrl + "')\nprint(resp.json())"}
+          <h2> How to retrieve this device in your application? </h2>
+          <h3> HTTP </h3>
+          <pre><code>
+            <a href={apiUrl} target="_blank">{apiUrl}</a>
+          </code></pre>
+          <h3> cURL </h3>
+          <pre><code>
+            curl {apiUrl}
+          </code></pre>
+          <h3> Python </h3>
+          <pre><code>
+            import requests <br/>
+            resp = requests.get({apiUrl}) <br/>
+            print(resp.json())
           </code> </pre>
-          <h4> NodeJS </h4>
-          <pre> <code>
-            {"const axios = require('axios');\n let resp = await axios.get('" + apiUrl + "');\nconsole.log(JSON.stringify(resp.data));"}
+          <h3> NodeJS </h3>
+          <pre><code>
+            const axios = require('axios'); <br/>
+            let resp = await axios.get({apiUrl}); <br/>
+            console.log(JSON.stringify(resp.data));
           </code> </pre>
 
         </span>

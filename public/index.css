@@ -619,8 +619,8 @@ pre{
   position: fixed; /* Stay in place */
   z-index: 10000; /* Sit on top */
   padding: 10px; /* Location of the box */
-  width: 70%; /* Full width */
-  height: 70%; /* Full height */
+  width: 60%; /* Full width */
+  height: 80%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
 }
 
@@ -636,4 +636,11 @@ pre{
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+pre code {
+  background-color: #f2f2f2;
+  border: 1px solid #999;
+  display: block;
+  padding: 20px;
 }
