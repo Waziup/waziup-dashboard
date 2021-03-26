@@ -30,6 +30,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import CardActions from "@material-ui/core/CardActions";
 import SensorHelp from './SensorHelp';
+import HelpIcon from '@material-ui/icons/Help';
 
 const styles = () => ({
   button: {
@@ -152,7 +153,12 @@ class SensorDetail extends Component {
               <Typography variant="h5" className="page-title">
                 Sensor: {this.props.sens.id}
               </Typography>
-              <SensorHelp device={this.props.device} sensor={this.props.sens} />
+              <div className="titleIcons">
+                <SensorHelp device={this.props.device} sensor={this.props.sens} />
+                <a href={config.docDashboardUrl + "/#sensors"} target="_blank">
+                  <HelpIcon className="helpIcon" />
+                </a>
+              </div>
             </Toolbar>
           </AppBar>
 

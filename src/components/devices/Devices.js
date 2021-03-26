@@ -29,6 +29,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router';
 import { ListLoader } from './../Loaders';
 import HelpIcon from '@material-ui/icons/Help';
+import downloadImage from '../../images/download.png';
 
 const styles = theme => ({
   root: {
@@ -98,26 +99,10 @@ class Devices extends Component {
     const value = event.target.value;
     var filter = this.state.filter;
     switch (field) {
-      case "domain":
-        {
-          filter.domain = value;
-          break;
-        }
-      case "owner":
-        {
-          filter.owner = value;
-          break;
-        }
-      case "visibility":
-        {
-          filter.visibility = value;
-          break;
-        }
-      case "status":
-        {
-          filter.status = value;
-          break;
-        }
+      case "domain":     { filter.domain = value; break;}
+      case "owner":      { filter.owner = value; break;}
+      case "visibility": { filter.visibility = value; break;}
+      case "status":     { filter.status = value; break;}
     }
     this.setState({ filter: filter })
     //re-filter the devices
@@ -166,9 +151,14 @@ class Devices extends Component {
             <Typography variant="h5" className="page-title">
               Devices       
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#devices"} target="_blank">
-              <HelpIcon />
-            </a>
+            <div className="titleIcons">
+              <a href="https://github.com/Waziup/WaziDev/archive/refs/heads/master.zip">
+                <img src={downloadImage} height="40"/>
+              </a>
+              <a href={config.docDashboardUrl + "/#devices"} target="_blank">
+                <HelpIcon className="helpIcon" />
+              </a>
+            </div>
           </Toolbar>
         </AppBar>
         <DeviceForm gateways={this.props.gateways}
@@ -247,7 +237,8 @@ class Devices extends Component {
           <Button variant="contained"
                   color="primary"
                   className="addResourceButton"
-                  onTouchTap={() => this.setState({ modalAddDevice: true })} >
+                  onTouchTap={() => this.setState({ modalAddDevice: true })} 
+                  style={{"animation": "blinker 1s linear infinite;"}}>
             Add a device
           </Button>
         : null}

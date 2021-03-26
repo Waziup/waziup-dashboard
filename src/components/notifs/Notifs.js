@@ -51,7 +51,7 @@ class Notifs extends Component {
               Notifications       
             </Typography>
             <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#notifications"} target="_blank">
-              <HelpIcon />
+              <HelpIcon className="helpIcon"/>
             </a>
           </Toolbar>
         </AppBar>

@@ -55,7 +55,7 @@ class Projects extends Component {
               Projects       
             </Typography>
             <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#projects"} target="_blank">
-              <HelpIcon />
+              <HelpIcon className="helpIcon"/>
             </a>
           </Toolbar>
         </AppBar>

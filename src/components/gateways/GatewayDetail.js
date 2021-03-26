@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import {
   Map, Marker, Popup, TileLayer,
 } from 'react-leaflet';
+import HelpIcon from '@material-ui/icons/Help';
 
 class GatewayDetail extends Component {
 
@@ -66,11 +67,7 @@ class GatewayDetail extends Component {
     const gateway = this.props.gateway;
     console.log(gateway);
     if (gateway) {
-      const position = gateway.location ? [
-        gateway.location.latitude, gateway.location.longitude,
-      ] : [
-        12.238, -1.561,
-      ];
+      const position = gateway.location ? [gateway.location.latitude, gateway.location.longitude] : [12.238, -1.561];
       renderElement = (
         <Container fluid>
           <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
@@ -79,6 +76,11 @@ class GatewayDetail extends Component {
               <Typography variant="h5" className="page-title">
                 Gateway Details    
               </Typography>
+            <div className="titleIcons">
+              <a href={config.docDashboardUrl + "/#gateways"} target="_blank">
+                <HelpIcon className="helpIcon" />
+              </a>
+            </div>
             </Toolbar>
           </AppBar>
           { this.state.loading

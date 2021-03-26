@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import GatewayNetwork from "./GatewayNetwork.js";
 import { Container } from "react-grid-system";
 import {
   getDevices,
@@ -36,6 +35,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import FilterList from '@material-ui/icons/FilterList';
+import downloadImage from '../../images/download.png';
 
 class Gateways extends Component {
   
@@ -86,21 +86,9 @@ class Gateways extends Component {
     const value = event.target.value;
     var filter = this.state.filter;
     switch (field) {
-      case "owner":
-        {
-          filter.owner = value;
-          break;
-        }
-      case "visibility":
-        {
-          filter.visibility = value;
-          break;
-        }
-      case "connected":
-        {
-          filter.connected = value;
-          break;
-        }
+      case "owner":      {filter.owner = value; break;}
+      case "visibility": {filter.visibility = value; break;}
+      case "connected":  {filter.connected = value; break;}
     }
     this.setState({ filter: filter })
     //re-filter the devices
@@ -145,8 +133,11 @@ class Gateways extends Component {
             <Typography variant="h5" className="page-title">
               Gateways
             </Typography>
-            <a style={{marginLeft: 'auto'}} href={config.docDashboardUrl + "/#gateways"} target="_blank">
-              <HelpIcon />
+            <a style={{marginLeft: 'auto'}} href="https://downloads.waziup.io/WaziGate_latest.zip">
+              <img src={downloadImage} height="40"/>
+            </a>
+            <a href={config.docDashboardUrl + "/#gateways"} target="_blank">
+              <HelpIcon className="helpIcon"/>
             </a>
           </Toolbar>
         </AppBar>

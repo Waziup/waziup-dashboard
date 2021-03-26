@@ -72,12 +72,12 @@ class DeviceDetail extends Component {
                 <Typography variant="h5" className="page-title">
                   Device details    
                 </Typography>
+                <div className="titleIcons">
                   <DeviceHelp device={this.props.device.device} />
-                  <div>
                   <a href={config.docDashboardUrl + "/#devices"} target="_blank">
-                    <HelpIcon style={{ fontSize: 32 }}/>
+                    <HelpIcon className="helpIcon"/>
                   </a>
-                  </div>
+                </div>
               </Toolbar>
             </AppBar>
             <div className="section">

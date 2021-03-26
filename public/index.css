@@ -578,15 +578,6 @@ ul {
   float: left;
 }
 
-.iconGateway {
-  float: left;
-  /*margin-top: 65px;*/
-}
-
-/* .gatewayLine {
-  border-top: 5px dashed orange !important;
-} */
-
 a {
   color: #000 !important
 }
@@ -648,4 +639,14 @@ pre code {
   border: 1px solid #999;
   display: block;
   padding: 20px;
+}
+
+.helpIcon {
+  font-size: 32px !important;
+}
+
+.titleIcons {
+  display: flex;
+  margin-left: auto;
+  align-items: center;
 }
