@@ -16,6 +16,8 @@ export default class SensorHelp extends Component {
     const device = this.props.device;
     const sensor = this.props.sensor;
     const apiUrl = config.APIServerUrl + "/v2/devices/" + device.id + "/sensors/" + sensor.id
+    const mqttUrl = "mqtt://api.waziup.io/devices/" + device.id + "/sensors/" + sensor.id + "/value"
+
     return (
       <div style={{"margin-left":"auto"}}>
       <img src={apiImage} height="50" onClick={() => this.setState({show: true})}/>
@@ -67,8 +69,19 @@ export default class SensorHelp extends Component {
             <h2> How to <b>get data</b> from this sensor? </h2>
             Your application can retrieve data in various ways:
             <h3> HTTP </h3>
+            You can simply open this link in your browser to get the sensor's details:
             <pre><code>
               <a href={apiUrl} target="_blank">{apiUrl}</a>
+            </code></pre>
+            To get more values from the sensor, add "/values" at the end:
+            <pre><code>
+              <a href={apiUrl + "/values"} target="_blank">{apiUrl}/values</a>
+            </code></pre>
+            Several query strings can be added, such as <code>?limit=100</code>. See the <a href={config.docAPIUrl + "#read-sensor-values"} target="_blank">documentation</a> for more.
+            <h3> MQTT </h3>
+            You can subscribe on this sensor this way:
+            <pre><code>
+              mosquitto_sub -L "mqtt://api.waziup.io/devices/MyDevice/sensors/TC1/value"
             </code></pre>
             <h3> Command line </h3>
             <pre><code>
