@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { getDevices, getGateways } from "../../actions/actions.js";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
