@@ -22,6 +22,10 @@ You can also run it against the Cloud instance:
 API_SERVER_URL=https://api.waziup.io/api KEYCLOAK_URL=https://keycloak.waziup.io/auth yarn start
 ```
 
+You can also run it against the your local Cloud instance:
+```
+API_SERVER_URL=http://localhost:800/api KEYCLOAK_URL=http://localhost:8080/auth yarn start
+```
 
 
 Copyright
