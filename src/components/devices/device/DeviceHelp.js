@@ -39,13 +39,13 @@ export default class DeviceHelp extends Component {
               <h3> Python </h3>
               <pre><code>
                 import requests <br/>
-                resp = requests.get({apiUrl}) <br/>
+                resp = requests.get("\"" + {apiUrl} + "\"") <br/>
                 print(resp.json())
               </code> </pre>
               <h3> NodeJS </h3>
               <pre><code>
                 const axios = require('axios'); <br/>
-                let resp = await axios.get({apiUrl}); <br/>
+                let resp = await axios.get("\"" + {apiUrl} + "\""); <br/>
                 console.log(JSON.stringify(resp.data));
               </code> </pre>
             </span>
