@@ -110,7 +110,7 @@ export default class NotifCard extends Component {
                           <ListItemIcon>
                             <Person />
                           </ListItemIcon>
-                          no user iniformation
+                          no user information
                         </ListItem>
                       )}
                     </List>
