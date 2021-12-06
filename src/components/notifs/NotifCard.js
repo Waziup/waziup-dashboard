@@ -29,7 +29,7 @@ export default class NotifCard extends Component {
     let maxlimit = 20;
 
     return (
-      <Card className="card">
+      <Card className="card" style={{maxWidth:'500px'}}>
         <div className="TypographyDiv">
           <Hidden mdUp implementation="css">
             <pre className="Typography">
@@ -62,7 +62,7 @@ export default class NotifCard extends Component {
               <div class="notif-contents">
                 <div class="notif-contents-left">
                   <div>
-                    <img src={bellImage} height="100" />
+                    <img src={bellImage} height="80" className="sensor-icon"/>
                     <img src={deviceImage} height="32" style={{ left: "20" }} />
                   </div>
                 </div>
