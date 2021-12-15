@@ -11,7 +11,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Person from "@material-ui/icons/Person";
 import Share from "@material-ui/icons/Share";
-import Group from "@material-ui/icons/Group";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 
@@ -27,9 +26,21 @@ export default class NotifCard extends Component {
     let notif = this.props.notif;
     let notifName = notif.condition.devices + "->" + notif.condition.sensors;
     let maxlimit = 20;
+    let tooltip =
+      (notif.status ? "status: " + notif.status + "\n" : "") +
+      (notif.times_sent ? "times sent: " + notif.times_sent + "\n" : "") +
+      (notif.last_success ? "last success: " + notif.last_success + "\n" : "") +
+      (notif.last_success_code
+        ? "last success code: " + notif.last_success_code + "\n"
+        : "") +
+      (notif.last_failure ? "last failure: " + notif.last_failure + "\n" : "") +
+      (notif.last_failure_reason
+        ? "last failure reason: " + notif.last_failure_reason + "\n"
+        : "") +
+      (notif.last_notif ? "last notification: " + notif.last_notif : "");
 
     return (
-      <Card className="card">
+      <Card className="card" title={tooltip}>
         <div className="TypographyDiv">
           <Hidden mdUp implementation="css">
             <pre className="Typography">
@@ -88,20 +99,18 @@ export default class NotifCard extends Component {
                       {notif.action.value.usernames.length !== 0 ? (
                         <ListItem>
                           <ListItemIcon>
-                            {notif.action.value.usernames.length > 1 ? (
-                              <Group />
-                            ) : (
-                              <Person />
-                            )}
+                            <Person />
                           </ListItemIcon>
-                          {notif.action.value.usernames[0]}
+                          {notif.action.value.usernames.length > 1
+                            ? notif.action.value.usernames[0] + "..."
+                            : notif.action.value.usernames[0]}
                         </ListItem>
                       ) : (
                         <ListItem>
                           <ListItemIcon>
                             <Person />
                           </ListItemIcon>
-                          no user
+                          no user information
                         </ListItem>
                       )}
                     </List>
@@ -122,7 +131,7 @@ export default class NotifCard extends Component {
                           <ListItemIcon>
                             <Share />
                           </ListItemIcon>
-                          no channel
+                          no channel information
                         </ListItem>
                       )}
                     </List>
