@@ -128,7 +128,8 @@ export default class SensIcon extends Component {
       case "WindDirectionDevice":             
       case "WindSpeedDevice":                
       default:
-        icon = gauge; break;
+        icon = gauge; 
+        break;
     }
 
     return (

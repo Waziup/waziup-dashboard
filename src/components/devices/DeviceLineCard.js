@@ -46,7 +46,6 @@ export default class DeviceLineCard extends Component {
       new Date() < Date.parse(device.date_created) + config.delayDeviceNew;
     let deviceName = device.name ? device.name + " " : "No name (" + device.id + ")";
     let maxlimit = 20;
-
     return (
       <Card className="longCard">
         <div>
