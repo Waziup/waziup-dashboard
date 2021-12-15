@@ -84,7 +84,7 @@ export default class NotifCard extends Component {
                       ? notif.condition.expression
                       : ""}{" "}
                   </div>
-                  <div className="notifMsg">
+                  <div style={{ fontSize: 16, padding: "10px 10px 10px 0px" }}>
                     {" "}
                     {notif.action.value.message.length > 20
                       ? notif.action.value.message.substring(0, 50) + "..."

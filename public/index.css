@@ -671,14 +671,16 @@ pre code {
   height: 100%;
   /* border:dashed yellow; */
 }
+.notif-contents-left .notifExpres {
+  font-size: 50px;
+}
+.notif-contents-left .notifMsg {
+  font-size: 5em;
+}
 .notif-contents-left {
   width: 40%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.notifMsg {
-  font-size: 16; 
-  padding: "10px 10px 10px 0px"
 }
