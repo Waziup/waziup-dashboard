@@ -94,18 +94,11 @@ class DeviceDetail extends Component {
                                   gateways={this.props.gateways}
                                   updateSensor={this.props.addSensor}
                                   updateActuator={this.props.addActuator}
+                                  updateDeviceName={this.props.updateDeviceName}
+                                  updateDeviceVisibility={this.props.updateDeviceVisibility}
+                                  updateDeviceGatewayId={this.props.updateDeviceGatewayId}
                                   user={this.props.user}
                                   settings={this.props.settings}/>
-                  <DeviceForm device={device}
-                              gateways={this.props.gateways}
-                              isEdit={true}
-                              modalOpen={this.state.modalEdit}
-                              handleClose={() => this.setState({ modalEdit: false })}
-                              onSubmit={s => {
-                                this.props.updateDeviceName(device.id, s.name),
-                                this.props.updateDeviceVisibility(device.id, s.visibility)
-                                this.props.updateDeviceGatewayId(device.id, s.gateway_id)
-                              }} />
                   <Card className="mapCard">
                     <span className="Typography">
                       {' '}

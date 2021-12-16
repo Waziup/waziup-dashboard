@@ -178,13 +178,13 @@ class SensorDetail extends Component {
                   this.setState({ modalAddCalib: false });
                 }}
                 isEdit={false} /> 
-              <NotifForm modalOpen={this.state.modalAddNotif}
-                notif={defaultNotif}
-                devices={this.props.devices}
-                users={this.props.users}
-                onSubmit={this.props.createNotif}
-                handleClose={() => this.setState({ modalAddNotif: false })}
-                isEditable={true} />
+              <NotifForm  modalOpen={this.state.modalAddNotif}
+                          notif={defaultNotif}
+                          devices={this.props.devices}
+                          users={this.props.users}
+                          onSubmit={this.props.createNotif}
+                          handleClose={() => this.setState({ modalAddNotif: false })}
+                          isEditable={true} />
             </Typography>
             <SensorCard sensor={this.props.sens}
               isDetails={true}
@@ -210,15 +210,15 @@ class SensorDetail extends Component {
                            values={this.props.values}
                            timeAxis={this.state.timeAxis} />
                 <Grid container spacing={24}>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={4} md={4} lg={3} >
                     <h4>Range from: </h4>
                     <DayPickerInput onDayChange={this.handleDateFrom} />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={4} md={4} lg={3}>
                     <h4> To:</h4>
                     <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={12} sm={4} md={4} lg={3}>
                     <h4> Number of Datapoints:</h4>
                     <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
                   </Grid>
@@ -226,14 +226,14 @@ class SensorDetail extends Component {
                     <FormControl>
                       <InputLabel htmlFor="timeAxis">Use time from</InputLabel>
                       <Select 
-                      input={<Input name="timeAxis" id="timeAxis" />}
-                      value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
+                        input={<Input name="timeAxis" id="timeAxis" />}
+                        value={this.state.timeAxis} onChange={this.handleTimeAxis} title="Time Axis">
                         <MenuItem value="cloud">Cloud timestamp</MenuItem>
                         <MenuItem value="device">Device timestamp</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={4} md={3} lg={2}>
                     <Button type='submit'
                             onClick={this.handleApply}
                             variant="contained" 
@@ -241,7 +241,7 @@ class SensorDetail extends Component {
                       Update graph
                     </Button>
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={6} sm={4} md={3} lg={2}>
                     <a href={config.APIServerUrl + "/v2/sensors_data?" + querystring.stringify(query)} target="_blank">
                       <Button variant="contained" color="primary">Download data</Button>
                     </a>

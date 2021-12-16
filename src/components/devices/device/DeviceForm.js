@@ -84,63 +84,70 @@ class DeviceForm extends Component {
           <DialogTitle>{this.props.isEdit? "Update A Device": "Add A Device"}</DialogTitle>
           <DialogContent>
 
-          <Grid container spacing={24}>
-        <Grid item xs={6}>
-        <TextField 
-          name="id" 
-          disabled={this.props.isEdit} 
-          label="Device ID" 
-          value={this.state.device.id} 
-          onChange={this.handleChange} 
-          title="ID used by the gateway to send data"
-          fullWidth
-          />
-        </Grid>
-        <Grid item xs={6}>
-        <TextField
-          id="standard-name"
-          name="name"
-          label="Device name"
-          value={this.state.device.name}
-          onChange={this.handleChange}
-          fullWidth
-        />
-        </Grid>
-        <Grid item xs={6}>
-        <TextField name="domain"  label="Domain" fullWidth value={this.state.device.domain} onChange={this.handleChange} title="Domain this device belongs to"/>
-        </Grid>
-        <Grid item xs={6}>
-        <FormControl fullWidth>
-          <InputLabel htmlFor="gateway_id">Gateway</InputLabel>
-          <Select
-            input={<Input name="gateway_id" id="gateway_id" />}
-            value={this.state.device.gateway_id}
-            onChange={this.handleGatewayChange}
-          >
-            {this.state.gateways.map(s => (
-              <MenuItem
-                key={s.id}
-                checked={this.state.device.gateway_id == s.id}
-                value={s.id}
-              >
-                {s.id}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        </Grid>
-        <Grid item xs={6}>
-        <FormControl fullWidth>
-          <InputLabel htmlFor="visibility">Visibility</InputLabel>
-          <Select
-          input={<Input name="visibility" id="visibility" />}
-          value={this.state.device.visibility} onChange={this.handleChangeVisibility} title="Public visibility of the device">
-            <MenuItem value="public">Public</MenuItem>
-            <MenuItem value="private">Private</MenuItem>
-          </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
+            <Grid container spacing={24}>
+              <Grid item xs={6}>
+                <TextField 
+                  name="id" 
+                  disabled={this.props.isEdit} 
+                  label="Device ID" 
+                  value={this.state.device.id} 
+                  onChange={this.handleChange} 
+                  title="ID used by the gateway to send data"
+                  fullWidth
+                  />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  id="standard-name"
+                  name="name"
+                  label="Device name"
+                  value={this.state.device.name}
+                  onChange={this.handleChange}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField 
+                  name="domain"  
+                  label="Domain" 
+                  fullWidth 
+                  value={this.state.device.domain} 
+                  onChange={this.handleChange} 
+                  title="Domain this device belongs to" 
+                  disabled/>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="gateway_id">Gateway</InputLabel>
+                  <Select
+                    input={<Input name="gateway_id" id="gateway_id" />}
+                    value={this.state.device.gateway_id}
+                    onChange={this.handleGatewayChange}
+                  >
+                    {this.state.gateways.map(s => (
+                      <MenuItem
+                        key={s.id}
+                        checked={this.state.device.gateway_id == s.id}
+                        value={s.id}
+                      >
+                        {s.id}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor="visibility">Visibility</InputLabel>
+                  <Select
+                    input={<Input name="visibility" id="visibility" />}
+                    value={this.state.device.visibility} onChange={this.handleChangeVisibility} title="Public visibility of the device">
+                    <MenuItem value="public">Public</MenuItem>
+                    <MenuItem value="private">Private</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
           </DialogContent>
           <DialogActions>
             {actions}

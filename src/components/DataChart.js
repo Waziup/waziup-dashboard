@@ -70,10 +70,7 @@ class DataChart extends Component {
             <Tooltip formatter={yFormatter}
                      labelFormatter={xFormatter} />
             <CartesianGrid strokeDasharray="3 3" />
-            <Legend align='right'
-                    verticalAlign='top'
-                    layout="vertical"
-                    wrapperStyle={{ right: '35px', top: '10px', border: '2px solid beige', padding: '5px 0px 5px 5px' }}/>
+
             {grouped2.map((line, index) => (
               <Line name={line.name}
                     data={line.data}

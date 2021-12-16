@@ -16,7 +16,7 @@ body {
   }
 
 #app{
-   background: #34425A;
+   background: #34425a;
    position: relative;
    overflow-x: hidden;
    -webkit-transition: -webkit-transform 0.4s;
@@ -125,7 +125,7 @@ body {
     position: absolute;
     bottom: 0;
     padding: 14px 18px;
-    
+
 }
 .page-title {
     padding: 20px;
@@ -649,4 +649,34 @@ pre code {
   display: flex;
   margin-left: auto;
   align-items: center;
+}
+
+/*******************my code starts******************/
+
+.parent {
+  width: 600px;
+  height: 350px;
+  /* border: solid; */
+}
+.typo {
+  /* border: dashed; */
+}
+.notif-contents {
+  height: auto;
+  display: flex;
+}
+.notif-contents-right {
+  width: 60%;
+  height: 100%;
+}
+.notif-contents-left {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notifMsg {
+  font-size: 16; 
+  padding: "10px 10px 10px 0px"
 }

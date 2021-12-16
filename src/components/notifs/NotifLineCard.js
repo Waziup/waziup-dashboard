@@ -24,7 +24,7 @@ export default class NotifLineCard extends Component {
   render() {
     let notif = this.props.notif
     return (
-      <Card className="longCard">
+      <Card className="card" style={{width:'100%'}}>
         <span className="Typography"> {notif.description} </span>
         <div className="contentCards">
           <Grid container

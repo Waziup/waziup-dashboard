@@ -263,7 +263,4 @@ const mapDispatchToProps = {
   getGatewayAttributes
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Gateways);
+export default connect( mapStateToProps, mapDispatchToProps )(Gateways);

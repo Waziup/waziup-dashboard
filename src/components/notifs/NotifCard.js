@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Person from '@material-ui/icons/Person';
 import Share from '@material-ui/icons/Share';
+import Group from "@material-ui/icons/Group";
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 
@@ -26,58 +27,88 @@ export default class NotifCard extends Component {
     let notif = this.props.notif
     let notifName = notif.condition.devices + '->' + notif.condition.sensors
     let maxlimit = 20;
-    let tooltip = (notif.status ? "status: " + notif.status + "\n" : "") + 
-                  (notif.times_sent ? "times sent: " + notif.times_sent + "\n" : "") + 
-                  (notif.last_success ? "last success: " + notif.last_success + "\n" : "") + 
-                  (notif.last_success_code ? "last success code: " + notif.last_success_code + "\n" : "") + 
-                  (notif.last_failure ? "last failure: " + notif.last_failure + "\n" : "") + 
-                  (notif.last_failure_reason ? "last failure reason: " + notif.last_failure_reason + "\n" : "") + 
-                  (notif.last_notif ? "last notification: " + notif.last_notif : "")
 
     return (
-      <Card className="card" title={tooltip}>
+      <Card className="card" style={{maxWidth:'500px'}}>
         <div className="TypographyDiv">
           <Hidden mdUp implementation="css">
             <pre className="Typography"> {((notifName).length > maxlimit) ? (((notifName).substring(0, maxlimit - 3)) + '...') : notifName} </pre>
           </Hidden>
           <Hidden smDown implementation="css">
-            <pre className="Typography"> {notifName} </pre>
+            <pre className="Typography"> {/*{notifName}*/} </pre>
           </Hidden>
-          <div className="cardTitleIcons"> 
-            {this.props.isEditable? <EditIcon onClick={() => this.setState({modalEdit: true})}/>: null }
-            {this.props.isEditable? <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id)}}/>: null }
+          <div className="cardTitleIcons">
+            {this.props.isEditable ? (<EditIcon onClick={() => this.setState({ modalEdit: true })} />) : null}
+            {this.props.isEditable ? (<DeleteIcon onClick={() => {if (window.confirm("Delete notification?")) this.props.deleteNotif(notif.id)}} />) : null}
           </div>
         </div>
         <div className="cardContent">
-          <Link to={this.props.isEditable? "/notifications/" + notif.id: ""} >
-            <div className="notifSubject">
-              <div className="notifIcon">
-                <img src={bellImage} height="80"/>
-                <img src={deviceImage} height="32"/>
+        <Link to={this.props.isEditable ? "/notifications/" + notif.id : ""}>
+            <div class="">
+              <div class="notif-contents">
+                <div class="notif-contents-left">
+                  <div>
+                    <img src={bellImage} height="80" className="sensor-icon" />
+                    <img src={deviceImage} height="32" style={{ left: "20" }} />
+                  </div>
+                </div>
+                <div class="notif-contents-right">
+                  <div style={{ fontSize: 25 }}>
+                    {" "}
+                    {notif.condition.expression
+                      ? notif.condition.expression
+                      : ""}{" "}
+                  </div>
+                  <div style={{ fontSize: 16, padding: "10px 10px 10px 0px" }}>
+                    {" "}
+                    {notif.action.value.message.length > 20
+                      ? notif.action.value.message.substring(0, 50) + "..."
+                      : notif.action.value.message}{" "}
+                  </div>
+                </div>
               </div>
-              <div className="notifExpr"> 
-                <h3> {(notif.condition.expression? notif.condition.expression: "")} </h3>
-              </div>
-            </div>  
-            <div className="notifMsg">
-              <pre> {notif.action.value.message} </pre>
-            </div> 
-            <div className="notifUsersChannels">
-              <Grid container direction="row" justify="flex-start" alignItems="center" spacing={24}>
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <List className="notifUsers">
-                      {notif.action.value.usernames ? notif.action.value.usernames.map((u,index) => <ListItem key={index}>
-                      <ListItemIcon><Person/></ListItemIcon>{u}</ListItem>): null}
-                  </List>
+              <div className="notifUsersChannels">
+                <Grid container direction="row">
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <List className="notifUsers">
+                      {notif.action.value.usernames.length !== 0 ? (
+                        <ListItem>
+                          <ListItemIcon>{notif.action.value.usernames.length > 1 ? <Group /> : <Person /> }</ListItemIcon>
+                          {notif.action.value.usernames[0]}
+                        </ListItem>
+                      ) : (
+                        <ListItem>
+                          <ListItemIcon>
+                            <Person />
+                          </ListItemIcon>
+                          no user
+                        </ListItem>
+                      )}
+                    </List>
                   </Grid>
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <List className="notifChannels">
-                      {notif.action.value.channels ? notif.action.value.channels.map((c,index) => <ListItem key={index}>
-                        <ListItemIcon><Share/></ListItemIcon>
-                          {c}</ListItem>): null}
-                  </List>
+                  <Grid item xs={12} sm={6} md={6} lg={6}>
+                    <List className="notifChannels">
+                      {notif.action.value.channels.length !== 0 ? (
+                        <ListItem>
+                          <ListItemIcon>
+                            <Share />
+                          </ListItemIcon>
+                          {notif.action.value.channels.map(
+                            (c, index) => c + "   "
+                          )}
+                        </ListItem>
+                      ) : (
+                        <ListItem>
+                          <ListItemIcon>
+                            <Share />
+                          </ListItemIcon>
+                          no channel
+                        </ListItem>
+                      )}
+                    </List>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </div>
             </div>
           </Link>
         </div>
