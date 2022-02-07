@@ -105,7 +105,7 @@
     "front-matter": "^2.1.2",
     "glob": "^7.1.2",
     "jest": "^20.0.4",
-    "markdown-it": "^8.3.1",
+    "markdown-it": "^12.3.2",
     "mkdirp": "^0.5.1",
     "opn-cli": "^3.1.0",
     "pixrem": "^4.0.1",
