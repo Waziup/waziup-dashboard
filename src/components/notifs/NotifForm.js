@@ -41,10 +41,11 @@ class NotifForm extends Component {
       description: "Waziup notification",
       throttling: 1,
       expires: moment(tomorrow).format()}
-    this.state = {
-      notif: props.notif? props.notif: defaultNotif,
-      devices: [],
-    };
+      this.state = {
+        notif: props.notif? props.notif: defaultNotif,
+        devices: [],
+        search: "",
+      };
   }
 
   compare(a,b) {
@@ -58,6 +59,10 @@ class NotifForm extends Component {
   componentWillMount() {
     let devices =  this.props.devices.sort(this.compare);
     this.setState({devices: devices })
+  }
+  
+  handleSearchInput = (ev) => {
+    this.setState({search: ev.target.value});
   }
 
   handleChange = (field, event) => {
@@ -90,14 +95,23 @@ class NotifForm extends Component {
       <Button color="primary" key="cancel" onTouchTap={()=>{this.props.handleClose(); }}>Cancel</Button>,
       <Button color="primary" key="submit" onTouchTap={()=>{this.props.onSubmit(this.state.notif); this.props.handleClose();}}>Submit</Button>,
     ];
+
+    console.log(this.state.devices);
     
     //Device list proposed
-    let deviceItems = this.state.devices.map(s => 
-      <MenuItem key={s.id}
-                checked={this.state.notif.condition.devices.includes(s.id)}
-                value={s.id}>
-        {s.id}
-      </MenuItem>)
+    let deviceItems = this.state.devices
+      .filter(device => {
+        if(!this.state.search) return true; // no search string = no filter
+        return device.id.toLowerCase().includes(this.state.search.toLowerCase()) ||
+          (device.name && device.name.toLowerCase().includes(this.state.search.toLowerCase()))
+      })
+      .map(device => 
+        <MenuItem key={device.id}
+                  checked={this.state.notif.condition.devices.includes(device.id)}
+                  value={device.id}>
+          {device.name || device.id}
+        </MenuItem>
+      );
     
     //Sensors list on the device selected
     let sensorItems = this.props.devices.filter(s => 
@@ -171,12 +185,17 @@ class NotifForm extends Component {
             <CardContent>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
-                <Select multiple={true}
+
+                {/* //TODO: adding search functionalitya */}
+                <Select multiple
                         input={<Input name="devices" id="devices" />}
                         value={this.state.notif.condition.devices}
                         onChange={(s) => this.handleChange("devices", s)}
                         title="Device to uses">
+
+                  <TextField name="device" placeholder='device' style={{display: 'flex'}} title="Short description for your notification" onInput={this.handleSearchInput}/>
                   {deviceItems}
+                  
                 </Select>
               </FormControl>
               <FormControl style={{display: 'flex'}}>
