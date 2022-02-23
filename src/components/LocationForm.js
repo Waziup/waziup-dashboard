@@ -68,7 +68,8 @@ class LocationForm extends Component {
     }
   }
 
-  onMapMove = (e: LeafletEvent) => {
+  //onMapMove = (e: LeafletEvent) => {
+  onMapMove = (e) => {
     const { lat, lng: lon } = e.target.getCenter()
     const zoom = e.target.getZoom()
     this.setState({center: {latitude: lat, longitude: lon}, zoom: zoom})

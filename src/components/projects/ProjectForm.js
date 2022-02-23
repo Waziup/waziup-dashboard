@@ -200,7 +200,15 @@ class ProjectForm extends Component {
                         input={<Input name="devices" id="devices" />}
                         value={this.state.project.device_ids}
                         onChange={s => this.handleChange("devices", s)}>
-                  {this.state.devices.map(s => (
+
+                  {this.state.devices
+                  .filter(device => {
+                    for(const id of this.state.project.gateway_ids)
+                      if (device.gateway_id === id)
+                        return true;
+                    return false;
+                  })
+                  .map(s => (
                     <MenuItem key={s.id}
                               checked={this.state.project.device_ids.includes(s.id)}
                               value={s.id}>

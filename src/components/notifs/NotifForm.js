@@ -124,7 +124,7 @@ class NotifForm extends Component {
           </MenuItem>))
    
     //users for Socials
-    let userItems = this.props.users && this.props.users.length !=0 ? this.props.users.map(u => 
+    let userItems = this.props.users && this.props.users.length !=0  ? this.props.users.map(u => 
       <MenuItem key={u.username}
                 value={u.username}
                 checked={this.state.notif.action.value.usernames ? this.state.notif.action.value.usernames.includes(u.username): null}>
@@ -155,7 +155,7 @@ class NotifForm extends Component {
                       checked={this.state.notif.action.value.actuator_id == m.id}
                       value={m.id}>
               {m.id}
-            </MenuItem>))
+            </MenuItem>))      
 
     return (
       <Dialog actions={actions}
@@ -185,8 +185,7 @@ class NotifForm extends Component {
             <CardContent>
               <FormControl style={{display: 'flex'}}>
                 <InputLabel htmlFor="devices">Devices</InputLabel>
-
-                {/* //TODO: adding search functionalitya */}
+               
                 <Select multiple
                         input={<Input name="devices" id="devices" />}
                         value={this.state.notif.condition.devices}
@@ -246,6 +245,7 @@ class NotifForm extends Component {
                              value={this.state.notif.action.value.message}
                              onChange={(m) => this.handleChange("act_message", m)}
                              title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
+                   {/* //TODO: adding search functionality */}
                   <FormControl style={{display: 'flex'}}>
                     <InputLabel htmlFor="usernames">Users</InputLabel>
                     <Select multiple={true}
