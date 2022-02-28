@@ -91,11 +91,13 @@ export function getDevice(id) {
 }
 
 export function updateDeviceLocation(deviceId, location) {
+  console.log("payload: ", deviceId, " & lat: ", location.latitude, " & lon: ", location.longitude)
+  let updated_location = {latitude: location.latitude, longitude:location.longitude}
   return async function (dispatch) {
     dispatch({ type: types.UPDATE_DEVICE_START });
     defaultClient.authentications.Bearer.apiKey = `Bearer ${store.getState().keycloak.token}`;
     try {
-      const data = await devicesApi.putDeviceLocation(deviceId, location);
+      const data = await devicesApi.putDeviceLocation(deviceId, updated_location);
       dispatch({ type: types.UPDATE_DEVICE_SUCCESS, data });
       dispatch(getDevice(deviceId));
     } catch (error) {
