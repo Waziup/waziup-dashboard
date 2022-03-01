@@ -25,7 +25,7 @@ export default class NotifLineCard extends Component {
     let notif = this.props.notif
     return (
       <Card className="card" style={{width:'100%'}}>
-        <span className="Typography"> {notif.description} </span>
+        <span className="Typography">{notif.description}</span>
         <div className="contentCards">
           <Grid container
                 direction="row"

@@ -68,11 +68,14 @@ class Notifs extends Component {
           Add notification
         </Button>
         <div style={{marginTop: '20px', clear: 'both'}}>
-          {this.props.notifications.slice(0).reverse().map((notif) => { return (
-            <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
-              <NotifLineCard notif={notif}/>
-            </Link>
-          )})}
+          {this.props.notifications.slice(0).reverse()
+            //.filter(item => item.status == "active")
+            .map((notif) => { return (
+              <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
+                <NotifLineCard notif={notif}/>
+              </Link>
+            )})
+          }
         </div>
       </Container>
     )

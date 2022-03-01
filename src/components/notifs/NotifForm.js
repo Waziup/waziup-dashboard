@@ -245,17 +245,6 @@ class NotifForm extends Component {
                              value={this.state.notif.action.value.message}
                              onChange={(m) => this.handleChange("act_message", m)}
                              title="The message to be sent to you when the notification is triggered. You can use ${<sensorID>} to mention the sensor measurement in the message. For example, ${TC} will insert the temperature value of your sensor 'TC'."/>
-                   {/* //TODO: adding search functionality */}
-                  <FormControl style={{display: 'flex'}}>
-                    <InputLabel htmlFor="usernames">Users</InputLabel>
-                    <Select multiple={true}
-                            input={<Input name="usernames" id="usernames" />}
-                            value={this.state.notif.action.value.usernames}
-                            onChange={(u) => this.handleChange("act_usernames", u)}
-                            title="To whom this notification should be sent to?">
-                      {userItems}
-                    </Select>
-                  </FormControl>
                   <FormControl style={{display: 'flex'}}>
                     <InputLabel htmlFor="channels">Socials</InputLabel>
                     <Select multiple={true}
