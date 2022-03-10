@@ -12,9 +12,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Person from '@material-ui/icons/Person';
 import Share from '@material-ui/icons/Share';
+import Chip from '@material-ui/core/Chip';
+import AlarmOffIcon from '@material-ui/icons/AlarmOff';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import CardContent from '@material-ui/core/CardContent';
+
+import robotArmICO from '../../images/robot-arm-ico.png'
+import twitterICO from '../../images/twitter-ico.png'
 
 export default class NotifLineCard extends Component {
   constructor(props) {
@@ -24,41 +29,31 @@ export default class NotifLineCard extends Component {
   render() {
     let notif = this.props.notif
     return (
-      <Card className="card" style={{width:'100%'}}>
-        <span className="Typography">{notif.description}</span>
+      <Card className="longCard">
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+          <span className="Typography">
+          {notif.description}  {"  "}  {notif.action.type === 'SocialAction' ? <img src={twitterICO} height="20"/> : <img src={robotArmICO} height="20"/>}
+              
+            </span>
+          <div className="notifSubject" style={{marginRight:20}}>
+            {notif.status === 'expired'? <Chip icon={<AlarmOffIcon />} label="EXPIRED" color="#FF0000" />: null}
+          </div>
+        </div>
         <div className="contentCards">
           <Grid container
                 direction="row"
-                justify="flex-start"
+                justify="space-between"
                 alignItems="center"
                 spacing={24}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <div className="boardIcon">
-                <img src={bellImage} height="60"/>
-                <br/>
-                <pre>
-                  {notif.owner ? "owner: " + notif.owner + (this.props.user && notif.owner == this.props.user.username ? " (you)" : "") : ""} 
-                </pre>
-                <pre>
-                  {"ID: " + notif.id}
-                </pre>
+
+            <div style={{display:'flex' ,alignItems:'center'}}>
+              <div className='notifIcon'>
+                <img src={gaugeImage} height="70"/>
               </div>
-            </Grid>
-            <Card className="notifBlock">
-              <div className="notifSubject">
-                <pre>
-                  {notif.condition.devices + ' -> ' + notif.condition.sensors}
-                </pre>
+              <div className="notifExpr" style={{margin:'auto', padding:'10px'}}> 
+                {notif.condition.expression? notif.condition.expression: ""}
               </div>
-              <CardContent>
-                <div className='notifIcon'>
-                  <img src={gaugeImage} height="70"/>
-                </div>
-                <div className="notifExpr"> 
-                  {notif.condition.expression? notif.condition.expression: ""}
-                </div>
-              </CardContent>
-            </Card>  
+            </div>
           </Grid>
         </div>
       </Card>

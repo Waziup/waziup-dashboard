@@ -41,7 +41,6 @@ class Notifs extends Component {
   }
 
   render() {
-    console.log("props.notification: ", this.props.notifications)
     return (
       <Container fluid>
         <AppBar position="static"
@@ -67,15 +66,18 @@ class Notifs extends Component {
                 variant="contained">
           Add notification
         </Button>
-        <div style={{marginTop: '20px', clear: 'both'}}>
-          {this.props.notifications.slice(0).reverse()
-            //.filter(item => item.status == "active")
-            .map((notif) => { return (
-              <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
-                <NotifLineCard notif={notif}/>
-              </Link>
-            )})
-          }
+        <br/>
+        <div className="section">
+          <div style={{marginTop: '20px', clear: 'both'}}>
+            {this.props.notifications.slice(0).reverse()
+              //.filter(item => item.status == "active")
+              .map((notif) => { return (
+                <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
+                  <NotifLineCard notif={notif}/>
+                </Link>
+              )})
+            }
+          </div>
         </div>
       </Container>
     )
