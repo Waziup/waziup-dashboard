@@ -144,13 +144,23 @@ class Gateways extends Component {
         <AddGatewayForm modalOpen={this.state.modalAddGateway}
                         handleClose={() => this.setState({ modalAddGateway: false })}
                         onSubmit={gateway => {this.props.createGateway(gateway);}}/>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <FilterList />
-          </ListItemIcon>
-          <ListItemText inset primary="Filters" />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+          <ListItem button onClick={this.handleClick} style={{width:'auto'}}>
+            <ListItemIcon>
+              <FilterList />
+            </ListItemIcon>
+            <ListItemText inset primary="Filters" />
+            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          {this.props.settings.allowManualCreateResources?
+            <Button variant="contained"
+                    color="primary"
+                    className="addResourceButton"
+                    onTouchTap={() => this.setState({ modalAddGateway: true })}>
+              Add a gateway
+            </Button> 
+          : null}
+        </div>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <Grid container spacing={24}>
             {this.props.settings.showPublicResources ? 
@@ -197,14 +207,7 @@ class Gateways extends Component {
             </Grid>
           </Grid>
         </Collapse>
-        {this.props.settings.allowManualCreateResources?
-          <Button variant="contained"
-                  color="primary"
-                  className="addResourceButton"
-                  onTouchTap={() => this.setState({ modalAddGateway: true })}>
-            Add a gateway
-          </Button> 
-        : null}
+        
         <div className="section">
           <div style={{ marginTop: "20px" }}>
             {this.props.gateways.length == 0 ? 

@@ -165,13 +165,24 @@ class Devices extends Component {
                     handleClose={() => this.setState({ modalAddDevice: false })}
                     modalOpen={this.state.modalAddDevice}
                     onSubmit={s => this.props.createDevice(s)}/>
-        <ListItem button onClick={this.handleClick}>
-          <ListItemIcon>
-            <FilterList />
-          </ListItemIcon>
-          <ListItemText inset primary="Filters" />
-          {this.state.open ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+          <ListItem button onClick={this.handleClick} style={{width:'auto'}}>
+            <ListItemIcon>
+              <FilterList />
+            </ListItemIcon>
+            <ListItemText inset primary="Filters" />
+            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          {this.props.settings.allowManualCreateResources ? 
+            <Button variant="contained"
+                    color="primary"
+                    className="addResourceButton"
+                    onTouchTap={() => this.setState({ modalAddDevice: true })} 
+                    style={{"animation": "blinker 1s linear infinite;"}}>
+              Add a device
+            </Button>
+          : null}
+        </div>
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
           <Grid container spacing={24}>
             <Grid item sm={6} md={4} lg={3}>
@@ -233,15 +244,7 @@ class Devices extends Component {
             </Grid>
           </Grid>
         </Collapse>
-        {this.props.settings.allowManualCreateResources ? 
-          <Button variant="contained"
-                  color="primary"
-                  className="addResourceButton"
-                  onTouchTap={() => this.setState({ modalAddDevice: true })} 
-                  style={{"animation": "blinker 1s linear infinite;"}}>
-            Add a device
-          </Button>
-        : null}
+        
         <div className="section">
           <div style={{ marginTop: "20px" }}>
             {this.props.devices.length == 0 ?
