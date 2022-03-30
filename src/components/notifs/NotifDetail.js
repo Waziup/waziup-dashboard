@@ -72,7 +72,7 @@ componentWillUnmount() {
                          onSubmit={this.props.createNotif} />
               <div style={{'margin-left': 'auto'}}> 
                 {/* 
-                //TODO: edit icon is hidden due to editing the notification is bugged.
+                //OPTIMIZE: edit icon is hidden due to editing the notification is bugged.
                 <EditIcon onClick={() => this.setState({modalEdit: true})}/>  
                 */}
                 <DeleteIcon onClick={() => {if(window.confirm('Delete notification?')) this.props.deleteNotif(notif.id); browserHistory.push('/notifications');}}/>

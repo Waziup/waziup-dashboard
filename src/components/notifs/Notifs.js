@@ -59,7 +59,8 @@ class Notifs extends Component {
                    devices={this.props.devices}
                    users={this.props.users}
                    handleClose={() => this.setState({ modalOpen: false })}
-                   onSubmit={this.props.createNotif} />
+                   onSubmit={this.props.createNotif}
+                   user={this.props.user.username} />
         <Button className="addResourceButton"
                 onTouchTap={() => this.setState({ modalOpen: true })}
                 color="primary"
@@ -88,7 +89,8 @@ function mapStateToProps(state) {
   return {
     notifications: state.notifications.notifications,
     devices: state.settings.showPublicResources ? state.devices.devices : state.devices.devices.filter(d => d.owner == state.current_user.username),
-    users: state.settings.showPublicResources ? state.users.users : [state.current_user]
+    users: state.settings.showPublicResources ? state.users.users : [state.current_user],
+    user: state.current_user,
   };
 }
 

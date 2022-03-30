@@ -441,15 +441,15 @@ ul {
 }
 
 .notifExpr {
-  font-size: 2vw;
+  font-size: 15pt;
   font-family: 'courier new';
   float: left;
   margin-top: 15px;
   margin-left: 10px;
 }
-@media screen and (max-width: 600px){
+@media screen and (max-width: 300px){
   .notifExpr{  
-     font-size: 5vw;
+     font-size: 12pt;
    } 
 }
 

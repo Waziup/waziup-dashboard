@@ -18,8 +18,9 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import CardContent from '@material-ui/core/CardContent';
 
-import robotArmICO from '../../images/robot-arm-ico.png'
-import twitterICO from '../../images/twitter-ico.png'
+import robotArmICO from '../../images/production.png'
+import twitterICO from '../../images/twitter.png'
+import { Typography } from '@material-ui/core';
 
 export default class NotifLineCard extends Component {
   constructor(props) {
@@ -32,28 +33,16 @@ export default class NotifLineCard extends Component {
       <Card className="longCard">
         <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
           <span className="Typography">
-          {notif.description}  {"  "}  {notif.action.type === 'SocialAction' ? <img src={twitterICO} height="20"/> : <img src={robotArmICO} height="20"/>}
-              
-            </span>
+            {notif.description}  {"  "}  {notif.action.type === 'SocialAction' ? <img src={twitterICO} height={25}/> : <img src={robotArmICO} height="20"/>}
+          </span>
           <div className="notifSubject" style={{marginRight:20}}>
             {notif.status === 'expired'? <Chip icon={<AlarmOffIcon />} label="EXPIRED" color="#FF0000" />: null}
           </div>
         </div>
         <div className="contentCards">
-          <Grid container
-                direction="row"
-                justify="space-between"
-                alignItems="center"
-                spacing={24}>
-
-            <div style={{display:'flex' ,alignItems:'center'}}>
-              <div className='notifIcon'>
-                <img src={gaugeImage} height="70"/>
-              </div>
-              <div className="notifExpr" style={{margin:'auto', padding:'10px'}}> 
-                {notif.condition.expression? notif.condition.expression: ""}
-              </div>
-            </div>
+          <Grid container spacing={2} alignItems='center'>
+            <Grid item> <img src={gaugeImage} height={65}/> </Grid>
+            <Grid item><Typography variant='h6'>{notif.condition.expression? notif.condition.expression: ""}</Typography></Grid>
           </Grid>
         </div>
       </Card>

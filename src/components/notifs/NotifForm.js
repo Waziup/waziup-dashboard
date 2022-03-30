@@ -32,11 +32,12 @@ class NotifForm extends Component {
   constructor(props) {
     super(props);
     console.log("notif before:" + JSON.stringify(props.notif))
+    console.log('this is current user: ', props.user)
     var tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const defaultNotif = {
       condition: { devices: [], sensors: [], expression: "TC1>40"},
       action: {type: "SocialAction", 
-               value: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${TC1}", usernames: [],
+               value: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${TC1}", usernames: [props.user],
                        device_id: "MyDevice", actuator_id: "Act1", actuator_value: "${TC1}"}},
       description: "Waziup notification",
       throttling: 1,
@@ -324,7 +325,8 @@ class NotifForm extends Component {
     devices: PropTypes.array,
     users: PropTypes.array,
     handleClose: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    user: PropTypes.object,
   }
 }
 
