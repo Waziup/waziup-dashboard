@@ -146,7 +146,7 @@ class SensorDetail extends Component {
       Object.keys(query).forEach(key => query[key] === undefined ? delete query[key] : '');
 
       return (
-        <Container fluid={true} style={{'padding-bottom':'100px'}}>
+        <Container fluid style={{'padding-bottom':'100px'}}>
           <AppBar position="static" style={{marginBottom: '30px',background: '#e9edf2'}}>
             <Toolbar>
               <img src={sensorImage} height="50"/>
@@ -163,41 +163,46 @@ class SensorDetail extends Component {
           </AppBar>
 
           <Card className="longCard">
-            <Typography>
-              <span className="Typography"> Last value </span>
-              {this.props.permission.scopes.includes("devices:update") ? 
-                <div>
-                <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
-                <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
-                </div> : null}
-              <CalibrationForm modalOpen={this.state.modalAddCalib}
-                handleClose={() => { this.setState({ modalAddCalib: false }) }}
-                onSubmit={(m) => {
-                  console.log(m);                  
-                  this.props.updateSensorCalibration(this.props.device.id,this.props.sens.id,m);
-                  this.setState({ modalAddCalib: false });
-                }}
-                isEdit={false} /> 
-              <NotifForm  modalOpen={this.state.modalAddNotif}
-                          notif={defaultNotif}
-                          devices={this.props.devices}
-                          users={this.props.users}
-                          onSubmit={this.props.createNotif}
-                          handleClose={() => this.setState({ modalAddNotif: false })}
-                          isEditable={true} />
-            </Typography>
-            <SensorCard sensor={this.props.sens}
-              isDetails={true}
-              updateSensor={this.props.addSensor}
-              deleteSensor={this.props.deleteSensor}
-              deviceId={this.props.device.id}
-              permission={this.props.permission} />
+            <Grid container justify='space-between'>
+              <Grid item ><Typography variant='h6' style={{marginLeft:10}}>Last Value</Typography> </Grid>
+              <Grid item > 
+                {this.props.permission.scopes.includes("devices:update") ? 
+                  <div>
+                  <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
+                  <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
+                  </div> 
+                : null}
+                <CalibrationForm modalOpen={this.state.modalAddCalib}
+                  handleClose={() => { this.setState({ modalAddCalib: false }) }}
+                  onSubmit={(m) => {
+                    console.log(m);                  
+                    this.props.updateSensorCalibration(this.props.device.id,this.props.sens.id,m);
+                    this.setState({ modalAddCalib: false });
+                  }}
+                  isEdit={false} /> 
+                <NotifForm  modalOpen={this.state.modalAddNotif}
+                            notif={defaultNotif}
+                            devices={this.props.devices}
+                            users={this.props.users}
+                            onSubmit={this.props.createNotif}
+                            handleClose={() => this.setState({ modalAddNotif: false })}
+                            isEditable={true} />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item>
+                <SensorCard sensor={this.props.sens}
+                isDetails={true}
+                updateSensor={this.props.addSensor}
+                deleteSensor={this.props.deleteSensor}
+                deviceId={this.props.device.id}
+                permission={this.props.permission} />
+              </Grid>
+            </Grid>
           </Card>
           {notifications.length > 0 ?
             <Card className="longCard">
-              <Typography>
-                <h2 className="Typography"> Notifications </h2>
-              </Typography>
+              <Typography variant='h6'style={{marginLeft:10}}>Notifications</Typography>
               {notifications}
             </Card> : null}
           {this.props.permission.scopes.includes("devices-data:view") ?
