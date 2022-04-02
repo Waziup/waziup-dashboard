@@ -1,20 +1,9 @@
 import React, { Component } from 'react';
-import deviceImage from '../../images/gauge.png';
 import bellImage from '../../images/bell-icon.png';
+import smsIcon from '../../images/text.png';
+import twitterIcon from '../../images/twitter1.png';
 import PropTypes from 'prop-types';
-import Card from '@material-ui/core/Card';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Link } from 'react-router';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Person from '@material-ui/icons/Person';
-import Share from '@material-ui/icons/Share';
-import Group from "@material-ui/icons/Group";
-import Grid from '@material-ui/core/Grid';
-import Hidden from '@material-ui/core/Hidden';
-import { Typography } from '@material-ui/core';
+import { Typography, Grid, Card  } from '@material-ui/core';
 
 export default class NotifCard extends Component {
   constructor(props) {
@@ -32,10 +21,14 @@ export default class NotifCard extends Component {
     return (
       <Card style={{ maxWidth:'250pt', marginBottom:10, marginRight:5, marginLeft:10, padding:10, display: 'inline-block',}}>
         <Grid container>
-            <Grid item xs={12} style={{marginBottom:10}}><Typography variant='body1'>{notifName} </Typography></Grid>
+            <Grid item xs={9} style={{marginBottom:10}}> <Typography variant='h6'>{notifName} </Typography> </Grid>
+            <Grid container xs={3} direction='row' justify='flex-end'>
+              <img src={smsIcon} style={{height:'3.2vh', opacity:.7}} />
+              <img src={twitterIcon} style={{height:'3vh', opacity:.7}} /> 
+            </Grid>
 
             <Grid item xs={3}> <img src={bellImage} style={{height:'10vh'}} className="sensor-icon" /> </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={9} direction="row" justify="flex-start" alignItems="center">
               <Typography variant='h3'>{notif.condition.expression ? notif.condition.expression : " "}</Typography>
             </Grid>
             <Grid item xs={12}>
