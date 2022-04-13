@@ -168,8 +168,7 @@ class SensorDetail extends Component {
               <Grid item > 
                 {this.props.permission.scopes.includes("devices:update") ? 
                   <div>
-                  <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
-                  <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
+                    <Button onTouchTap={() => this.setState({ modalAddCalib: true })} variant="contained" color="primary" className="topRightButton" >Calibrate</Button>
                   </div> 
                 : null}
                 <CalibrationForm modalOpen={this.state.modalAddCalib}
@@ -192,19 +191,14 @@ class SensorDetail extends Component {
             <Grid container>
               <Grid item>
                 <SensorCard sensor={this.props.sens}
-                isDetails={true}
-                updateSensor={this.props.addSensor}
-                deleteSensor={this.props.deleteSensor}
-                deviceId={this.props.device.id}
-                permission={this.props.permission} />
+                            isDetails={true}
+                            updateSensor={this.props.addSensor}
+                            deleteSensor={this.props.deleteSensor}
+                            deviceId={this.props.device.id}
+                            permission={this.props.permission} />
               </Grid>
             </Grid>
           </Card>
-          {notifications.length > 0 ?
-            <Card className="longCard">
-              <Typography variant='h6'style={{marginLeft:10}}>Notifications</Typography>
-              {notifications}
-            </Card> : null}
           {this.props.permission.scopes.includes("devices-data:view") ?
             <Card className="longCard">
               <Typography>
@@ -254,6 +248,25 @@ class SensorDetail extends Component {
                 </Grid>
               </CardContent>
             </Card> : null}
+            <Card className="longCard">
+              <Grid container justify='space-between'>
+                <Grid item> <Typography><span className="Typography"> Notifications </span></Typography> </Grid>
+                <Grid item> 
+                  {this.props.permission.scopes.includes("devices:update") ? 
+                    <div>
+                      <Button onTouchTap={() => this.setState({ modalAddNotif: true })} variant="contained" color="primary" className="topRightButton" >Add Notification</Button>
+                    </div> 
+                  : null}
+                </Grid>
+              </Grid>
+              {notifications.length > 0 ?
+                <div>{notifications}</div>
+              : 
+                <div>
+                  <h4>No notifications</h4>
+                </div> 
+              }
+            </Card>
             <Card className="longCard">
               <Typography><span className="Typography"> Testing zone </span></Typography>
                 <CardContent style={{paddingTop: 8}}>
