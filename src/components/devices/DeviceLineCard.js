@@ -60,7 +60,7 @@ export default class DeviceLineCard extends Component {
           </Hidden>
         </div>
 
-        <div className="contentCards">
+        <div className="contentCards" style={{marginBottom:10}}>
           <Grid container
                 direction="row"
                 justify="flex-start"
