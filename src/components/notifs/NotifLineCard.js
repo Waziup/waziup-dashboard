@@ -36,7 +36,7 @@ export default class NotifLineCard extends Component {
             {notif.description}  {"  "}  {notif.action.type === 'SocialAction' ? <img src={twitterICO} height={25}/> : <img src={robotArmICO} height="20"/>}
           </span>
           <div className="notifSubject" style={{marginRight:20}}>
-            {notif.status === 'expired'? <Chip icon={<AlarmOffIcon />} label="EXPIRED" color="#FF0000" />: null}
+            {notif.status === 'expired'? <Chip icon={<AlarmOffIcon />} label="EXPIRED"/> : null}
           </div>
         </div>
         <div className="contentCards">

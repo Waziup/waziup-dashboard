@@ -214,18 +214,18 @@ class SensorDetail extends Component {
                 <DataChart sens={this.props.sens}
                            values={this.props.values}
                            timeAxis={this.state.timeAxis} />
-                <Grid container spacing={24}>
-                  <Grid item xs={12} sm={4} md={4} lg={3} >
+                <Grid container spacing={16}>
+                  <Grid item xs={12} sm={4} lg={3} >
                     <h4>Range from: </h4>
                     <DayPickerInput onDayChange={this.handleDateFrom} />
                   </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={3}>
+                  <Grid item xs={12} sm={4} lg={3}>
                     <h4> To:</h4>
                     <DayPickerInput dayPickerProps={{ showWeekNumbers: true, todayButton: 'Today' }} onDayChange={this.handleDateTo} />
                   </Grid>
-                  <Grid item xs={12} sm={4} md={4} lg={3}>
+                  <Grid item xs={12} sm={4} lg={3}>
                     <h4> Number of Datapoints:</h4>
-                    <TextField name="dataPoints" value={this.state.query.limit} onChange={this.handleLimitChange}/>
+                    <TextField name="dataPoints" type='number' value={this.state.query.limit} onChange={this.handleLimitChange}/>
                   </Grid>
                   <Grid item xs={12}>
                     <FormControl>
@@ -255,25 +255,27 @@ class SensorDetail extends Component {
               </CardContent>
             </Card> : null}
             <Card className="longCard">
-              <Typography>
-                <span className="Typography"> Testing zone </span>
-              </Typography>
-                <CardContent>
-                  <InputLabel htmlFor="numberValue">Push a value to this sensor:</InputLabel>
-                  <div>
-                    <TextField id="numberValue"
-                               name="numberValue"
-                               label="Value"
-                               onChange={(a) => this.setState({ newValue: a.target.value})}
-                               helperText={this.state.validNumber ? "Provide a number" : "Please enter a number value"}
-                               error={!this.state.newValueValid}/>
-                    <Button type='submit'
-                            variant="contained"
-                            color="primary"
-                            onTouchTap={() => {this.submitValue()}}>
-                      Submit
-                    </Button>
-                  </div>
+              <Typography><span className="Typography"> Testing zone </span></Typography>
+                <CardContent style={{paddingTop: 8}}>
+                  <Grid container spacing={8} style={{display:'flex', justifyContent:'left', alignItems:'center', }}>
+                    <Grid item>
+                      <TextField id="numberValue"
+                                name="numberValue"
+                                label="value"
+                                type='number'
+                                onChange={(a) => this.setState({ newValue: a.target.value})}
+                                helperText= 'push a value to the sensor'
+                                error={!this.state.newValueValid}/>
+                    </Grid>
+                    <Grid item>
+                      <Button type='submit'
+                              variant="contained"
+                              color="primary"
+                              onTouchTap={() => {this.submitValue()}}>
+                        Submit
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </CardContent>
             </Card>
         </Container>
