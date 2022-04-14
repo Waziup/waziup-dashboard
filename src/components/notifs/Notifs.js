@@ -57,7 +57,6 @@ class Notifs extends Component {
         </AppBar>
         <NotifForm modalOpen={this.state.modalOpen}
                    devices={this.props.devices}
-                   users={this.props.users}
                    handleClose={() => this.setState({ modalOpen: false })}
                    onSubmit={this.props.createNotif}
                    user={this.props.user.username} />

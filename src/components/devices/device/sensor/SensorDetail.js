@@ -125,7 +125,7 @@ class SensorDetail extends Component {
         action: { type: "SocialAction",
                   value: {channels: [], 
                           message: "Waziup: High temperature warning. ${id} value is ${" + this.props.sens.id + "}",
-                          usernames: [],
+                          usernames: [this.props.user.username],
                           device_id: this.props.device.id,
                           actuator_value: "${" + this.props.sens.id + "}"}},
         description: "Send message",
@@ -181,7 +181,6 @@ class SensorDetail extends Component {
                 <NotifForm  modalOpen={this.state.modalAddNotif}
                             notif={defaultNotif}
                             devices={this.props.devices}
-                            users={this.props.users}
                             onSubmit={this.props.createNotif}
                             handleClose={() => this.setState({ modalAddNotif: false })}
                             isEditable={true} />
@@ -261,7 +260,7 @@ class SensorDetail extends Component {
               {notifications.length > 0 ?
                 <div style={{margin:'0px 15px'}}>{notifications}</div>
               : 
-                <div>
+                <div style={{margin:'0px 15px'}}>
                   <h4>No notifications</h4>
                 </div> 
               }
@@ -305,10 +304,9 @@ function mapStateToProps(state, ownProps) {
   return {
     device: device,
     sens: sens,
-    user: state.user,
     values: state.values.values,
     devices: state.devices.devices,
-    users: state.users.users,
+    user: state.current_user,
     notifs: notifs,
     permission: state.permissions.device.find(p => p.resource == ownProps.params.deviceId)
   }

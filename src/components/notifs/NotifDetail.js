@@ -149,6 +149,7 @@ componentWillUnmount() {
                 {notif.last_failure ?        <p> {"Last failure: "        + notif.last_failure} </p> : null}
                 {notif.last_failure_reason ? <p> {"Last failure reason: " + notif.last_failure_reason} </p> : null}
                 {notif.last_notif ?          <p> {"Last notification: "   + notif.last_notif} </p> : null}
+                <span>Note that the minimum interval between two notifications is 2 minutes.</span>
             </CardContent>
           </Card>
         </Container>

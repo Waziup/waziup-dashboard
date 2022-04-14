@@ -37,8 +37,12 @@ class NotifForm extends Component {
     const defaultNotif = {
       condition: { devices: [], sensors: [], expression: "TC1>40"},
       action: {type: "SocialAction", 
-               value: {channels: [], message: "Waziup: Field is too dry. ${id} humidity value is ${TC1}", usernames: [props.user],
-                       device_id: "MyDevice", actuator_id: "Act1", actuator_value: "${TC1}"}},
+               value: {channels: [], 
+                       message: "Waziup: Field is too dry. ${id} humidity value is ${TC1}", 
+                       usernames: [props.user], //By default, we will use only the current user as recipient.
+                       device_id: "MyDevice", 
+                       actuator_id: "Act1", 
+                       actuator_value: "${TC1}"}},
       description: "Waziup notification",
       throttling: 1,
       expires: moment(tomorrow).format()}
@@ -76,7 +80,6 @@ class NotifForm extends Component {
       case "act_type"           : notif.action.type = value; break;
       case "act_channels"       : notif.action.value.channels = value; break;
       case "act_message"        : notif.action.value.message = value; break;
-      case "act_usernames"      : notif.action.value.usernames = value; break;
       case "act_device_id"      : notif.action.value.device_id = value; break;
       case "act_actuator_id"    : notif.action.value.actuator_id = value; break;
       case "act_actuator_value" : notif.action.value.actuator_value = value; break;
@@ -124,14 +127,6 @@ class NotifForm extends Component {
             {m.id}
           </MenuItem>))
    
-    //users for Socials
-    let userItems = this.props.users && this.props.users.length !=0  ? this.props.users.map(u => 
-      <MenuItem key={u.username}
-                value={u.username}
-                checked={this.state.notif.action.value.usernames ? this.state.notif.action.value.usernames.includes(u.username): null}>
-        {u.username}
-      </MenuItem>) : <br/>
-    
     //channels for socials
     let channelItems = this.channels.map((c,index) => 
       <MenuItem value={c}
@@ -323,7 +318,6 @@ class NotifForm extends Component {
     notif: PropTypes.object,  //Should be a Waziup.Notif
     modalOpen: PropTypes.bool,
     devices: PropTypes.array,
-    users: PropTypes.array,
     handleClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     user: PropTypes.object,
