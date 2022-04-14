@@ -40,8 +40,8 @@ export default class NotifLineCard extends Component {
           </div>
         </div>
         <div className="contentCards">
-          <Grid container spacing={2} alignItems='center'>
-            <Grid item> <img src={gaugeImage} height={65}/> </Grid>
+          <Grid container spacing={16} alignItems='center'>
+            <Grid item> <img src={bellImage} height={65}/> </Grid>
             <Grid item><Typography variant='h6'>{notif.condition.expression? notif.condition.expression: ""}</Typography></Grid>
           </Grid>
         </div>

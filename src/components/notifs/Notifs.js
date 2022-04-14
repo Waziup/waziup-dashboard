@@ -74,7 +74,7 @@ class Notifs extends Component {
               //.filter(item => item.status == "active")
               .map((notif) => { return (
                 <Link to={`/notifications/${notif.id}`} key={notif.id} style={{'text-decoration-line':'unset'}}>
-                  <NotifLineCard notif={notif}/>
+                  <NotifLineCard notif={notif} />
                 </Link>
               )})
             }

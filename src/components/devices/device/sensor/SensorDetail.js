@@ -19,6 +19,7 @@ import SensorCard from './SensorCard';
 import CalibrationForm from './CalibrationForm';
 import NotifForm from '../../../notifs/NotifForm.js'
 import NotifCard from '../../../notifs/NotifCard.js'
+import NotifLineCard from '../../../notifs/NotifLineCard';
 import sensorImage from '../../../../images/sensor.png';
 import { getValues, getDevice, addSensor, deleteSensor, createNotif, updateSensorCalibration, pushSensorValue } from "../../../../actions/actions.js"
 import config from '../../../../config';
@@ -133,9 +134,7 @@ class SensorDetail extends Component {
         for (var notif of this.props.notifs) {
           const card =
             <Link to={"/notifications/" + notif.id} >
-              <NotifCard className="longCard"
-                         notif={notif}
-                         isEditable={false} />
+              <NotifLineCard notif={notif} />
             </Link>
           notifications.push(card)
         }
@@ -260,7 +259,7 @@ class SensorDetail extends Component {
                 </Grid>
               </Grid>
               {notifications.length > 0 ?
-                <div>{notifications}</div>
+                <div style={{margin:'0px 15px'}}>{notifications}</div>
               : 
                 <div>
                   <h4>No notifications</h4>
