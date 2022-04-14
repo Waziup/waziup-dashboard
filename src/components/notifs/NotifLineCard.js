@@ -39,7 +39,7 @@ export default class NotifLineCard extends Component {
             {notif.status === 'expired'? <Chip icon={<AlarmOffIcon />} label="EXPIRED"/> : null}
           </div>
         </div>
-        <div className="contentCards">
+        <div className="contentCards" style={{marginBottom:10}}>
           <Grid container spacing={16} alignItems='center'>
             <Grid item> <img src={bellImage} height={65}/> </Grid>
             <Grid item><Typography variant='h6'>{notif.condition.expression? notif.condition.expression: ""}</Typography></Grid>
