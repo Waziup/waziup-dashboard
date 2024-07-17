@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:13-alpine
 
 #ENV NODE_ENV production
 
@@ -6,7 +6,7 @@ FROM node:alpine
 WORKDIR /usr/src/app
 COPY ./package.json .
 COPY ./yarn.lock .
-RUN yarn install 
+RUN yarn install --ignore-engines 
 
 # Compile sources
 COPY . /usr/src/app
