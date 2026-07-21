@@ -100,7 +100,13 @@ export default class GatewayNodeCard extends Component {
                       variant="contained"
                       color="primary"
                       onTouchTap={() => { window.open("https://remote.waziup.io/" + gateway.id + "/admin/", '_blank'); 
-                                          return null;}}>Remote access</Button>
+                                          return null;}}>Tunnel access</Button>
+                    <Button
+                      className="topRightButton"
+                      variant="contained"
+                      color="primary"
+                      onTouchTap={() => { window.open("http://vpn.waziup.org/gateway-" + gateway.id + "/", '_blank'); 
+                                          return null;}}>VPN access</Button>
                   </Hidden>
                 </div>) : null}
             </Typography>
